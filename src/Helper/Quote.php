@@ -2,14 +2,10 @@
 
 namespace Netzkollektiv\EasyCredit\Helper;
 
-use Symfony\Component\HttpFoundation\RequestStack;
-
-use Shopware\Core\Framework\Context;
-use Shopware\Core\PlatformRequest;
-use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
-
 use Netzkollektiv\EasyCredit\Api;
-
+use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
+use Shopware\Core\PlatformRequest;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class Quote
 {
@@ -21,25 +17,17 @@ class Quote
     public function __construct(
         RequestStack $requestStack,
         CartService $cartService
-    )
-    {
+    ) {
         $this->requestStack = $requestStack;
         $this->cartService = $cartService;
     }
 
-    protected function getSalesChannelContext() {
-        return $this->requestStack
-            ->getMasterRequest()
-            ->attributes
-            ->get(PlatformRequest::ATTRIBUTE_SALES_CHANNEL_CONTEXT_OBJECT);
-    }
-
     public function getQuote($context = null, $cart = null)
     {
-        if (null === $context) {
+        if ($context === null) {
             $context = $this->getSalesChannelContext();
         }
-        if (null === $cart) {
+        if ($cart === null) {
             $cart = $this->cartService->getCart($context->getToken(), $context);
         }
 
@@ -52,7 +40,12 @@ class Quote
             return null;
         }
     }
+
+    protected function getSalesChannelContext()
+    {
+        return $this->requestStack
+            ->getMasterRequest()
+            ->attributes
+            ->get(PlatformRequest::ATTRIBUTE_SALES_CHANNEL_CONTEXT_OBJECT);
+    }
 }
-
-
-

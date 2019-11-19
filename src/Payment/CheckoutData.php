@@ -19,7 +19,7 @@ class CheckoutData extends Struct
     /**
      * @var string
      */
-    protected $paymentPlan;  
+    protected $paymentPlan;
 
     public function getPaymentMethodId(): string
     {

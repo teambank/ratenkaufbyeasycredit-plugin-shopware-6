@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace Netzkollektiv\EasyCredit\Api\Quote;
 
-use Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemEntity;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 
 class Item implements \Netzkollektiv\EasyCreditApi\Rest\ItemInterface
@@ -59,6 +59,7 @@ class Item implements \Netzkollektiv\EasyCreditApi\Rest\ItemInterface
     public function getPrice()
     {
         $taxAmount = $this->item->getPrice()->getCalculatedTaxes()->getAmount();
+
         return $this->item->getPrice()->getTotalPrice() - $taxAmount;
     }
 
@@ -74,12 +75,11 @@ class Item implements \Netzkollektiv\EasyCreditApi\Rest\ItemInterface
 
     public function getSku()
     {
-        return array_filter(array(
-            'shopware-id'           => isset($this->item->getPayload()['productNumber']) ? $this->item->getPayload()['productNumber'] : null,
+        return array_filter([
+            'shopware-id' => isset($this->item->getPayload()['productNumber']) ? $this->item->getPayload()['productNumber'] : null,
             //'shopware-bestell-nr'   => $this->rawItem['ordernumber'],
             //'ean'                   => $this->rawItem['ean'],
             //'suppliernumber'        => $this->rawItem['suppliernumber']
-        ));
+        ]);
     }
-
 }

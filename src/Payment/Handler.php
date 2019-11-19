@@ -2,20 +2,18 @@
 
 namespace Netzkollektiv\EasyCredit\Payment;
 
+use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
+use Netzkollektiv\EasyCredit\Api\Storage;
+use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
+use Netzkollektiv\EasyCredit\NetzkollektivEasyCredit;
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
-use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
+use Shopware\Core\Checkout\Payment\Exception\SyncPaymentProcessException;
+use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
-use Shopware\Core\Checkout\Payment\Exception\SyncPaymentProcessException;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
-use Shopware\Core\Framework\Context;
-
-use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
-use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
-use Netzkollektiv\EasyCredit\Api\Storage;
-use Netzkollektiv\EasyCredit\NetzkollektivEasyCredit;
 
 class Handler implements SynchronousPaymentHandlerInterface
 {
@@ -33,7 +31,7 @@ class Handler implements SynchronousPaymentHandlerInterface
     ) {
         $this->transactionStateHandler = $transactionStateHandler;
         $this->orderTransactionRepo = $orderTransactionRepo;
-        
+
         $this->checkoutFactory = $checkoutFactory;
         $this->quoteHelper = $quoteHelper;
         $this->storage = $storage;
@@ -60,7 +58,7 @@ class Handler implements SynchronousPaymentHandlerInterface
             $checkout->capture();
 
             $this->transactionStateHandler->pay(
-                $transaction->getOrderTransaction()->getId(), 
+                $transaction->getOrderTransaction()->getId(),
                 $salesChannelContext->getContext()
             );
 
@@ -68,11 +66,10 @@ class Handler implements SynchronousPaymentHandlerInterface
                 $transaction,
                 $salesChannelContext->getContext()
             );
-
         } catch (\Exception $e) {
             throw new SyncPaymentProcessException(
                 $transaction->getOrderTransaction()->getId(),
-                "Could not complete transaction: ".$e->getMessage()
+                'Could not complete transaction: ' . $e->getMessage()
             );
         }
     }
@@ -84,8 +81,7 @@ class Handler implements SynchronousPaymentHandlerInterface
         $data = [
             'id' => $transaction->getOrderTransaction()->getId(),
             'customFields' => [
-                NetzkollektivEasyCredit::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_ID 
-                    => $this->storage->get('transaction_id'),
+                NetzkollektivEasyCredit::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_ID => $this->storage->get('transaction_id'),
             ],
         ];
         $this->orderTransactionRepo->update([$data], $context);

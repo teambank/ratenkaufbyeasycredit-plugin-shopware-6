@@ -2,8 +2,8 @@
 
 namespace Netzkollektiv\EasyCredit\Setting\Service;
 
-use Symfony\Component\HttpFoundation\Response;
 use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
+use Symfony\Component\HttpFoundation\Response;
 
 class ApiCredentialService implements ApiCredentialServiceInterface
 {
@@ -24,6 +24,7 @@ class ApiCredentialService implements ApiCredentialServiceInterface
 
         try {
             $checkout = $this->checkoutFactory->create();
+
             return $checkout->verifyCredentials($webshopId, $apiPassword);
         } catch (ClientException $ce) {
             if ($ce->getCode() === Response::HTTP_UNAUTHORIZED) {

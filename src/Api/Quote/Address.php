@@ -1,52 +1,61 @@
-<?php
-namespace Netzkollektiv\EasyCredit\Api\Quote;
+<?php declare(strict_types=1);
 
-use Shopware\Core\Framework\DataAbstractionLayer\Entity;
+namespace Netzkollektiv\EasyCredit\Api\Quote;
 
 use Shopware\Core\Checkout\Customer\Aggregate\CustomerAddress\CustomerAddressEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderAddress\OrderAddressEntity;
+use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 
-class Address implements \Netzkollektiv\EasyCreditApi\Rest\AddressInterface {
-
-    protected $address = array();
+class Address implements \Netzkollektiv\EasyCreditApi\Rest\AddressInterface
+{
+    protected $address = [];
 
     public function __construct(
         Entity $address
     ) {
-        if (!$address instanceof CustomerAddressEntity 
+        if (!$address instanceof CustomerAddressEntity
             && !$address instanceof OrderAddressEntity) {
-                throw new QuoteInvalidException();
-            }
+            throw new QuoteInvalidException();
+        }
 
         $this->address = $address;
     }
 
-    public function getFirstname() {
+    public function getFirstname()
+    {
         return $this->address->getFirstName();
     }
 
-    public function getLastname() {
+    public function getLastname()
+    {
         return $this->address->getLastName();
     }
 
-    public function getStreet() {
+    public function getStreet()
+    {
         return trim($this->address->getStreet());
     }
 
-    public function getStreetAdditional() {
-        return trim(implode(' ',array(
+    public function getStreetAdditional()
+    {
+        return trim(implode(' ', [
             $this->address->getAdditionalAddressLine1(),
-            $this->address->getAdditionalAddressLine2()
-        )));
+            $this->address->getAdditionalAddressLine2(),
+        ]));
     }
 
-    public function getPostcode() {
+    public function getPostcode()
+    {
         return $this->address->getZipcode();
     }
-    public function getCity() {
+
+    public function getCity()
+    {
         return $this->address->getCity();
     }
-    public function getCountryId() {
+
+    public function getCountryId()
+    {
         return $this->address->getCountry()->getIso();
     }
 }

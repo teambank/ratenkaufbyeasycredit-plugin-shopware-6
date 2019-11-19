@@ -2,13 +2,12 @@
 
 namespace Netzkollektiv\EasyCredit\Setting\Service;
 
+use Netzkollektiv\EasyCredit\Setting\SettingStruct;
+use Netzkollektiv\EasyCredit\Setting\SettingStructValidator;
 use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
 use Shopware\Core\Framework\Uuid\Exception\InvalidUuidException;
 use Shopware\Core\System\SystemConfig\Exception\InvalidDomainException;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
-use Netzkollektiv\EasyCredit\Setting\Exception\SettingsInvalidException;
-use Netzkollektiv\EasyCredit\Setting\SettingStruct;
-use Netzkollektiv\EasyCredit\Setting\SettingStructValidator;
 
 class SettingsService implements SettingsServiceInterface
 {

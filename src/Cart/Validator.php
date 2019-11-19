@@ -2,17 +2,14 @@
 
 namespace Netzkollektiv\EasyCredit\Cart;
 
-use Shopware\Core\Checkout\Cart\Address\Error\ShippingAddressBlockedError;
+use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
+use Netzkollektiv\EasyCredit\Api\Storage;
+use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
+use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\CartValidatorInterface;
 use Shopware\Core\Checkout\Cart\Error\ErrorCollection;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
-
-use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
-use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
-use Netzkollektiv\EasyCredit\Api\Storage; 
-use Netzkollektiv\EasyCredit\Cart\InterestError;
-use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 
 class Validator implements CartValidatorInterface
 {
@@ -27,14 +24,13 @@ class Validator implements CartValidatorInterface
         $this->paymentHelper = $paymentHelper;
         $this->storage = $storage;
     }
-    
+
     public function validate(
         Cart $cart,
         ErrorCollection $errors,
         SalesChannelContext $salesChannelContext
     ): void {
-
-        if (count($this->storage->all()) == 0) {
+        if (count($this->storage->all()) === 0) {
             //return;
         }
 
@@ -44,14 +40,16 @@ class Validator implements CartValidatorInterface
         $quote = $this->quoteHelper->getQuote($salesChannelContext, $cart);
 
         if (!$quote
-            || !$this->paymentHelper->isSelected($salesChannelContext) 
+            || !$this->paymentHelper->isSelected($salesChannelContext)
         ) {
             $this->storage->clear();
+
             return;
         }
 
         if (!$this->storage->get('interest_amount')) {
             $errors->add(new InterestError());
+
             return;
         }
 

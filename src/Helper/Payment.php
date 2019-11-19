@@ -2,17 +2,13 @@
 
 namespace Netzkollektiv\EasyCredit\Helper;
 
-use Symfony\Component\HttpFoundation\RequestStack;
-
+use Netzkollektiv\EasyCredit\Payment\Handler;
+use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\PaymentHandlerRegistry;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\PlatformRequest;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\PaymentHandlerRegistry;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
-
-use Netzkollektiv\EasyCredit\Payment\Handler;
 
 class Payment
 {
@@ -28,7 +24,8 @@ class Payment
         $this->paymentHandlerRegistry = $paymentHandlerRegistry;
     }
 
-    public function isSelected(SalesChannelContext $context, $paymentMethod = null) {
+    public function isSelected(SalesChannelContext $context, $paymentMethod = null)
+    {
         return $this->getPaymentHandler($context, $paymentMethod) instanceof Handler;
     }
 
@@ -40,7 +37,7 @@ class Payment
 
         if (is_string($paymentMethod)) {
             $paymentMethod = $this->paymentMethodRepository->search(new Criteria([
-                $paymentMethod
+                $paymentMethod,
             ]), $context->getContext())->first();
         }
 
@@ -56,6 +53,3 @@ class Payment
         return $this->paymentMethodRepository->searchIds($criteria, $context)->firstId();
     }
 }
-
-
-

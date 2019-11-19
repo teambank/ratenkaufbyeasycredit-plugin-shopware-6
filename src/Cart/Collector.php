@@ -2,6 +2,7 @@
 
 namespace Netzkollektiv\EasyCredit\Cart;
 
+use Netzkollektiv\EasyCredit\Api\Storage;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\CartBehavior;
 use Shopware\Core\Checkout\Cart\CartDataCollectorInterface;
@@ -10,14 +11,10 @@ use Shopware\Core\Checkout\Cart\Exception\InvalidQuantityException;
 use Shopware\Core\Checkout\Cart\LineItem\CartDataCollection;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Checkout\Cart\LineItem\LineItemCollection;
-use Shopware\Core\Checkout\Customer\CustomerEntity;
-use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\Checkout\Cart\Price\Struct\CalculatedPrice;
-
 use Shopware\Core\Checkout\Cart\Tax\Struct\CalculatedTaxCollection;
 use Shopware\Core\Checkout\Cart\Tax\Struct\TaxRuleCollection;
-
-use Netzkollektiv\EasyCredit\Api\Storage;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class Collector implements CartDataCollectorInterface
 {
@@ -28,7 +25,6 @@ class Collector implements CartDataCollectorInterface
     }
 
     /**
-     *
      * @throws InvalidPayloadException
      * @throws InvalidQuantityException
      */
@@ -43,12 +39,26 @@ class Collector implements CartDataCollectorInterface
 
         /* @var LineItem $interestItem */
         $data->set(Processor::DATA_KEY, new LineItemCollection([
-            $this->buildInterestLineItem($price)
+            $this->buildInterestLineItem($price),
         ]));
     }
 
-    protected function buildInterestLineItem($price): LineItem {
+    public function getInterestPrice()
+    {
+        if (!$this->storage->get('interest_amount')) {
+            return;
+        }
 
+        return new CalculatedPrice(
+            $this->storage->get('interest_amount'),
+            $this->storage->get('interest_amount'),
+            new CalculatedTaxCollection(),
+            new TaxRuleCollection()
+        );
+    }
+
+    protected function buildInterestLineItem($price): LineItem
+    {
         $id = 'easycredit-interest';
 
         $interestItem = new LineItem($id, Processor::LINE_ITEM_TYPE);
@@ -75,20 +85,8 @@ class Collector implements CartDataCollectorInterface
         // this is required within the recalculation process.
         // if the requirements are not met, the calculation process
         // will remove our discount line item.
-        //$interestItem->setRequirement($promotion->getPreconditionRule()); 
+        //$interestItem->setRequirement($promotion->getPreconditionRule());
 
-        return $interestItem;       
-    }
-
-    public function getInterestPrice() {
-        if (!$this->storage->get('interest_amount')) {
-            return;
-        }
-        return new CalculatedPrice(
-            $this->storage->get('interest_amount'),
-            $this->storage->get('interest_amount'),
-            new CalculatedTaxCollection(),
-            new TaxRuleCollection()
-        );  
+        return $interestItem;
     }
 }

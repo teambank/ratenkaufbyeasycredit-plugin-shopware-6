@@ -2,13 +2,12 @@
 
 namespace Netzkollektiv\EasyCredit\Controller;
 
+use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
+use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Controller\StorefrontController;
 use Symfony\Component\Routing\Annotation\Route;
-
-use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
-use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 
 /**
  * @RouteScope(scopes={"storefront"})
@@ -68,7 +67,7 @@ class PaymentController extends StorefrontController
         try {
             $approved = $checkout->isApproved();
             if (!$approved) {
-                throw new \Exception($this->getPlugin()->getLabel().' wurde nicht genehmigt.');
+                throw new \Exception($this->getPlugin()->getLabel() . ' wurde nicht genehmigt.');
             }
 
             $checkout->loadFinancingInformation();

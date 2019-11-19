@@ -2,9 +2,8 @@
 
 namespace Netzkollektiv\EasyCredit\Controller;
 
-use Shopware\Core\Framework\Routing\Annotation\RouteScope;
-use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Netzkollektiv\EasyCredit\Setting\Service\ApiCredentialServiceInterface;
+use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

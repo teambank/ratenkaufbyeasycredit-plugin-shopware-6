@@ -21,7 +21,6 @@ class WidgetData extends Struct
         return $this->apiKey;
     }
 
-
     public function getWidgetSelector()
     {
         return $this->widgetSelector;

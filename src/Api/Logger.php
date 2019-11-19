@@ -1,11 +1,12 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace Netzkollektiv\EasyCredit\Api;
 
-use Psr\Log\LoggerInterface;
 use Netzkollektiv\EasyCredit\Setting\SettingStruct;
+use Psr\Log\LoggerInterface;
 
-class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface {
-
+class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface
+{
     protected $_logger;
 
     protected $debug = false;
@@ -17,12 +18,74 @@ class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface {
         $this->_logger = $logger;
 
         //if ($settings->getDebug()) {
-            $this->debug = true;
-            $this->allowLineBreaks(true);
+        $this->debug = true;
+        $this->allowLineBreaks(true);
         //}
     }
 
-    protected function allowLineBreaks($bool) {
+    public function log($msg)
+    {
+        $this->logInfo($msg);
+
+        return $this;
+    }
+
+    public function logDebug($msg)
+    {
+        if (!$this->debug) {
+            return;
+        }
+
+        $this->_logger->info(
+            $this->_format($msg)
+        );
+
+        return $this;
+    }
+
+    public function logInfo($msg)
+    {
+        if (!$this->debug) {
+            return;
+        }
+
+        $this->_logger->info(
+            $this->_format($msg)
+        );
+
+        return $this;
+    }
+
+    public function logWarn($msg)
+    {
+        $this->_logger->warning(
+            $this->_format($msg)
+        );
+
+        return $this;
+    }
+
+    public function logError($msg)
+    {
+        $this->_logger->error(
+            $this->_format($msg)
+        );
+
+        return $this;
+    }
+
+    public function _format($msg)
+    {
+        if (is_array($msg) || is_object($msg)) {
+            $msg = print_r($msg, true);
+        }
+        \mydebug($msg);
+
+        return $msg;
+    }
+
+    protected function allowLineBreaks($bool): void
+    {
         $handlers = $this->_logger->getHandlers();
         if (
             is_array($handlers)
@@ -32,54 +95,5 @@ class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface {
         ) {
             $handlers[0]->getFormatter()->allowInlineLineBreaks($bool);
         }
-    }
-
-    public function log($msg) {
-        $this->logInfo($msg);
-        return $this;
-    }
-
-    public function logDebug($msg) {
-        if (!$this->debug) {
-            return;
-        }
-
-        $this->_logger->info(
-            $this->_format($msg)
-        );
-        return $this;
-    }
-
-    public function logInfo($msg) {
-        if (!$this->debug) {
-            return;
-        }
-
-        $this->_logger->info(
-            $this->_format($msg)
-        );
-        return $this;
-    }
-
-    public function logWarn($msg) {
-        $this->_logger->warning(
-            $this->_format($msg)
-        );
-        return $this;
-    }
-
-    public function logError($msg) {
-        $this->_logger->error(
-            $this->_format($msg)
-        );
-        return $this;
-    }
-
-    public function _format($msg) {
-        if (is_array($msg) || is_object($msg)) {
-            $msg = print_r($msg,true);
-        }
-        \mydebug($msg);
-        return $msg;
     }
 }

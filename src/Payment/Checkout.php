@@ -2,19 +2,14 @@
 
 namespace Netzkollektiv\EasyCredit\Payment;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
-
-use Shopware\Core\Checkout\Payment\PaymentMethodEntity;
+use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
+use Netzkollektiv\EasyCredit\Api\Storage;
+use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
-use Shopware\Storefront\Page\Checkout\Finish\CheckoutFinishPageLoadedEvent;
-use Shopware\Core\Framework\Struct\Struct;
-
-use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
-use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
-use Netzkollektiv\EasyCredit\Api\Storage; 
+use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class Checkout implements EventSubscriberInterface
 {
@@ -35,7 +30,7 @@ class Checkout implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            CheckoutConfirmPageLoadedEvent::class => 'onCheckoutConfirmLoaded'
+            CheckoutConfirmPageLoadedEvent::class => 'onCheckoutConfirmLoaded',
         ];
     }
 
@@ -64,7 +59,7 @@ class Checkout implements EventSubscriberInterface
         $event->getPage()->addExtension('easycredit', (new CheckoutData())->assign([
             'paymentMethodId' => $this->paymentHelper->getPaymentMethodId($salesChannelContext->getContext()),
             'agreement' => $agreement,
-            'paymentPlan' => $this->storage->get('payment_plan')
+            'paymentPlan' => $this->storage->get('payment_plan'),
         ]));
     }
 }

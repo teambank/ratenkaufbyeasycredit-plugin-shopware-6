@@ -2,14 +2,12 @@
 
 namespace Netzkollektiv\EasyCredit\Widget;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-
-use Shopware\Storefront\Page\Product\ProductPageLoadedEvent;
-use Shopware\Storefront\Page\Checkout\Offcanvas\OffcanvasCartPageLoadedEvent;
-use Shopware\Storefront\Page\Checkout\Cart\CheckoutCartPageLoadedEvent;
-
 use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
+use Shopware\Storefront\Page\Checkout\Cart\CheckoutCartPageLoadedEvent;
+use Shopware\Storefront\Page\Checkout\Offcanvas\OffcanvasCartPageLoadedEvent;
+use Shopware\Storefront\Page\Product\ProductPageLoadedEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class Widget implements EventSubscriberInterface
 {
@@ -20,6 +18,7 @@ class Widget implements EventSubscriberInterface
         $this->settings = $settingsService;
         $this->cartService = $cartService;
     }
+
     public static function getSubscribedEvents(): array
     {
         return [
@@ -40,8 +39,8 @@ class Widget implements EventSubscriberInterface
         }
 
         $event->getPage()->addExtension('easycredit', (new WidgetData())->assign([
-            'apiKey'            => $settings->getWebshopId(),
-            'widgetSelector'    => $settings->getWidgetSelectorProductDetail()
+            'apiKey' => $settings->getWebshopId(),
+            'widgetSelector' => $settings->getWidgetSelectorProductDetail(),
         ]));
     }
 
@@ -57,9 +56,9 @@ class Widget implements EventSubscriberInterface
         }
 
         $event->getPage()->addExtension('easycredit', (new WidgetData())->assign([
-            'apiKey'            => $settings->getWebshopId(),
-            'widgetSelector'    => $settings->getWidgetSelectorCart(),
-            'amount'            => $cart->getPrice()->getTotalPrice()
+            'apiKey' => $settings->getWebshopId(),
+            'widgetSelector' => $settings->getWidgetSelectorCart(),
+            'amount' => $cart->getPrice()->getTotalPrice(),
         ]));
     }
 
@@ -75,9 +74,9 @@ class Widget implements EventSubscriberInterface
         }
 
         $event->getPage()->addExtension('easycredit', (new WidgetData())->assign([
-            'apiKey'            => $settings->getWebshopId(),
-            'widgetSelector'    => $settings->getWidgetSelectorCart(),
-            'amount'            => $cart->getPrice()->getTotalPrice()
+            'apiKey' => $settings->getWebshopId(),
+            'widgetSelector' => $settings->getWidgetSelectorCart(),
+            'amount' => $cart->getPrice()->getTotalPrice(),
         ]));
     }
 }

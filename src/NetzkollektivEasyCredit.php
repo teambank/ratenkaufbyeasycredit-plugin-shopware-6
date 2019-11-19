@@ -3,6 +3,8 @@
 namespace Netzkollektiv\EasyCredit;
 
 use Doctrine\DBAL\Connection;
+use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
+use Netzkollektiv\EasyCredit\Payment\Handler;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\CustomField\CustomFieldTypes;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
@@ -15,8 +17,6 @@ use Shopware\Core\Framework\Plugin\Context\DeactivateContext;
 use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
-use Netzkollektiv\EasyCredit\Payment\Handler;
-use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;

@@ -1,15 +1,15 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace Netzkollektiv\EasyCredit\Api;
 
-use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Cart\Cart;
 
-class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface {
-
+class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
+{
     public function __construct(
         object $cart,
         $context
-    ) {    
+    ) {
         $this->cart = $cart;
         $this->context = $context;
 
@@ -20,36 +20,44 @@ class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface {
         }
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->cart->getToken();
     }
 
-    public function getShippingMethod() {
+    public function getShippingMethod()
+    {
         return $this->cart->getDeliveries()->first()->getShippingMethod()->getName();
     }
 
-    public function getGrandTotal() {
+    public function getGrandTotal()
+    {
         return $this->cart->getPrice()->getTotalPrice();
     }
 
-    public function getBillingAddress() {
+    public function getBillingAddress()
+    {
         if ($this->cart instanceof Cart) {
             return new Quote\Address(
                 $this->context->getCustomer()->getActiveBillingAddress()
             );
         }
     }
-    public function getShippingAddress() {
+
+    public function getShippingAddress()
+    {
         $address = $this->cart->getDeliveries()->first();
         if ($this->cart instanceof Cart) {
             $address = $this->cart->getDeliveries()->getAddresses()->first();
         } else {
             $address = $this->cart->getDeliveries()->first()->getShippingOrderAddress();
         }
+
         return new Quote\ShippingAddress($address);
     }
 
-    public function getCustomer() {
+    public function getCustomer()
+    {
         if ($this->cart instanceof Cart) {
             return new Quote\Customer(
                 $this->context->getCustomer(),
@@ -58,27 +66,31 @@ class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface {
         }
     }
 
-    public function getItems() {
+    public function getItems()
+    {
         return $this->_getItems(
             $this->cart->getLineItems()->getElements()
         );
     }
 
-    protected function _getItems($items) {
-        $_items = array();
+    public function getSystem()
+    {
+        return new System();
+    }
+
+    protected function _getItems($items)
+    {
+        $_items = [];
         foreach ($items as $item) {
             $quoteItem = new Quote\Item(
                 $item
             );
-            if ($quoteItem->getPrice() == 0) {
+            if ($quoteItem->getPrice() === 0) {
                 continue;
             }
             $_items[] = $quoteItem;
         }
-        return $_items;
-    }
 
-    public function getSystem() {
-        return new System();
+        return $_items;
     }
 }

@@ -6,7 +6,6 @@ use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\CartBehavior;
 use Shopware\Core\Checkout\Cart\CartProcessorInterface;
 use Shopware\Core\Checkout\Cart\LineItem\CartDataCollection;
-use Shopware\Core\Checkout\Cart\LineItem\LineItemCollection;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class Processor implements CartProcessorInterface
@@ -14,8 +13,6 @@ class Processor implements CartProcessorInterface
     public const DATA_KEY = 'interest_amount';
     public const LINE_ITEM_TYPE = 'easycredit-interest';
     //public const CART_EXTENSION_KEY = 'cart-promotion-codes';
-
-
 
     /**
      * @throws \Shopware\Core\Checkout\Cart\Exception\InvalidQuantityException
