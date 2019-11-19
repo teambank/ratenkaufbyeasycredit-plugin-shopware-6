@@ -1,0 +1,14 @@
+@import "~scss/variables";
+
+.easycredit-payment-actions__button-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.easycredit-payment-actions__authorize-button-group {
+    display: flex;
+
+    .sw-button:not(:last-child) {
+        margin-right: 10px;
+    }
+}

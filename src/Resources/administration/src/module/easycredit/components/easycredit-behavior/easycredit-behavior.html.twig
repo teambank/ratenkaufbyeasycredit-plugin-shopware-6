@@ -1,0 +1,64 @@
+{% block netzkollektiv_easycredit_content_card_channel_config_behavior %}
+    <sw-card class="sw-card--grid"
+             :title="$tc('easycredit.settingForm.behavior.cardTitle')">
+        {% block netzkollektiv_easycredit_content_card_channel_config_behavior_card_container %}
+            <sw-container>
+                {% block netzkollektiv_easycredit_content_card_channel_config_behavior_card_container_settings %}
+                    <div class="easycredit-settings-behavior-fields" v-if="actualConfigData">
+                        {% block netzkollektiv_easycredit_content_card_channel_config_behavior_card_container_settings_payment_status %}
+                            <sw-inherit-wrapper v-model="actualConfigData['NetzkollektivEasyCredit.settings.paymentStatus']"
+                                                :inheritedValue="selectedSalesChannelId == null ? null : allConfigs['null']['NetzkollektivEasyCredit.settings.paymentStatus']"
+                                                :customInheritationCheckFunction="checkTextFieldInheritance">
+                                <template #content="props">
+                                    <sw-order-state-select 
+                                            name="NetzkollektivEasyCredit.settings.paymentStatus"
+                                            :mapInheritance="props"
+                                            :label="$tc('easycredit.settingForm.behavior.paymentStatus.label')"
+                                            :helpText="$tc('easycredit.settingForm.behavior.paymentStatus.tooltipText')"
+                                            :disabled="props.isInherited"
+                                            :value="props.currentValue"
+                                            @change="props.updateCurrentValue"
+                                            roundedStyle
+                                            {#
+                                            :transitionOptions="transactionOptions"
+                                            @state-select="onQuickTransactionStatusChange"
+                                            :placeholder="transactionOptionPlaceholder"
+                                            :backgroundStyle="transactionOptionsBackground"
+                                            #}>
+                                    </sw-order-state-select>
+                                </template>
+                            </sw-inherit-wrapper>
+                        {% endblock %}
+
+                        {% block netzkollektiv_easycredit_content_card_channel_config_behavior_card_container_settings_order_status %}
+                            <sw-inherit-wrapper v-model="actualConfigData['NetzkollektivEasyCredit.settings.orderStatus']"
+                                                :inheritedValue="selectedSalesChannelId == null ? null : allConfigs['null']['NetzkollektivEasyCredit.settings.orderStatus']"
+                                                :customInheritationCheckFunction="checkTextFieldInheritance">
+                                <template #content="props">
+
+                                    <sw-order-state-select
+                                        name="NetzkollektivEasyCredit.settings.orderStatus"
+                                        :mapInheritance="props"
+                                        :label="$tc('easycredit.settingForm.behavior.orderStatus.label')"
+                                        :helpText="$tc('easycredit.settingForm.behavior.orderStatus.tooltipText')"
+                                        :disabled="props.isInherited"
+                                        :value="props.currentValue"
+                                        @change="props.updateCurrentValue"
+                                        roundedStyle
+                                        {#
+                                        :transitionOptions="orderOptions"
+                                        class="sw-order-state-select__order-state"
+                                        @state-select="onQuickOrderStatusChange"
+                                        :placeholder="orderOptionPlaceholder"
+                                        :backgroundStyle="orderOptionsBackground" 
+                                    #}>
+                                    </sw-order-state-select>
+                                </template>
+                            </sw-inherit-wrapper>
+                        {% endblock %}
+                    </div>
+                {% endblock %}
+            </sw-container>
+        {% endblock %}
+    </sw-card>
+{% endblock %}

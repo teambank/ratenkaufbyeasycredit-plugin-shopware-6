@@ -1,0 +1,83 @@
+<?php declare(strict_types=1);
+
+namespace Netzkollektiv\EasyCredit\Widget;
+
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+use Shopware\Storefront\Page\Product\ProductPageLoadedEvent;
+use Shopware\Storefront\Page\Checkout\Offcanvas\OffcanvasCartPageLoadedEvent;
+use Shopware\Storefront\Page\Checkout\Cart\CheckoutCartPageLoadedEvent;
+
+use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
+use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
+
+class Widget implements EventSubscriberInterface
+{
+    public function __construct(
+        SettingsServiceInterface $settingsService,
+        CartService $cartService
+    ) {
+        $this->settings = $settingsService;
+        $this->cartService = $cartService;
+    }
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            ProductPageLoadedEvent::class => 'onProductPageLoaded',
+            CheckoutCartPageLoadedEvent::class => 'onCartPageLoaded',
+            //OffcanvasCartPageLoadedEvent::class => 'onOffcanvasCartPageLoaded'
+        ];
+    }
+
+    public function onProductPageLoaded(ProductPageLoadedEvent $event): void
+    {
+        $context = $event->getSalesChannelContext();
+
+        $settings = $this->settings->getSettings($context->getSalesChannel()->getId());
+
+        if (!$settings->getWidgetEnabled()) {
+            return;
+        }
+
+        $event->getPage()->addExtension('easycredit', (new WidgetData())->assign([
+            'apiKey'            => $settings->getWebshopId(),
+            'widgetSelector'    => $settings->getWidgetSelectorProductDetail()
+        ]));
+    }
+
+    public function onCartPageLoaded(CheckoutCartPageLoadedEvent $event): void
+    {
+        $context = $event->getSalesChannelContext();
+
+        $cart = $this->cartService->getCart($context->getToken(), $context);
+        $settings = $this->settings->getSettings($context->getSalesChannel()->getId());
+
+        if (!$settings->getWidgetEnabled()) {
+            return;
+        }
+
+        $event->getPage()->addExtension('easycredit', (new WidgetData())->assign([
+            'apiKey'            => $settings->getWebshopId(),
+            'widgetSelector'    => $settings->getWidgetSelectorCart(),
+            'amount'            => $cart->getPrice()->getTotalPrice()
+        ]));
+    }
+
+    public function onOffcanvasCartPageLoaded(OffcanvasCartPageLoadedEvent $event): void
+    {
+        $context = $event->getSalesChannelContext();
+
+        $cart = $this->cartService->getCart($context->getToken(), $context);
+        $settings = $this->settings->getSettings($context->getSalesChannel()->getId());
+
+        if (!$settings->getWidgetEnabled()) {
+            return;
+        }
+
+        $event->getPage()->addExtension('easycredit', (new WidgetData())->assign([
+            'apiKey'            => $settings->getWebshopId(),
+            'widgetSelector'    => $settings->getWidgetSelectorCart(),
+            'amount'            => $cart->getPrice()->getTotalPrice()
+        ]));
+    }
+}

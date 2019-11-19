@@ -1,0 +1,39 @@
+{
+    "name": "netzkollektiv/easycredit",
+    "description": "ratenkauf by easyCredit integration for shopware/platform",
+    "version": "0.9.0",
+    "type": "shopware-platform-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "NETZKOLLEKTIV GmbH"
+        }
+    ],
+    "require": {
+        "shopware/platform": "*",
+        "recensus/zend-http-client" : "dev-master",
+        "ratenkaufbyeasycredit/php-sdk" : "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "8.0.6"
+    },
+    "extra": {
+        "shopware-plugin-class": "Netzkollektiv\\EasyCredit\\NetzkollektivEasyCredit",
+        "copyright": "(c) by NETZKOLLEKTIV GmbH",
+        "label": {
+            "de-DE": "ratenkauf by easyCredit für Shopware 6",
+            "en-GB": "ratenkauf by easyCredit for Shopware 6"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Netzkollektiv\\EasyCredit\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Netzkollektiv\\EasyCredit\\Test\\": "tests/"
+        }
+    },
+    "minimum-stability" : "dev"
+}

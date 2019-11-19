@@ -1,0 +1,50 @@
+{
+    "easycredit": {
+        "header": "ratenkauf by easyCredit",
+        "general": {
+            "mainMenuItemGeneral": "ratenkauf by easyCredit",
+            "descriptionTextModule": "Settings for ratenkauf by easyCredit"
+        },
+        "settingForm": {
+            "save": "Save",
+            "test": "Test API credentials",
+            "credentials": {
+                "cardTitle": "API credentials",
+                "webshopId": {
+                    "label": "Webshop-ID",
+                    "tooltipText": "Die Webshop-ID, die das Plugin dazu verwendet sich mit der ratenkauf by easyCredit API zu authentifizieren."
+                },
+                "apiPassword": {
+                    "label": "API Passwort",
+                    "tooltipText": "Der API Key, welchen das Plugin dazu verwendet sich mit der ratenkauf by easyCredit API zu authentifizieren."
+                },
+                "debug": {
+                    "label": "Debug aktivieren",
+                    "tooltipText": "Schaltet das Debug-Logging an."
+                }
+            },
+            "widget": {
+                "cardTitle": "Marketing: Model Calculation Widget",
+                "widgetEnabled": {
+                    "label": "Show widget",
+                    "helpText": "If this option is active, the widget will be shown using the selector below."
+                },
+                "widgetSelectorProductDetail": {
+                    "label": "CSS selector for product detail page",
+                    "tooltipText": ""
+                },
+                "widgetSelectorProductDetail": {
+                    "label": "CSS selector for cart",
+                    "tooltipText": ""
+                }
+            },
+            "titleSaveSuccess": "ratenkauf by easyCredit settings",
+            "titleTestSuccess": "API credentials",
+            "titleTestError": "API credentials error",
+            "titleSaveError": "ratenkauf by easyCredit Einstellungen Error",
+            "messageSaveSuccess": "The ratenkauf by easyCredit settings have been saved successfully.",
+            "messageTestSuccess": "The API credentials have been successfully validated.",
+            "messageTestError": "The API credentials could not been validated."
+        }
+    }
+}

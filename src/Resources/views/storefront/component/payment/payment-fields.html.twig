@@ -1,0 +1,39 @@
+{% sw_extends '@Storefront/component/payment/payment-fields.html.twig' %}
+
+{% block component_payment_method_label %}
+
+    {{ parent() }}
+
+    {# @var easycreditData #}
+    {% set easycreditData = page.extensions.easycredit %}
+
+    {% if easycreditData and easycreditData.paymentMethodId is same as(payment.id) %}
+    <div id="easycredit-description">
+        <label for="easycredit-agreement">
+            <input type="checkbox" id="easycredit-agreement" required="required" />
+            <span>{{ easycreditData.agreement}}</span>
+        </label>
+    </div>
+    {% endif %}
+    
+{% endblock %}
+
+{% block component_payment_method_description %}
+
+    {# @var easycreditData #}
+    {% set easycreditData = page.extensions.easycredit %}
+
+    {% if easycreditData and easycreditData.paymentMethodId is same as(payment.id) %}
+    <div class="easycredit-description">
+        <span class="easycredit-method-title">{{ payment.translated.name }}</span>
+        <a href="https://www.easycredit-ratenkauf.de/kunden.htm" onclick="javascript:window.open('https://www.easycredit-ratenkauf.de/kunden.htm','whatiseasycredit','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, ,left=0, top=0, width=800, height=600'); return false;" class="easycredit-tooltip">{{ "easycredit.whatis"|trans }} {{ context.paymentMethod.translated.name }}?</a>
+        <br/><strong>{{ "easycredit.slogan"|trans }}</strong>
+        <br />
+    </div>
+        
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+
+    
+{% endblock %}

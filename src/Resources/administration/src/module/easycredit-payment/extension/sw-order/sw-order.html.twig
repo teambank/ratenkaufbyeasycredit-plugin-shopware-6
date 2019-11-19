@@ -1,0 +1,9 @@
+{% block sw_order_detail_content_tabs_general %}
+    {% parent %}
+
+    <sw-tabs-item v-if="isEasyCreditPayment"
+                  :route="{ name: 'swag.easycredit.payment.detail', params: { id: $route.params.id } }"
+                  :title="$tc('easycredit.header')">
+        {{ $tc('easycredit.header') }}
+    </sw-tabs-item>
+{% endblock %}

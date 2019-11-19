@@ -1,0 +1,60 @@
+{% block swag_easycredit_payment_actions %}
+    <div>
+        <div class="easycredit-payment-actions__button-container">
+            <div class="easycredit-payment-actions__authorize-button-group">
+                {% block swag_easycredit_payment_actions_void %}
+                    <sw-button v-if="showVoidButton"
+                               @click="spawnModal('void')"
+                               size="small">
+                        {{ $tc('easycredit-payment.buttons.label.void') }}
+                    </sw-button>
+                {% endblock %}
+
+                {% block swag_easycredit_payment_actions_capture %}
+                    <sw-button v-if="captureableAmount > 0"
+                               @click="spawnModal('capture')"
+                               size="small">
+                        {{ $tc('easycredit-payment.buttons.label.capture') }}
+                    </sw-button>
+                {% endblock %}
+            </div>
+            {% block swag_easycredit_payment_actions_refund %}
+                <sw-button variant="primary"
+                           @click="spawnModal('refund')"
+                           size="small"
+                           :disabled="refundableAmount <= 0">
+                    {{ $tc('easycredit-payment.buttons.label.refund') }}
+                </sw-button>
+            {% endblock %}
+        </div>
+
+        {% block swag_easycredit_payment_actions_modal %}
+            <sw-modal v-if="showModal"
+                      @modal-close="closeModal"
+                      variant="small"
+                      :title="$tc(`easycredit-payment.modal.title.${modalType}`)">
+                {% block swag_easycredit_payment_actions_modal_capture %}
+                    <easycredit-payment-action-capture v-if="modalType === 'capture'"
+                                                      :paymentResource="paymentResource"
+                                                      :maxCaptureValue="captureableAmount"
+                                                      @modal-close="closeModal">
+                    </easycredit-payment-action-capture>
+                {% endblock %}
+
+                {% block swag_easycredit_payment_actions_modal_refund %}
+                    <easycredit-payment-action-refund v-if="modalType === 'refund'"
+                                                     :paymentResource="paymentResource"
+                                                     @modal-close="closeModal">
+                    </easycredit-payment-action-refund>
+                {% endblock %}
+
+                {% block swag_easycredit_payment_actions_modal_void %}
+                    <easycredit-payment-action-void v-if="modalType === 'void'"
+                                                     :paymentResource="paymentResource"
+                                                     @modal-close="closeModal">
+                    </easycredit-payment-action-void>
+                {% endblock %}
+            </sw-modal>
+        {% endblock %}
+    </div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{
+    "error": {
+        "installments-must-be-recalculated": "ratenkauf by easyCredit: Ihre Bestellung hat sich verändert, bitte führen Sie die Ratenberechnung erneut durch."
+    },
+    "easycredit": {
+        "recalculate": "Raten neu berechnen",
+        "slogan": "Einfach. Fair. In Raten zahlen.",
+        "whatis": "Was ist"
+    }
+}

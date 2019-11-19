@@ -1,0 +1,3 @@
+easycredit:
+  resource: ../../Controller/
+  type: annotation

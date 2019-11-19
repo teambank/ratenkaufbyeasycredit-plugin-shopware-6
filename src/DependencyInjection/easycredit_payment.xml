@@ -1,0 +1,123 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="Netzkollektiv\EasyCredit\Payment\Handler">
+            <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler"/>
+            <argument type="service" id="order_transaction.repository"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
+
+            <tag name="shopware.payment.method.sync"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Api\CheckoutFactory">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>            
+            <argument type="service" id="logger"/>            
+            <argument type="service" id="session"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Api\Storage">          
+            <argument type="service" id="session"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Controller\PaymentController" public="true">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Helper\Quote">
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+        </service>
+
+        <!--service id="Netzkollektiv\EasyCredit\Controller\EasyCreditPaymentController" public="true">
+            <argument type="service" id="Netzkollektiv\EasyCredit\EasyCredit\Resource\PaymentResource"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\EasyCredit\Resource\SaleResource"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\EasyCredit\Resource\AuthorizationResource"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\EasyCredit\Resource\OrdersResource"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\EasyCredit\Resource\CaptureResource"/>
+        </service -->
+
+        <service id="Netzkollektiv\EasyCredit\Subscriber\InterestSubscriber">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Payment\Builder\OrderPaymentBuilder">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
+            <argument type="service" id="language.repository"/>
+            <argument type="service" id="sales_channel.repository"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Payment\Builder\CartPaymentBuilder">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
+            <argument type="service" id="language.repository"/>
+            <argument type="service" id="sales_channel.repository"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Payment\Redirector">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="router"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Payment"/>
+
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Payment\Checkout">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Payment"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
+            <argument type="service" id="cache.object"/>
+            <argument>%shopware.cache.entity_cache.expiration_time%</argument>
+
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Widget\Widget">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Helper\Payment">
+            <argument type="service" id="payment_method.repository"/>
+            <argument type="service" id="Shopware\Core\Checkout\Payment\Cart\PaymentHandler\PaymentHandlerRegistry"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Cart\Collector">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
+
+            <!-- // inject after product collector(5000) -->
+            <tag name="shopware.cart.collector" priority="-5000"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Cart\Processor">
+            <tag name="shopware.cart.processor" priority="-5000"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Cart\Validator">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Payment"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
+            <tag name="shopware.cart.validator"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Resources\storefront\snippets\de_DE\SnippetFile_de_DE">
+            <tag name="shopware.snippet.file"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Resources\storefront\snippets\en_GB\SnippetFile_en_GB">
+            <tag name="shopware.snippet.file"/>
+        </service>
+    </services>
+</container>

@@ -1,0 +1,18 @@
+{% sw_extends '@Storefront/layout/meta.html.twig' %}
+
+{% block layout_head_meta_tags_general %}
+    {{ parent() }}
+
+    {% if page.extensions.easycredit.apiKey %}
+    <meta name="easycredit-api-key" content="{{page.extensions.easycredit.apiKey}}" />
+    {% endif %}
+    
+    {% if page.extensions.easycredit.widgetSelector %}
+    <meta name="easycredit-widget-selector" content="{{page.extensions.easycredit.widgetSelector}}" />
+    {% endif %}
+
+    {% if page.extensions.easycredit.amount %}
+    <meta name="easycredit-amount" content="{{page.extensions.easycredit.amount}}" />
+    {% endif %}
+
+{% endblock %}

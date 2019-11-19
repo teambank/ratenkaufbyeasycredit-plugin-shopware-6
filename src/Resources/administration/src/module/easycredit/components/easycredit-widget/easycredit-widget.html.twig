@@ -1,0 +1,64 @@
+{% block netzkollektiv_easycredit_content_card_channel_config_widget %}
+    <sw-card class="sw-card--grid"
+             :title="$tc('easycredit.settingForm.widget.cardTitle')">
+        {% block netzkollektiv_easycredit_content_card_channel_config_widget_card_container %}
+            <sw-container>
+                {% block netzkollektiv_easycredit_content_card_channel_config_widget_card_container_settings %}
+                    <div class="easycredit-settings-widget-fields" v-if="actualConfigData">
+                        {% block swag_paypal_content_card_channel_config_widget_card_container_settings_widgetEnabled %}
+                            <sw-inherit-wrapper v-model="actualConfigData['NetzkollektivEasyCredit.settings.widgetEnabled']"
+                                                :inheritedValue="selectedSalesChannelId == null ? null : allConfigs['null']['NetzkollektivEasyCredit.settings.widgetEnabled']"
+                                                :customInheritationCheckFunction="checkBoolFieldInheritance">
+                                <template #content="props">
+                                    <sw-switch-field name="NetzkollektivEasyCredit.settings.widgetEnabled"
+                                                     bordered
+                                                     :mapInheritance="props"
+                                                     :label="$tc('easycredit.settingForm.widget.widgetEnabled.label')"
+                                                     :helpText="$tc('easycredit.settingForm.widget.widgetEnabled.tooltipText')"
+                                                     :disabled="props.isInherited"
+                                                     :value="props.currentValue"
+                                                     @change="props.updateCurrentValue">
+                                    </sw-switch-field>
+                                </template>
+                            </sw-inherit-wrapper>
+                        {% endblock %}
+
+                        {% block netzkollektiv_easycredit_content_card_channel_config_widget_card_container_settings_widget_selector_product_detail %}
+                            <sw-inherit-wrapper v-model="actualConfigData['NetzkollektivEasyCredit.settings.widgetSelectorProductDetail']"
+                                                :inheritedValue="selectedSalesChannelId == null ? null : allConfigs['null']['NetzkollektivEasyCredit.settings.widgetSelectorProductDetail']"
+                                                :customInheritationCheckFunction="checkTextFieldInheritance">
+                                <template #content="props">
+                                    <sw-text-field name="NetzkollektivEasyCredit.settings.widgetSelectorProductDetail"
+                                                   :mapInheritance="props"
+                                                   :label="$tc('easycredit.settingForm.widget.widgetSelectorProductDetail.label')"
+                                                   :helpText="$tc('easycredit.settingForm.widget.widgetSelectorProductDetail.tooltipText')"
+                                                   :disabled="props.isInherited"
+                                                   :value="props.currentValue"
+                                                   @change="props.updateCurrentValue">
+                                    </sw-text-field>
+                                </template>
+                            </sw-inherit-wrapper>
+                        {% endblock %}
+
+                        {% block netzkollektiv_easycredit_content_card_channel_config_widget_card_container_settings_widget_selector_cart %}
+                            <sw-inherit-wrapper v-model="actualConfigData['NetzkollektivEasyCredit.settings.widgetSelectorCart']"
+                                                :inheritedValue="selectedSalesChannelId == null ? null : allConfigs['null']['NetzkollektivEasyCredit.settings.widgetSelectorCart']"
+                                                :customInheritationCheckFunction="checkTextFieldInheritance">
+                                <template #content="props">
+                                    <sw-text-field name="NetzkollektivEasyCredit.settings.widgetSelectorCart"
+                                                   :mapInheritance="props"
+                                                   :label="$tc('easycredit.settingForm.widget.widgetSelectorCart.label')"
+                                                   :helpText="$tc('easycredit.settingForm.widget.widgetSelectorCart.tooltipText')"
+                                                   :disabled="props.isInherited"
+                                                   :value="props.currentValue"
+                                                   @change="props.updateCurrentValue">
+                                    </sw-text-field>
+                                </template>
+                            </sw-inherit-wrapper>
+                        {% endblock %}
+                    </div>
+                {% endblock %}
+            </sw-container>
+        {% endblock %}
+    </sw-card>
+{% endblock %}
