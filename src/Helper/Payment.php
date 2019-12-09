@@ -3,11 +3,11 @@
 namespace Netzkollektiv\EasyCredit\Helper;
 
 use Netzkollektiv\EasyCredit\Payment\Handler;
+use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\AsynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\PaymentHandlerRegistry;
-use Shopware\Core\Framework\Context;
+use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class Payment
@@ -24,11 +24,14 @@ class Payment
         $this->paymentHandlerRegistry = $paymentHandlerRegistry;
     }
 
-    public function isSelected(SalesChannelContext $context, $paymentMethod = null)
+    public function isSelected(SalesChannelContext $context, $paymentMethod = null): bool
     {
         return $this->getPaymentHandler($context, $paymentMethod) instanceof Handler;
     }
 
+    /**
+     * @return SynchronousPaymentHandlerInterface|AsynchronousPaymentHandlerInterface
+     */
     public function getPaymentHandler(SalesChannelContext $context, $paymentMethod = null)
     {
         if (is_null($paymentMethod)) {
@@ -43,13 +46,5 @@ class Payment
 
         return $this->paymentHandlerRegistry
             ->getHandler($paymentMethod->getHandlerIdentifier());
-    }
-
-    public function getPaymentMethodId(Context $context): ?string
-    {
-        $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('handlerIdentifier', Handler::class));
-
-        return $this->paymentMethodRepository->searchIds($criteria, $context)->firstId();
     }
 }

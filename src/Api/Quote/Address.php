@@ -2,13 +2,17 @@
 
 namespace Netzkollektiv\EasyCredit\Api\Quote;
 
+use Netzkollektiv\EasyCredit\Api\QuoteInvalidException;
 use Shopware\Core\Checkout\Customer\Aggregate\CustomerAddress\CustomerAddressEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderAddress\OrderAddressEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 
 class Address implements \Netzkollektiv\EasyCreditApi\Rest\AddressInterface
 {
-    protected $address = [];
+    /**
+     * @var CustomerAddressEntity|OrderAddressEntity
+     */
+    protected $address;
 
     public function __construct(
         Entity $address
@@ -21,22 +25,22 @@ class Address implements \Netzkollektiv\EasyCreditApi\Rest\AddressInterface
         $this->address = $address;
     }
 
-    public function getFirstname()
+    public function getFirstname(): string
     {
         return $this->address->getFirstName();
     }
 
-    public function getLastname()
+    public function getLastname(): string
     {
         return $this->address->getLastName();
     }
 
-    public function getStreet()
+    public function getStreet(): string
     {
         return trim($this->address->getStreet());
     }
 
-    public function getStreetAdditional()
+    public function getStreetAdditional(): string
     {
         return trim(implode(' ', [
             $this->address->getAdditionalAddressLine1(),
@@ -44,18 +48,20 @@ class Address implements \Netzkollektiv\EasyCreditApi\Rest\AddressInterface
         ]));
     }
 
-    public function getPostcode()
+    public function getPostcode(): string
     {
         return $this->address->getZipcode();
     }
 
-    public function getCity()
+    public function getCity(): string
     {
         return $this->address->getCity();
     }
 
-    public function getCountryId()
+    public function getCountryId(): ?string
     {
-        return $this->address->getCountry()->getIso();
+        if ($this->address->getCountry() !== null) {
+            return $this->address->getCountry()->getIso();
+        }
     }
 }

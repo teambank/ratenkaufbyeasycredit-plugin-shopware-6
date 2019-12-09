@@ -4,7 +4,7 @@ namespace Netzkollektiv\EasyCredit\Payment;
 
 use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
 use Netzkollektiv\EasyCredit\Api\Storage;
-use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
+use Netzkollektiv\EasyCredit\Helper\PaymentIdProvider;
 use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
@@ -13,14 +13,24 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class Checkout implements EventSubscriberInterface
 {
+    private $paymentIdProvider;
+
+    private $checkoutFactory;
+
+    private $storage;
+
+    private $cache;
+
+    private $expirationTime;
+
     public function __construct(
-        PaymentHelper $paymentHelper,
+        PaymentIdProvider $paymentIdProvider,
         CheckoutFactory $checkoutFactory,
         Storage $storage,
         TagAwareAdapterInterface $cache,
         int $expirationTime
     ) {
-        $this->paymentHelper = $paymentHelper;
+        $this->paymentIdProvider = $paymentIdProvider;
         $this->checkoutFactory = $checkoutFactory;
         $this->storage = $storage;
         $this->cache = $cache;
@@ -56,10 +66,17 @@ class Checkout implements EventSubscriberInterface
             $this->cache->save($cacheItem);
         }
 
+        $error = null;
+        if ($this->storage->get('error')) {
+            $error = $this->storage->get('error');
+            $this->storage->set('error', null);
+        }
+
         $event->getPage()->addExtension('easycredit', (new CheckoutData())->assign([
-            'paymentMethodId' => $this->paymentHelper->getPaymentMethodId($salesChannelContext->getContext()),
+            'paymentMethodId' => $this->paymentIdProvider->getPaymentMethodId($salesChannelContext->getContext()),
             'agreement' => $agreement,
             'paymentPlan' => $this->storage->get('payment_plan'),
+            'error' => $error,
         ]));
     }
 }

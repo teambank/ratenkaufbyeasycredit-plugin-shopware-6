@@ -1,10 +1,14 @@
 {
     "error": {
-        "installments-must-be-recalculated": "ratenkauf by easyCredit: Ihre Bestellung hat sich verändert, bitte führen Sie die Ratenberechnung erneut durch."
+        "installments-must-be-recalculated": "ratenkauf by easyCredit: Ihre Bestellung hat sich verändert, bitte führen Sie die Ratenberechnung erneut durch.",
+        "init-error": "ratenkauf by easyCredit: Bitte korrigieren Sie Ihre Bestellung und klicken Sie 'Raten neu berechnen'"
     },
     "easycredit": {
         "recalculate": "Raten neu berechnen",
         "slogan": "Einfach. Fair. In Raten zahlen.",
         "whatis": "Was ist"
+    },
+    "checkout": {
+        "installments-must-be-recalculated": "ratenkauf by easyCredit: Ihre Bestellung hat sich verändert, bitte führen Sie die Ratenberechnung erneut durch."
     }
 }

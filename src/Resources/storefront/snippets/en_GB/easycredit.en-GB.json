@@ -1,10 +1,14 @@
 {
     "error": {
-        "installments-must-be-recalculated": "ratenkauf by easyCredit: Your order was changed, please recalculate installments."
+        "installments-must-be-recalculated": "ratenkauf by easyCredit: Your order was changed, please recalculate installments.",
+        "init-error": "ratenkauf by easyCredit: Please correct your order and click 'Recalculate installments'"
     },
     "easycredit": {
         "recalculate": "Recalculate installments",
         "slogan": "Easy. Fair. Pay by installments.",
         "whatis": "What is"
+    },
+    "checkout": {
+        "installments-must-be-recalculated": "ratenkauf by easyCredit: Your order was changed, please recalculate installments."
     }
 }

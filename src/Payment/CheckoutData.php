@@ -21,6 +21,11 @@ class CheckoutData extends Struct
      */
     protected $paymentPlan;
 
+    /**
+     * @var string
+     */
+    protected $error;
+
     public function getPaymentMethodId(): string
     {
         return $this->paymentMethodId;
@@ -31,8 +36,13 @@ class CheckoutData extends Struct
         return $this->agreement;
     }
 
-    public function getPaymentPlan()
+    public function getPaymentPlan(): ?string
     {
         return $this->paymentPlan;
+    }
+
+    public function getError(): ?string
+    {
+        return $this->error;
     }
 }

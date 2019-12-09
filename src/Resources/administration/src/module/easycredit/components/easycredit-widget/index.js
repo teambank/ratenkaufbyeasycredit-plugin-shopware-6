@@ -4,7 +4,7 @@ const { Component } = Shopware;
 
 Component.register('easycredit-widget', {
     template,
-    name: 'NetzkollektivEasycreditWidget',
+    name: 'EasyCreditRatenkaufWidget',
 
     props: {
         actualConfigData: {

@@ -10,7 +10,9 @@ use Shopware\Core\Checkout\Customer\CustomerEntity;
 
 class Customer implements \Netzkollektiv\EasyCreditApi\Rest\CustomerInterface
 {
-    protected $customer = null;
+    protected $customer;
+
+    protected $billingAddress;
 
     public function __construct(
         CustomerEntity $customer,
@@ -20,7 +22,7 @@ class Customer implements \Netzkollektiv\EasyCreditApi\Rest\CustomerInterface
         $this->billingAddress = $billingAddress;
     }
 
-    public function getPrefix()
+    public function getPrefix(): ?string
     {
         if ($this->billingAddress->getSalutation()) {
             return $this->billingAddress->getSalutation()->getDisplayName();
@@ -30,51 +32,55 @@ class Customer implements \Netzkollektiv\EasyCreditApi\Rest\CustomerInterface
         }
     }
 
-    public function getFirstname()
+    public function getFirstname(): string
     {
         return $this->customer->getFirstName();
     }
 
-    public function getLastname()
+    public function getLastname(): string
     {
         return $this->customer->getLastName();
     }
 
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->customer->getEmail();
     }
 
-    public function getDob()
+    public function getDob(): ?string
     {
         if ($this->customer->getBirthday() instanceof \DateTimeImmutable) {
             return $this->customer->getBirthday()->format('Y-m-d');
         }
+
+        return null;
     }
 
-    public function getCompany()
+    public function getCompany(): ?string
     {
         return $this->customer->getCompany();
     }
 
-    public function getTelephone()
+    public function getTelephone(): string
     {
         return '';
     }
 
-    public function isLoggedIn()
+    public function isLoggedIn(): bool
     {
         return !$this->customer->getGuest();
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): ?string
     {
         if ($this->customer->getCreatedAt() instanceof \DateTimeImmutable) {
             return $this->customer->getCreatedAt()->format('Y-m-d');
         }
+
+        return null;
     }
 
-    public function getOrderCount()
+    public function getOrderCount(): int
     {
         return $this->customer->getOrderCount();
     }

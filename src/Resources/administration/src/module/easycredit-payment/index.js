@@ -8,7 +8,7 @@ const { Module } = Shopware;
 
 Module.register('easycredit-payment', {
     type: 'plugin',
-    name: 'NetzkollektivEasyCredit',
+    name: 'EasyCreditRatenkauf',
     description: 'easycredit-payment.general.descriptionTextModule',
     version: '1.0.0',
     targetVersion: '1.0.0',

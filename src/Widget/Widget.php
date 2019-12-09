@@ -11,6 +11,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class Widget implements EventSubscriberInterface
 {
+    private $settings;
+
+    private $cartService;
+
     public function __construct(
         SettingsServiceInterface $settingsService,
         CartService $cartService

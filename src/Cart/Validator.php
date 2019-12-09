@@ -3,6 +3,7 @@
 namespace Netzkollektiv\EasyCredit\Cart;
 
 use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
+use Netzkollektiv\EasyCredit\Api\QuoteInvalidException;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
@@ -13,6 +14,14 @@ use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class Validator implements CartValidatorInterface
 {
+    protected $checkoutFactory;
+
+    protected $quoteHelper;
+
+    protected $paymentHelper;
+
+    protected $storage;
+
     public function __construct(
         CheckoutFactory $checkoutFactory,
         QuoteHelper $quoteHelper,
@@ -30,18 +39,19 @@ class Validator implements CartValidatorInterface
         ErrorCollection $errors,
         SalesChannelContext $salesChannelContext
     ): void {
-        if (count($this->storage->all()) === 0) {
-            //return;
-        }
-
         $checkout = $this->checkoutFactory->create(
             $salesChannelContext
         );
-        $quote = $this->quoteHelper->getQuote($salesChannelContext, $cart);
 
-        if (!$quote
-            || !$this->paymentHelper->isSelected($salesChannelContext)
-        ) {
+        try {
+            $quote = $this->quoteHelper->getQuote($salesChannelContext, $cart);
+        } catch (QuoteInvalidException $e) {
+            $this->storage->clear();
+
+            return;
+        }
+
+        if (!$this->paymentHelper->isSelected($salesChannelContext)) {
             $this->storage->clear();
 
             return;

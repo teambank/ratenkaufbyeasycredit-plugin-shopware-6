@@ -3,10 +3,10 @@
 use PackageVersions\Versions;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\StaticKernelPluginLoader;
 use Shopware\Development\Kernel;
-use Swag\PayPal\SwagPayPal;
+use Netzkollektiv\EasyCredit\EasyCreditRatenkauf;
 use Symfony\Component\Dotenv\Dotenv;
 
-$classLoader = require __DIR__ . '/../../../../vendor/autoload.php';
+$classLoader = require_once __DIR__ . '/../../../../vendor/autoload.php';
 (new Dotenv(true))->load(__DIR__ . '/../../../../.env');
 
 $shopwareVersion = Versions::getVersion('shopware/platform');
@@ -16,7 +16,7 @@ $composerJson = json_decode((string) file_get_contents($pluginRootPath . '/compo
 
 $swagPayPal = [
     'autoload' => $composerJson['autoload'],
-    'baseClass' => SwagPayPal::class,
+    'baseClass' => EasyCreditRatenkauf::class,
     'managedByComposer' => false,
     'active' => true,
     'path' => $pluginRootPath,

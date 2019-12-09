@@ -4,18 +4,12 @@ namespace Netzkollektiv\EasyCredit\Setting\Service;
 
 use Netzkollektiv\EasyCredit\Setting\SettingStruct;
 use Netzkollektiv\EasyCredit\Setting\SettingStructValidator;
-use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
-use Shopware\Core\Framework\Uuid\Exception\InvalidUuidException;
-use Shopware\Core\System\SystemConfig\Exception\InvalidDomainException;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 class SettingsService implements SettingsServiceInterface
 {
-    public const SYSTEM_CONFIG_DOMAIN = 'NetzkollektivEasyCredit.settings.';
+    public const SYSTEM_CONFIG_DOMAIN = 'EasyCreditRatenkauf.settings.';
 
-    /**
-     * @var SystemConfigService
-     */
     private $systemConfigService;
 
     public function __construct(SystemConfigService $systemConfigService)
@@ -23,12 +17,6 @@ class SettingsService implements SettingsServiceInterface
         $this->systemConfigService = $systemConfigService;
     }
 
-    /**
-     * @throws InvalidDomainException
-     * @throws PayPalSettingsInvalidException
-     * @throws InconsistentCriteriaIdsException
-     * @throws InvalidUuidException
-     */
     public function getSettings(?string $salesChannelId = null): SettingStruct
     {
         $values = $this->systemConfigService->getDomain(
@@ -39,7 +27,6 @@ class SettingsService implements SettingsServiceInterface
 
         $propertyValuePairs = [];
 
-        /** @var string $key */
         foreach ($values as $key => $value) {
             $property = (string) mb_substr($key, \mb_strlen(self::SYSTEM_CONFIG_DOMAIN));
             if ($property === '') {

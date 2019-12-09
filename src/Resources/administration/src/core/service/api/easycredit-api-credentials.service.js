@@ -1,6 +1,6 @@
 const ApiService = Shopware.Classes.ApiService;
 
-class NetzkollektivEasyCreditApiCredentialsService extends ApiService {
+class EasyCreditRatenkaufApiCredentialsService extends ApiService {
     constructor(httpClient, loginService, apiEndpoint = 'easycredit') {
         super(httpClient, loginService, apiEndpoint);
     }
@@ -22,4 +22,4 @@ class NetzkollektivEasyCreditApiCredentialsService extends ApiService {
     }
 }
 
-export default NetzkollektivEasyCreditApiCredentialsService;
+export default EasyCreditRatenkaufApiCredentialsService;

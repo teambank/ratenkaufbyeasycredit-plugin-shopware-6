@@ -3,16 +3,17 @@
 namespace Netzkollektiv\EasyCredit\Helper;
 
 use Netzkollektiv\EasyCredit\Api;
+use Netzkollektiv\EasyCreditApi\Rest\QuoteInterface;
+use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
-use Shopware\Core\PlatformRequest;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class Quote
 {
-    /**
-     * @var EntityRepositoryInterface
-     */
     private $requestStack;
+
+    private $cartService;
 
     public function __construct(
         RequestStack $requestStack,
@@ -22,30 +23,20 @@ class Quote
         $this->cartService = $cartService;
     }
 
-    public function getQuote($context = null, $cart = null)
+    public function getQuote(SalesChannelContext $salesChannelContext, $cart = null): QuoteInterface
     {
-        if ($context === null) {
-            $context = $this->getSalesChannelContext();
-        }
         if ($cart === null) {
-            $cart = $this->cartService->getCart($context->getToken(), $context);
+            $cart = $this->cartService->getCart($salesChannelContext->getToken(), $salesChannelContext);
         }
-
-        try {
+        if ($cart instanceof Cart) {
             return new Api\Quote(
                 $cart,
-                $context
+                $salesChannelContext
             );
-        } catch (\Exception $e) {
-            return null;
         }
-    }
 
-    protected function getSalesChannelContext()
-    {
-        return $this->requestStack
-            ->getMasterRequest()
-            ->attributes
-            ->get(PlatformRequest::ATTRIBUTE_SALES_CHANNEL_CONTEXT_OBJECT);
+        return new Api\Order(
+                $cart
+            );
     }
 }

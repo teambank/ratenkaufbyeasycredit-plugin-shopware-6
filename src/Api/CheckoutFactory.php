@@ -11,6 +11,12 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class CheckoutFactory
 {
+    protected $settings;
+
+    protected $logger;
+
+    protected $session;
+
     public function __construct(
         SettingsServiceInterface $settingsService,
         LoggerInterface $logger,
@@ -21,7 +27,7 @@ class CheckoutFactory
         $this->session = $session;
     }
 
-    public function create($salesChannelContext = null)
+    public function create($salesChannelContext = null): Checkout
     {
         $salesChannelId = null;
         if ($salesChannelContext) {

@@ -17,8 +17,15 @@
     <issueHandlers>
         <UnusedMethodCall>
             <errorLevel type="suppress">
-            </errorLevel>
+		<file name="src/Setting/SettingStructValidator.php"/>
+	    </errorLevel>
         </UnusedMethodCall>
+
+	<UndefinedInterfaceMethod>
+            <errorLevel type="suppress">
+                <file name="src/Api/Logger.php"/>
+	    </errorLevel>
+	</UndefinedInterfaceMethod>
 
         <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
 

@@ -2,7 +2,7 @@ import Plugin from 'src/script/plugin-system/plugin.class';
 import EasyCreditWidget from '../easycredit-widget.js';
 import PseudoModalUtil from 'src/script/utility/modal-extension/pseudo-modal.util';
 
-export default class NetzkollektivEasyCreditWidget extends Plugin {
+export default class EasyCreditRatenkaufWidget extends Plugin {
     init() {        
         this.initWidget();
     }

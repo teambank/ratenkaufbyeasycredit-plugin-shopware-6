@@ -16,12 +16,12 @@ class WidgetData extends Struct
      */
     protected $widgetSelector;
 
-    public function getApiKey()
+    public function getApiKey(): string
     {
         return $this->apiKey;
     }
 
-    public function getWidgetSelector()
+    public function getWidgetSelector(): string
     {
         return $this->widgetSelector;
     }

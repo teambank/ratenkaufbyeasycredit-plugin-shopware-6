@@ -27,13 +27,13 @@
                 "cardTitle": "Marketing: Model Calculation Widget",
                 "widgetEnabled": {
                     "label": "Show widget",
-                    "helpText": "If this option is active, the widget will be shown using the selector below."
+                    "tooltipText": "If this option is active, the widget will be shown using the selector below."
                 },
                 "widgetSelectorProductDetail": {
                     "label": "CSS selector for product detail page",
                     "tooltipText": ""
                 },
-                "widgetSelectorProductDetail": {
+                "widgetSelectorCart": {
                     "label": "CSS selector for cart",
                     "tooltipText": ""
                 }
@@ -41,7 +41,7 @@
             "titleSaveSuccess": "ratenkauf by easyCredit settings",
             "titleTestSuccess": "API credentials",
             "titleTestError": "API credentials error",
-            "titleSaveError": "ratenkauf by easyCredit Einstellungen Error",
+            "titleSaveError": "ratenkauf by easyCredit settings error",
             "messageSaveSuccess": "The ratenkauf by easyCredit settings have been saved successfully.",
             "messageTestSuccess": "The API credentials have been successfully validated.",
             "messageTestError": "The API credentials could not been validated."

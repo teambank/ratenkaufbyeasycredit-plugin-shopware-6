@@ -4,7 +4,7 @@ namespace Netzkollektiv\EasyCredit\Api\Quote;
 
 class ShippingAddress extends Address implements \Netzkollektiv\EasyCreditApi\Rest\ShippingAddressInterface
 {
-    public function getIsPackstation()
+    public function getIsPackstation(): bool
     {
         $street = [
             $this->address->getStreet(),
@@ -12,6 +12,6 @@ class ShippingAddress extends Address implements \Netzkollektiv\EasyCreditApi\Re
             $this->address->getAdditionalAddressLine2(),
         ];
 
-        return stripos(implode(' ', $street), 'packstation');
+        return (bool) stripos(implode(' ', $street), 'packstation');
     }
 }

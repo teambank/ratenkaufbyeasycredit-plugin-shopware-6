@@ -4,7 +4,7 @@ const { Component } = Shopware;
 
 Component.register('easycredit-behavior', {
     template,
-    name: 'NetzkollektivEasycreditBehavior',
+    name: 'EasyCreditRatenkaufBehavior',
 
     props: {
         actualConfigData: {

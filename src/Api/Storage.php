@@ -13,7 +13,7 @@ class Storage implements \Netzkollektiv\EasyCreditApi\StorageInterface
         $this->session = $session;
     }
 
-    public function set($key, $value)
+    public function set($key, $value): self
     {
         file_put_contents('/tmp/bla', 'set:' . $key . ' => ' . $value . PHP_EOL, FILE_APPEND);
         $this->session->set('easycredit_' . $key, $value);
@@ -28,7 +28,7 @@ class Storage implements \Netzkollektiv\EasyCreditApi\StorageInterface
         return $this->session->get('easycredit_' . $key);
     }
 
-    public function all()
+    public function all(): array
     {
         $session = [];
         foreach ($this->session as $key => $value) {
@@ -40,10 +40,10 @@ class Storage implements \Netzkollektiv\EasyCreditApi\StorageInterface
         return $session;
     }
 
-    public function clear()
+    public function clear(): self
     {
         foreach ($this->all() as $key => $value) {
-            file_put_contents('/tmp/bla', 'clear:' . $key . PHP_EOL, FILE_APPEND);
+            file_put_contents('/tmp/bla', 'clear:' . $key . ':' . $value . PHP_EOL, FILE_APPEND);
             $this->session->remove($key);
         }
 

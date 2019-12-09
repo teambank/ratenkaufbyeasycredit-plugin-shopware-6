@@ -7,6 +7,7 @@ use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Controller\StorefrontController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -14,14 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class PaymentController extends StorefrontController
 {
-    /**
-     * @var CheckoutFactory
-     */
     private $checkoutFactory;
 
-    /**
-     * @var Quote
-     */
     private $quoteHelper;
 
     public function __construct(
@@ -35,7 +30,7 @@ class PaymentController extends StorefrontController
     /**
      * @Route("/easycredit/cancel", name="frontend.easycredit.cancel", options={"seo"="false"}, methods={"GET"})
      */
-    public function cancel(SalesChannelContext $salesChannelContext)
+    public function cancel(SalesChannelContext $salesChannelContext): RedirectResponse
     {
         return $this->redirectToRoute('frontend.checkout.confirm.page');
     }
@@ -43,13 +38,12 @@ class PaymentController extends StorefrontController
     /**
      * @Route("/easycredit/return", name="frontend.easycredit.return", options={"seo"="false"}, methods={"GET"})
      */
-    public function return(SalesChannelContext $salesChannelContext)
+    public function return(SalesChannelContext $salesChannelContext): RedirectResponse
     {
         $checkout = $this->checkoutFactory->create($salesChannelContext);
 
         if (!$checkout->isInitialized()) {
             throw new \Exception(
-                $transactionId,
                 'Payment was not initialized.'
             );
         }
@@ -67,12 +61,12 @@ class PaymentController extends StorefrontController
         try {
             $approved = $checkout->isApproved();
             if (!$approved) {
-                throw new \Exception($this->getPlugin()->getLabel() . ' wurde nicht genehmigt.');
+                throw new \Exception('Ratenkauf wurde nicht genehmigt.');
             }
 
             $checkout->loadFinancingInformation();
         } catch (\Exception $e) {
-            throw new \Exception($e->getException());
+            throw new \Exception($e->getMessage());
         }
 
         return $this->redirectToRoute('frontend.checkout.confirm.page');
@@ -81,7 +75,7 @@ class PaymentController extends StorefrontController
     /**
      * @Route("/easycredit/reject", name="frontend.easycredit.reject", options={"seo"="false"}, methods={"GET"})
      */
-    public function reject(SalesChannelContext $salesChannelContext)
+    public function reject(SalesChannelContext $salesChannelContext): RedirectResponse
     {
         return $this->redirectToRoute('frontend.checkout.confirm.page');
     }

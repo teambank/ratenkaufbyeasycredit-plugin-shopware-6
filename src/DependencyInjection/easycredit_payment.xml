@@ -67,12 +67,13 @@
             <argument type="service" id="router"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Payment"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
 
             <tag name="kernel.event_subscriber"/>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Payment\Checkout">
-            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Payment"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\PaymentIdProvider"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
             <argument type="service" id="cache.object"/>
@@ -119,5 +120,16 @@
         <service id="Netzkollektiv\EasyCredit\Resources\storefront\snippets\en_GB\SnippetFile_en_GB">
             <tag name="shopware.snippet.file"/>
         </service>
+
+        <service id="Netzkollektiv\EasyCredit\Util\Lifecycle\ActivateDeactivate">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\PaymentIdProvider"/>
+            <argument type="service" id="payment_method.repository"/>
+            <argument type="service" id="custom_field.repository"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Helper\PaymentIdProvider">
+            <argument type="service" id="payment_method.repository"/>
+        </service>
+
     </services>
 </container>

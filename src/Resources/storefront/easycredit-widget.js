@@ -6,12 +6,11 @@ export default class EasyCreditWidget {
         this.element = element;
 
         const defaults = this.getDefaults();
-        opts = {... defaults, ... opts};
-        this.opts = opts;
+        this.opts = {... defaults, ... opts};
 
         this.validate();
 
-        const uri  = this._getApiUri(opts);
+        const uri  = this._getApiUri(this.opts);
         this.getMinimumInstallment(uri)
             .then(this.prepareWidgetData)
             .then(this.renderWidget)

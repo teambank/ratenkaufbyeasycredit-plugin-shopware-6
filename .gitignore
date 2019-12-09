@@ -4,3 +4,5 @@ coverage/
 vendor/
 phpstan.neon
 *hot-update.js
+src/Resources/public/administration/css/easy-credit-ratenkauf.css
+src/Resources/public/administration/js/easy-credit-ratenkauf.js

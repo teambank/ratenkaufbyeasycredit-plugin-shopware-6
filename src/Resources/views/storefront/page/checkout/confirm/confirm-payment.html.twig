@@ -1,5 +1,20 @@
 {% sw_extends '@Storefront/page/checkout/confirm/confirm-payment.html.twig' %}
 
+{% block page_checkout_confirm_errors %}
+    miiiiiiiii
+    {# @var easycreditData #}
+    {% set easycreditData = page.extensions.easycredit %}
+
+    {{ easycreditData.error }}
+
+    {% if easycreditData.error %}
+        {% sw_include '@Storefront/utilities/alert.html.twig' with {
+            type: "danger",
+            content: easycreditData.error
+        } %}
+    {% endif %}
+{% endblock %}
+
 {% block page_checkout_confirm_payment_current_text %}
 
     {# @var easycreditData #}

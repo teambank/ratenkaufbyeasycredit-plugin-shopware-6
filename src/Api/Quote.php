@@ -3,89 +3,118 @@
 namespace Netzkollektiv\EasyCredit\Api;
 
 use Shopware\Core\Checkout\Cart\Cart;
+use Shopware\Core\Checkout\Customer\CustomerEntity;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
 {
+    /**
+     * @var Cart
+     */
+    protected $cart;
+
+    /**
+     * @var SalesChannelContext
+     */
+    protected $context;
+
+    /**
+     * @var CustomerEntity
+     */
+    protected $customer;
+
     public function __construct(
-        object $cart,
-        $context
+        Cart $cart,
+        SalesChannelContext $context
     ) {
+        if ($cart->getDeliveries()->getAddresses()->first() === null) {
+            throw new QuoteInvalidException();
+        }
+        $customer = $context->getCustomer();
+        if ($customer === null) {
+            throw new QuoteInvalidException();
+        }
+
         $this->cart = $cart;
         $this->context = $context;
+        $this->customer = $customer;
+    }
 
-        if ($this->cart instanceof Cart
-            && !$this->cart->getDeliveries()->getAddresses()->first()
-        ) {
-            throw new QuoteInvalidException();
+    public function getId(): ?string
+    {
+        if ($this->cart instanceof Cart) {
+            return $this->cart->getToken();
         }
     }
 
-    public function getId()
+    public function getShippingMethod(): ?string
     {
-        return $this->cart->getToken();
+        $delivery = $this->cart->getDeliveries()->first();
+        if ($delivery === null) {
+            return '';
+        }
+
+        return $delivery->getShippingMethod()->getName();
     }
 
-    public function getShippingMethod()
-    {
-        return $this->cart->getDeliveries()->first()->getShippingMethod()->getName();
-    }
-
-    public function getGrandTotal()
+    public function getGrandTotal(): float
     {
         return $this->cart->getPrice()->getTotalPrice();
     }
 
-    public function getBillingAddress()
+    public function getBillingAddress(): Quote\Address
     {
-        if ($this->cart instanceof Cart) {
-            return new Quote\Address(
-                $this->context->getCustomer()->getActiveBillingAddress()
-            );
+        if ($this->customer->getActiveBillingAddress() === null) {
+            throw new QuoteInvalidException();
         }
+
+        return new Quote\Address(
+            $this->customer->getActiveBillingAddress()
+        );
     }
 
-    public function getShippingAddress()
+    public function getShippingAddress(): Quote\ShippingAddress
     {
-        $address = $this->cart->getDeliveries()->first();
-        if ($this->cart instanceof Cart) {
-            $address = $this->cart->getDeliveries()->getAddresses()->first();
-        } else {
-            $address = $this->cart->getDeliveries()->first()->getShippingOrderAddress();
+        $address = $this->cart->getDeliveries()->getAddresses()->first();
+        if ($address === null) {
+            throw new QuoteInvalidException();
         }
 
         return new Quote\ShippingAddress($address);
     }
 
-    public function getCustomer()
+    public function getCustomer(): Quote\Customer
     {
-        if ($this->cart instanceof Cart) {
-            return new Quote\Customer(
-                $this->context->getCustomer(),
-                $this->context->getCustomer()->getActiveBillingAddress()
-            );
+        if ($this->customer->getActiveBillingAddress() === null) {
+            throw new QuoteInvalidException();
         }
+
+        return new Quote\Customer(
+            $this->customer,
+            $this->customer->getActiveBillingAddress()
+        );
     }
 
-    public function getItems()
+    public function getItems(): array
     {
         return $this->_getItems(
             $this->cart->getLineItems()->getElements()
         );
     }
 
-    public function getSystem()
+    public function getSystem(): System
     {
         return new System();
     }
 
-    protected function _getItems($items)
+    protected function _getItems($items): array
     {
         $_items = [];
         foreach ($items as $item) {
             $quoteItem = new Quote\Item(
                 $item
             );
-            if ($quoteItem->getPrice() === 0) {
+            if ($quoteItem->getPrice() <= 0) {
                 continue;
             }
             $_items[] = $quoteItem;

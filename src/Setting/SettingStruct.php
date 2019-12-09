@@ -24,17 +24,17 @@ class SettingStruct extends Struct
     /**
      * @var bool
      */
-    protected $widgetEnabled;
+    protected $widgetEnabled = true;
 
     /**
      * @var string|null
      */
-    protected $widgetSelectorProductDetail;
+    protected $widgetSelectorProductDetail = '.product-detail-buy .product-detail-tax-container';
 
     /**
      * @var string|null
      */
-    protected $widgetSelectorCart;
+    protected $widgetSelectorCart = '.checkout-aside-action';
 
     public function getWebshopId(): string
     {
@@ -58,7 +58,7 @@ class SettingStruct extends Struct
 
     public function getDebug(): bool
     {
-        return $this->debug;
+        return (bool) $this->debug;
     }
 
     public function setDebug(bool $debug): void
@@ -68,7 +68,7 @@ class SettingStruct extends Struct
 
     public function getWidgetEnabled(): bool
     {
-        return $this->widgetEnabled;
+        return (bool) $this->widgetEnabled;
     }
 
     public function setWidgetEnabled(bool $widgetEnabled): void

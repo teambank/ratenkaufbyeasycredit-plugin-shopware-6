@@ -2,38 +2,44 @@
 
 namespace Netzkollektiv\EasyCredit\Api;
 
+use Monolog\Logger as Monolog;
 use Netzkollektiv\EasyCredit\Setting\SettingStruct;
-use Psr\Log\LoggerInterface;
 
 class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface
 {
+    /**
+     * @var Monolog
+     */
     protected $_logger;
 
+    /**
+     * @var bool
+     */
     protected $debug = false;
 
     public function __construct(
-        LoggerInterface $logger,
+        Monolog $logger,
         SettingStruct $settings
     ) {
         $this->_logger = $logger;
 
-        //if ($settings->getDebug()) {
-        $this->debug = true;
-        $this->allowLineBreaks(true);
-        //}
+        if ($settings->getDebug()) {
+            $this->debug = true;
+            $this->allowLineBreaks(true);
+        }
     }
 
-    public function log($msg)
+    public function log($msg): self
     {
         $this->logInfo($msg);
 
         return $this;
     }
 
-    public function logDebug($msg)
+    public function logDebug($msg): self
     {
         if (!$this->debug) {
-            return;
+            return $this;
         }
 
         $this->_logger->info(
@@ -43,10 +49,10 @@ class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface
         return $this;
     }
 
-    public function logInfo($msg)
+    public function logInfo($msg): self
     {
         if (!$this->debug) {
-            return;
+            return $this;
         }
 
         $this->_logger->info(
@@ -56,7 +62,7 @@ class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface
         return $this;
     }
 
-    public function logWarn($msg)
+    public function logWarn($msg): self
     {
         $this->_logger->warning(
             $this->_format($msg)
@@ -65,7 +71,7 @@ class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface
         return $this;
     }
 
-    public function logError($msg)
+    public function logError($msg): self
     {
         $this->_logger->error(
             $this->_format($msg)
@@ -74,12 +80,11 @@ class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface
         return $this;
     }
 
-    public function _format($msg)
+    public function _format($msg): string
     {
         if (is_array($msg) || is_object($msg)) {
             $msg = print_r($msg, true);
         }
-        \mydebug($msg);
 
         return $msg;
     }

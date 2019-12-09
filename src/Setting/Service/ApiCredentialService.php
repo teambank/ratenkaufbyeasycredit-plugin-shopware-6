@@ -3,10 +3,12 @@
 namespace Netzkollektiv\EasyCredit\Setting\Service;
 
 use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
-use Symfony\Component\HttpFoundation\Response;
+use Netzkollektiv\EasyCredit\Setting\Exception\InvalidApiCredentialsException;
 
 class ApiCredentialService implements ApiCredentialServiceInterface
 {
+    private $checkoutFactory;
+
     public function __construct(
         CheckoutFactory $checkoutFactory
     ) {
@@ -22,16 +24,12 @@ class ApiCredentialService implements ApiCredentialServiceInterface
             throw new InvalidApiCredentialsException();
         }
 
-        try {
-            $checkout = $this->checkoutFactory->create();
+        $checkout = $this->checkoutFactory->create();
 
-            return $checkout->verifyCredentials($webshopId, $apiPassword);
-        } catch (ClientException $ce) {
-            if ($ce->getCode() === Response::HTTP_UNAUTHORIZED) {
-                throw new InvalidApiCredentialsException();
-            }
-
-            throw $ce;
+        if (!$checkout->verifyCredentials($webshopId, $apiPassword)) {
+            throw new InvalidApiCredentialsException();
         }
+
+        return true;
     }
 }

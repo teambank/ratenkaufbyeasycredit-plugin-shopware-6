@@ -6,7 +6,7 @@ use Netzkollektiv\EasyCredit\Setting\SettingStruct;
 
 class Config extends \Netzkollektiv\EasyCreditApi\Config
 {
-    protected $config;
+    protected $settings;
 
     public function __construct(
         SettingStruct $settings
@@ -14,7 +14,7 @@ class Config extends \Netzkollektiv\EasyCreditApi\Config
         $this->settings = $settings;
     }
 
-    public function getWebshopId()
+    public function getWebshopId(): string
     {
         $webshopId = $this->settings->getWebshopId();
 
@@ -25,7 +25,7 @@ class Config extends \Netzkollektiv\EasyCreditApi\Config
         return $webshopId;
     }
 
-    public function getWebshopToken()
+    public function getWebshopToken(): string
     {
         $webshopId = $this->settings->getApiPassword();
 

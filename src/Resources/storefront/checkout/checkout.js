@@ -1,6 +1,6 @@
 import Plugin from 'src/script/plugin-system/plugin.class';
 
-export default class NetzkollektivEasyCreditCheckout extends Plugin {
+export default class EasyCreditRatenkaufCheckout extends Plugin {
     init() {
         console.log('hello checkout');
 

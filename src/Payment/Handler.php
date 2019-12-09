@@ -5,7 +5,7 @@ namespace Netzkollektiv\EasyCredit\Payment;
 use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
-use Netzkollektiv\EasyCredit\NetzkollektivEasyCredit;
+use Netzkollektiv\EasyCredit\Util\Lifecycle\ActivateDeactivate;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
@@ -17,10 +17,15 @@ use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class Handler implements SynchronousPaymentHandlerInterface
 {
-    /**
-     * @var OrderTransactionStateHandler
-     */
     private $transactionStateHandler;
+
+    private $orderTransactionRepo;
+
+    private $checkoutFactory;
+
+    private $quoteHelper;
+
+    private $storage;
 
     public function __construct(
         OrderTransactionStateHandler $transactionStateHandler,
@@ -81,7 +86,7 @@ class Handler implements SynchronousPaymentHandlerInterface
         $data = [
             'id' => $transaction->getOrderTransaction()->getId(),
             'customFields' => [
-                NetzkollektivEasyCredit::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_ID => $this->storage->get('transaction_id'),
+                ActivateDeactivate::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_ID => $this->storage->get('transaction_id'),
             ],
         ];
         $this->orderTransactionRepo->update([$data], $context);

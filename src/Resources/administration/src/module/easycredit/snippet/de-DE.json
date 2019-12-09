@@ -27,7 +27,7 @@
                 "cardTitle": "Marketing: Modellrechner-Widget",
                 "widgetEnabled": {
                     "label": "Widget anzeigen",
-                    "helpText": "Wenn diese Option aktiv ist, wird das ratenkauf by easyCredit unter den angegebenen Selektoren angezeigt."
+                    "tooltipText": "Wenn diese Option aktiv ist, wird das ratenkauf by easyCredit unter den angegebenen Selektoren angezeigt."
                 },
                 "widgetSelectorProductDetail": {
                     "label": "CSS-Selektor für Detailseite",

@@ -14,7 +14,7 @@
     </php>
 
     <testsuites>
-        <testsuite name="SwagPayPal Testsuite">
+        <testsuite name="EasyCreditRatenkauf Testsuite">
             <directory>tests</directory>
             <exclude>./tests/Checkout/Plus</exclude>
         </testsuite>
@@ -32,7 +32,7 @@
                 <directory suffix="Exception.php">./</directory>
                 <directory suffix="PlusHandler.php">./src/Payment/Handler</directory>
 
-                <file>src/SwagPayPal.php</file>
+                <file>src/EasyCreditRatenkauf.php</file>
             </exclude>
         </whitelist>
     </filter>

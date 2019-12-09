@@ -18,6 +18,8 @@ use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class Collector implements CartDataCollectorInterface
 {
+    protected $storage;
+
     public function __construct(
         Storage $storage
     ) {
@@ -37,16 +39,15 @@ class Collector implements CartDataCollectorInterface
             return;
         }
 
-        /* @var LineItem $interestItem */
         $data->set(Processor::DATA_KEY, new LineItemCollection([
             $this->buildInterestLineItem($price),
         ]));
     }
 
-    public function getInterestPrice()
+    public function getInterestPrice(): ?CalculatedPrice
     {
         if (!$this->storage->get('interest_amount')) {
-            return;
+            return null;
         }
 
         return new CalculatedPrice(

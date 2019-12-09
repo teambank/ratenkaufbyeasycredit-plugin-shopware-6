@@ -12,7 +12,7 @@ export default {
         Mixin.getByName('notification')
     ],
 
-    inject: ['NetzkollektivEasyCreditApiCredentialsService'],
+    inject: ['EasyCreditRatenkaufApiCredentialsService'],
 
     data() {
         return {
@@ -41,13 +41,13 @@ export default {
                 const salesChannelId = this.$refs.configComponent.selectedSalesChannelId;
 
                 if (salesChannelId === null) {
-                    this.webshopIdFilled = !!this.config['NetzkollektivEasyCredit.settings.webshopId'];
-                    this.apiPasswordFilled = !!this.config['NetzkollektivEasyCredit.settings.apiPassword'];
+                    this.webshopIdFilled = !!this.config['EasyCreditRatenkauf.settings.webshopId'];
+                    this.apiPasswordFilled = !!this.config['EasyCreditRatenkauf.settings.apiPassword'];
                 } else {
-                    this.webshopIdFilled = !!this.config['NetzkollektivEasyCredit.settings.webshopId']
-                        || !!defaultConfig['NetzkollektivEasyCredit.settings.webshopId'];
-                    this.apiPasswordFilled = !!this.config['NetzkollektivEasyCredit.settings.apiPassword']
-                        || !!defaultConfig['NetzkollektivEasyCredit.settings.apiPassword'];
+                    this.webshopIdFilled = !!this.config['EasyCreditRatenkauf.settings.webshopId']
+                        || !!defaultConfig['EasyCreditRatenkauf.settings.webshopId'];
+                    this.apiPasswordFilled = !!this.config['EasyCreditRatenkauf.settings.apiPassword']
+                        || !!defaultConfig['EasyCreditRatenkauf.settings.apiPassword'];
                 }
             },
             deep: true
@@ -88,14 +88,14 @@ export default {
 
         onTest() {
             this.isTesting = true;
-            const webshopId = this.config['NetzkollektivEasyCredit.settings.webshopId'] ||
-                this.$refs.configComponent.allConfigs.null['NetzkollektivEasyCredit.settings.webshopId'];
-            const apiPassword = this.config['NetzkollektivEasyCredit.settings.apiPassword'] ||
-                this.$refs.configComponent.allConfigs.null['NetzkollektivEasyCredit.settings.apiPassword'];
-            const sandbox = this.config['NetzkollektivEasyCredit.settings.sandbox'] ||
-                this.$refs.configComponent.allConfigs.null['NetzkollektivEasyCredit.settings.sandbox'];
+            const webshopId = this.config['EasyCreditRatenkauf.settings.webshopId'] ||
+                this.$refs.configComponent.allConfigs.null['EasyCreditRatenkauf.settings.webshopId'];
+            const apiPassword = this.config['EasyCreditRatenkauf.settings.apiPassword'] ||
+                this.$refs.configComponent.allConfigs.null['EasyCreditRatenkauf.settings.apiPassword'];
+            const sandbox = this.config['EasyCreditRatenkauf.settings.sandbox'] ||
+                this.$refs.configComponent.allConfigs.null['EasyCreditRatenkauf.settings.sandbox'];
 
-            this.NetzkollektivEasyCreditApiCredentialsService.validateApiCredentials(
+            this.EasyCreditRatenkaufApiCredentialsService.validateApiCredentials(
                 webshopId,
                 apiPassword
             ).then((response) => {
@@ -113,7 +113,7 @@ export default {
                     });
                     message += '</li>';
                     this.createNotificationError({
-                        title: this.$tc('easycredit.settingForm.titleError'),
+                        title: this.$tc('easycredit.settingForm.titleSaveError'),
                         message: message
                     });
                     this.isTesting = false;

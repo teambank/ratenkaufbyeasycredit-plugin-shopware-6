@@ -1,18 +1,18 @@
-import NetzkollektivEasyCreditApiCredentialsService
+import EasyCreditRatenkaufApiCredentialsService
     from '../../src/core/service/api/easycredit-api-credentials.service';
-import NetzkollektivEasyCreditPaymentService
+import EasyCreditRatenkaufPaymentService
     from '../../src/core/service/api/easycredit-payment.service';
 
 const { Application } = Shopware;
 
-Application.addServiceProvider('NetzkollektivEasyCreditApiCredentialsService', (container) => {
+Application.addServiceProvider('EasyCreditRatenkaufApiCredentialsService', (container) => {
     const initContainer = Application.getContainer('init');
 
-    return new NetzkollektivEasyCreditApiCredentialsService(initContainer.httpClient, container.loginService);
+    return new EasyCreditRatenkaufApiCredentialsService(initContainer.httpClient, container.loginService);
 });
 
-Application.addServiceProvider('NetzkollektivEasyCreditPaymentService', (container) => {
+Application.addServiceProvider('EasyCreditRatenkaufPaymentService', (container) => {
     const initContainer = Application.getContainer('init');
 
-    return new NetzkollektivEasyCreditPaymentService(initContainer.httpClient, container.loginService);
+    return new EasyCreditRatenkaufPaymentService(initContainer.httpClient, container.loginService);
 });

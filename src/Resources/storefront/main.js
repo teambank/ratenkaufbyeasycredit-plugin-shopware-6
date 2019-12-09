@@ -1,6 +1,6 @@
-import NetzkollektivEasyCreditCheckout from './checkout/checkout';
-import NetzkollektivEasyCreditWidget from './widget/widget';
+import EasyCreditRatenkaufCheckout from './checkout/checkout';
+import EasyCreditRatenkaufWidget from './widget/widget';
 
 const PluginManager = window.PluginManager;
-PluginManager.register('NetzkollektivEasyCreditCheckout', NetzkollektivEasyCreditCheckout, '.is-ctl-checkout.is-act-confirmpage');
-PluginManager.register('NetzkollektivEasyCreditWidget', NetzkollektivEasyCreditWidget,'body');
+PluginManager.register('EasyCreditRatenkaufCheckout', EasyCreditRatenkaufCheckout, '.is-ctl-checkout.is-act-confirmpage');
+PluginManager.register('EasyCreditRatenkaufWidget', EasyCreditRatenkaufWidget,'body');
