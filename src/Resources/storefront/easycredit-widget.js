@@ -68,8 +68,6 @@ export default class EasyCreditWidget {
     renderWidget = (data) =>  {
 
         var widget = this._template(this.opts.widgetTemplate,data);
-        //this.element.insertAdjacentHTML('beforeend', widget);
-
         var widgetNode = document.createElement('div');
         widgetNode.innerHTML = widget;
         
@@ -113,10 +111,10 @@ export default class EasyCreditWidget {
 
     getDefaults() {
         return {
-            hostname: 'https://ratenkauf.easycredit.de',
+            hostname: '//ratenkauf.easycredit.de',
             endpoint: '/ratenkauf-ws/rest/v1/modellrechnung/guenstigsterRatenplan',
             iframeSrc: '/widget/app/#/ratenwunsch',
-            modal: null, //easycreditModal.init.bind(easycreditModal),
+            modal: null,
             webshopId: null,
             amount: null,
             debug: false,
@@ -186,81 +184,4 @@ export default class EasyCreditWidget {
         );
         this.opts.modal(content);
     }
-    
-    /*rkPaymentPage = function(opts) {
-        var opts = $.extend({}, defaults, opts);
-        var me = $(this);
-    
-        if ($(this).data('easycredit-amount')) {
-            opts.amount = $(this).data('easycredit-amount');
-        }
-    
-        if (isNaN(opts.amount) || opts.amount < 200 || opts.amount > 10000) {
-            if (opts.debug) {
-                console.log(opts.amount+' is not within allowed range');
-            }
-            return;
-        }
-    
-        if (opts.webshopId == null
-            || opts.webshopId == ''
-        ) {
-            throw new Error('webshopId must be set for easycredit widget');
-        }
-    
-        var uri = getApiUri(opts);
-        getMinimumInstallment(uri, function(res){
-            if (!res || res.wsMessages.messages.length > 0) {
-                return;
-            }
-    
-            var data = {
-                number_of_installments:   res.anzahlRaten,
-                amount:                   formatAmount(res.betragRate),
-                currency_symbol:          opts.currencySymbol,
-                suffix:                   opts.suffix,
-                link_text:                opts.linkText
-            };
-            data.installmentTemplate =    template(opts.installmentTemplate, data);
-    
-            var widget = $(template(opts.widgetTemplate,data));
-            $(me).append(widget);
-            widget.find('a').click(
-                _showModal.bind(this, me, opts)
-            );
-        });
-    } */
 }
-/*
-var easycreditModal = {
-    template: [
-        '<div class="easycredit-modal">',
-        '<div class="easycredit-embed-responsive"></div>',
-        '</div>'
-    ].join('\n'),
-    handleModal: function(element, content) {
-        var modal = $(this.template)
-        modal.find('.easycredit-embed-responsive').append(content).css({
-            'height': '900px',
-            'max-height':'900px'
-        });
-        $(element).append(modal);
-        modal.easycreditmodal();
-    },
-    init: function(element, content) {
-        this.handleModal(element,content);
-    }
-}
-
-$.fn.rkPaymentPage = function(opts) {
-    return this.each(function(index,element){
-        rkPaymentPage.apply(element,[opts]);
-    });
-};
-
-window.rkPlugin = {};
-window.rkPlugin.anzeige = function(componentID, options) {
-    $('#' + componentID).rkPaymentPage(options);
-};
-}));
-*/
