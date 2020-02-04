@@ -10,7 +10,6 @@
         }
     ],
     "require": {
-        "shopware/core" : "~6.1",  
         "recensus/zend-http-client" : "dev-master",
         "ratenkaufbyeasycredit/php-sdk" : "dev-master"
     },
