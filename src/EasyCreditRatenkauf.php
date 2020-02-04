@@ -7,6 +7,8 @@
 
 namespace Netzkollektiv\EasyCredit;
 
+require_once __DIR__.'/../vendor/autoload.php';
+
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
