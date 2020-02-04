@@ -4,11 +4,11 @@ namespace Netzkollektiv\EasyCredit\Util\Lifecycle;
 
 use Netzkollektiv\EasyCredit\Helper\PaymentIdProvider;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\CustomField\CustomFieldTypes;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\IdSearchResult;
+use Shopware\Core\System\CustomField\CustomFieldTypes;
 
 class ActivateDeactivate
 {
@@ -69,15 +69,13 @@ class ActivateDeactivate
 
     private function activateOrderTransactionCustomField(Context $context): void
     {
-        /** @var EntityRepositoryInterface $customFieldRepository */
-        $customFieldRepository = $this->container->get('custom_field.repository');
-        $customFieldIds = $this->getCustomFieldIds($customFieldRepository, $context);
+        $customFieldIds = $this->getCustomFieldIds($context);
 
         if ($customFieldIds->getTotal() !== 0) {
             return;
         }
 
-        $customFieldRepository->upsert(
+        $this->customFieldRepository->upsert(
             [
                 [
                     'name' => self::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_ID,
@@ -90,26 +88,23 @@ class ActivateDeactivate
 
     private function deactivateOrderTransactionCustomField(Context $context): void
     {
-        /** @var EntityRepositoryInterface $customFieldRepository */
-        $customFieldRepository = $this->container->get('custom_field.repository');
-        $customFieldIds = $this->getCustomFieldIds($customFieldRepository, $context);
+        $customFieldIds = $this->getCustomFieldIds($context);
 
-        if ($customFieldIds->getTotal() !== 0) {
+        if ($customFieldIds->getTotal() === 0) {
             return;
         }
 
-        $ids = [];
-        foreach ($customFieldIds->getIds() as $customFieldId) {
-            $ids[] = ['id' => $customFieldId];
-        }
-        $customFieldRepository->delete($ids, $context);
+        $ids = array_map(static function ($id) {
+            return ['id' => $id];
+        }, $customFieldIds->getIds());
+        $this->customFieldRepository->delete($ids, $context);
     }
 
-    private function getCustomFieldIds(EntityRepositoryInterface $customFieldRepository, Context $context): IdSearchResult
+    private function getCustomFieldIds(Context $context): IdSearchResult
     {
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('name', self::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_ID));
 
-        return $customFieldRepository->searchIds($criteria, $context);
+        return $this->customFieldRepository->searchIds($criteria, $context);
     }
 }

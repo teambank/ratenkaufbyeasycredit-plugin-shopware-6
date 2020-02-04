@@ -9,6 +9,7 @@
         <service id="Netzkollektiv\EasyCredit\Payment\Handler">
             <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler"/>
             <argument type="service" id="order_transaction.repository"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\OrderDataProvider"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
@@ -77,7 +78,6 @@
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
             <argument type="service" id="cache.object"/>
-            <argument>%shopware.cache.entity_cache.expiration_time%</argument>
 
             <tag name="kernel.event_subscriber"/>
         </service>
@@ -113,11 +113,11 @@
             <tag name="shopware.cart.validator"/>
         </service>
 
-        <service id="Netzkollektiv\EasyCredit\Resources\storefront\snippets\de_DE\SnippetFile_de_DE">
+        <service id="Netzkollektiv\EasyCredit\Resources\app\storefront\src\snippets\de_DE\SnippetFile_de_DE">
             <tag name="shopware.snippet.file"/>
         </service>
 
-        <service id="Netzkollektiv\EasyCredit\Resources\storefront\snippets\en_GB\SnippetFile_en_GB">
+        <service id="Netzkollektiv\EasyCredit\Resources\app\storefront\src\snippets\en_GB\SnippetFile_en_GB">
             <tag name="shopware.snippet.file"/>
         </service>
 
@@ -129,6 +129,9 @@
 
         <service id="Netzkollektiv\EasyCredit\Helper\PaymentIdProvider">
             <argument type="service" id="payment_method.repository"/>
+        </service>
+        <service id="Netzkollektiv\EasyCredit\Helper\OrderDataProvider">
+            <argument type="service" id="order.repository"/>
         </service>
 
     </services>

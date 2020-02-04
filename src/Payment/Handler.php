@@ -6,6 +6,7 @@ use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Netzkollektiv\EasyCredit\Util\Lifecycle\ActivateDeactivate;
+use Netzkollektiv\EasyCredit\Helper\OrderDataProvider;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
@@ -21,6 +22,8 @@ class Handler implements SynchronousPaymentHandlerInterface
 
     private $orderTransactionRepo;
 
+    private $orderDataProvider;
+
     private $checkoutFactory;
 
     private $quoteHelper;
@@ -30,12 +33,14 @@ class Handler implements SynchronousPaymentHandlerInterface
     public function __construct(
         OrderTransactionStateHandler $transactionStateHandler,
         EntityRepositoryInterface $orderTransactionRepo,
+        OrderDataProvider $orderDataProvider,
         CheckoutFactory $checkoutFactory,
         QuoteHelper $quoteHelper,
         Storage $storage
     ) {
         $this->transactionStateHandler = $transactionStateHandler;
         $this->orderTransactionRepo = $orderTransactionRepo;
+        $this->orderDataProvider = $orderDataProvider;
 
         $this->checkoutFactory = $checkoutFactory;
         $this->quoteHelper = $quoteHelper;
@@ -47,7 +52,10 @@ class Handler implements SynchronousPaymentHandlerInterface
         $checkout = $this->checkoutFactory->create(
             $salesChannelContext
         );
-        $quote = $this->quoteHelper->getQuote($salesChannelContext, $transaction->getOrder());
+
+        $order = $this->orderDataProvider->getOrder($transaction->getOrder(), $salesChannelContext);
+
+        $quote = $this->quoteHelper->getQuote($salesChannelContext, $order);
 
         try {
             if (!$checkout->isAmountValid($quote)
@@ -71,10 +79,13 @@ class Handler implements SynchronousPaymentHandlerInterface
                 $transaction,
                 $salesChannelContext->getContext()
             );
-        } catch (\Exception $e) {
+	} catch (\Exception $e) {
+		echo $e->getMessage().PHP_EOL;
+		echo $e->getTraceAsString().PHP_EOL;
+exit;
             throw new SyncPaymentProcessException(
                 $transaction->getOrderTransaction()->getId(),
-                'Could not complete transaction: ' . $e->getMessage()
+                'Could not complete transaction: ' . $e->getMessage().$e->getTraceAsString()
             );
         }
     }

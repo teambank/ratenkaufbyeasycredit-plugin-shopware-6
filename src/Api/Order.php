@@ -44,7 +44,7 @@ class Order implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
             || $deliveries->first() === null
             || $deliveries->first()->getShippingOrderAddress() === null
         ) {
-            throw new QuoteInvalidException();
+		    throw new QuoteInvalidException('quote invalid');
         }
 
         return new Quote\ShippingAddress(

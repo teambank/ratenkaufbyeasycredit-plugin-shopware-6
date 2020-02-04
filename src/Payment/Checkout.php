@@ -21,20 +21,16 @@ class Checkout implements EventSubscriberInterface
 
     private $cache;
 
-    private $expirationTime;
-
     public function __construct(
         PaymentIdProvider $paymentIdProvider,
         CheckoutFactory $checkoutFactory,
         Storage $storage,
-        TagAwareAdapterInterface $cache,
-        int $expirationTime
+        TagAwareAdapterInterface $cache
     ) {
         $this->paymentIdProvider = $paymentIdProvider;
         $this->checkoutFactory = $checkoutFactory;
         $this->storage = $storage;
         $this->cache = $cache;
-        $this->expirationTime = $expirationTime;
     }
 
     public static function getSubscribedEvents(): array
@@ -62,7 +58,6 @@ class Checkout implements EventSubscriberInterface
             $agreement = $checkout->getAgreement();
 
             $cacheItem->set($agreement);
-            $cacheItem->expiresAfter($this->expirationTime);
             $this->cache->save($cacheItem);
         }
 

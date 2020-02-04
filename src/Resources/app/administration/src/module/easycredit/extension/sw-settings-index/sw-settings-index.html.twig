@@ -1,0 +1,11 @@
+{% block sw_settings_content_card_slot_plugins %}
+    {% parent %}
+
+    <sw-settings-item :label="$tc('easycredit.general.mainMenuItemGeneral')"
+                      :to="{ name: 'netzkollektiv.easycredit.index' }"
+                      :backgroundEnabled="false">
+        <template #icon>
+            <img :src="'/easycreditratenkauf/static/img/plugin.png' | asset">
+        </template>
+    </sw-settings-item>
+{% endblock %}

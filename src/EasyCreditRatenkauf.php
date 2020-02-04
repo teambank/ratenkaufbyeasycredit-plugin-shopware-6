@@ -1,9 +1,12 @@
 <?php declare(strict_types=1);
 
+
+
+
+
+
 namespace Netzkollektiv\EasyCredit;
 
-use Netzkollektiv\EasyCredit\Util\Lifecycle\ActivateDeactivate;
-use Netzkollektiv\EasyCredit\Util\Lifecycle\InstallUninstall;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
@@ -12,6 +15,8 @@ use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
+use Netzkollektiv\EasyCredit\Util\Lifecycle\ActivateDeactivate;
+use Netzkollektiv\EasyCredit\Util\Lifecycle\InstallUninstall;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -65,7 +70,7 @@ class EasyCreditRatenkauf extends Plugin
             $countryRepository,
             $this->container->get(PluginIdProvider::class),
             $this->container->get(SystemConfigService::class),
-            $this->getClassName()
+            get_class($this)
         ))->install($installContext->getContext());
 
         parent::install($installContext);
@@ -100,7 +105,7 @@ class EasyCreditRatenkauf extends Plugin
             $countryRepository,
             $this->container->get(PluginIdProvider::class),
             $this->container->get(SystemConfigService::class),
-            $this->getClassName()
+            get_class($this)
         ))->uninstall($context);
 
         parent::uninstall($uninstallContext);

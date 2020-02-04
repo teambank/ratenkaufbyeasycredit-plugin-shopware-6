@@ -27,13 +27,13 @@ class CheckoutFactory
         $this->session = $session;
     }
 
-    public function create($salesChannelContext = null): Checkout
+    public function create($salesChannelContext = null, bool $validateSettings = true): Checkout
     {
         $salesChannelId = null;
         if ($salesChannelContext) {
             $salesChannelId = $salesChannelContext->getSalesChannel()->getId();
         }
-        $settings = $this->settings->getSettings($salesChannelId);
+        $settings = $this->settings->getSettings($salesChannelId, $validateSettings);
 
         $logger = new Logger(
             $this->logger,

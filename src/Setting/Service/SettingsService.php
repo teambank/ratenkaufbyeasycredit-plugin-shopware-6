@@ -17,7 +17,7 @@ class SettingsService implements SettingsServiceInterface
         $this->systemConfigService = $systemConfigService;
     }
 
-    public function getSettings(?string $salesChannelId = null): SettingStruct
+    public function getSettings(?string $salesChannelId = null, bool $validate = true): SettingStruct
     {
         $values = $this->systemConfigService->getDomain(
             self::SYSTEM_CONFIG_DOMAIN,
@@ -37,8 +37,10 @@ class SettingsService implements SettingsServiceInterface
 
         $settingsEntity = new SettingStruct();
         $settingsEntity->assign($propertyValuePairs);
-        SettingStructValidator::validate($settingsEntity);
 
+        if ($validate) {
+            SettingStructValidator::validate($settingsEntity);
+        }
         return $settingsEntity;
     }
 

@@ -67,6 +67,7 @@ class Collector implements CartDataCollectorInterface
         $interestItem->setDescription('Zinsen für Ratenzahlung');
         $interestItem->setGood(false);
         $interestItem->setRemovable(false);
+	$interestItem->setPayloadValue('productNumber','');
 
         $interestItem->setPrice($price);
         $interestItem->setReferencedId($id);

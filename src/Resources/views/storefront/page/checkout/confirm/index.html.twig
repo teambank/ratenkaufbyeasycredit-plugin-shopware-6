@@ -1,4 +1,4 @@
-{% sw_extends '@Storefront/page/checkout/confirm/index.html.twig' %}
+{% sw_extends '@Storefront/storefront/page/checkout/confirm/index.html.twig' %}
 
 {% block page_checkout_confirm_errors %}
 
@@ -6,7 +6,7 @@
     {% set easycreditData = page.extensions.easycredit %}
 
     {% if easycreditData.error %}
-        {% sw_include '@Storefront/utilities/alert.html.twig' with {
+        {% sw_include '@Storefront/storefront/utilities/alert.html.twig' with {
             type: "danger",
             content: easycreditData.error
         } %}

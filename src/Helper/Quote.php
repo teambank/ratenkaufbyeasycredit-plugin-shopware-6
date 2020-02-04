@@ -36,7 +36,7 @@ class Quote
         }
 
         return new Api\Order(
-                $cart
-            );
+            $cart
+        );
     }
 }

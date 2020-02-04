@@ -24,7 +24,7 @@ class ApiCredentialService implements ApiCredentialServiceInterface
             throw new InvalidApiCredentialsException();
         }
 
-        $checkout = $this->checkoutFactory->create();
+        $checkout = $this->checkoutFactory->create(null, false);
 
         if (!$checkout->verifyCredentials($webshopId, $apiPassword)) {
             throw new InvalidApiCredentialsException();
