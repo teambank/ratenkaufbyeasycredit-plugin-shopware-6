@@ -1,4 +1,9 @@
 <?php declare(strict_types=1);
+/*
+ * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Netzkollektiv\EasyCredit\Cart;
 
@@ -51,14 +56,14 @@ class Collector implements CartDataCollectorInterface
         }
 
         return new CalculatedPrice(
-            $this->storage->get('interest_amount'),
-            $this->storage->get('interest_amount'),
+            (float)$this->storage->get('interest_amount'),
+            (float)$this->storage->get('interest_amount'),
             new CalculatedTaxCollection(),
             new TaxRuleCollection()
         );
     }
 
-    protected function buildInterestLineItem($price): LineItem
+    protected function buildInterestLineItem(CalculatedPrice $price): LineItem
     {
         $id = 'easycredit-interest';
 
@@ -67,7 +72,7 @@ class Collector implements CartDataCollectorInterface
         $interestItem->setDescription('Zinsen für Ratenzahlung');
         $interestItem->setGood(false);
         $interestItem->setRemovable(false);
-	$interestItem->setPayloadValue('productNumber','');
+        $interestItem->setPayloadValue('productNumber', '');
 
         $interestItem->setPrice($price);
         $interestItem->setReferencedId($id);

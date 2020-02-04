@@ -1,14 +1,16 @@
 <?php declare(strict_types=1);
-
-
-
-
-
+/*
+ * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Netzkollektiv\EasyCredit;
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
+use Netzkollektiv\EasyCredit\Util\Lifecycle\ActivateDeactivate;
+use Netzkollektiv\EasyCredit\Util\Lifecycle\InstallUninstall;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
@@ -17,15 +19,12 @@ use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
-use Netzkollektiv\EasyCredit\Util\Lifecycle\ActivateDeactivate;
-use Netzkollektiv\EasyCredit\Util\Lifecycle\InstallUninstall;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 class EasyCreditRatenkauf extends Plugin
 {
-
     /**
      * @var ActivateDeactivate
      */
@@ -41,14 +40,6 @@ class EasyCreditRatenkauf extends Plugin
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/DependencyInjection/'));
         $loader->load('easycredit_payment.xml');
         $loader->load('setting.xml');
-    }
-
-    public function getViewPaths(): array
-    {
-        $viewPaths = parent::getViewPaths();
-        $viewPaths[] = 'Resources/views/storefront';
-
-        return $viewPaths;
     }
 
     public function install(InstallContext $installContext): void

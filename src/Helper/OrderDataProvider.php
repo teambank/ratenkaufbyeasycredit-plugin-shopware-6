@@ -1,13 +1,15 @@
 <?php declare(strict_types=1);
+/*
+ * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Netzkollektiv\EasyCredit\Helper;
 
-use Netzkollektiv\EasyCredit\Payment\Handler;
-use Shopware\Core\Framework\Context;
+use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
-use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class OrderDataProvider
@@ -33,7 +35,7 @@ class OrderDataProvider
         $criteria->addAssociation('deliveries.shippingOrderAddress.country');
         $criteria->addAssociation('addresses.country');
         $criteria->addAssociation('addresses.salutation');
-        
+
         return $this->orderRepository->search($criteria, $salesChannelContext->getContext())->first();
     }
 }

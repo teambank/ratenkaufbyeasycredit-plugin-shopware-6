@@ -1,12 +1,17 @@
 <?php declare(strict_types=1);
+/*
+ * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Netzkollektiv\EasyCredit\Payment;
 
 use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
 use Netzkollektiv\EasyCredit\Api\Storage;
+use Netzkollektiv\EasyCredit\Helper\OrderDataProvider;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Netzkollektiv\EasyCredit\Util\Lifecycle\ActivateDeactivate;
-use Netzkollektiv\EasyCredit\Helper\OrderDataProvider;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
@@ -79,13 +84,13 @@ class Handler implements SynchronousPaymentHandlerInterface
                 $transaction,
                 $salesChannelContext->getContext()
             );
-	} catch (\Exception $e) {
-		echo $e->getMessage().PHP_EOL;
-		echo $e->getTraceAsString().PHP_EOL;
-exit;
+        } catch (\Exception $e) {
+            echo $e->getMessage() . PHP_EOL;
+            echo $e->getTraceAsString() . PHP_EOL;
+            exit;
             throw new SyncPaymentProcessException(
                 $transaction->getOrderTransaction()->getId(),
-                'Could not complete transaction: ' . $e->getMessage().$e->getTraceAsString()
+                'Could not complete transaction: ' . $e->getMessage() . $e->getTraceAsString()
             );
         }
     }

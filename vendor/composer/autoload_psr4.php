@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Netzkollektiv\\EasyCredit\\Test\\' => array($baseDir . '/tests'),
     'Netzkollektiv\\EasyCredit\\' => array($baseDir . '/src'),
     'Netzkollektiv\\EasyCreditApi\\' => array($vendorDir . '/ratenkaufbyeasycredit/php-sdk/src'),
 );

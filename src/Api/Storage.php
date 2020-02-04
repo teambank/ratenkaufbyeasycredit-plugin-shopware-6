@@ -1,4 +1,9 @@
 <?php declare(strict_types=1);
+/*
+ * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Netzkollektiv\EasyCredit\Api;
 
@@ -13,18 +18,18 @@ class Storage implements \Netzkollektiv\EasyCreditApi\StorageInterface
         $this->session = $session;
     }
 
-    public function set($key, $value): self
+    /**
+     * @param null|string $value
+     */
+    public function set(string $key, ?string $value): self
     {
-        file_put_contents('/tmp/bla', 'set:' . $key . ' => ' . $value . PHP_EOL, FILE_APPEND);
         $this->session->set('easycredit_' . $key, $value);
 
         return $this;
     }
 
-    public function get($key)
+    public function get(string $key): string
     {
-        file_put_contents('/tmp/bla', 'get:' . $key . ' => ' . $this->session->get($key) . PHP_EOL, FILE_APPEND);
-
         return $this->session->get('easycredit_' . $key);
     }
 
@@ -32,7 +37,7 @@ class Storage implements \Netzkollektiv\EasyCreditApi\StorageInterface
     {
         $session = [];
         foreach ($this->session as $key => $value) {
-            if (strpos($key, 'easycredit') === 0) {
+            if (mb_strpos($key, 'easycredit') === 0) {
                 $session[$key] = $value;
             }
         }
@@ -42,8 +47,7 @@ class Storage implements \Netzkollektiv\EasyCreditApi\StorageInterface
 
     public function clear(): self
     {
-        foreach ($this->all() as $key => $value) {
-            file_put_contents('/tmp/bla', 'clear:' . $key . ':' . $value . PHP_EOL, FILE_APPEND);
+        foreach (array_keys($this->all()) as $key) {
             $this->session->remove($key);
         }
 

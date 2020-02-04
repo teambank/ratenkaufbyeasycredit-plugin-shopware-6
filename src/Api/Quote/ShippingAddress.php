@@ -1,4 +1,9 @@
 <?php declare(strict_types=1);
+/*
+ * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Netzkollektiv\EasyCredit\Api\Quote;
 
@@ -12,6 +17,6 @@ class ShippingAddress extends Address implements \Netzkollektiv\EasyCreditApi\Re
             $this->address->getAdditionalAddressLine2(),
         ];
 
-        return (bool) stripos(implode(' ', $street), 'packstation');
+        return (bool) mb_stripos(implode(' ', $street), 'packstation');
     }
 }

@@ -9,12 +9,17 @@ class ComposerStaticInit57b0ca617a02cb29eed43efb33ca1eab
     public static $prefixLengthsPsr4 = array (
         'N' => 
         array (
+            'Netzkollektiv\\EasyCredit\\Test\\' => 30,
             'Netzkollektiv\\EasyCredit\\' => 25,
             'Netzkollektiv\\EasyCreditApi\\' => 28,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Netzkollektiv\\EasyCredit\\Test\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/tests',
+        ),
         'Netzkollektiv\\EasyCredit\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
