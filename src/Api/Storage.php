@@ -30,7 +30,7 @@ class Storage implements \Netzkollektiv\EasyCreditApi\StorageInterface
 
     public function get($key): string
     {
-        return $this->session->get('easycredit_' . $key);
+        return (string)$this->session->get('easycredit_' . $key);
     }
 
     public function all(): array
