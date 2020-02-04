@@ -21,14 +21,14 @@ class Storage implements \Netzkollektiv\EasyCreditApi\StorageInterface
     /**
      * @param null|string $value
      */
-    public function set(string $key, ?string $value): self
+    public function set($key, $value): self
     {
         $this->session->set('easycredit_' . $key, $value);
 
         return $this;
     }
 
-    public function get(string $key): string
+    public function get($key): string
     {
         return $this->session->get('easycredit_' . $key);
     }
