@@ -20,17 +20,17 @@ class InterestError extends Error
 
     public function getId(): string
     {
-        return self::KEY;
+        return static::KEY;
     }
 
     public function getMessageKey(): string
     {
-        return self::KEY;
+        return static::KEY;
     }
 
     public function getLevel(): int
     {
-        return self::LEVEL_ERROR;
+        return static::LEVEL_ERROR;
     }
 
     public function blockOrder(): bool

@@ -85,9 +85,6 @@ class Handler implements SynchronousPaymentHandlerInterface
                 $salesChannelContext->getContext()
             );
         } catch (\Exception $e) {
-            echo $e->getMessage() . PHP_EOL;
-            echo $e->getTraceAsString() . PHP_EOL;
-            exit;
             throw new SyncPaymentProcessException(
                 $transaction->getOrderTransaction()->getId(),
                 'Could not complete transaction: ' . $e->getMessage() . $e->getTraceAsString()
