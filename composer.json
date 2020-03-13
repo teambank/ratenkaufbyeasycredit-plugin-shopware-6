@@ -21,8 +21,11 @@
     },
     "extra": {
         "shopware-plugin-class": "Netzkollektiv\\EasyCredit\\EasyCreditRatenkauf",
-        "description": "ratenkauf by easyCredit integration for Shopware 6",
-	"copyright": "(c) by NETZKOLLEKTIV GmbH",
+        "copyright": "(c) by NETZKOLLEKTIV GmbH",
+        "description": {
+            "de-DE": "ratenkauf by easyCredit für Shopware 6",
+            "en-GB": "ratenkauf by easyCredit for Shopware 6"
+        },
         "label": {
             "de-DE": "ratenkauf by easyCredit für Shopware 6",
             "en-GB": "ratenkauf by easyCredit for Shopware 6"
