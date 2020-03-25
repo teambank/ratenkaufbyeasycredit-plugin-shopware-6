@@ -7,6 +7,7 @@
 
 namespace Netzkollektiv\EasyCredit\Cart;
 
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\CartBehavior;
@@ -25,10 +26,17 @@ class Collector implements CartDataCollectorInterface
 {
     protected $storage;
 
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
     public function __construct(
-        Storage $storage
+        Storage $storage,
+        TranslatorInterface $translator
     ) {
         $this->storage = $storage;
+        $this->translator = $translator;
     }
 
     /**
@@ -68,8 +76,8 @@ class Collector implements CartDataCollectorInterface
         $id = 'easycredit-interest';
 
         $interestItem = new LineItem($id, Processor::LINE_ITEM_TYPE);
-        $interestItem->setLabel('Zinsen für Ratenzahlung');
-        $interestItem->setDescription('Zinsen für Ratenzahlung');
+        $interestItem->setLabel($this->translator->trans('checkout.interest-line-item'));
+        $interestItem->setDescription($this->translator->trans('checkout.interest-line-item'));
         $interestItem->setGood(false);
         $interestItem->setRemovable(false);
         $interestItem->setPayloadValue('productNumber', '');

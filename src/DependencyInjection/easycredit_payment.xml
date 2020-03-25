@@ -37,14 +37,6 @@
             <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
         </service>
 
-        <!--service id="Netzkollektiv\EasyCredit\Controller\EasyCreditPaymentController" public="true">
-            <argument type="service" id="Netzkollektiv\EasyCredit\EasyCredit\Resource\PaymentResource"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\EasyCredit\Resource\SaleResource"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\EasyCredit\Resource\AuthorizationResource"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\EasyCredit\Resource\OrdersResource"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\EasyCredit\Resource\CaptureResource"/>
-        </service -->
-
         <service id="Netzkollektiv\EasyCredit\Subscriber\InterestSubscriber">
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
             <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
@@ -96,6 +88,7 @@
 
         <service id="Netzkollektiv\EasyCredit\Cart\Collector">
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
+            <argument type="service" id="translator"/>
 
             <!-- // inject after product collector(5000) -->
             <tag name="shopware.cart.collector" priority="-5000"/>

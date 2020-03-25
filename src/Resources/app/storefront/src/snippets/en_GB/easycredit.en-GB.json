@@ -9,6 +9,7 @@
         "whatis": "What is"
     },
     "checkout": {
-        "installments-must-be-recalculated": "ratenkauf by easyCredit: Your order was changed, please recalculate installments."
+        "installments-must-be-recalculated": "ratenkauf by easyCredit: Your order was changed, please recalculate installments.",
+        "interest-line-item" : "Interest for installments payment"
     }
 }

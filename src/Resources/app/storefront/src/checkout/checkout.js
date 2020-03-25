@@ -2,7 +2,6 @@ import Plugin from 'src/plugin-system/plugin.class';
 
 export default class EasyCreditRatenkaufCheckout extends Plugin {
     init() {
-        console.log('hello checkout');
 
         $('input[type=radio][name=paymentMethodId]').change(function() {
             if ($('.easycredit-payment-form').closest('.payment-method').find($(this)).length > 0) {
