@@ -32,9 +32,12 @@ class Payment
         $this->salesChannelRepository = $salesChannelRepository;
     }
 
-    public function isSelected(SalesChannelContext $context, $paymentMethod = null): bool
+    public function isSelected(SalesChannelContext $salesChannelContext, $paymentMethodId = null): bool
     {
-        return $this->getPaymentMethodId($context) === $paymentMethod->getId();
+        if (is_null($paymentMethodId)) {
+            $paymentMethodId = $salesChannelContext->getPaymentMethod()->getId();
+        }
+        return $this->getPaymentMethodId($salesChannelContext->getContext()) === $paymentMethodId;
     }
 
     public function getPaymentMethodId(Context $context): ?string
