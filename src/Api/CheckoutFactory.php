@@ -32,9 +32,6 @@ class CheckoutFactory
         $this->session = $session;
     }
 
-    /**
-     * @param \Shopware\Core\System\SalesChannel\SalesChannelContext|null $salesChannelContext
-     */
     public function create(?\Shopware\Core\System\SalesChannel\SalesChannelContext $salesChannelContext = null, bool $validateSettings = true): Checkout
     {
         $salesChannelId = null;

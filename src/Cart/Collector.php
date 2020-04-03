@@ -7,7 +7,6 @@
 
 namespace Netzkollektiv\EasyCredit\Cart;
 
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\CartBehavior;
@@ -21,6 +20,7 @@ use Shopware\Core\Checkout\Cart\Price\Struct\CalculatedPrice;
 use Shopware\Core\Checkout\Cart\Tax\Struct\CalculatedTaxCollection;
 use Shopware\Core\Checkout\Cart\Tax\Struct\TaxRuleCollection;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Collector implements CartDataCollectorInterface
 {
@@ -64,8 +64,8 @@ class Collector implements CartDataCollectorInterface
         }
 
         return new CalculatedPrice(
-            (float)$this->storage->get('interest_amount'),
-            (float)$this->storage->get('interest_amount'),
+            (float) $this->storage->get('interest_amount'),
+            (float) $this->storage->get('interest_amount'),
             new CalculatedTaxCollection(),
             new TaxRuleCollection()
         );

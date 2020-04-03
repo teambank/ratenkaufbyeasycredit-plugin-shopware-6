@@ -7,8 +7,11 @@
 
 namespace Netzkollektiv\EasyCredit\Widget;
 
+use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
+use Netzkollektiv\EasyCredit\Setting\Exception\SettingsInvalidException;
 use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Page\Checkout\Cart\CheckoutCartPageLoadedEvent;
 use Shopware\Storefront\Page\Checkout\Offcanvas\OffcanvasCartPageLoadedEvent;
 use Shopware\Storefront\Page\Product\ProductPageLoadedEvent;
@@ -20,12 +23,16 @@ class Widget implements EventSubscriberInterface
 
     private $cartService;
 
+    private $paymentHelper;
+
     public function __construct(
         SettingsServiceInterface $settingsService,
-        CartService $cartService
+        CartService $cartService,
+        PaymentHelper $paymentHelper
     ) {
         $this->settings = $settingsService;
         $this->cartService = $cartService;
+        $this->paymentHelper = $paymentHelper;
     }
 
     public static function getSubscribedEvents(): array
@@ -41,9 +48,8 @@ class Widget implements EventSubscriberInterface
     {
         $context = $event->getSalesChannelContext();
 
-        $settings = $this->settings->getSettings($context->getSalesChannel()->getId());
-
-        if (!$settings->getWidgetEnabled()) {
+        $settings = $this->getSettings($context);
+        if (!$settings) {
             return;
         }
 
@@ -57,12 +63,12 @@ class Widget implements EventSubscriberInterface
     {
         $context = $event->getSalesChannelContext();
 
-        $cart = $this->cartService->getCart($context->getToken(), $context);
-        $settings = $this->settings->getSettings($context->getSalesChannel()->getId());
-
-        if (!$settings->getWidgetEnabled()) {
+        $settings = $this->getSettings($context);
+        if (!$settings) {
             return;
         }
+
+        $cart = $this->cartService->getCart($context->getToken(), $context);
 
         $event->getPage()->addExtension('easycredit', (new WidgetData())->assign([
             'apiKey' => $settings->getWebshopId(),
@@ -75,17 +81,36 @@ class Widget implements EventSubscriberInterface
     {
         $context = $event->getSalesChannelContext();
 
-        $cart = $this->cartService->getCart($context->getToken(), $context);
-        $settings = $this->settings->getSettings($context->getSalesChannel()->getId());
-
-        if (!$settings->getWidgetEnabled()) {
+        $settings = $this->getSettings($context);
+        if (!$settings) {
             return;
         }
+
+        $cart = $this->cartService->getCart($context->getToken(), $context);
 
         $event->getPage()->addExtension('easycredit', (new WidgetData())->assign([
             'apiKey' => $settings->getWebshopId(),
             'widgetSelector' => $settings->getWidgetSelectorCart(),
             'amount' => $cart->getPrice()->getTotalPrice(),
         ]));
+    }
+
+    protected function getSettings(SalesChannelContext $context)
+    {
+        if (!$this->paymentHelper->isPaymentMethodInSalesChannel($context)) {
+            return false;
+        }
+
+        try {
+            $settings = $this->settings->getSettings($context->getSalesChannel()->getId());
+        } catch (SettingsInvalidException $e) {
+            return false;
+        }
+
+        if (!$settings->getWidgetEnabled()) {
+            return false;
+        }
+
+        return $settings;
     }
 }

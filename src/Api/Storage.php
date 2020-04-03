@@ -18,9 +18,6 @@ class Storage implements \Netzkollektiv\EasyCreditApi\StorageInterface
         $this->session = $session;
     }
 
-    /**
-     * @param null|string $value
-     */
     public function set($key, $value): self
     {
         $this->session->set('easycredit_' . $key, $value);
@@ -30,7 +27,7 @@ class Storage implements \Netzkollektiv\EasyCreditApi\StorageInterface
 
     public function get($key): string
     {
-        return (string)$this->session->get('easycredit_' . $key);
+        return (string) $this->session->get('easycredit_' . $key);
     }
 
     public function all(): array

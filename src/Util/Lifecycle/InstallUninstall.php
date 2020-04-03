@@ -7,7 +7,7 @@
 
 namespace Netzkollektiv\EasyCredit\Util\Lifecycle;
 
-use Netzkollektiv\EasyCredit\Helper\PaymentIdProvider;
+use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Netzkollektiv\EasyCredit\Payment\Handler;
 use Netzkollektiv\EasyCredit\Setting\Exception\SettingsInvalidException;
 use Netzkollektiv\EasyCredit\Setting\Service\SettingsService;
@@ -123,7 +123,7 @@ class InstallUninstall
     private function addPaymentMethods(Context $context): void
     {
         $pluginId = $this->pluginIdProvider->getPluginIdByBaseClass($this->className, $context);
-        $paymentIdProvider = new PaymentIdProvider($this->paymentRepository);
+        $paymentHelper = new PaymentHelper($this->paymentRepository);
 
         $data = [
             'handlerIdentifier' => Handler::class,
@@ -140,7 +140,7 @@ class InstallUninstall
             ],
         ];
 
-        $paymentMethodId = $paymentIdProvider->getPaymentMethodId($context);
+        $paymentMethodId = $paymentHelper->getPaymentMethodId($context);
         if ($paymentMethodId !== null) {
             $data['id'] = $paymentMethodId;
         }

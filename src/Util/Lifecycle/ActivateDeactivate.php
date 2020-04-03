@@ -7,7 +7,7 @@
 
 namespace Netzkollektiv\EasyCredit\Util\Lifecycle;
 
-use Netzkollektiv\EasyCredit\Helper\PaymentIdProvider;
+use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -30,16 +30,16 @@ class ActivateDeactivate
     private $customFieldRepository;
 
     /**
-     * @var PaymentIdProvider
+     * @var PaymentHelper
      */
-    private $paymentIdProvider;
+    private $paymentHelper;
 
     public function __construct(
-        PaymentIdProvider $paymentIdProvider,
+        PaymentHelper $paymentHelper,
         EntityRepositoryInterface $paymentRepository,
         EntityRepositoryInterface $customFieldRepository
     ) {
-        $this->paymentIdProvider = $paymentIdProvider;
+        $this->paymentHelper = $paymentHelper;
         $this->paymentRepository = $paymentRepository;
         $this->customFieldRepository = $customFieldRepository;
     }
@@ -58,7 +58,7 @@ class ActivateDeactivate
 
     private function setPaymentMethodsIsActive(bool $active, Context $context): void
     {
-        $paymentMethodId = $this->paymentIdProvider->getPaymentMethodId($context);
+        $paymentMethodId = $this->paymentHelper->getPaymentMethodId($context);
 
         if ($paymentMethodId === null) {
             return;

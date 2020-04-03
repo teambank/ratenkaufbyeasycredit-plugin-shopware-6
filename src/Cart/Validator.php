@@ -44,9 +44,15 @@ class Validator implements CartValidatorInterface
         ErrorCollection $errors,
         SalesChannelContext $salesChannelContext
     ): void {
-        $checkout = $this->checkoutFactory->create(
-            $salesChannelContext
-        );
+        try {
+            $checkout = $this->checkoutFactory->create(
+                $salesChannelContext
+            );
+        } catch (\Exception $e) {
+            $this->storage->clear();
+
+            return;
+        }
 
         try {
             $quote = $this->quoteHelper->getQuote($salesChannelContext, $cart);
