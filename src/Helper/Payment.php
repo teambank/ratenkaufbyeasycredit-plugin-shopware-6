@@ -10,7 +10,6 @@ namespace Netzkollektiv\EasyCredit\Helper;
 use Netzkollektiv\EasyCredit\Payment\Handler;
 use Netzkollektiv\EasyCredit\Payment\Handler as PaymentHandler;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\AsynchronousPaymentHandlerInterface;
-use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\PaymentHandlerRegistry;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\PaymentMethodCollection;
 use Shopware\Core\Checkout\Payment\PaymentMethodEntity;
@@ -25,40 +24,17 @@ class Payment
 {
     private $paymentMethodRepository;
 
-    private $paymentHandlerRegistry;
-
     public function __construct(
         EntityRepositoryInterface $paymentMethodRepository,
-        EntityRepositoryInterface $salesChannelRepository,
-        PaymentHandlerRegistry $paymentHandlerRegistry
+        EntityRepositoryInterface $salesChannelRepository
     ) {
         $this->paymentMethodRepository = $paymentMethodRepository;
         $this->salesChannelRepository = $salesChannelRepository;
-        $this->paymentHandlerRegistry = $paymentHandlerRegistry;
     }
 
     public function isSelected(SalesChannelContext $context, $paymentMethod = null): bool
     {
-        return $this->getPaymentHandler($context, $paymentMethod) instanceof Handler;
-    }
-
-    /**
-     * @return SynchronousPaymentHandlerInterface|AsynchronousPaymentHandlerInterface
-     */
-    public function getPaymentHandler(SalesChannelContext $context, $paymentMethod = null)
-    {
-        if (is_null($paymentMethod)) {
-            $paymentMethod = $context->getPaymentMethod();
-        }
-
-        if (is_string($paymentMethod)) {
-            $paymentMethod = $this->paymentMethodRepository->search(new Criteria([
-                $paymentMethod,
-            ]), $context->getContext())->first();
-        }
-
-        return $this->paymentHandlerRegistry
-            ->getHandler($paymentMethod->getHandlerIdentifier());
+        return $this->getPaymentMethodId($context) === $paymentMethod->getId();
     }
 
     public function getPaymentMethodId(Context $context): ?string

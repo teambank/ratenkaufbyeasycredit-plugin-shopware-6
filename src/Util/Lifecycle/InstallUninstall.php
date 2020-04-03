@@ -80,6 +80,7 @@ class InstallUninstall
         $this->pluginIdProvider = $pluginIdProvider;
         $this->className = $className;
         $this->systemConfig = $systemConfig;
+
     }
 
     public function install(Context $context): void
@@ -123,7 +124,10 @@ class InstallUninstall
     private function addPaymentMethods(Context $context): void
     {
         $pluginId = $this->pluginIdProvider->getPluginIdByBaseClass($this->className, $context);
-        $paymentHelper = new PaymentHelper($this->paymentRepository);
+        $paymentHelper = new PaymentHelper(
+            $this->paymentRepository,
+            $this->salesChannelRepository
+        );
 
         $data = [
             'handlerIdentifier' => Handler::class,
