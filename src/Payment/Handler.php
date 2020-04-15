@@ -73,7 +73,7 @@ class Handler implements SynchronousPaymentHandlerInterface
                 );
             }
 
-            $checkout->capture();
+            $checkout->capture(null, $order->getOrderNumber());
 
             $this->transactionStateHandler->pay(
                 $transaction->getOrderTransaction()->getId(),
