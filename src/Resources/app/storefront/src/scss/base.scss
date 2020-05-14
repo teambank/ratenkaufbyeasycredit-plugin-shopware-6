@@ -1,42 +1,44 @@
-.easycredit-method .easycredit-tooltip {
-    position:absolute;
-    font-weight:normal;
-}
-#easycredit-description>img {
- width: 46px;
- height: 35px;
-}
-#easycredit-description label {
- display:table;
- width: auto;
- font-weight: normal;
-}
-#easycredit-description label>input, #easycredit-description label>span {
- display:table-cell;
-}
-#easycredit-description label>input {
- margin-right:15px;
-}
-span.easycredit-disabled {
- -webkit-filter:grayscale(100%);
- filter:grayscale(100%);
-}
+#easycredit-payment-form {
+  
+  > img {
+    width: 46px;
+    height: 35px;
+  }
 
-.easycredit-description  .easycredit-method-title {
-    background-image:url(https://www.easycredit-ratenkauf.de/download/200x43_Ratenkauf_Logo_mitSubline.png);
-    background-position-x:center;
-    background-repeat:no-repeat;
-    background-size:contain;
-    text-indent:-1000px;
-    display:inline-block;
-    height:30px;
-    width:145px;
-    overflow:hidden;
+  label {
+    display: table;
+    width: auto;
+    font-weight: normal;
+
+    > {
+      input, span {
+        display: table-cell;
+      }
+
+      input {
+        margin-right: 15px;
+      }
+    }
+  }
+}
+  
+.easycredit-description {
+  .easycredit-method-title {
+    background-image: url(https://www.easycredit-ratenkauf.de/download/200x43_Ratenkauf_Logo_mitSubline.png);
+    background-position-x: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    text-indent: -1000px;
+    display: inline-block;
+    height: 30px;
+    width: 145px;
+    overflow: hidden;
+  }
 }
 
 iframe.easycredit-modal {
-    border:0;
-    height:100%;
-    width:100%;
-    min-height: 500px;
+  border: 0;
+  height: 100%;
+  width: 100%;
+  min-height: 500px;
 }
