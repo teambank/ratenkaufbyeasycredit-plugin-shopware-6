@@ -1,3 +1,2 @@
 bin export-ignore
 node_modules export-ignore
-src/Resources/app/storefront/src/node_modules export-ignore
