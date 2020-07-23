@@ -1,2 +1,4 @@
 bin export-ignore
-node_modules export-ignore
+replace.sh export-ignore
+*.dist export-ignore
+psalm.xml export-ignore

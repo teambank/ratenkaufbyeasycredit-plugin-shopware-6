@@ -1,7 +1,7 @@
 {
     "name": "easycredit/ratenkauf",
     "description": "ratenkauf by easyCredit integration for Shopware 6",
-    "version": "0.9.5",
+    "version": "0.9.6",
     "type": "shopware-platform-plugin",
     "license": "MIT",
     "authors": [
@@ -22,13 +22,21 @@
     "extra": {
         "shopware-plugin-class": "Netzkollektiv\\EasyCredit\\EasyCreditRatenkauf",
         "copyright": "(c) by NETZKOLLEKTIV GmbH",
-        "description": {
-            "de-DE": "ratenkauf by easyCredit für Shopware 6",
-            "en-GB": "ratenkauf by easyCredit for Shopware 6"
-        },
         "label": {
             "de-DE": "ratenkauf by easyCredit für Shopware 6",
             "en-GB": "ratenkauf by easyCredit for Shopware 6"
+        },
+        "description": {
+            "de-DE": "Jetzt den einfachsten Ratenkauf Deutschlands für Ihren Shopware Shop nutzen. Unser Credo einfach, fair und sicher gilt sowohl für Ratenkaufkunden als auch für Händler.",
+            "en-GB": "Use the easiest installment purchase of Germany for your Shopware 6 Shop now. Easy. Fair. Pay by installments. Join today to get the simplest way of partial payment."
+        },
+        "manufacturerLink": {
+            "de-DE": "https://www.easycredit-ratenkauf.de/",
+            "en-GB": "https://www.easycredit-ratenkauf.de/"
+        },
+        "supportLink": {
+            "de-DE": "https://www.easycredit-ratenkauf.de/",
+            "en-GB": "https://www.easycredit-ratenkauf.de/"
         }
     },
     "autoload": {
