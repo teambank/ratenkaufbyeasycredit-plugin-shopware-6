@@ -11,13 +11,11 @@
     ],
     "require": {
         "recensus/zend-http-client" : "dev-master",
-        "ratenkaufbyeasycredit/php-sdk" : "1.3.0"
+        "ratenkaufbyeasycredit/php-sdk" : "1.3.0",
+        "shopware/core" : "~6"
     },
     "require-dev": {
         "phpunit/phpunit": "8.0.6"
-    },
-    "provide": {
-        "shopware/core" : "~6.1"
     },
     "extra": {
         "shopware-plugin-class": "Netzkollektiv\\EasyCredit\\EasyCreditRatenkauf",
