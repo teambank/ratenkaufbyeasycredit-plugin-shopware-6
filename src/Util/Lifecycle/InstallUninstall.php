@@ -80,7 +80,6 @@ class InstallUninstall
         $this->pluginIdProvider = $pluginIdProvider;
         $this->className = $className;
         $this->systemConfig = $systemConfig;
-
     }
 
     public function install(Context $context): void

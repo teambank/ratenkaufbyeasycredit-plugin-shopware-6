@@ -37,7 +37,7 @@ export default class EasyCreditWidget {
     getMinimumInstallment(uri) {
 
         const options = {
-            headers: new Headers({'content-type': 'application/json; charset=utf-8'}),
+            headers: new Headers({'content-type': 'application/json; charset=utf-8'})
         };
 
         return fetchJsonp(uri,options)
@@ -58,7 +58,7 @@ export default class EasyCreditWidget {
             amount:                   this._formatAmount(res.betragRate),
             currency_symbol:          this.opts.currencySymbol,
             suffix:                   this.opts.suffix,
-            link_text:                this.opts.linkText,
+            link_text:                this.opts.linkText
         };
         data.installmentTemplate = this._template(this.opts.installmentTemplate, data);
 
@@ -126,10 +126,10 @@ export default class EasyCreditWidget {
                 '<span class="easycredit-rate">%installmentTemplate%</span>',
                 '<br />',
                 '<a class="easycredit-link">%link_text%</a>',
-                '</div>',
+                '</div>'
             ].join('\n'),
             suffix: 'Finanzieren ab',
-            linkText: 'mehr Infos zum Ratenkauf',
+            linkText: 'mehr Infos zum Ratenkauf'
         };
     }
 
@@ -138,8 +138,8 @@ export default class EasyCreditWidget {
             opts.hostname+opts.endpoint,
             this.param({
                 webshopId: opts.webshopId,
-                finanzierungsbetrag: opts.amount,
-            }),
+                finanzierungsbetrag: opts.amount
+            })
         ].join('?');
     }
 
@@ -156,8 +156,8 @@ export default class EasyCreditWidget {
             opts.hostname+opts.iframeSrc,
             this.param({
                 'shopKennung': opts.webshopId,
-                'bestellwert': opts.amount,
-            }),
+                'bestellwert': opts.amount
+            })
         ].join('?');
     }
     

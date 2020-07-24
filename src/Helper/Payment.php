@@ -7,10 +7,7 @@
 
 namespace Netzkollektiv\EasyCredit\Helper;
 
-use Netzkollektiv\EasyCredit\Payment\Handler;
 use Netzkollektiv\EasyCredit\Payment\Handler as PaymentHandler;
-use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\AsynchronousPaymentHandlerInterface;
-use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\PaymentMethodCollection;
 use Shopware\Core\Checkout\Payment\PaymentMethodEntity;
 use Shopware\Core\Framework\Context;
@@ -37,6 +34,7 @@ class Payment
         if (is_null($paymentMethodId)) {
             $paymentMethodId = $salesChannelContext->getPaymentMethod()->getId();
         }
+
         return $this->getPaymentMethodId($salesChannelContext->getContext()) === $paymentMethodId;
     }
 
