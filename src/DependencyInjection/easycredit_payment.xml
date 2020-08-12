@@ -19,8 +19,13 @@
 
         <service id="Netzkollektiv\EasyCredit\Api\CheckoutFactory">
             <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>            
-            <argument type="service" id="logger"/>            
+            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>            
             <argument type="service" id="session"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Util\Logger" class="Monolog\Logger">
+            <factory service="Shopware\Core\Framework\Log\LoggerFactory" method="createRotating"/>
+            <argument type="string">netzkollektiv_easycredit</argument>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Api\Storage">          
@@ -35,6 +40,13 @@
         <service id="Netzkollektiv\EasyCredit\Helper\Quote">
             <argument type="service" id="request_stack"/>
             <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\MetaDataProvider" />
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Helper\MetaDataProvider">
+            <argument type="service" id="product_manufacturer.repository"/>
+            <argument type="service" id="category.repository"/>
+            <argument>%kernel.shopware_version%</argument>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Subscriber\InterestSubscriber">

@@ -28,10 +28,10 @@ class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface
     ) {
         $this->_logger = $logger;
 
-        if ($settings->getDebug()) {
+        //if ($settings->getDebug()) {
             $this->debug = true;
             $this->allowLineBreaks(true);
-        }
+        //}
     }
 
     public function log($msg): self

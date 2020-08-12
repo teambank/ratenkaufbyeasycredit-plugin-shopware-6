@@ -15,7 +15,7 @@ Module.register('easycredit-payment', {
         if (currentRoute.name === 'sw.order.detail') {
             currentRoute.children.push({
                 component: 'easycredit-payment-detail',
-                name: 'swag.easycredit.payment.detail',
+                name: 'netzkollektiv.easycredit.payment.detail',
                 isChildren: true,
                 path: '/sw/order/easycredit/detail/:id'
             });

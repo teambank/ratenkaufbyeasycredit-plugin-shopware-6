@@ -7,8 +7,16 @@
 
 namespace Netzkollektiv\EasyCredit\Api;
 
+use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
+
 class System implements \Netzkollektiv\EasyCreditApi\SystemInterface
 {
+    public function __construct(
+        MetaDataProvider $metaDataProvider
+    ) {
+        $this->metaDataProvider = $metaDataProvider;
+    }
+
     public function getSystemVendor(): string
     {
         return 'Shopware';
@@ -16,7 +24,7 @@ class System implements \Netzkollektiv\EasyCreditApi\SystemInterface
 
     public function getSystemVersion(): string
     {
-        return '6.0';
+        return $this->metaDataProvider->getShopwareVersion();
     }
 
     public function getModuleVersion(): ?string
