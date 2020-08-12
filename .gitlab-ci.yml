@@ -9,9 +9,11 @@ variables:
   PLATFORM_BRANCH: "master"
 
 stages:
-  - run
+ - build 
+ - run
 
 build:
+  stage: build
   image:
     name: friendsofshopware/plugin-uploader
     entrypoint: [""]
