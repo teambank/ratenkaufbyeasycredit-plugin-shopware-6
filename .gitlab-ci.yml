@@ -4,8 +4,7 @@ variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
   DOCKER_HOST: "tcp://docker:2375"
-
-variables:
+  MYSQL_ROOT_PASSWORD: app
   DEVELOPMENT_BRANCH: "master"
   PLATFORM_BRANCH: "master"
 
@@ -13,23 +12,32 @@ stages:
   - run
 
 build:
-  image: friendsofshopware/plugin-uploader
-  entrytpoint: ["/bin/sh"]
+  image:
+    name: friendsofshopware/plugin-uploader
+    entrypoint: [""]
   script:
-    - echo "heloo"
-#     - php /app/bin/pluginupload ext:zip .
+    - php /app/bin/pluginupload ext:zip .
+    - mv *.zip $CI_PROJECT_DIR/plugin.zip
+  artifacts:
+    paths:
+      - plugin.zip
+    expire_in: 1 week
 
-#run:
-#  image: shopware/development:latest
-#  before_script:
-#     - git clone https://github.com/shopware/development.git --branch $DEVELOPMENT_BRANCH
-#     - rm -rf development/platform
-#     - git clone https://github.com/shopware/platform development/platform --branch $PLATFORM_BRANCH
-#     - unzip -q *.zip -d development/custom/plugins/
-#     - cd development
-#     - cp -v dev-ops/gitlab/.psh.yaml.override .
-#     - /entrypoint supervisord > /dev/null 2>&1 &
-#  stage: run
-#  script:
-#   - ./psh.phar init
-#   - php bin/console plugin:install --activate EasyCreditRatenkauf
+run:
+  services:
+    - name: mysql:5.7
+      alias: mysql
+
+  image: shopware/development:latest
+  before_script:
+     - git clone https://github.com/shopware/development.git --branch $DEVELOPMENT_BRANCH
+     - rm -rf development/platform
+     - git clone https://github.com/shopware/platform development/platform --branch $PLATFORM_BRANCH
+     - unzip -q plugin.zip -d development/custom/plugins/
+     - cd development
+     - cp -v dev-ops/gitlab/.psh.yaml.override .
+     - /entrypoint supervisord > /dev/null 2>&1 &
+  stage: run
+  script:
+   - ./psh.phar init
+   - php bin/console plugin:install --activate EasyCreditRatenkauf
