@@ -1,0 +1,93 @@
+[
+    {
+        "name": "ratenkaufbyeasycredit/php-sdk",
+        "version": "1.3.0",
+        "version_normalized": "1.3.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/netzkollektiv/ratenkaufybyeasycredit-php-sdk.git",
+            "reference": "79fb186d6ce35e8d499eebee77806db589451066"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/netzkollektiv/ratenkaufybyeasycredit-php-sdk/zipball/79fb186d6ce35e8d499eebee77806db589451066",
+            "reference": "79fb186d6ce35e8d499eebee77806db589451066",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "time": "2020-04-15T09:55:11+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Netzkollektiv\\EasyCreditApi\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache OSL-2"
+        ],
+        "authors": [
+            {
+                "name": "NETZKOLLEKTIV GmbH",
+                "email": "kontakt@netzkollektiv.com"
+            }
+        ],
+        "description": "ratenkauf by easyCredit SDK (PHP)",
+        "keywords": [
+            "easycredit",
+            "payment",
+            "payments",
+            "ratenkauf",
+            "ratenkauf by easycredit",
+            "ratenzahlung",
+            "teambank"
+        ]
+    },
+    {
+        "name": "recensus/zend-http-client",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Recensus/zend_http_client.git",
+            "reference": "8b0923c2043558ddd23eda63fdc539ad84f0b3d1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Recensus/zend_http_client/zipball/8b0923c2043558ddd23eda63fdc539ad84f0b3d1",
+            "reference": "8b0923c2043558ddd23eda63fdc539ad84f0b3d1",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.1.0"
+        },
+        "time": "2012-12-05T01:08:54+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "classmap": [
+                "src/Zend"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD"
+        ],
+        "authors": [
+            {
+                "name": "Ben Waine",
+                "email": "ben@recensus.com",
+                "homepage": "http://app.recensus.com",
+                "role": "Maintainer"
+            }
+        ],
+        "description": "Http client For PHP5.1 and above. Originally part of ZF1.11",
+        "homepage": "http://github.com/recensus/zend_http_client",
+        "keywords": [
+            "http"
+        ]
+    }
+]

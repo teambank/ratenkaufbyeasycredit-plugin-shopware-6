@@ -32,10 +32,6 @@ class Processor implements CartProcessorInterface
             return;
         }
 
-        if ($behavior->isRecalculation()) {
-            return;
-        }
-
         $calculated->addLineItems($data->get(self::DATA_KEY));
     }
 }
