@@ -2,7 +2,7 @@
     {% parent %}
 
     <sw-tabs-item v-if="isEasyCreditPayment"
-                  :route="{ name: 'swag.easycredit.payment.detail', params: { id: $route.params.id } }"
+                  :route="{ name: 'netzkollektiv.easycredit.payment.detail', params: { id: $route.params.id } }"
                   :title="$tc('easycredit.header')">
         {{ $tc('easycredit.header') }}
     </sw-tabs-item>

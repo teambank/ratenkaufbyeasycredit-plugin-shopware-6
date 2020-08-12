@@ -13,6 +13,9 @@ use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+
+use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 
 class Quote
 {
@@ -22,10 +25,12 @@ class Quote
 
     public function __construct(
         RequestStack $requestStack,
-        CartService $cartService
+        CartService $cartService,
+        MetaDataProvider $metaDataProvider
     ) {
         $this->requestStack = $requestStack;
         $this->cartService = $cartService;
+        $this->metaDataProvider = $metaDataProvider;
     }
 
     /**
@@ -39,12 +44,15 @@ class Quote
         if ($cart instanceof Cart) {
             return new Api\Quote(
                 $cart,
+                $this->metaDataProvider,
                 $salesChannelContext
             );
         }
 
         return new Api\Order(
-            $cart
+            $cart,
+            $this->metaDataProvider,
+            $salesChannelContext
         );
     }
 }
