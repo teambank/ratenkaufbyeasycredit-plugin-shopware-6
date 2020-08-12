@@ -1,0 +1,35 @@
+image: docker
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_HOST: "tcp://docker:2375"
+
+variables:
+  DEVELOPMENT_BRANCH: "master"
+  PLATFORM_BRANCH: "master"
+
+stages:
+  - run
+
+build:
+  image: friendsofshopware/plugin-uploader
+  entrytpoint: ["/bin/sh"]
+  script:
+    - echo "heloo"
+#     - php /app/bin/pluginupload ext:zip .
+
+#run:
+#  image: shopware/development:latest
+#  before_script:
+#     - git clone https://github.com/shopware/development.git --branch $DEVELOPMENT_BRANCH
+#     - rm -rf development/platform
+#     - git clone https://github.com/shopware/platform development/platform --branch $PLATFORM_BRANCH
+#     - unzip -q *.zip -d development/custom/plugins/
+#     - cd development
+#     - cp -v dev-ops/gitlab/.psh.yaml.override .
+#     - /entrypoint supervisord > /dev/null 2>&1 &
+#  stage: run
+#  script:
+#   - ./psh.phar init
+#   - php bin/console plugin:install --activate EasyCreditRatenkauf
