@@ -1,7 +1,7 @@
 {
     "name": "easycredit/ratenkauf",
     "description": "ratenkauf by easyCredit integration for Shopware 6",
-    "version": "0.9.6",
+    "version": "0.9.7",
     "type": "shopware-platform-plugin",
     "license": "MIT",
     "authors": [
@@ -11,7 +11,7 @@
     ],
     "require": {
         "recensus/zend-http-client" : "dev-master",
-        "ratenkaufbyeasycredit/php-sdk" : "1.3.0",
+        "ratenkaufbyeasycredit/php-sdk" : "~1.3.0",
         "shopware/core" : "~6"
     },
     "require-dev": {

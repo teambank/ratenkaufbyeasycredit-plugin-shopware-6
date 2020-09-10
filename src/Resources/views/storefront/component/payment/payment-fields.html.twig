@@ -10,7 +10,7 @@
     {% if easycreditData and easycreditData.paymentMethodId is same as(payment.id) %}
     <div id="easycredit-payment-form">
         <label for="easycredit-agreement">
-            <input type="checkbox" id="easycredit-agreement" required="required" />
+            <input type="checkbox" id="easycredit-agreement" />
             <span>{{ easycreditData.agreement}}</span>
         </label>
     </div>
