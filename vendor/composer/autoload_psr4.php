@@ -6,18 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-<<<<<<< HEAD
-    'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/reflection-common/src', $vendorDir . '/phpdocumentor/type-resolver/src', $vendorDir . '/phpdocumentor/reflection-docblock/src'),
-    'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
-    'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
-    'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src/Prophecy'),
-    'Netzkollektiv\\EasyCredit\\Test\\' => array($baseDir . '/tests'),
     'Netzkollektiv\\EasyCredit\\' => array($baseDir . '/src'),
     'Netzkollektiv\\EasyCreditApi\\' => array($vendorDir . '/ratenkaufbyeasycredit/php-sdk/src'),
-    'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
-    'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
-=======
-    'Netzkollektiv\\EasyCredit\\' => array($baseDir . '/src'),
-    'Netzkollektiv\\EasyCreditApi\\' => array($vendorDir . '/ratenkaufbyeasycredit/php-sdk/src'),
->>>>>>> sw-6.3-release
 );
