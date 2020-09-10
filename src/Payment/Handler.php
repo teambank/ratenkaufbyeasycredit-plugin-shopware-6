@@ -75,7 +75,7 @@ class Handler implements SynchronousPaymentHandlerInterface
 
             $checkout->capture(null, $order->getOrderNumber());
 
-            $this->transactionStateHandler->pay(
+            $this->transactionStateHandler->paid(
                 $transaction->getOrderTransaction()->getId(),
                 $salesChannelContext->getContext()
             );

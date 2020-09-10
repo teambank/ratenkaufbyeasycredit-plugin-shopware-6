@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+<<<<<<< HEAD
     'Help' => $vendorDir . '/phpunit/phpunit/src/Util/Help.php',
     'PHPUnit\\Exception' => $vendorDir . '/phpunit/phpunit/src/Exception.php',
     'PHPUnit\\Framework\\Assert' => $vendorDir . '/phpunit/phpunit/src/Framework/Assert.php',
@@ -558,6 +559,8 @@ return array(
     'TheSeer\\Tokenizer\\TokenCollectionException' => $vendorDir . '/theseer/tokenizer/src/TokenCollectionException.php',
     'TheSeer\\Tokenizer\\Tokenizer' => $vendorDir . '/theseer/tokenizer/src/Tokenizer.php',
     'TheSeer\\Tokenizer\\XMLSerializer' => $vendorDir . '/theseer/tokenizer/src/XMLSerializer.php',
+=======
+>>>>>>> sw-6.3-release
     'Zend_Exception' => $vendorDir . '/recensus/zend-http-client/src/Zend/Exception.php',
     'Zend_Http_Client' => $vendorDir . '/recensus/zend-http-client/src/Zend/Http/Client.php',
     'Zend_Http_Client_Adapter_Curl' => $vendorDir . '/recensus/zend-http-client/src/Zend/Http/Client/Adapter/Curl.php',

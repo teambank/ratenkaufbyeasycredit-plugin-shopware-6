@@ -45,9 +45,6 @@ class Collector implements CartDataCollectorInterface
      */
     public function collect(CartDataCollection $data, Cart $cart, SalesChannelContext $context, CartBehavior $behavior): void
     {
-        if ($behavior->isRecalculation()) {
-            return;
-        }
         if (!$price = $this->getInterestPrice()) {
             return;
         }

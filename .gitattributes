@@ -2,3 +2,4 @@ bin export-ignore
 replace.sh export-ignore
 *.dist export-ignore
 psalm.xml export-ignore
+merchant-interface export-ignore

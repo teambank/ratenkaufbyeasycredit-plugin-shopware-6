@@ -4,6 +4,7 @@
 
 namespace Composer\Autoload;
 
+<<<<<<< HEAD
 class ComposerStaticInitf572687c38dc7bbc363721e6a7422e83
 {
     public static $files = array (
@@ -64,6 +65,19 @@ class ComposerStaticInitf572687c38dc7bbc363721e6a7422e83
         array (
             0 => __DIR__ . '/../..' . '/tests',
         ),
+=======
+class ComposerStaticInit68965919651b230e75937c4f885c0176
+{
+    public static $prefixLengthsPsr4 = array (
+        'N' => 
+        array (
+            'Netzkollektiv\\EasyCredit\\' => 25,
+            'Netzkollektiv\\EasyCreditApi\\' => 28,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+>>>>>>> sw-6.3-release
         'Netzkollektiv\\EasyCredit\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
@@ -72,6 +86,7 @@ class ComposerStaticInitf572687c38dc7bbc363721e6a7422e83
         array (
             0 => __DIR__ . '/..' . '/ratenkaufbyeasycredit/php-sdk/src',
         ),
+<<<<<<< HEAD
         'Doctrine\\Instantiator\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
@@ -635,6 +650,11 @@ class ComposerStaticInitf572687c38dc7bbc363721e6a7422e83
         'TheSeer\\Tokenizer\\TokenCollectionException' => __DIR__ . '/..' . '/theseer/tokenizer/src/TokenCollectionException.php',
         'TheSeer\\Tokenizer\\Tokenizer' => __DIR__ . '/..' . '/theseer/tokenizer/src/Tokenizer.php',
         'TheSeer\\Tokenizer\\XMLSerializer' => __DIR__ . '/..' . '/theseer/tokenizer/src/XMLSerializer.php',
+=======
+    );
+
+    public static $classMap = array (
+>>>>>>> sw-6.3-release
         'Zend_Exception' => __DIR__ . '/..' . '/recensus/zend-http-client/src/Zend/Exception.php',
         'Zend_Http_Client' => __DIR__ . '/..' . '/recensus/zend-http-client/src/Zend/Http/Client.php',
         'Zend_Http_Client_Adapter_Curl' => __DIR__ . '/..' . '/recensus/zend-http-client/src/Zend/Http/Client/Adapter/Curl.php',
@@ -668,9 +688,15 @@ class ComposerStaticInitf572687c38dc7bbc363721e6a7422e83
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+<<<<<<< HEAD
             $loader->prefixLengthsPsr4 = ComposerStaticInitf572687c38dc7bbc363721e6a7422e83::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitf572687c38dc7bbc363721e6a7422e83::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitf572687c38dc7bbc363721e6a7422e83::$classMap;
+=======
+            $loader->prefixLengthsPsr4 = ComposerStaticInit68965919651b230e75937c4f885c0176::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit68965919651b230e75937c4f885c0176::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit68965919651b230e75937c4f885c0176::$classMap;
+>>>>>>> sw-6.3-release
 
         }, null, ClassLoader::class);
     }
