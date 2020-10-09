@@ -1,0 +1,10 @@
+<easycredit-tx-manager 
+    v-if="isEasyCreditPayment && componentType == 'manager'"
+    :id="transactionId" 
+    date="transactionDate" 
+/>
+<easycredit-tx-status 
+    v-else-if="isEasyCreditPayment && componentType == 'status'"
+    :id="transactionId" 
+    :date="transactionDate" 
+/>

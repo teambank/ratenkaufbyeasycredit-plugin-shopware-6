@@ -17,10 +17,25 @@
                 "apiPassword": {
                     "label": "API Passwort",
                     "tooltipText": "Der API Key, welchen das Plugin dazu verwendet sich mit der ratenkauf by easyCredit API zu authentifizieren."
+                }
+            },
+            "behavior": {
+                "cardTitle": "Verhalten",
+                "paymentStatus": {
+                    "label": "Zahlungsstatus",
+                    "tooltipText": "Define the payment status of orders paid with ratenkauf by easyCredit"
+                },
+                "orderStatus": {
+                    "label": "Bestellstatus",
+                    "tooltipText": "Define the order status of orders paid with ratenkauf by easyCredit"
+                },
+                "removeInterest": {
+                    "label": "Zinsen nach Bestellabschluss entfernen",
+                    "tooltipText": "Entfernt die Zinsen nach Bestellabschluss aus der Bestellung."
                 },
                 "debug": {
-                    "label": "Debug aktivieren",
-                    "tooltipText": "Schaltet das Debug-Logging an."
+                    "label": "Debug-Logging aktivieren",
+                    "tooltipText": "Schaltet das Debug-Logging an (var/log/netzkollektiv_easycredit_*-YYYY-MM-DD.log)."
                 }
             },
             "widget": {

@@ -1,4 +1,4 @@
-import template from './sw-order.html.twig';
+import template from './sw-order-detail.html.twig';
 
 const { Component, Context } = Shopware;
 const Criteria = Shopware.Data.Criteria;
@@ -41,7 +41,7 @@ Component.override('sw-order-detail', {
                     if (transactionsQuantity <= 0 ||
                         !order.transactions[lastTransactionIndex].paymentMethodId
                     ) {
-                        this.setIsPayPalPayment(null);
+                        this.setIsEasyCreditPayment(null);
                         return;
                     }
 
@@ -49,6 +49,7 @@ Component.override('sw-order-detail', {
 
                     if (paymentMethodId !== undefined && paymentMethodId !== null) {
                         this.setIsEasyCreditPayment(paymentMethodId);
+                        this.order = order;
                     }
                 });
             },

@@ -17,6 +17,11 @@ class CheckoutData extends Struct
     protected $paymentMethodId;
 
     /**
+     * @var bool
+     */
+    protected $isSelected;
+
+    /**
      * @var string
      */
     protected $agreement;
@@ -34,6 +39,11 @@ class CheckoutData extends Struct
     public function getPaymentMethodId(): string
     {
         return $this->paymentMethodId;
+    }
+
+    public function getIsSelected(): bool
+    {
+        return $this->isSelected;
     }
 
     public function getAgreement(): string

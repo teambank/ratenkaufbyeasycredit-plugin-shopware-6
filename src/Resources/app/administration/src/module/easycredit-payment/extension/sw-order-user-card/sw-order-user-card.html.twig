@@ -1,0 +1,18 @@
+{% block sw_order_detail_base_order_overview_billing_address %}
+    <div class="easycredit-no-edit" v-if="isEasyCreditPayment && isEditing">
+    {% parent %}
+        <dd><strong>Die Rechnungs- und Versandadresse kann bei ratenkauf by easyCredit nicht nachträglich verändert werden.</strong></dd>
+    </div>
+    <template v-else>
+        {% parent %}
+    </template>
+{% endblock %}
+
+{% block sw_order_detail_base_order_overview_shipping_address %}
+    <div class="easycredit-no-edit" v-if="isEasyCreditPayment && isEditing">
+        {% parent %}
+    </div>
+    <template v-else>
+        {% parent %}
+    </template>
+{% endblock %}

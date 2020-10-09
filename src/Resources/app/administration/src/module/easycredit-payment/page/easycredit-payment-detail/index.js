@@ -3,7 +3,6 @@ const Criteria = Shopware.Data.Criteria;
 
 import '../../../../app/component/easycredit-payment-actions';
 import template from './easycredit-payment-detail.html.twig';
-import './easycredit-payment-detail.scss';
 
 Component.register('easycredit-payment-detail', {
     template,
@@ -39,6 +38,7 @@ Component.register('easycredit-payment-detail', {
             const orderRepository = this.repositoryFactory.create('order');
             const orderCriteria = new Criteria(1, 1);
             orderCriteria.addAssociation('transactions.stateMachineState');
+            orderCriteria.addAssociation('transactions.paymentMethod');
             orderCriteria.getAssociation('transactions').addSorting(Criteria.sort('createdAt'));
 
             orderRepository.get(orderId, Context.api, orderCriteria).then((order) => {

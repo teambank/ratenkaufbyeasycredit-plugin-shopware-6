@@ -1,4 +1,9 @@
-import './extension/sw-order';
+import './component/easycredit-tx-widget';
+
+import './extension/sw-order-detail';
+import './extension/sw-order-detail-base';
+import './extension/sw-order-user-card';
+
 import './page/easycredit-payment-detail';
 
 const { Module } = Shopware;

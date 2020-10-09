@@ -17,7 +17,6 @@ class Processor implements CartProcessorInterface
 {
     public const DATA_KEY = 'interest_amount';
     public const LINE_ITEM_TYPE = 'easycredit-interest';
-    //public const CART_EXTENSION_KEY = 'cart-promotion-codes';
 
     /**
      * @throws \Shopware\Core\Checkout\Cart\Exception\InvalidQuantityException

@@ -1,0 +1,5 @@
+{% block sw_order_detail_base_status_change_order %}
+    {% parent %}
+
+    <easycredit-tx-widget v-if="isEasyCreditPayment" :order="order" />
+{% endblock %}

@@ -12,15 +12,30 @@
                 "cardTitle": "API credentials",
                 "webshopId": {
                     "label": "Webshop-ID",
-                    "tooltipText": "Die Webshop-ID, die das Plugin dazu verwendet sich mit der ratenkauf by easyCredit API zu authentifizieren."
+                    "tooltipText": "The Webshop-ID being used to authenticate with ratenkauf by easyCredit API."
                 },
                 "apiPassword": {
-                    "label": "API Passwort",
-                    "tooltipText": "Der API Key, welchen das Plugin dazu verwendet sich mit der ratenkauf by easyCredit API zu authentifizieren."
+                    "label": "API Password",
+                    "tooltipText": "The API Key is being used to authenticate with ratenkauf by easyCredit API."
+                }
+            },
+            "behavior": {
+                "cardTitle": "Behavior",
+                "paymentStatus": {
+                    "label": "Payment status",
+                    "tooltipText": "Define the payment status of orders paid with ratenkauf by easyCredit"
+                },
+                "orderStatus": {
+                    "label": "Order status",
+                    "tooltipText": "Define the order status of orders paid with ratenkauf by easyCredit"
+                },
+                "removeInterest": {
+                    "label": "Remove interest from order",
+                    "tooltipText": "Removes the interest from orders after the order has been placed"
                 },
                 "debug": {
-                    "label": "Debug aktivieren",
-                    "tooltipText": "Schaltet das Debug-Logging an."
+                    "label": "Enable debug",
+                    "tooltipText": "Enables debug logging"
                 }
             },
             "widget": {

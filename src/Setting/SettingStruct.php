@@ -24,7 +24,12 @@ class SettingStruct extends Struct
     /**
      * @var bool
      */
-    protected $debug;
+    protected $debug = false;
+
+    /**
+     * @var bool
+     */
+    protected $removeInterest = true;
 
     /**
      * @var bool
@@ -69,6 +74,16 @@ class SettingStruct extends Struct
     public function setDebug(bool $debug): void
     {
         $this->debug = $debug;
+    }
+
+    public function getRemoveInterest(): bool
+    {
+        return (bool) $this->removeInterest;
+    }
+
+    public function setRemoveInterest(bool $removeInterest): void
+    {
+        $this->removeInterest = $removeInterest;
     }
 
     public function getWidgetEnabled(): bool

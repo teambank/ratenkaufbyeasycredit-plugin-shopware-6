@@ -19,6 +19,8 @@ use Shopware\Core\Checkout\Cart\LineItem\LineItemCollection;
 use Shopware\Core\Checkout\Cart\Price\Struct\CalculatedPrice;
 use Shopware\Core\Checkout\Cart\Tax\Struct\CalculatedTaxCollection;
 use Shopware\Core\Checkout\Cart\Tax\Struct\TaxRuleCollection;
+use Shopware\Core\Checkout\Cart\Tax\Struct\CalculatedTax;
+use Shopware\Core\Checkout\Cart\Tax\Struct\TaxRule;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -63,8 +65,8 @@ class Collector implements CartDataCollectorInterface
         return new CalculatedPrice(
             (float) $this->storage->get('interest_amount'),
             (float) $this->storage->get('interest_amount'),
-            new CalculatedTaxCollection(),
-            new TaxRuleCollection()
+            new CalculatedTaxCollection([new CalculatedTax(0, 0, 0)]), 
+            new TaxRuleCollection([new TaxRule(0)])
         );
     }
 
@@ -81,23 +83,6 @@ class Collector implements CartDataCollectorInterface
 
         $interestItem->setPrice($price);
         $interestItem->setReferencedId($id);
-
-        // add custom content to our payload.
-        // we need this as meta data information.
-        /*$interestItem->setPayload(
-            $this->buildPayload(
-                $code,
-                $discount,
-                $promotion,
-                $currencyId
-            )
-        );*/
-
-        // add our lazy-validation rules.
-        // this is required within the recalculation process.
-        // if the requirements are not met, the calculation process
-        // will remove our discount line item.
-        //$interestItem->setRequirement($promotion->getPreconditionRule());
 
         return $interestItem;
     }

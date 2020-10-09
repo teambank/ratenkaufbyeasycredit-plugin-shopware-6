@@ -12,6 +12,7 @@ use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Helper\OrderDataProvider;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Netzkollektiv\EasyCredit\Util\Lifecycle\ActivateDeactivate;
+use Monolog\Logger;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
@@ -35,13 +36,16 @@ class Handler implements SynchronousPaymentHandlerInterface
 
     private $storage;
 
+    private $logger;
+
     public function __construct(
         OrderTransactionStateHandler $transactionStateHandler,
         EntityRepositoryInterface $orderTransactionRepo,
         OrderDataProvider $orderDataProvider,
         CheckoutFactory $checkoutFactory,
         QuoteHelper $quoteHelper,
-        Storage $storage
+        Storage $storage,
+        Logger $logger
     ) {
         $this->transactionStateHandler = $transactionStateHandler;
         $this->orderTransactionRepo = $orderTransactionRepo;
@@ -50,6 +54,7 @@ class Handler implements SynchronousPaymentHandlerInterface
         $this->checkoutFactory = $checkoutFactory;
         $this->quoteHelper = $quoteHelper;
         $this->storage = $storage;
+        $this->logger = $logger;
     }
 
     public function pay(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag, SalesChannelContext $salesChannelContext): void
@@ -64,8 +69,8 @@ class Handler implements SynchronousPaymentHandlerInterface
 
         try {
             if (!$checkout->isAmountValid($quote)
-             || !$checkout->verifyAddressNotChanged($quote)
-             || !$checkout->isApproved()
+                || !$checkout->verifyAddressNotChanged($quote)
+                || !$checkout->isApproved()
             ) {
                 throw new SyncPaymentProcessException(
                     $transaction->getOrderTransaction()->getId(),
@@ -85,6 +90,7 @@ class Handler implements SynchronousPaymentHandlerInterface
                 $salesChannelContext->getContext()
             );
         } catch (\Exception $e) {
+            $this->logger->error($e->getMessage());
             throw new SyncPaymentProcessException(
                 $transaction->getOrderTransaction()->getId(),
                 'Could not complete transaction: ' . $e->getMessage() . $e->getTraceAsString()

@@ -13,13 +13,14 @@
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
 
             <tag name="shopware.payment.method.sync"/>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Api\CheckoutFactory">
             <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>            
-            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>            
+            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/> 
             <argument type="service" id="session"/>
         </service>
 
@@ -35,6 +36,15 @@
         <service id="Netzkollektiv\EasyCredit\Controller\PaymentController" public="true">
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Controller\TransactionsController" public="true">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\MerchantFactory"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Api\MerchantFactory">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Helper\Quote">
@@ -81,6 +91,7 @@
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Payment"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
             <argument type="service" id="cache.object"/>
 
@@ -139,5 +150,12 @@
             <argument type="service" id="order.repository"/>
         </service>
 
+        <service id="Netzkollektiv\EasyCredit\Payment\InterestRemover">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
+
+            <tag name="kernel.event_subscriber"/>
+        </service>
     </services>
 </container>

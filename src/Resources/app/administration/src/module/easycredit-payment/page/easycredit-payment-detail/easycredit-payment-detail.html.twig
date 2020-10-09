@@ -1,18 +1,4 @@
 {% block netzkollektiv_easycredit_payment_detail %}
-    <script>
-    window.ratenkaufbyeasycreditOrderManagementConfig = {
-        'endpoints' => {
-            'get' => 'easycredit/v1/transaction',
-            'list' => 'easycredit/v1/transactions',
-            'post' => 'easycredit/v1/transaction'
-        },
-        'request_config': {
-            'headers': (
-                'Content-Type': 'application/json'
-            }
-        }
-    };
-    </script>
     <div class="easycredit-payment-detail">
         <div v-if="!isLoading">
             <sw-card :title="$tc('easycredit-payment.paymentDetails.cardTitle')">
@@ -20,7 +6,7 @@
                     <sw-card-section>
                         <sw-container columns="1fr"
                                       gap="0px 30px">
-                            <easycredit-tx-manager id="V3H9XQ" date="2020-02-22" />
+                            <easycredit-tx-widget :order="order" componentType="manager" />
                         </sw-container>
                     </sw-card-section>
                 </template>
