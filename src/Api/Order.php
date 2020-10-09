@@ -8,6 +8,10 @@
 namespace Netzkollektiv\EasyCredit\Api;
 
 use Shopware\Core\Checkout\Order\OrderEntity;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
+
+use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 
 class Order implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
 {
@@ -17,9 +21,12 @@ class Order implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
     protected $order;
 
     public function __construct(
-        OrderEntity $order
+        OrderEntity $order,
+        MetaDataProvider $metaDataProvider,
+        SalesChannelContext $context
     ) {
         $this->order = $order;
+        $this->metaDataProvider = $metaDataProvider;
     }
 
     public function getId(): ?string
@@ -74,7 +81,9 @@ class Order implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
 
     public function getSystem(): System
     {
-        return new System();
+        return new System(
+            $this->metaDataProvider
+        );
     }
 
     /**
@@ -85,7 +94,9 @@ class Order implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
         $_items = [];
         foreach ($items as $item) {
             $quoteItem = new Quote\Item(
-                $item
+                $item,
+                $this->metaDataProvider,
+                $this->context
             );
             if ($quoteItem->getPrice() <= 0) {
                 continue;

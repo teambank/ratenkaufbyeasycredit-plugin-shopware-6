@@ -33,7 +33,7 @@ export default class EasyCreditRatenkaufWidget extends Plugin {
         new EasyCreditWidget(this.el,{
             webshopId: this.getMeta('api-key'),
             amount: amount,
-            modal: this.createModal
+            modal: this.createModal,
         });        
     }
 

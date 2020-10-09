@@ -1,0 +1,30 @@
+@import "../../../easycredit-merchant/app.css";
+
+.easycredit-tx-manager:before {
+    background-image: url(/bundles/easycreditratenkauf/static/img/ratenkauf-logo.svg);
+}
+.easycredit-tx-manager select,
+.easycredit-tx-manager input::-webkit-calendar-picker-indicator {
+    background-image: url(/bundles/easycreditratenkauf/static/img/icon-arrow-down.svg);
+}
+
+.easycredit-tx-manager.loading,.easycredit-tx-manager .loading,
+.easycredit-tx-status-widget {
+    background-image: url(/bundles/easycreditratenkauf/static/img/ratenkauf-icon.svg);
+}
+
+.easycredit-payment-detail__data {
+    display: grid;
+}
+
+.easycredit-payment-detail__heading {
+    padding-top: 15px;
+}
+
+.easycredit-payment-detail .sw-card__content {
+    max-width:350px;
+}
+
+easycredit-tx-status {
+    padding-bottom: 21px;
+}

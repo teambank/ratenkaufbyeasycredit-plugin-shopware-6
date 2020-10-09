@@ -47,6 +47,7 @@ class Widget implements EventSubscriberInterface
     public function onProductPageLoaded(ProductPageLoadedEvent $event): void
     {
         $context = $event->getSalesChannelContext();
+        $product = $event->getPage()->getProduct();
 
         $settings = $this->getSettings($context);
         if (!$settings) {
@@ -56,6 +57,7 @@ class Widget implements EventSubscriberInterface
         $event->getPage()->addExtension('easycredit', (new WidgetData())->assign([
             'apiKey' => $settings->getWebshopId(),
             'widgetSelector' => $settings->getWidgetSelectorProductDetail(),
+            'amount' => $product->getCalculatedPrice()->getUnitPrice()
         ]));
     }
 

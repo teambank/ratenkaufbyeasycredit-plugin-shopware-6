@@ -8,6 +8,7 @@
 namespace Netzkollektiv\EasyCredit\Payment;
 
 use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
+use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Netzkollektiv\EasyCredit\Setting\Exception\SettingsInvalidException;
@@ -31,12 +32,14 @@ class Checkout implements EventSubscriberInterface
         PaymentHelper $paymentHelper,
         SettingsServiceInterface $settingsService,
         CheckoutFactory $checkoutFactory,
+        QuoteHelper $quoteHelper,
         Storage $storage,
         TagAwareAdapterInterface $cache
     ) {
         $this->paymentHelper = $paymentHelper;
         $this->settings = $settingsService;
         $this->checkoutFactory = $checkoutFactory;
+        $this->quoteHelper = $quoteHelper;
         $this->storage = $storage;
         $this->cache = $cache;
     }
@@ -54,48 +57,72 @@ class Checkout implements EventSubscriberInterface
     public function onCheckoutConfirmLoaded(CheckoutConfirmPageLoadedEvent $event): void
     {
         $salesChannelContext = $event->getSalesChannelContext();
+        $context = $event->getContext();
+        $cart = $event->getPage()->getCart();
+
         if (!$this->paymentHelper->isPaymentMethodInSalesChannel($salesChannelContext)) {
             return;
         }
+
+        $paymentMethodId = $this->paymentHelper->getPaymentMethodId($salesChannelContext->getContext());
+        $isSelected = $paymentMethodId == $salesChannelContext->getPaymentMethod()->getId();
+        $error = '';
 
         try {
             $settings = $this->settings->getSettings($salesChannelContext->getSalesChannel()->getId());
             $checkout = $this->checkoutFactory->create($salesChannelContext);
         } catch (SettingsInvalidException $e) {
             $this->removePaymentMethodFromConfirmPage($event);
-
             return;
         }
-
+        
         try {
-            $agreement = '';
-            $cacheItem = $this->cache->getItem('easycredit-agreement');
-            if ($cacheItem->isHit() && $cacheItem->get()) {
-                $agreement = $cacheItem->get();
-            } else {
-                $agreement = $checkout->getAgreement();
-
-                $cacheItem->set($agreement);
-                $this->cache->save($cacheItem);
-            }
+            $agreement = $this->getCachedAgreement($checkout);
         } catch (\Exception $e) {
             $this->removePaymentMethodFromConfirmPage($event);
-
             return;
         }
 
-        $error = null;
-        if ($this->storage->get('error')) {
-            $error = $this->storage->get('error');
-            $this->storage->set('error', null);
+        if ($isSelected) {
+
+            $error = null;
+            if ($this->storage->get('error')) {
+                $error = $this->storage->get('error');
+                $this->storage->set('error', null);
+            }
+
+            if (is_null($error)) {
+                try {
+                    $checkout->isAvailable(
+                        $this->quoteHelper->getQuote($salesChannelContext, $cart)
+                    );
+                } catch (\Exception $e) {
+                    $error = $e->getMessage();
+                }
+            }
         }
 
         $event->getPage()->addExtension('easycredit', (new CheckoutData())->assign([
-            'paymentMethodId' => $this->paymentHelper->getPaymentMethodId($salesChannelContext->getContext()),
+            'paymentMethodId' => $paymentMethodId,
+            'isSelected' => $isSelected,
             'agreement' => $agreement,
             'paymentPlan' => $this->storage->get('payment_plan'),
             'error' => $error,
         ]));
+    }
+
+    protected function getCachedAgreement($checkout) {
+        $agreement = '';
+        $cacheItem = $this->cache->getItem('easycredit-agreement');
+        if ($cacheItem->isHit() && $cacheItem->get()) {
+            $agreement = $cacheItem->get();
+        } else {
+            $agreement = $checkout->getAgreement();
+
+            $cacheItem->set($agreement);
+            $this->cache->save($cacheItem);
+        }
+        return $agreement;   
     }
 
     private function removePaymentMethodFromConfirmPage(CheckoutConfirmPageLoadedEvent $event): void

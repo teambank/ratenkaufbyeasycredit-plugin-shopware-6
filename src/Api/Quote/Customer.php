@@ -63,7 +63,7 @@ class Customer implements \Netzkollektiv\EasyCreditApi\Rest\CustomerInterface
 
     public function getCompany(): ?string
     {
-        return $this->customer->getCompany();
+        return $this->billingAddress->getCompany();
     }
 
     public function getTelephone(): string

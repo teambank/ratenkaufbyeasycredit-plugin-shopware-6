@@ -10,6 +10,9 @@ namespace Netzkollektiv\EasyCredit\Api;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+
+use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 
 class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
 {
@@ -30,6 +33,7 @@ class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
 
     public function __construct(
         Cart $cart,
+        MetaDataProvider $metaDataProvider,
         SalesChannelContext $context
     ) {
         if ($cart->getDeliveries()->getAddresses()->first() === null) {
@@ -43,6 +47,7 @@ class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
         $this->cart = $cart;
         $this->context = $context;
         $this->customer = $customer;
+        $this->metaDataProvider = $metaDataProvider;
     }
 
     public function getId(): ?string
@@ -109,7 +114,9 @@ class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
 
     public function getSystem(): System
     {
-        return new System();
+        return new System(
+            $this->metaDataProvider
+        );
     }
 
     /**
@@ -120,7 +127,9 @@ class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
         $_items = [];
         foreach ($items as $item) {
             $quoteItem = new Quote\Item(
-                $item
+                $item,
+                $this->metaDataProvider,
+                $this->context
             );
             if ($quoteItem->getPrice() <= 0) {
                 continue;

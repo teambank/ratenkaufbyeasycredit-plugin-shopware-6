@@ -1,95 +1,16 @@
-{% block swag_easycredit_payment_detail %}
+{% block netzkollektiv_easycredit_payment_detail %}
     <div class="easycredit-payment-detail">
         <div v-if="!isLoading">
             <sw-card :title="$tc('easycredit-payment.paymentDetails.cardTitle')">
                 <template slot="grid">
-                    {% block swag_easycredit_payment_actions_section %}
-                        <sw-card-section secondary
-                                         slim>
-                            <easycredit-payment-actions :paymentResource="paymentResource">
-                            </easycredit-payment-actions>
-                        </sw-card-section>
-                    {% endblock %}
-                    <sw-card-section divider="top">
+                    <sw-card-section>
                         <sw-container columns="1fr"
                                       gap="0px 30px">
-                            {% block swag_easycredit_payment_detail_invoice %}
-                                {% block swag_easycredit_payment_detail_invoice_heading %}
-                                    <h3>
-                                        {{ $tc('easycredit-payment.paymentDetails.invoice.heading') }}
-                                    </h3>
-                                {% endblock %}
-                                {% block swag_easycredit_payment_detail_invoice_list %}
-                                    <sw-description-list class="easycredit-payment-detail__data">
-                                        <dt>{{ $tc('easycredit-payment.paymentDetails.invoice.totalAmount') }}</dt>
-                                        <dd>{{ amount.total }} {{ currency }}</dd>
-
-                                        <dt>{{ $tc('easycredit-payment.paymentDetails.invoice.subTotal') }}</dt>
-                                        <dd> {{ amount.details.subtotal }} {{ currency }}</dd>
-
-                                        <dt>{{ $tc('easycredit-payment.paymentDetails.invoice.shipping') }}</dt>
-                                        <dd> {{ amount.details.shipping }} {{ currency }}</dd>
-                                    </sw-description-list>
-                                {% endblock %}
-                                {% block swag_easycredit_payment_detail_payment %}
-                                    {% block swag_easycredit_payment_detail_payment_heading %}
-                                        <h3 class="easycredit-payment-detail__heading">
-                                            {{ $tc('easycredit-payment.paymentDetails.payment.heading') }}
-                                        </h3>
-                                    {% endblock %}
-                                    {% block swag_easycredit_payment_detail_payment_list %}
-                                        <sw-description-list class="easycredit-payment-detail__data">
-                                            <dt>{{ $tc('easycredit-payment.paymentDetails.payment.intent') }}</dt>
-                                            <dd>{{ $tc(`easycredit.settingForm.behaviour.intent.${paymentResource.intent}`) }}</dd>
-
-                                            <dt>{{ $tc('easycredit-payment.paymentDetails.payment.paymentId') }}</dt>
-                                            <dd>{{ paymentResource.id }}</dd>
-
-                                            <dt>{{ $tc('easycredit-payment.paymentDetails.payment.cartId') }}</dt>
-                                            <dd>{{ paymentResource.cart }}</dd>
-
-                                            <dt>{{ $tc('easycredit-payment.paymentDetails.payment.state') }}</dt>
-                                            <dd>{{ paymentResource.state }}</dd>
-
-                                            <dt>{{ $tc('easycredit-payment.paymentDetails.payment.createTime') }}</dt>
-                                            <dd>{{ createDateTime }}</dd>
-
-                                            <dt>{{ $tc('easycredit-payment.paymentDetails.payment.updateTime') }}</dt>
-                                            <dd>{{ updateDateTime }}</dd>
-                                        </sw-description-list>
-                                    {% endblock %}
-                                {% endblock %}
-                                {% block swag_easycredit_payment_detail_customer %}
-                                    {% block swag_easycredit_payment_detail_customer_heading %}
-                                        <h3 class="easycredit-payment-detail__heading">
-                                            {{ $tc('easycredit-payment.paymentDetails.customer.heading') }}
-                                        </h3>
-                                    {% endblock %}
-                                    {% block swag_easycredit_payment_detail_customer_list %}
-                                        <sw-description-list class="easycredit-payment-detail__data">
-                                            <dt>{{ $tc('easycredit-payment.paymentDetails.customer.payerId') }}</dt>
-                                            <dd>{{ paymentResource.payer.payer_info.payer_id }}</dd>
-                                        </sw-description-list>
-                                    {% endblock %}
-                                {% endblock %}
-                            {% endblock %}
+                            <easycredit-tx-widget :order="order" componentType="manager" />
                         </sw-container>
                     </sw-card-section>
                 </template>
             </sw-card>
-            {% block swag_easycredit_payment_transaction_history_card %}
-                <sw-card :title="$tc('easycredit-payment.transactionHistory.cardTitle')">
-                    <template slot="grid">
-                        {% block swag_easycredit_payment_transaction_history_grid %}
-                            <sw-data-grid :dataSource="relatedResources"
-                                          :columns="relatedResourceColumns"
-                                          :showActions="false"
-                                          :showSelection="false">
-                            </sw-data-grid>
-                        {% endblock %}
-                    </template>
-                </sw-card>
-            {% endblock %}
         </div>
         <sw-loader v-if="isLoading">
         </sw-loader>

@@ -21,6 +21,11 @@ class WidgetData extends Struct
      */
     protected $widgetSelector;
 
+    /**
+     * @var float
+     */
+    protected $amount;
+
     public function getApiKey(): string
     {
         return $this->apiKey;
@@ -29,5 +34,10 @@ class WidgetData extends Struct
     public function getWidgetSelector(): string
     {
         return $this->widgetSelector;
+    }
+
+    public function getAmount(): float
+    {
+        return $this->amount;
     }
 }

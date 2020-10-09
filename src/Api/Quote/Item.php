@@ -8,6 +8,11 @@
 namespace Netzkollektiv\EasyCredit\Api\Quote;
 
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
+
+use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 
 class Item implements \Netzkollektiv\EasyCreditApi\Rest\ItemInterface
 {
@@ -17,44 +22,14 @@ class Item implements \Netzkollektiv\EasyCreditApi\Rest\ItemInterface
     protected $item;
 
     public function __construct(
-        LineItem $item
+        LineItem $item,
+        MetaDataProvider $metaDataProvider,
+        SalesChannelContext $context
     ) {
         $this->item = $item;
-        //$this->loadCategory();
+        $this->metaDataProvider = $metaDataProvider;
+        $this->context = $context;
     }
-
-    /*private function getCategoryId() {
-        $query = 'SELECT categoryID from s_articles_categories WHERE articleID = ?';
-
-        $categoryId = $this->db->fetchOne(
-            $query,
-            array($this->articleId)
-        );
-
-        return $categoryId;
-    }
-
-    private function getCategoryDescriptions() {
-        $query = 'SELECT description FROM s_categories WHERE id = ?';
-
-        $categoryDescription = $this->db->fetchOne(
-            $query,
-            array($this->categoryId)
-        );
-
-        return $categoryDescription;
-    }
-
-    private function loadCategory() {
-        $this->categoryId = $this->getCategoryId();
-
-        if (!$this->categoryId) {
-            $this->categoryName = '';
-            return;
-        }
-
-        $this->categoryName = $this->getCategoryDescriptions();
-    }*/
 
     public function getName(): ?string
     {
@@ -79,21 +54,41 @@ class Item implements \Netzkollektiv\EasyCreditApi\Rest\ItemInterface
 
     public function getManufacturer(): string
     {
-        return ''; //$this->manufacturer;
+        if ($manufacturerId = $this->item->getPayloadValue('manufacturerId')) {
+            $manufacturer = $this->metaDataProvider->getManufacturer(
+                $manufacturerId,
+                $this->context
+            );
+            if ($manufacturer->getTranslated()['name']) {
+                return $manufacturer->getTranslated()['name'];
+            }
+        }
+        return '';
     }
 
     public function getCategory(): string
     {
-        return ''; //$this->categoryName;
+        $categoryNames = [];
+
+        $categoryIds = $this->item->getPayloadValue('categoryIds');
+        if ($categoryIds && is_array($categoryIds)) {
+            $categories = $this->metaDataProvider->getCategories(
+                $categoryIds,
+                $this->context
+            );
+            foreach ($categories as $category) {
+                if ($category->getTranslated()['name']) {
+                    $categoryNames[] = $category->getTranslated()['name'];
+                }    
+            }
+        }
+        return implode(', ',$categoryNames);
     }
 
     public function getSku(): array
     {
         return array_filter([
-            'shopware-id' => isset($this->item->getPayload()['productNumber']) ? $this->item->getPayload()['productNumber'] : null,
-            //'shopware-bestell-nr'   => $this->rawItem['ordernumber'],
-            //'ean'                   => $this->rawItem['ean'],
-            //'suppliernumber'        => $this->rawItem['suppliernumber']
+            'shopware-id' => $this->item->getPayloadValue('productNumber')
         ]);
     }
 }

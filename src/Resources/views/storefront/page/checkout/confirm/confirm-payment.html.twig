@@ -2,35 +2,33 @@
 
 {% block page_checkout_confirm_errors %}
 
-    {# @var easycreditData #}
-    {% set easycreditData = page.extensions.easycredit %}
+    {# @var easycredit #}
+    {% set easycredit = page.extensions.easycredit %}
 
-    {{ easycreditData.error }}
+    {{ easycredit.error }}
 
-    {% if easycreditData.error %}
+    {% if easycredit.error %}
         {% sw_include '@Storefront/storefront/utilities/alert.html.twig' with {
             type: "danger",
-            content: easycreditData.error
+            content: easycredit.error
         } %}
     {% endif %}
 {% endblock %}
 
 {% block page_checkout_confirm_payment_current_text %}
 
-    {# @var easycreditData #}
-    {% set easycreditData = page.extensions.easycredit %}
+    {# @var easycredit #}
+    {% set easycredit = page.extensions.easycredit %}
 
-    {% if easycreditData and easycreditData.paymentMethodId is same as(context.paymentMethod.id) %}
-
-        <div data-easycredit-widget="true"></div>
+    {% if easycredit and easycredit.isSelected %}
         <span class="easycredit-description">
             <span class="easycredit-method-title">{{ context.paymentMethod.translated.name }}</span>
             <a href="https://www.easycredit-ratenkauf.de/kunden.htm" onclick="javascript:window.open('https://www.easycredit-ratenkauf.de/kunden.htm','whatiseasycredit','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, ,left=0, top=0, width=800, height=600'); return false;" class="easycredit-tooltip">{{ "easycredit.whatis"|trans }} {{ context.paymentMethod.translated.name }}?</a>
             <br/><strong>{{ "easycredit.slogan"|trans }}</strong>
             <br />
-            {% if easycreditData.paymentPlan %}
-                {{ easycreditData.paymentPlan }}
-            {% else %}
+            {% if easycredit.paymentPlan %}
+                {{ easycredit.paymentPlan }}
+            {% elseif not easycredit.error %}
                 <a href="#" id="easycredit-recalculate">{{ "easycredit.recalculate"|trans }}</a>
             {% endif %}
         </span>

@@ -1,12 +1,47 @@
 {% block netzkollektiv_easycredit_content_card_channel_config_behavior %}
-    <sw-card class="sw-card--grid"
-             :title="$tc('easycredit.settingForm.behavior.cardTitle')">
+    <sw-card :title="$tc('easycredit.settingForm.behavior.cardTitle')">
         {% block netzkollektiv_easycredit_content_card_channel_config_behavior_card_container %}
             <sw-container>
                 {% block netzkollektiv_easycredit_content_card_channel_config_behavior_card_container_settings %}
                     <div class="easycredit-settings-behavior-fields" v-if="actualConfigData">
+                        {% block swag_paypal_content_card_channel_config_behavior_card_container_settings_removeInterest %}
+                            <sw-inherit-wrapper v-model="actualConfigData['EasyCreditRatenkauf.settings.removeInterest']"
+                                                :inheritedValue="selectedSalesChannelId == null ? null : allConfigs['null']['EasyCreditRatenkauf.settings.removeInterest']"
+                                                :customInheritationCheckFunction="checkBoolFieldInheritance">
+                                <template #content="props">
+                                    <sw-switch-field name="EasyCreditRatenkauf.settings.removeInterest"
+                                                     bordered
+                                                     :mapInheritance="props"
+                                                     :label="$tc('easycredit.settingForm.behavior.removeInterest.label')"
+                                                     :helpText="$tc('easycredit.settingForm.behavior.removeInterest.tooltipText')"
+                                                     :disabled="props.isInherited"
+                                                     :value="props.currentValue"
+                                                     @change="props.updateCurrentValue">
+                                    </sw-switch-field>
+                                </template>
+                            </sw-inherit-wrapper>
+                        {% endblock %}
+
+                        {% block swag_paypal_content_card_channel_config_behavior_card_container_settings_debug %}
+                            <sw-inherit-wrapper v-model="actualConfigData['EasyCreditRatenkauf.settings.debug']"
+                                                :inheritedValue="selectedSalesChannelId == null ? null : allConfigs['null']['EasyCreditRatenkauf.settings.removeInterest']"
+                                                :customInheritationCheckFunction="checkBoolFieldInheritance">
+                                <template #content="props">
+                                    <sw-switch-field name="EasyCreditRatenkauf.settings.debug"
+                                                     bordered
+                                                     :mapInheritance="props"
+                                                     :label="$tc('easycredit.settingForm.behavior.debug.label')"
+                                                     :helpText="$tc('easycredit.settingForm.behavior.debug.tooltipText')"
+                                                     :disabled="props.isInherited"
+                                                     :value="props.currentValue"
+                                                     @change="props.updateCurrentValue">
+                                    </sw-switch-field>
+                                </template>
+                            </sw-inherit-wrapper>
+                        {% endblock %}
+                        
                         {% block netzkollektiv_easycredit_content_card_channel_config_behavior_card_container_settings_payment_status %}
-                            <sw-inherit-wrapper v-model="actualConfigData['EasyCreditRatenkauf.settings.paymentStatus']"
+                            <!-- sw-inherit-wrapper v-model="actualConfigData['EasyCreditRatenkauf.settings.paymentStatus']"
                                                 :inheritedValue="selectedSalesChannelId == null ? null : allConfigs['null']['EasyCreditRatenkauf.settings.paymentStatus']"
                                                 :customInheritationCheckFunction="checkTextFieldInheritance">
                                 <template #content="props">
@@ -27,11 +62,11 @@
                                             #}>
                                     </sw-order-state-select>
                                 </template>
-                            </sw-inherit-wrapper>
+                            </sw-inherit-wrapper -->
                         {% endblock %}
 
                         {% block netzkollektiv_easycredit_content_card_channel_config_behavior_card_container_settings_order_status %}
-                            <sw-inherit-wrapper v-model="actualConfigData['EasyCreditRatenkauf.settings.orderStatus']"
+                            <!-- sw-inherit-wrapper v-model="actualConfigData['EasyCreditRatenkauf.settings.orderStatus']"
                                                 :inheritedValue="selectedSalesChannelId == null ? null : allConfigs['null']['EasyCreditRatenkauf.settings.orderStatus']"
                                                 :customInheritationCheckFunction="checkTextFieldInheritance">
                                 <template #content="props">
@@ -54,7 +89,7 @@
                                     #}>
                                     </sw-order-state-select>
                                 </template>
-                            </sw-inherit-wrapper>
+                            </sw-inherit-wrapper -->
                         {% endblock %}
                     </div>
                 {% endblock %}

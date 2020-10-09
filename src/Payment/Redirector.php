@@ -84,14 +84,22 @@ class Redirector implements EventSubscriberInterface
             || $attributes->get('_route') !== 'frontend.checkout.configure') {
             return;
         }
+
         if (!$this->paymentHelper->isSelected($salesChannelContext, $event->getRequestDataBag()->get('paymentMethodId'))) {
             return;
         }
 
+        $checkout = $this->checkoutFactory->create($salesChannelContext);
         $quote = $this->quoteHelper->getQuote($salesChannelContext);
 
+        if ($checkout->isInitialized()
+        ) {
+            return;
+        }
+
         try {
-            $checkout = $this->checkoutFactory->create($salesChannelContext)->start(
+            $checkout->isAvailable($quote);
+            $checkout->start(
                 $quote,
                 $this->router->generate('frontend.easycredit.cancel', [], UrlGeneratorInterface::ABSOLUTE_URL), // cancel
                 $this->router->generate('frontend.easycredit.return', [], UrlGeneratorInterface::ABSOLUTE_URL), // return
