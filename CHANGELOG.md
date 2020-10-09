@@ -1,4 +1,4 @@
-# 0.9.7
+# 0.9.8
 
 * Integration des Händler-Interface Widgets
 * Verbesserung der Validierung (Firma, abweichende Adresse, Betragsgrenzen)
