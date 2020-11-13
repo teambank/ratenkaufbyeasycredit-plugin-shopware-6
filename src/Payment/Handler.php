@@ -13,7 +13,6 @@ use Netzkollektiv\EasyCredit\Helper\OrderDataProvider;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Netzkollektiv\EasyCredit\Util\Lifecycle\ActivateDeactivate;
 use Monolog\Logger;
-use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Exception\SyncPaymentProcessException;
@@ -80,7 +79,7 @@ class Handler implements SynchronousPaymentHandlerInterface
 
             $checkout->capture(null, $order->getOrderNumber());
 
-            $this->transactionStateHandler->paid(
+            $this->transactionStateHandler->authorized(
                 $transaction->getOrderTransaction()->getId(),
                 $salesChannelContext->getContext()
             );
