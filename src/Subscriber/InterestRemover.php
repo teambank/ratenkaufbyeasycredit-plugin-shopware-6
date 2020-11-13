@@ -5,7 +5,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Netzkollektiv\EasyCredit\Payment;
+namespace Netzkollektiv\EasyCredit\Subscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Shopware\Core\Checkout\Cart\Event\CheckoutOrderPlacedEvent;

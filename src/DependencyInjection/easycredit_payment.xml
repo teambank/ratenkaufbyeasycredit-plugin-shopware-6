@@ -24,7 +24,7 @@
 
         <service id="Netzkollektiv\EasyCredit\Api\CheckoutFactory">
             <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>            
-            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/> 
+            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
             <argument type="service" id="session"/>
         </service>
 
@@ -63,11 +63,6 @@
             <argument>%kernel.shopware_version%</argument>
         </service>
 
-        <service id="Netzkollektiv\EasyCredit\Subscriber\InterestSubscriber">
-            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
-            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
-        </service>
-
         <service id="Netzkollektiv\EasyCredit\Payment\Builder\OrderPaymentBuilder">
             <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
             <argument type="service" id="language.repository"/>
@@ -80,7 +75,7 @@
             <argument type="service" id="sales_channel.repository"/>
         </service>
 
-        <service id="Netzkollektiv\EasyCredit\Payment\Redirector">
+        <service id="Netzkollektiv\EasyCredit\Subscriber\Redirector">
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
             <argument type="service" id="request_stack"/>
             <argument type="service" id="router"/>
@@ -154,10 +149,17 @@
             <argument type="service" id="order.repository"/>
         </service>
 
-        <service id="Netzkollektiv\EasyCredit\Payment\InterestRemover">
+        <service id="Netzkollektiv\EasyCredit\Subscriber\InterestRemover">
             <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
             <argument type="service" id="Doctrine\DBAL\Connection"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
+
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Subscriber\OrderStatus">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\MerchantFactory"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
 
             <tag name="kernel.event_subscriber"/>
         </service>

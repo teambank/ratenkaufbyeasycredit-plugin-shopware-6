@@ -5,7 +5,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Netzkollektiv\EasyCredit\Payment;
+namespace Netzkollektiv\EasyCredit\Subscriber;
 
 use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
 use Netzkollektiv\EasyCredit\Api\Storage;
