@@ -82,7 +82,7 @@ class Item implements \Netzkollektiv\EasyCreditApi\Rest\ItemInterface
                 }    
             }
         }
-        return implode(', ',$categoryNames);
+        return substr(implode(', ',$categoryNames), 0, 255);
     }
 
     public function getSku(): array

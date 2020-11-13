@@ -1,7 +1,7 @@
 {
     "name": "easycredit/ratenkauf",
     "description": "ratenkauf by easyCredit integration for Shopware 6",
-    "version": "0.9.8",
+    "version": "1.0.0",
     "type": "shopware-platform-plugin",
     "license": "MIT",
     "authors": [
@@ -47,7 +47,6 @@
             "Netzkollektiv\\EasyCredit\\Test\\": "tests/"
         }
     },
-    "minimum-stability" : "dev",
     "config": {
       "preferred-install": {
         "*": "dist"
