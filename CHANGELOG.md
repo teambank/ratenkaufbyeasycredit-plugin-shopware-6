@@ -1,3 +1,10 @@
+# 1.0.0
+
+* Bestellungen werden nach Abschluss statt als "Bezahlt" als "Authorisiert" markiert (erst nach Meldung der Lieferung im Händler-Portal ist die Bestellung bezahlt)
+* der Lieferstatus wird nun an das Händler-Portal übermittelt (order_delivery.state.shipped, order_delivery.state.returned)
+* die Konfiguration wurde zur Standardisierung auf config.xml migriert 
+* API: das Feld Kategorie wird nach 255 Zeichen abgeschnitten, um einen Fehler bei zu langen Kategorienamen zu vermeiden
+
 # 0.9.8
 
 * Integration des Händler-Interface Widgets

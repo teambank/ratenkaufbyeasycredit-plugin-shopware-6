@@ -3,3 +3,4 @@ replace.sh export-ignore
 *.dist export-ignore
 psalm.xml export-ignore
 merchant-interface export-ignore
+Gruntfile.js export-ignore
