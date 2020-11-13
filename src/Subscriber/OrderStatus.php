@@ -54,7 +54,6 @@ class OrderStatus implements EventSubscriberInterface
     }
 
     public function onOrderReturned(OrderStateMachineStateChangeEvent $event) {
-        file_put_contents('/tmp/bla',__METHOD__.PHP_EOL,FILE_APPEND);
         if (!$txId = $this->getTransactionId($event)) {
             return;
         }
