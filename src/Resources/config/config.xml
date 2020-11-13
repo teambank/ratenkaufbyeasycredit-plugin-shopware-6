@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title lang="de-DE">API Zugangsdaten</title>
+        <title lang="en-GB">API Credentials</title>
+        <name>api-credentials</name>
+
+        <input-field>
+            <name>webshopId</name>
+            <label lang="de-DE">Webshop-ID</label>
+            <label lang="en-GB">Webshop-ID</label>
+            <required>1</required>
+            <helpText lang="de-DE">Die Webshop-ID, die das Plugin dazu verwendet sich mit der ratenkauf by easyCredit API zu authentifizieren.</helpText>
+            <helpText lang="en-GB">The Webshop-ID being used to authenticate with ratenkauf by easyCredit API.</helpText>
+            <placeholder>1.de.1234.1</placeholder>
+        </input-field>
+        <input-field>
+            <name>apiPassword</name>
+            <label lang="de-DE">API Passwort</label>
+            <label lang="en-GB">API Passwort</label>
+            <required>1</required>
+            <helpText lang="de-DE">Das API Passwort, welchen das Plugin dazu verwendet sich mit der ratenkauf by easyCredit API zu authentifizieren.</helpText>
+            <helpText lang="en-GB">The API Key is being used to authenticate with ratenkauf by easyCredit API.</helpText>
+        </input-field>
+    </card>
+
+    <card>
+        <title lang="de-DE">Verhalten</title>
+        <title lang="en-GB">Behavior</title>
+        <name>behavior</name>
+
+        <input-field type="bool">
+            <name>removeInterest</name>
+            <label lang="de-DE">Zinsen nach Bestellabschluss entfernen</label>
+            <label lang="en-GB">Remove interest after order</label>
+            <helpText lang="de-DE">Entfernt die Zinsen nach Bestellabschluss aus der Bestellung.</helpText>
+            <helpText lang="en-GB">Removes the interest from orders after the order has been placed</helpText>
+        </input-field>
+        <input-field type="bool">
+            <name>debug</name>
+            <label lang="de-DE">Debug-Logging aktivieren</label>
+            <label lang="en-GB">Debug-Logging aktivieren</label>
+            <helpText lang="de-DE">Aktiviert das Debug-Logging (var/log/netzkollektiv_easycredit_*-YYYY-MM-DD.log).</helpText>
+            <helpText lang="en-GB">Enables debug logging (var/log/netzkollektiv_easycredit_*-YYYY-MM-DD.log).</helpText>
+        </input-field>
+
+        <!-- component name="sw-order-state-select">
+            <name>orderStatus</name>
+            <label lang="de-DE">Bestellstatus</label>
+            <label lang="en-GB">Order Status</label>
+            <helpText lang="de-DE">Legt den Bestellstatus fest, den eine Bestellung nach Aufgabe durch den Kunden hat.</helpText>
+            <helpText lang="en-GB">Define the order status of orders paid with ratenkauf by easyCredit</helpText>
+        </component>
+        <component name="sw-order-state-select">
+            <name>paymentStatus</name>
+            <label lang="de-DE">Zahlungsstatus</label>
+            <label lang="en-GB">Payment Status</label>
+            <helpText lang="de-DE">Legt den Zahlungs fest, den eine Bestellung nach Aufgabe durch den Kunden hat.</helpText>
+            <helpText lang="en-GB">Define the payment status of orders paid with ratenkauf by easyCredit</helpText>
+        </component -->
+    </card>
+
+    <card>
+        <title lang="de-DE">Marketing: Modellrechner-Widget</title>
+        <title lang="en-GB">Marketing: Model Calculation Widget</title>
+        <name>widget</name>
+
+        <input-field type="bool">
+            <name>widgetEnabled</name>
+            <label lang="de-DE">Widget anzeigen</label>
+            <label lang="en-GB">Widget anzeigen</label>
+            <helpText lang="de-DE">Wenn diese Option aktiv ist, wird das ratenkauf by easyCredit unter den angegebenen Selektoren angezeigt.</helpText>
+            <helpText lang="en-GB">If this option is active, the widget will be shown using the selector below.</helpText>
+        </input-field>
+        <input-field>
+            <name>widgetSelectorProductDetail</name>
+            <label lang="de-DE">CSS-Selektor für Detailseite</label>
+            <label lang="en-GB">CSS selector for product detail page</label>
+        </input-field>
+        <input-field>
+            <name>widgetSelectorCart</name>
+            <label lang="de-DE">CSS-Selektor für Warenkorb</label>
+            <label lang="en-GB">CSS selector for cart</label>
+        </input-field>
+    </card>
+</config>

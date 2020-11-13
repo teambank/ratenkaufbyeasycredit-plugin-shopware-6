@@ -8,51 +8,6 @@
         "settingForm": {
             "save": "Save",
             "test": "Test API credentials",
-            "credentials": {
-                "cardTitle": "API credentials",
-                "webshopId": {
-                    "label": "Webshop-ID",
-                    "tooltipText": "The Webshop-ID being used to authenticate with ratenkauf by easyCredit API."
-                },
-                "apiPassword": {
-                    "label": "API Password",
-                    "tooltipText": "The API Key is being used to authenticate with ratenkauf by easyCredit API."
-                }
-            },
-            "behavior": {
-                "cardTitle": "Behavior",
-                "paymentStatus": {
-                    "label": "Payment status",
-                    "tooltipText": "Define the payment status of orders paid with ratenkauf by easyCredit"
-                },
-                "orderStatus": {
-                    "label": "Order status",
-                    "tooltipText": "Define the order status of orders paid with ratenkauf by easyCredit"
-                },
-                "removeInterest": {
-                    "label": "Remove interest from order",
-                    "tooltipText": "Removes the interest from orders after the order has been placed"
-                },
-                "debug": {
-                    "label": "Enable debug",
-                    "tooltipText": "Enables debug logging"
-                }
-            },
-            "widget": {
-                "cardTitle": "Marketing: Model Calculation Widget",
-                "widgetEnabled": {
-                    "label": "Show widget",
-                    "tooltipText": "If this option is active, the widget will be shown using the selector below."
-                },
-                "widgetSelectorProductDetail": {
-                    "label": "CSS selector for product detail page",
-                    "tooltipText": ""
-                },
-                "widgetSelectorCart": {
-                    "label": "CSS selector for cart",
-                    "tooltipText": ""
-                }
-            },
             "titleSaveSuccess": "ratenkauf by easyCredit settings",
             "titleTestSuccess": "API credentials",
             "titleTestError": "API credentials error",

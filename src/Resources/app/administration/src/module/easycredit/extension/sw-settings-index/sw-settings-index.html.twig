@@ -2,7 +2,7 @@
     {% parent %}
 
     <sw-settings-item :label="$tc('easycredit.general.mainMenuItemGeneral')"
-                      :to="{ name: 'netzkollektiv.easycredit.index' }"
+                      :to="{ name: 'sw.plugin.settings', params: { namespace: 'EasyCreditRatenkauf' } }"
                       :backgroundEnabled="false">
         <template #icon>
             <img :src="'/easycreditratenkauf/static/img/plugin.png' | asset">

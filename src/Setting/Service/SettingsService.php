@@ -13,7 +13,7 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 class SettingsService implements SettingsServiceInterface
 {
-    public const SYSTEM_CONFIG_DOMAIN = 'EasyCreditRatenkauf.settings.';
+    public const SYSTEM_CONFIG_DOMAIN = 'EasyCreditRatenkauf.config.';
 
     private $systemConfigService;
 

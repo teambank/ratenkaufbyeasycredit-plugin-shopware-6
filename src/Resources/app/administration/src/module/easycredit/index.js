@@ -1,9 +1,6 @@
-import './page/easycredit';
 import './extension/sw-settings-index';
-import './extension/sw-plugin';
-import './components/easycredit-credentials';
-import './components/easycredit-widget';
-import './components/easycredit-behavior';
+import './extension/sw-plugin-config';
+import './components/easycredit-test-credentials-button';
 
 const { Module } = Shopware;
 
