@@ -7,12 +7,12 @@
 
 namespace Netzkollektiv\EasyCredit\Payment;
 
+use Monolog\Logger;
 use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Helper\OrderDataProvider;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Netzkollektiv\EasyCredit\Util\Lifecycle\ActivateDeactivate;
-use Monolog\Logger;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Exception\SyncPaymentProcessException;

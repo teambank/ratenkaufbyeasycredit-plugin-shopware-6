@@ -17,10 +17,10 @@ use Shopware\Core\Checkout\Cart\LineItem\CartDataCollection;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Checkout\Cart\LineItem\LineItemCollection;
 use Shopware\Core\Checkout\Cart\Price\Struct\CalculatedPrice;
-use Shopware\Core\Checkout\Cart\Tax\Struct\CalculatedTaxCollection;
-use Shopware\Core\Checkout\Cart\Tax\Struct\TaxRuleCollection;
 use Shopware\Core\Checkout\Cart\Tax\Struct\CalculatedTax;
+use Shopware\Core\Checkout\Cart\Tax\Struct\CalculatedTaxCollection;
 use Shopware\Core\Checkout\Cart\Tax\Struct\TaxRule;
+use Shopware\Core\Checkout\Cart\Tax\Struct\TaxRuleCollection;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -65,7 +65,7 @@ class Collector implements CartDataCollectorInterface
         return new CalculatedPrice(
             (float) $this->storage->get('interest_amount'),
             (float) $this->storage->get('interest_amount'),
-            new CalculatedTaxCollection([new CalculatedTax(0, 0, 0)]), 
+            new CalculatedTaxCollection([new CalculatedTax(0, 0, 0)]),
             new TaxRuleCollection([new TaxRule(0)])
         );
     }

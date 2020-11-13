@@ -7,14 +7,12 @@
 
 namespace Netzkollektiv\EasyCredit\Controller;
 
-use Netzkollektiv\EasyCredit\Setting\Service\ApiCredentialServiceInterface;
+use Netzkollektiv\EasyCredit\Api\MerchantFactory;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
-use Netzkollektiv\EasyCredit\Api\MerchantFactory;
 
 /**
  * @RouteScope(scopes={"api"})
@@ -62,18 +60,17 @@ class TransactionsController extends AbstractController
      */
     public function updateTransaction(Request $request): JsonResponse
     {
-
         $client = $this->merchantFactory->create();
 
         $params = $request->request->all();
         switch ($params['status']) {
-            case "LIEFERUNG":
+            case 'LIEFERUNG':
                 $client->confirmShipment($params['id']);
                 break;
-            case "WIDERRUF_VOLLSTAENDIG":
-            case "WIDERRUF_TEILWEISE":
-            case "RUECKGABE_GARANTIE_GEWAEHRLEISTUNG":
-            case "MINDERUNG_GARANTIE_GEWAEHRLEISTUNG":
+            case 'WIDERRUF_VOLLSTAENDIG':
+            case 'WIDERRUF_TEILWEISE':
+            case 'RUECKGABE_GARANTIE_GEWAEHRLEISTUNG':
+            case 'MINDERUNG_GARANTIE_GEWAEHRLEISTUNG':
                 $client->cancelOrder(
                     $params['id'],
                     $params['status'],

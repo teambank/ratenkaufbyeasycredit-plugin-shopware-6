@@ -7,12 +7,9 @@
 
 namespace Netzkollektiv\EasyCredit\Api\Quote;
 
-use Shopware\Core\Checkout\Cart\LineItem\LineItem;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\System\SalesChannel\SalesChannelContext;
-
 use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
+use Shopware\Core\Checkout\Cart\LineItem\LineItem;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class Item implements \Netzkollektiv\EasyCreditApi\Rest\ItemInterface
 {
@@ -63,6 +60,7 @@ class Item implements \Netzkollektiv\EasyCreditApi\Rest\ItemInterface
                 return $manufacturer->getTranslated()['name'];
             }
         }
+
         return '';
     }
 
@@ -79,16 +77,17 @@ class Item implements \Netzkollektiv\EasyCreditApi\Rest\ItemInterface
             foreach ($categories as $category) {
                 if ($category->getTranslated()['name']) {
                     $categoryNames[] = $category->getTranslated()['name'];
-                }    
+                }
             }
         }
-        return substr(implode(', ',$categoryNames), 0, 255);
+
+        return mb_substr(implode(', ', $categoryNames), 0, 255);
     }
 
     public function getSku(): array
     {
         return array_filter([
-            'shopware-id' => $this->item->getPayloadValue('productNumber')
+            'shopware-id' => $this->item->getPayloadValue('productNumber'),
         ]);
     }
 }

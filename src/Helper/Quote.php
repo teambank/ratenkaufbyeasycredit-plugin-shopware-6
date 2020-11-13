@@ -13,9 +13,6 @@ use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-
-use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 
 class Quote
 {

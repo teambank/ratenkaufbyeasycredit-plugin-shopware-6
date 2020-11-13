@@ -30,16 +30,19 @@ class MetaDataProvider
     public function getManufacturer(string $manufacturerId, SalesChannelContext $salesChannelContext)
     {
         $criteria = new Criteria([$manufacturerId]);
+
         return $this->manufacturerRepository->search($criteria, $salesChannelContext->getContext())->first();
     }
 
     public function getCategories(array $categoryIds, SalesChannelContext $salesChannelContext)
     {
         $criteria = new Criteria($categoryIds);
+
         return $this->categoryRepository->search($criteria, $salesChannelContext->getContext());
     }
 
-    public function getShopwareVersion() {
+    public function getShopwareVersion()
+    {
         return $this->shopwareVersion;
     }
 }

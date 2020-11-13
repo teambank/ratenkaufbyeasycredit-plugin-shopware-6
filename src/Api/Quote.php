@@ -7,12 +7,10 @@
 
 namespace Netzkollektiv\EasyCredit\Api;
 
+use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-
-use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 
 class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
 {

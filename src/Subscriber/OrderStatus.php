@@ -7,14 +7,10 @@
 
 namespace Netzkollektiv\EasyCredit\Subscriber;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Shopware\Core\Checkout\Order\Event\OrderStateMachineStateChangeEvent;
-use Doctrine\DBAL\Connection;
-use Psr\Log\LoggerInterface;
-
-use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
-use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Api\MerchantFactory;
+use Psr\Log\LoggerInterface;
+use Shopware\Core\Checkout\Order\Event\OrderStateMachineStateChangeEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class OrderStatus implements EventSubscriberInterface
 {
@@ -26,8 +22,7 @@ class OrderStatus implements EventSubscriberInterface
     public function __construct(
         MerchantFactory $merchantFactory,
         LoggerInterface $logger
-    )
-    {
+    ) {
         $this->merchantFactory = $merchantFactory;
         $this->logger = $logger;
     }
@@ -36,11 +31,12 @@ class OrderStatus implements EventSubscriberInterface
     {
         return [
             'state_enter.order_delivery.state.shipped' => 'onOrderShipped',
-            'state_enter.order_delivery.state.returned' => 'onOrderReturned'
+            'state_enter.order_delivery.state.returned' => 'onOrderReturned',
         ];
     }
-    
-    public function onOrderShipped(OrderStateMachineStateChangeEvent $event) {
+
+    public function onOrderShipped(OrderStateMachineStateChangeEvent $event): void
+    {
         if (!$txId = $this->getTransactionId($event)) {
             return;
         }
@@ -53,7 +49,8 @@ class OrderStatus implements EventSubscriberInterface
         }
     }
 
-    public function onOrderReturned(OrderStateMachineStateChangeEvent $event) {
+    public function onOrderReturned(OrderStateMachineStateChangeEvent $event): void
+    {
         if (!$txId = $this->getTransactionId($event)) {
             return;
         }
@@ -67,16 +64,17 @@ class OrderStatus implements EventSubscriberInterface
             );
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
-        }            
+        }
     }
 
-    protected function getTransactionId(OrderStateMachineStateChangeEvent $event) {
+    protected function getTransactionId(OrderStateMachineStateChangeEvent $event)
+    {
         $tx = $event->getOrder()->getTransactions()->first();
 
         if (!$tx && !isset($tx->getCustomFields()['easycredit_transaction_id'])) {
             return false;
         }
+
         return $tx->getCustomFields()['easycredit_transaction_id'];
     }
 }
-

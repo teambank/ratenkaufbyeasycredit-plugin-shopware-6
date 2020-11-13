@@ -8,12 +8,9 @@
 namespace Netzkollektiv\EasyCredit\Api;
 
 use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
-use Netzkollektiv\EasyCreditApi\Checkout;
-use Netzkollektiv\EasyCreditApi\Client;
 use Netzkollektiv\EasyCreditApi\Client\HttpClientFactory;
-use Psr\Log\LoggerInterface;
-
 use Netzkollektiv\EasyCreditApi\Merchant;
+use Psr\Log\LoggerInterface;
 
 class MerchantFactory
 {

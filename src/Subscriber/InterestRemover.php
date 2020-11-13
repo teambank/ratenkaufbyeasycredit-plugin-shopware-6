@@ -7,26 +7,18 @@
 
 namespace Netzkollektiv\EasyCredit\Subscriber;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Shopware\Core\Checkout\Cart\Event\CheckoutOrderPlacedEvent;
 use Doctrine\DBAL\Connection;
-use Shopware\Core\Framework\Uuid\Uuid;
-
-use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 use Netzkollektiv\EasyCredit\Api\Storage;
+use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
+use Shopware\Core\Checkout\Cart\Event\CheckoutOrderPlacedEvent;
+use Shopware\Core\Framework\Uuid\Uuid;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class InterestRemover implements EventSubscriberInterface
 {
     protected $recalculationService;
 
     private $orderLineItemRepository;
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            CheckoutOrderPlacedEvent::class => 'removeInterest',
-        ];
-    }
 
     public function __construct(
         SettingsServiceInterface $settingsService,
@@ -36,6 +28,13 @@ class InterestRemover implements EventSubscriberInterface
         $this->settings = $settingsService;
         $this->connection = $connection;
         $this->storage = $storage;
+    }
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            CheckoutOrderPlacedEvent::class => 'removeInterest',
+        ];
     }
 
     public function removeInterest(CheckoutOrderPlacedEvent $event): void
@@ -66,8 +65,8 @@ class InterestRemover implements EventSubscriberInterface
                         '$.positionPrice', o.position_price - ol.total_price
                     )
                 WHERE o.id = ?;
-            ",[
-                Uuid::fromHexToBytes($order->getId())
+            ", [
+                Uuid::fromHexToBytes($order->getId()),
             ]);
 
             $this->connection->executeQuery("
@@ -76,14 +75,13 @@ class InterestRemover implements EventSubscriberInterface
                 WHERE 
                     o.id = ?
                     AND order_line_item.type = 'easycredit-interest';
-            ",[
-                Uuid::fromHexToBytes($order->getId())
+            ", [
+                Uuid::fromHexToBytes($order->getId()),
             ]);
             $this->storage->set('interest_amount', 0);
             $this->connection->commit();
         } catch (\Exception $e) {
             $this->connection->rollBack();
         }
-        
     }
 }

@@ -7,11 +7,9 @@
 
 namespace Netzkollektiv\EasyCredit\Api;
 
-use Shopware\Core\Checkout\Order\OrderEntity;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Shopware\Core\System\SalesChannel\SalesChannelContext;
-
 use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
+use Shopware\Core\Checkout\Order\OrderEntity;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class Order implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
 {

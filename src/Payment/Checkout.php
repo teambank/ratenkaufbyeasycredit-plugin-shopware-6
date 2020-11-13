@@ -8,9 +8,9 @@
 namespace Netzkollektiv\EasyCredit\Payment;
 
 use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
-use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
+use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Netzkollektiv\EasyCredit\Setting\Exception\SettingsInvalidException;
 use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
@@ -65,7 +65,7 @@ class Checkout implements EventSubscriberInterface
         }
 
         $paymentMethodId = $this->paymentHelper->getPaymentMethodId($salesChannelContext->getContext());
-        $isSelected = $paymentMethodId == $salesChannelContext->getPaymentMethod()->getId();
+        $isSelected = $paymentMethodId === $salesChannelContext->getPaymentMethod()->getId();
         $error = '';
 
         try {
@@ -73,18 +73,19 @@ class Checkout implements EventSubscriberInterface
             $checkout = $this->checkoutFactory->create($salesChannelContext);
         } catch (SettingsInvalidException $e) {
             $this->removePaymentMethodFromConfirmPage($event);
+
             return;
         }
-        
+
         try {
             $agreement = $this->getCachedAgreement($checkout);
         } catch (\Exception $e) {
             $this->removePaymentMethodFromConfirmPage($event);
+
             return;
         }
 
         if ($isSelected) {
-
             $error = null;
             if ($this->storage->get('error')) {
                 $error = $this->storage->get('error');
@@ -111,7 +112,8 @@ class Checkout implements EventSubscriberInterface
         ]));
     }
 
-    protected function getCachedAgreement($checkout) {
+    protected function getCachedAgreement($checkout)
+    {
         $agreement = '';
         $cacheItem = $this->cache->getItem('easycredit-agreement');
         if ($cacheItem->isHit() && $cacheItem->get()) {
@@ -122,7 +124,8 @@ class Checkout implements EventSubscriberInterface
             $cacheItem->set($agreement);
             $this->cache->save($cacheItem);
         }
-        return $agreement;   
+
+        return $agreement;
     }
 
     private function removePaymentMethodFromConfirmPage(CheckoutConfirmPageLoadedEvent $event): void
