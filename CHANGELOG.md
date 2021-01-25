@@ -1,3 +1,7 @@
+# 1.1.0
+
+* Verbesserung der Kompatibilität mit dem Shopware Rule Builder
+
 # 1.0.0
 
 * Bestellungen werden nach Abschluss statt als "Bezahlt" als "Authorisiert" markiert (erst nach Meldung der Lieferung im Händler-Portal ist die Bestellung bezahlt)
