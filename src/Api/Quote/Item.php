@@ -51,12 +51,12 @@ class Item implements \Netzkollektiv\EasyCreditApi\Rest\ItemInterface
 
     public function getManufacturer(): string
     {
-        if ($manufacturerId = $this->item->getPayloadValue('manufacturerId')) {
+        if ($this->item->hasPayloadValue('manufacturerId')) {
             $manufacturer = $this->metaDataProvider->getManufacturer(
-                $manufacturerId,
+                $this->item->getPayloadValue('manufacturerId'),
                 $this->context
             );
-            if ($manufacturer->getTranslated()['name']) {
+            if (isset($manufacturer->getTranslated()['name'])) {
                 return $manufacturer->getTranslated()['name'];
             }
         }
@@ -68,10 +68,9 @@ class Item implements \Netzkollektiv\EasyCreditApi\Rest\ItemInterface
     {
         $categoryNames = [];
 
-        $categoryIds = $this->item->getPayloadValue('categoryIds');
-        if ($categoryIds && is_array($categoryIds)) {
+        if ($this->item->hasPayloadValue('categoryIds') && is_array($this->item->getPayloadValue('categoryIds'))) {
             $categories = $this->metaDataProvider->getCategories(
-                $categoryIds,
+                $this->item->getPayloadValue('categoryIds'),
                 $this->context
             );
             foreach ($categories as $category) {
