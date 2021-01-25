@@ -44,6 +44,7 @@ class Validator implements CartValidatorInterface
         ErrorCollection $errors,
         SalesChannelContext $salesChannelContext
     ): void {
+
         try {
             $checkout = $this->checkoutFactory->create(
                 $salesChannelContext
@@ -68,16 +69,10 @@ class Validator implements CartValidatorInterface
             return;
         }
 
-        if (!$this->storage->get('interest_amount')) {
-            $errors->add(new InterestError());
-
-            return;
-        }
-
-        if (!$checkout->isAmountValid($quote)
+        if (!$this->storage->get('interest_amount')
+            || !$checkout->isAmountValid($quote)
             || !$checkout->verifyAddressNotChanged($quote)
         ) {
-            $this->storage->clear();
             $errors->add(new InterestError());
         }
     }

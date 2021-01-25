@@ -23,6 +23,11 @@ class InterestError extends Error
         return static::KEY;
     }
 
+    public function isPersistent(): bool
+    {
+        return false;
+    }
+
     public function getMessageKey(): string
     {
         return static::KEY;

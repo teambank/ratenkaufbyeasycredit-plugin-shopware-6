@@ -56,6 +56,12 @@ class Checkout implements EventSubscriberInterface
      */
     public function onCheckoutConfirmLoaded(CheckoutConfirmPageLoadedEvent $event): void
     {
+        if ($this->storage->get('redirect_url') 
+            || $this->storage->get('init')
+        ) {
+            return;
+        }
+
         $salesChannelContext = $event->getSalesChannelContext();
         $context = $event->getContext();
         $cart = $event->getPage()->getCart();
@@ -64,9 +70,20 @@ class Checkout implements EventSubscriberInterface
             return;
         }
 
+        $error = $this->storage->get('error');
+        if ($this->storage->get('error')) {
+            $error = $this->storage->get('error');
+            $this->storage->set('error', null);
+        }
+
+        foreach ($cart->getErrors()->getElements() as $cartError) {
+            if ($cartError instanceof \Netzkollektiv\EasyCredit\Cart\InterestError) {
+                $this->storage->clear();
+            }
+        }
+
         $paymentMethodId = $this->paymentHelper->getPaymentMethodId($salesChannelContext->getContext());
         $isSelected = $paymentMethodId === $salesChannelContext->getPaymentMethod()->getId();
-        $error = '';
 
         try {
             $settings = $this->settings->getSettings($salesChannelContext->getSalesChannel()->getId());
@@ -86,12 +103,6 @@ class Checkout implements EventSubscriberInterface
         }
 
         if ($isSelected) {
-            $error = null;
-            if ($this->storage->get('error')) {
-                $error = $this->storage->get('error');
-                $this->storage->set('error', null);
-            }
-
             if (is_null($error)) {
                 try {
                     $checkout->isAvailable(

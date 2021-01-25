@@ -12,6 +12,7 @@ use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Shopware\Core\System\SalesChannel\Event\SalesChannelContextSwitchEvent;
+use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -67,12 +68,24 @@ class Redirector implements EventSubscriberInterface
         $this->storage = $storage;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SalesChannelContextSwitchEvent::class => 'onSalesChannelContextSwitch',
-            KernelEvents::RESPONSE => 'onKernelResponse',
+            CheckoutConfirmPageLoadedEvent::class => 'onCheckoutConfirmLoaded',
+            KernelEvents::RESPONSE => 'onKernelResponse'
         ];
+    }
+
+    protected function isRoute($route, $request) {
+        $attributes = (isset($request->attributes)) ? $request->attributes : null;
+
+        if ($attributes === null
+            || $attributes->get('_route') !== $route
+        ) {
+            return false;
+        }
+        return true;
     }
 
     public function onSalesChannelContextSwitch(SalesChannelContextSwitchEvent $event): void
@@ -80,22 +93,31 @@ class Redirector implements EventSubscriberInterface
         $salesChannelContext = $event->getSalesChannelContext();
         $attributes = (isset($this->request->attributes)) ? $this->request->attributes : null;
 
-        if ($attributes === null
-            || $attributes->get('_route') !== 'frontend.checkout.configure') {
+        if (!$this->isRoute('frontend.checkout.configure', $this->request)) {
             return;
         }
 
-        if (!$this->paymentHelper->isSelected($salesChannelContext, $event->getRequestDataBag()->get('paymentMethodId'))) {
-            return;
-        }
-
-        $checkout = $this->checkoutFactory->create($salesChannelContext);
-        $quote = $this->quoteHelper->getQuote($salesChannelContext);
-
-        if ($checkout->isInitialized()
+        if (!$event->getRequestDataBag()->get('paymentMethodId') ||
+            !$this->paymentHelper->isSelected($salesChannelContext, $event->getRequestDataBag()->get('paymentMethodId'))
         ) {
             return;
         }
+
+        $this->storage->set('init', true);
+    }
+
+
+    public function onCheckoutConfirmLoaded(CheckoutConfirmPageLoadedEvent $event): void
+    {
+        if (!$this->storage->get('init')) {
+            return;
+        }
+        $this->storage->set('init', false);
+
+        $salesChannelContext = $event->getSalesChannelContext();
+
+        $checkout = $this->checkoutFactory->create($salesChannelContext);
+        $quote = $this->quoteHelper->getQuote($salesChannelContext);
 
         try {
             $checkout->isAvailable($quote);
@@ -105,18 +127,23 @@ class Redirector implements EventSubscriberInterface
                 $this->router->generate('frontend.easycredit.return', [], UrlGeneratorInterface::ABSOLUTE_URL), // return
                 $this->router->generate('frontend.easycredit.reject', [], UrlGeneratorInterface::ABSOLUTE_URL) // reject
             );
-            $attributes->set('easycredit_redirect', $checkout->getRedirectUrl());
+
+            $this->storage->set('redirect_url', $checkout->getRedirectUrl());
         } catch (\Exception $e) {
+
             $this->storage->set('error', $e->getMessage());
         }
     }
 
     public function onKernelResponse(ResponseEvent $event): void
     {
-        $attributes = isset($this->request->attributes) ? $this->request->attributes : null;
-        if ($attributes && $redirectUrl = $attributes->get('easycredit_redirect')) {
+        if (!$this->isRoute('frontend.checkout.confirm.page', $event->getRequest())) {
+            return;
+        }
+
+        if ($redirectUrl = $this->storage->get('redirect_url')) {
             $event->setResponse(new RedirectResponse($redirectUrl));
-            $attributes->set('easycredit_redirect', null);
+            $this->storage->set('redirect_url', null);
         }
     }
 }
