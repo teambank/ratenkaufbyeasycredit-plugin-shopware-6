@@ -14,7 +14,7 @@ export default class EasyCreditWidget {
         this.getMinimumInstallment(uri)
             .then(this.prepareWidgetData)
             .then(this.renderWidget)
-            .catch((e) => console.error(e));
+            .catch((e) => console.debug(e));
     }
 
     validate() {
