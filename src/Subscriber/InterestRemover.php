@@ -46,7 +46,7 @@ class InterestRemover implements EventSubscriberInterface
             ->first();
 
         $isEnabled = $this->settings
-            ->getSettings($event->getSalesChannelId())
+            ->getSettings($event->getSalesChannelId(), false)
             ->getRemoveInterest();
 
         if (!$isEnabled || !$interestLineItem) {
