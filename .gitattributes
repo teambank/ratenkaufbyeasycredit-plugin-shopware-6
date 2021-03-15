@@ -4,3 +4,5 @@ replace.sh export-ignore
 psalm.xml export-ignore
 merchant-interface export-ignore
 Gruntfile.js export-ignore
+package-lock.json export-ignore
+
