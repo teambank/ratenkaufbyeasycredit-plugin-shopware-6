@@ -44,7 +44,7 @@ class OrderStatus implements EventSubscriberInterface
         try {
             $client = $this->merchantFactory->create();
             $client->confirmShipment($txId);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
         }
     }
@@ -62,7 +62,7 @@ class OrderStatus implements EventSubscriberInterface
                 'WIDERRUF_VOLLSTAENDIG',
                 new \DateTime()
             );
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
         }
     }

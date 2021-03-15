@@ -88,7 +88,7 @@ class Handler implements SynchronousPaymentHandlerInterface
                 $transaction,
                 $salesChannelContext->getContext()
             );
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
             throw new SyncPaymentProcessException(
                 $transaction->getOrderTransaction()->getId(),

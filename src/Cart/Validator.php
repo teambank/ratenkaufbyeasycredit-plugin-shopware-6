@@ -49,7 +49,7 @@ class Validator implements CartValidatorInterface
             $checkout = $this->checkoutFactory->create(
                 $salesChannelContext
             );
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->storage->clear();
 
             return;

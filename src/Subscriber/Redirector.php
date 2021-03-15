@@ -129,7 +129,7 @@ class Redirector implements EventSubscriberInterface
             );
 
             $this->storage->set('redirect_url', $checkout->getRedirectUrl());
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
 
             $this->storage->set('error', $e->getMessage());
         }

@@ -96,9 +96,8 @@ class Checkout implements EventSubscriberInterface
 
         try {
             $agreement = $this->getCachedAgreement($checkout);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->removePaymentMethodFromConfirmPage($event);
-
             return;
         }
 
@@ -108,7 +107,7 @@ class Checkout implements EventSubscriberInterface
                     $checkout->isAvailable(
                         $this->quoteHelper->getQuote($salesChannelContext, $cart)
                     );
-                } catch (\Exception $e) {
+                } catch (\Throwable $e) {
                     $error = $e->getMessage();
                 }
             }

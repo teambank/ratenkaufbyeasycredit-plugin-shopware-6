@@ -70,7 +70,7 @@ class PaymentController extends StorefrontController
             }
 
             $checkout->loadFinancingInformation();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new \Exception($e->getMessage());
         }
 

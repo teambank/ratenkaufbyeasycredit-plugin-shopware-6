@@ -80,7 +80,7 @@ class InterestRemover implements EventSubscriberInterface
             ]);
             $this->storage->set('interest_amount', 0);
             $this->connection->commit();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->connection->rollBack();
         }
     }
