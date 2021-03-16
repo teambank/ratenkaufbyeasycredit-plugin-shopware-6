@@ -1,3 +1,13 @@
+# 1.1.2
+
+* Verbesserung der Multichannel-Kompatibilität (behebt einen Fehler im Checkout bei mehreren SalesChannel mit unterschiedlichen Einstellungen)
+* Verbesserung der Fehler-Toleranz bei unerwarteten Rückgabewerten der API
+* das Ratenkauf Widget loggt Betragsunterschreitungen nicht mehr als Fehler
+
+# 1.1.1
+
+* Version 1.1.0 konnte nicht installiert werden (Composer Version Constraint)
+
 # 1.1.0
 
 * Verbesserung der Kompatibilität mit dem Shopware Rule Builder

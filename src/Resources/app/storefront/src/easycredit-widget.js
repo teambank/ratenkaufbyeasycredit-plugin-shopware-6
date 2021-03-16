@@ -8,7 +8,9 @@ export default class EasyCreditWidget {
         const defaults = this.getDefaults();
         this.opts = {... defaults, ... opts};
 
-        this.validate();
+        if (!this.validate()) {
+            return;
+        }
 
         const uri  = this._getApiUri(this.opts);
         this.getMinimumInstallment(uri)
@@ -24,7 +26,7 @@ export default class EasyCreditWidget {
             if (opts.debug) {
                 throw new Error(opts.amount+' is not within allowed range');
             }
-            return;
+            return false;
         }
 
         if (opts.webshopId == null
@@ -32,6 +34,7 @@ export default class EasyCreditWidget {
         ) {
             throw new Error('webshopId must be set for easycredit widget');
         }
+        return true;
     }
 
     getMinimumInstallment(uri) {
@@ -42,7 +45,6 @@ export default class EasyCreditWidget {
 
         return fetchJsonp(uri,options)
             .then((response) => {
-                console.log(this);
                 return response.json()
             });
     }
