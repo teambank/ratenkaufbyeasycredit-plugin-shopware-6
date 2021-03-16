@@ -2,7 +2,7 @@
 
 * Verbesserung der Multichannel-Kompatibilität (behebt einen Fehler im Checkout bei mehreren SalesChannel mit unterschiedlichen Einstellungen)
 * Verbesserung der Fehler-Toleranz bei unerwarteten Rückgabewerten der API
-* das Ratenkauf Widget loggt Betragsunterschreitungen nicht mehr als Fehler
+* das Ratenkauf Widget loggt Betragsunter- bzw. Betragsüberschreitungen nicht mehr als Fehler
 
 # 1.1.1
 
