@@ -1,4 +1,5 @@
 import './component/easycredit-tx-widget';
+import './component/easycredit-click-and-collect-intro';
 
 import './extension/sw-order-detail';
 import './extension/sw-order-detail-base';

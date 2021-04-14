@@ -37,6 +37,10 @@ class Order implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
         return '';
     }
 
+    public function getIsClickAndCollect(): Bool {
+        return false;
+    }
+
     public function getGrandTotal(): float
     {
         return $this->order->getPrice()->getTotalPrice();

@@ -63,6 +63,25 @@
     </card>
 
     <card>
+        <title lang="de-DE"><![CDATA[Click & Collect]]></title>
+        <title lang="en-GB"><![CDATA[Click & Collect]]></title>
+        <name>clickandcollect</name>
+
+        <component name="easycredit-click-and-collect-intro">
+            <name>clickAndCollectIntro</name>
+        </component>
+
+        <component name="sw-entity-single-select">
+            <name>clickAndCollectShippingMethod</name>
+            <entity>shipping_method</entity>
+            <label lang="de-DE"><![CDATA[Versandart]]></label>
+            <label lang="en-GB"><![CDATA[Shipping Method]]></label>
+            <helpText lang="de-DE"><![CDATA[Bitte geben Sie die Versandart an, mit der Sie Click & Collect anbieten. In der Regel handelt sich um die Versandart "Selbstabholung" oder ähnlich.]]></helpText>
+            <helpText lang="en-GB"><![CDATA[Please specify the shipping method with which you offer "Click & Collect". Usually this shipping method is named "In-Store Pickup" or similar.]]></helpText>
+        </component>
+    </card>
+
+    <card>
         <title lang="de-DE">Marketing: Modellrechner-Widget</title>
         <title lang="en-GB">Marketing: Model Calculation Widget</title>
         <name>widget</name>

@@ -55,6 +55,7 @@
             <argument type="service" id="request_stack"/>
             <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\MetaDataProvider" />
+            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Helper\MetaDataProvider">

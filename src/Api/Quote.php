@@ -11,6 +11,8 @@ use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
+
 
 class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
 {
@@ -29,10 +31,13 @@ class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
      */
     protected $customer;
 
+    protected $settings;
+
     public function __construct(
         Cart $cart,
         MetaDataProvider $metaDataProvider,
-        SalesChannelContext $context
+        SalesChannelContext $context,
+        SettingsServiceInterface $settingsService
     ) {
         if ($cart->getDeliveries()->getAddresses()->first() === null) {
             throw new QuoteInvalidException();
@@ -46,6 +51,7 @@ class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
         $this->context = $context;
         $this->customer = $customer;
         $this->metaDataProvider = $metaDataProvider;
+        $this->settings = $settingsService;
     }
 
     public function getId(): ?string
@@ -61,8 +67,18 @@ class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
         if ($delivery === null) {
             return '';
         }
+        $shippingMethod = $delivery->getShippingMethod()->getName();
+        return $shippingMethod;
+    }
 
-        return $delivery->getShippingMethod()->getName();
+    public function getIsClickAndCollect(): Bool {
+        $delivery = $this->cart->getDeliveries()->first();
+        if ($delivery === null) {
+            return false;
+        }
+
+        return $delivery->getShippingMethod()->getId() 
+            === $this->settings->getSettings($this->context->getSalesChannel()->getId())->getClickAndCollectShippingMethod();
     }
 
     public function getGrandTotal(): float

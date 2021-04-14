@@ -13,6 +13,7 @@ use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 
 class Quote
 {
@@ -23,11 +24,13 @@ class Quote
     public function __construct(
         RequestStack $requestStack,
         CartService $cartService,
-        MetaDataProvider $metaDataProvider
+        MetaDataProvider $metaDataProvider,
+        SettingsServiceInterface $settingsService
     ) {
         $this->requestStack = $requestStack;
         $this->cartService = $cartService;
         $this->metaDataProvider = $metaDataProvider;
+        $this->settingsService = $settingsService;
     }
 
     /**
@@ -42,7 +45,8 @@ class Quote
             return new Api\Quote(
                 $cart,
                 $this->metaDataProvider,
-                $salesChannelContext
+                $salesChannelContext,
+                $this->settingsService
             );
         }
 
