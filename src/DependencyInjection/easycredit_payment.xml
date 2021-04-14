@@ -40,10 +40,16 @@
         <service id="Netzkollektiv\EasyCredit\Controller\PaymentController" public="true">
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Controller\TransactionsController" public="true">
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\MerchantFactory"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Api\MerchantFactory">
@@ -76,6 +82,7 @@
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Subscriber\Redirector">
+            <argument type="service" id="service_container"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
             <argument type="service" id="request_stack"/>
             <argument type="service" id="router"/>
