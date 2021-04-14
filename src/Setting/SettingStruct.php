@@ -32,6 +32,11 @@ class SettingStruct extends Struct
     protected $removeInterest = true;
 
     /**
+     * @var string|null
+     */
+    protected $clickAndCollectShippingMethod = null;
+
+    /**
      * @var bool
      */
     protected $widgetEnabled = true;
@@ -84,6 +89,16 @@ class SettingStruct extends Struct
     public function setRemoveInterest(bool $removeInterest): void
     {
         $this->removeInterest = $removeInterest;
+    }
+
+    public function getClickAndCollectShippingMethod(): ?string
+    {
+        return $this->clickAndCollectShippingMethod;
+    }
+
+    public function setClickAndCollectShippingMethod(string $shippingMethod): void
+    {
+        $this->clickAndCollectShippingMethod = $shippingMethod;
     }
 
     public function getWidgetEnabled(): bool
