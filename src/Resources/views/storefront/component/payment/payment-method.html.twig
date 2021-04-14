@@ -1,0 +1,18 @@
+{% sw_extends '@Storefront/storefront/component/payment/payment-method.html.twig' %}
+
+{# >= SW 6.4 #}
+{% block component_payment_method_description %}
+
+    {# @var easycredit #}
+    {% set easycredit = page.extensions.easycredit %}
+
+    {% if easycredit and easycredit.paymentMethodId is same as(payment.id) %}
+
+        <easycredit-checkout amount="420.31" webshop-id="" is-active="{{ easycredit.isSelected ? 'true' : 'false' }}" />
+
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+
+    
+{% endblock %}
