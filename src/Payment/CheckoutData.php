@@ -36,6 +36,21 @@ class CheckoutData extends Struct
      */
     protected $error;
 
+    /**
+     * @var string
+     */
+    protected $webshopId;
+
+    /**
+     * @var float
+     */
+    protected $grandTotal;
+
+    /**
+     * @var bool
+     */
+    protected $isPrefixValid;
+
     public function getPaymentMethodId(): string
     {
         return $this->paymentMethodId;
@@ -59,5 +74,20 @@ class CheckoutData extends Struct
     public function getError(): ?string
     {
         return $this->error;
+    }
+
+    public function getWebshopId(): ?string
+    {
+        return $this->webshopId;
+    }
+
+    public function getGrandTotal(): ?float
+    {
+        return $this->grandTotal;
+    }
+
+    public function isPrefixValid(): bool
+    {
+        return $this->isPrefixValid;
     }
 }

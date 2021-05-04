@@ -25,12 +25,14 @@ class Quote
         RequestStack $requestStack,
         CartService $cartService,
         MetaDataProvider $metaDataProvider,
-        SettingsServiceInterface $settingsService
+        SettingsServiceInterface $settingsService,
+        Api\Storage $storage
     ) {
         $this->requestStack = $requestStack;
         $this->cartService = $cartService;
         $this->metaDataProvider = $metaDataProvider;
         $this->settingsService = $settingsService;
+        $this->storage = $storage;
     }
 
     /**
@@ -46,7 +48,8 @@ class Quote
                 $cart,
                 $this->metaDataProvider,
                 $salesChannelContext,
-                $this->settingsService
+                $this->settingsService,
+                $this->storage
             );
         }
 

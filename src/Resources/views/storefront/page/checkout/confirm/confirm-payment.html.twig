@@ -1,38 +1,18 @@
 {% sw_extends '@Storefront/storefront/page/checkout/confirm/confirm-payment.html.twig' %}
 
-{% block page_checkout_confirm_errors %}
-
-    {# @var easycredit #}
-    {% set easycredit = page.extensions.easycredit %}
-
-    {{ easycredit.error }}
-
-    {% if easycredit.error %}
-        {% sw_include '@Storefront/storefront/utilities/alert.html.twig' with {
-            type: "danger",
-            content: easycredit.error
-        } %}
-    {% endif %}
-{% endblock %}
-
+{# < SW 6.4 #}
 {% block page_checkout_confirm_payment_current_text %}
 
     {# @var easycredit #}
     {% set easycredit = page.extensions.easycredit %}
 
     {% if easycredit and easycredit.isSelected %}
-        <span class="easycredit-description">
-            <span class="easycredit-method-title">{{ context.paymentMethod.translated.name }}</span>
-            <a href="https://www.easycredit-ratenkauf.de/kunden.htm" onclick="javascript:window.open('https://www.easycredit-ratenkauf.de/kunden.htm','whatiseasycredit','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, ,left=0, top=0, width=800, height=600'); return false;" class="easycredit-tooltip">{{ "easycredit.whatis"|trans }} {{ context.paymentMethod.translated.name }}?</a>
-            <br/><strong>{{ "easycredit.slogan"|trans }}</strong>
-            <br />
-            {% if easycredit.paymentPlan %}
-                {{ easycredit.paymentPlan }}
-            {% elseif not easycredit.error %}
-                <a href="#" id="easycredit-recalculate">{{ "easycredit.recalculate"|trans }}</a>
-            {% endif %}
-        </span>
-
+        <easycredit-checkout-label></easycredit-checkout-label>
+        {% if easycredit.paymentPlan %}
+            <easycredit-checkout payment-plan="{{ easycredit.paymentPlan }}"></easycredit-checkout>
+        {% elseif not easycredit.error %}
+            <a href="#" id="easycredit-recalculate">{{ "easycredit.recalculate"|trans }}</a>
+        {% endif %}
     {% else %}
 
         {{ parent() }}

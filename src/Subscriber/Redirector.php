@@ -19,9 +19,15 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Redirector implements EventSubscriberInterface
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
     /**
      * @var CheckoutFactory
      */
@@ -53,6 +59,7 @@ class Redirector implements EventSubscriberInterface
     private $storage;
 
     public function __construct(
+        ContainerInterface $container,
         CheckoutFactory $checkoutFactory,
         RequestStack $requestStack,
         UrlGeneratorInterface $router,
@@ -60,6 +67,7 @@ class Redirector implements EventSubscriberInterface
         PaymentHelper $paymentHelper,
         Storage $storage
     ) {
+        $this->container = $container;
         $this->checkoutFactory = $checkoutFactory;
         $this->request = $requestStack->getCurrentRequest();
         $this->router = $router;
@@ -103,9 +111,16 @@ class Redirector implements EventSubscriberInterface
             return;
         }
 
-        $this->storage->set('init', true);
-    }
+        if (version_compare($this->container->getParameter('kernel.shopware_version'), '6.4.0', '>=')
+            && !$event->getRequestDataBag()->get('easycredit-submit')
+        ) {
+            return;
+        }
 
+        $this->storage
+            ->set('duration', $event->getRequestDataBag()->get('easycredit-duration'))
+            ->set('init', true);
+    }
 
     public function onCheckoutConfirmLoaded(CheckoutConfirmPageLoadedEvent $event): void
     {
@@ -136,7 +151,7 @@ class Redirector implements EventSubscriberInterface
     }
 
     public function onKernelResponse(ResponseEvent $event): void
-    {
+    {       
         if (!$this->isRoute('frontend.checkout.confirm.page', $event->getRequest())) {
             return;
         }

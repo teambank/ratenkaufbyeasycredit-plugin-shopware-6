@@ -8,6 +8,7 @@
 namespace Netzkollektiv\EasyCredit\Api;
 
 use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
+use Netzkollektiv\EasyCredit\Api\Storage;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -33,11 +34,17 @@ class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
 
     protected $settings;
 
+    /**
+     * @var Storage
+     */
+    protected $storage;
+
     public function __construct(
         Cart $cart,
         MetaDataProvider $metaDataProvider,
         SalesChannelContext $context,
-        SettingsServiceInterface $settingsService
+        SettingsServiceInterface $settingsService,
+        Storage $storage
     ) {
         if ($cart->getDeliveries()->getAddresses()->first() === null) {
             throw new QuoteInvalidException();
@@ -52,6 +59,7 @@ class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
         $this->customer = $customer;
         $this->metaDataProvider = $metaDataProvider;
         $this->settings = $settingsService;
+        $this->storage = $storage;
     }
 
     public function getId(): ?string
@@ -79,6 +87,10 @@ class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
 
         return $delivery->getShippingMethod()->getId() 
             === $this->settings->getSettings($this->context->getSalesChannel()->getId())->getClickAndCollectShippingMethod();
+    }
+
+    public function getDuration(): string {
+        return $this->storage->get('duration');
     }
 
     public function getGrandTotal(): float

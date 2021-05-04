@@ -1,0 +1,26 @@
+{% sw_extends '@Storefront/storefront/component/payment/payment-method.html.twig' %}
+
+{# >= SW 6.4 #}
+{% block component_payment_method_description %}
+
+    {# @var easycredit #}
+    {% set easycredit = page.extensions.easycredit %}
+
+    {% if easycredit and easycredit.paymentMethodId is same as(payment.id) %}
+
+        <easycredit-checkout-label></easycredit-checkout-label>
+        <easycredit-checkout
+          amount="{{ easycredit.grandTotal }}"
+          webshop-id="{{ easycredit.webshopId }}"
+          is-active="{{ easycredit.isSelected ? 'true' : 'false' }}"
+          askForPrefix="{{ easycredit.isPrefixValid ? 'false' : 'true' }}"
+          {% if easycredit.error %}alert="{{easycredit.error}}"{% endif %}
+          {% if easycredit.paymentPlan %}payment-plan={{ easycredit.paymentPlan }}{% endif %}
+        ></easycredit-checkout>
+
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+
+    
+{% endblock %}

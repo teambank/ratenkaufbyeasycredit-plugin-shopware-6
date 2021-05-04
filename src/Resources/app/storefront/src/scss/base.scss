@@ -1,3 +1,12 @@
+@import './easycredit-checkout.scss';
+
+easycredit-checkout .ec-checkout__modal .close {
+  background-image:url(/bundles/easycreditratenkauf/static/img/icon-close.svg);
+}
+easycredit-checkout-label .ec-checkout-label {
+  background-image:url(/bundles/easycreditratenkauf/static/img/ratenkauf-icon.svg);
+}
+
 #easycredit-payment-form {
   
   > img {
