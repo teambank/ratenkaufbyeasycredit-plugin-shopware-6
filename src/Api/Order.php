@@ -37,6 +37,10 @@ class Order implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
         return '';
     }
 
+    public function getDuration(): string {
+        return 0;
+    }
+
     public function getGrandTotal(): float
     {
         return $this->order->getPrice()->getTotalPrice();

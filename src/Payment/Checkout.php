@@ -70,7 +70,7 @@ class Checkout implements EventSubscriberInterface
             return;
         }
 
-        $error = $this->storage->get('error');
+        $error = null;
         if ($this->storage->get('error')) {
             $error = $this->storage->get('error');
             $this->storage->set('error', null);
@@ -101,11 +101,13 @@ class Checkout implements EventSubscriberInterface
             return;
         }
 
-        if ($isSelected) {
+        if ($isSelected && !$this->storage->get('payment_plan')) {
             if (is_null($error)) {
                 try {
+
+                    $quote = $this->quoteHelper->getQuote($salesChannelContext, $cart);
                     $checkout->isAvailable(
-                        $this->quoteHelper->getQuote($salesChannelContext, $cart)
+                        $quote
                     );
                 } catch (\Throwable $e) {
                     $error = $e->getMessage();
@@ -114,11 +116,14 @@ class Checkout implements EventSubscriberInterface
         }
 
         $event->getPage()->addExtension('easycredit', (new CheckoutData())->assign([
+            'isPrefixValid' => isset($quote) ? $checkout->isPrefixValid($quote->getCustomer()->getPrefix()) : false,
+            'grandTotal' => isset($quote) ? $quote->getGrandTotal() : null,
             'paymentMethodId' => $paymentMethodId,
             'isSelected' => $isSelected,
             'agreement' => $agreement,
             'paymentPlan' => $this->storage->get('payment_plan'),
             'error' => $error,
+            'webshopId' => $settings->getWebshopId()
         ]));
     }
 

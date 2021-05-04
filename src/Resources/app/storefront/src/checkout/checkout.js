@@ -15,8 +15,17 @@ export default class EasyCreditRatenkaufCheckout extends Plugin {
         $('input[type=radio][name=paymentMethodId]:checked').each(handleEasyCreditRequired);
         $('input[type=radio][name=paymentMethodId]').change(handleEasyCreditRequired);
 
+        // < 6.4
         $('#easycredit-recalculate').click(function(){
             $('#confirmPaymentForm').submit();
+            return false;
+        });
+
+        // >= 6.4
+        $('easycredit-checkout').submit(function(){
+            $('#changePaymentForm')
+                .append('<input type="hidden" name="easycredit-submit" value="1" />')
+                .submit();
             return false;
         });
     }

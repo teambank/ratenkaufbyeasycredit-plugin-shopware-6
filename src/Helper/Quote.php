@@ -23,11 +23,13 @@ class Quote
     public function __construct(
         RequestStack $requestStack,
         CartService $cartService,
-        MetaDataProvider $metaDataProvider
+        MetaDataProvider $metaDataProvider,
+        Api\Storage $storage
     ) {
         $this->requestStack = $requestStack;
         $this->cartService = $cartService;
         $this->metaDataProvider = $metaDataProvider;
+        $this->storage = $storage;
     }
 
     /**
@@ -42,7 +44,8 @@ class Quote
             return new Api\Quote(
                 $cart,
                 $this->metaDataProvider,
-                $salesChannelContext
+                $salesChannelContext,
+                $this->storage
             );
         }
 

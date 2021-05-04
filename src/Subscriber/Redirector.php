@@ -112,12 +112,14 @@ class Redirector implements EventSubscriberInterface
         }
 
         if (version_compare($this->container->getParameter('kernel.shopware_version'), '6.4.0', '>=')
-            && !$event->getRequestDataBag()->get('easycreditInit')
+            && !$event->getRequestDataBag()->get('easycredit-submit')
         ) {
             return;
         }
 
-        $this->storage->set('init', true);
+        $this->storage
+            ->set('duration', $event->getRequestDataBag()->get('easycredit-duration'))
+            ->set('init', true);
     }
 
     public function onCheckoutConfirmLoaded(CheckoutConfirmPageLoadedEvent $event): void
