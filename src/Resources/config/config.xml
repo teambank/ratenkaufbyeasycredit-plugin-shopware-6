@@ -24,6 +24,10 @@
             <helpText lang="de-DE">Das API Passwort, welchen das Plugin dazu verwendet sich mit der ratenkauf by easyCredit API zu authentifizieren.</helpText>
             <helpText lang="en-GB">The API Key is being used to authenticate with ratenkauf by easyCredit API.</helpText>
         </input-field>
+
+        <component name="easycredit-test-credentials-button">
+            <name>testCredentialButton</name>
+        </component>
     </card>
 
     <card>

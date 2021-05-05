@@ -26,11 +26,20 @@ Shopware.Component.register('easycredit-test-credentials-button', {
         };
     },
     methods: {
+        getConfigComponent () {
+            var component = this
+            while (component.$parent) {
+                if (typeof component.currentSalesChannelId !== 'undefined') {
+                    return component
+                }
+                component = component.$parent
+            }
+        },
         getConfig(salesChannelId) {
-            return this.$parent.$parent.$refs.systemConfig.actualConfigData[salesChannelId]
+            return this.getConfigComponent().actualConfigData[salesChannelId]
         },
         getCurrentSalesChannelId() {
-            return this.$parent.$parent.$refs.systemConfig.currentSalesChannelId
+            return this.getConfigComponent().currentSalesChannelId
         },
         onTest() {
             this.isTesting = true;

@@ -7,6 +7,9 @@
     <services>
         <service id="Netzkollektiv\EasyCredit\Controller\SettingsController" public="true">
             <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\ApiCredentialService"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Setting\Service\ApiCredentialService">

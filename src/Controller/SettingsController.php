@@ -30,7 +30,7 @@ class SettingsController extends AbstractController
     }
 
     /**
-     * @Route("/api/v{version}/_action/easycredit/validate-api-credentials", name="api.action.easycredit.validate.api.credentials", methods={"GET"})
+     * @Route("/api/_action/easycredit/validate-api-credentials", name="api.action.easycredit.validate.api.credentials", methods={"GET"})
      */
     public function validateApiCredentials(Request $request): JsonResponse
     {
@@ -40,5 +40,13 @@ class SettingsController extends AbstractController
         $credentialsValid = $this->apiCredentialTestService->testApiCredentials($webshopId, $apiPassword);
 
         return new JsonResponse(['credentialsValid' => $credentialsValid]);
+    }
+
+    /**
+     * @Route("/api/v{version}/_action/easycredit/validate-api-credentials", name="api.action.easycredit.validate.api.credentials.legacy", methods={"GET"})
+     */
+    public function validateApiCredentialsLegacy(Request $request): JsonResponse
+    {
+        return $this->validateApiCredentials($request);
     }
 }
