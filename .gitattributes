@@ -6,3 +6,5 @@ merchant-interface export-ignore
 Gruntfile.js export-ignore
 package-lock.json export-ignore
 
+easy-credit-ratenkauf.js diff=minjs
+easycredit-checkout.js diff=minjs

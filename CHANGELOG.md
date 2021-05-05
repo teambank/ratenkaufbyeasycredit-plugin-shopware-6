@@ -1,3 +1,13 @@
+# 1.1.4
+
+* Einführung von Checkout-Widget
+* Kompatibilität mit Shopware 6.4
+
+# 1.1.3
+
+* eine Versandart kann für „Click & Collect“ definiert werden
+* die API-Library wurde aktualisiert auf v.1.4.0
+
 # 1.1.2
 
 * Verbesserung der Multichannel-Kompatibilität (behebt einen Fehler im Checkout bei mehreren SalesChannel mit unterschiedlichen Einstellungen)
