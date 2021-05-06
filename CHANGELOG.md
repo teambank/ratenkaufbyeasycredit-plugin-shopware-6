@@ -1,6 +1,7 @@
 # 1.1.4
 
-* Einführung von Checkout-Widget
+* die Zahlungsartenauswahl ist nun über das _Checkout Widget_ als WebComponent integriert
+* die API-Library wurde aktualisiert auf v1.5.0
 * Kompatibilität mit Shopware 6.4
 
 # 1.1.3

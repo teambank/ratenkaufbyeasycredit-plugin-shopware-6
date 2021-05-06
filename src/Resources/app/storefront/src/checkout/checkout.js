@@ -22,7 +22,7 @@ export default class EasyCreditRatenkaufCheckout extends Plugin {
         });
 
         // >= 6.4
-        $('easycredit-checkout').submit(function(){
+        $('easycredit-components-checkout').submit(function(){
             $('#changePaymentForm')
                 .append('<input type="hidden" name="easycredit-submit" value="1" />')
                 .submit();

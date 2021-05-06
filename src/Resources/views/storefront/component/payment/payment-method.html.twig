@@ -8,15 +8,15 @@
 
     {% if easycredit and easycredit.paymentMethodId is same as(payment.id) %}
 
-        <easycredit-checkout-label></easycredit-checkout-label>
-        <easycredit-checkout
+        <easycredit-components-checkout-label></easycredit-components-checkout-label>
+        <easycredit-components-checkout
           amount="{{ easycredit.grandTotal }}"
           webshop-id="{{ easycredit.webshopId }}"
           is-active="{{ easycredit.isSelected ? 'true' : 'false' }}"
           askForPrefix="{{ easycredit.isPrefixValid ? 'false' : 'true' }}"
           {% if easycredit.error %}alert="{{easycredit.error}}"{% endif %}
           {% if easycredit.paymentPlan %}payment-plan={{ easycredit.paymentPlan }}{% endif %}
-        ></easycredit-checkout>
+        ></easycredit-components-checkout>
 
     {% else %}
         {{ parent() }}
