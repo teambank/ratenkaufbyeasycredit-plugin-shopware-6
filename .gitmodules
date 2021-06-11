@@ -1,3 +1,0 @@
-[submodule "easycredit-merchant"]
-	path = merchant-interface
-	url = git@git.netzkollektiv.com:netzkollektiv-projects/easycredit-merchant.git

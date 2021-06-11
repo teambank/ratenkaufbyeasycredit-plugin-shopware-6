@@ -9,7 +9,7 @@
         "whatis": "Was ist"
     },
     "checkout": {
-        "installments-must-be-recalculated": "ratenkauf by easyCredit: Ihre Bestellung hat sich verändert, bitte führen Sie die Ratenberechnung erneut durch.",
+        "installments-must-be-recalculated": "Um mit ratenkauf by easyCredit zu bezahlen, klicken Sie auf \"Weiter zum Ratenkauf\" in der Zahlartenauswahl.",
         "interest-line-item" : "Zinsen für Ratenzahlung"
     }
 }

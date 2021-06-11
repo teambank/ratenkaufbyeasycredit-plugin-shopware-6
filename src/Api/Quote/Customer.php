@@ -39,11 +39,17 @@ class Customer implements \Netzkollektiv\EasyCreditApi\Rest\CustomerInterface
 
     public function getFirstname(): string
     {
+        if ($this->customer->getGuest()) {
+            return $this->billingAddress->getFirstName();
+        }
         return $this->customer->getFirstName();
     }
 
     public function getLastname(): string
     {
+        if ($this->customer->getGuest()) {
+            return $this->billingAddress->getLastName();
+        }
         return $this->customer->getLastName();
     }
 

@@ -9,7 +9,7 @@
         "whatis": "What is"
     },
     "checkout": {
-        "installments-must-be-recalculated": "ratenkauf by easyCredit: Your order was changed, please recalculate installments.",
+        "installments-must-be-recalculated": "To pay with ratenkauf by easyCredit click \"Go to Installments payment\" after selecting the payment method.",
         "interest-line-item" : "Interest for installments payment"
     }
 }

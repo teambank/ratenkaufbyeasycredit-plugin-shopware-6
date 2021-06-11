@@ -35,7 +35,7 @@ class InterestError extends Error
 
     public function getLevel(): int
     {
-        return static::LEVEL_ERROR;
+        return static::LEVEL_WARNING;
     }
 
     public function blockOrder(): bool
