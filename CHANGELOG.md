@@ -1,3 +1,11 @@
+# 1.1.5
+
+* bei Gast-Bestellungen wird zur Initialisierung der Zahlung nun der Vor- und Nachname der Rechnungsadresse verwendet (vorher: Kundendaten)
+* die Hinweismeldung im Checkout wurde angepasst und wird nun als WARNING ausgegeben (vorher: ERROR)
+* das Händler-Interface wurde aktualisiert und ist nun als WebComponent eingebunden
+* die API-Library wurde aktualisiert auf v1.6.0 (Prüfung von Vor- und Nachname)
+* die Beträge werden nach Entfernen der Zinsen auf zwei Nachkommastellen gerundet
+
 # 1.1.4
 
 * die Zahlungsartenauswahl ist nun über das _Checkout Widget_ als WebComponent integriert
