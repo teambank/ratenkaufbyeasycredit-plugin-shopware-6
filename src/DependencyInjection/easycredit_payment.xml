@@ -167,6 +167,7 @@
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Subscriber\OrderStatus">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\MerchantFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
 

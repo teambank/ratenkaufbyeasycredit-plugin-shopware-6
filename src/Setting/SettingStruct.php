@@ -29,6 +29,16 @@ class SettingStruct extends Struct
     /**
      * @var bool
      */
+    protected $markShipped = true;
+
+    /**
+     * @var bool
+     */
+    protected $markRefunded = true;
+
+    /**
+     * @var bool
+     */
     protected $removeInterest = true;
 
     /**
@@ -79,6 +89,26 @@ class SettingStruct extends Struct
     public function setDebug(bool $debug): void
     {
         $this->debug = $debug;
+    }
+
+    public function getMarkShipped(): bool
+    {
+        return (bool) $this->markShipped;
+    }
+
+    public function setMarkShipped(bool $markShipped): void
+    {
+        $this->markShipped = $markShipped;
+    }
+
+    public function getMarkRefunded(): bool
+    {
+        return (bool) $this->markRefunded;
+    }
+
+    public function setMarkRefunded(bool $markRefunded): void
+    {
+        $this->markRefunded = $markRefunded;
     }
 
     public function getRemoveInterest(): bool

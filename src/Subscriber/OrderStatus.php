@@ -10,6 +10,7 @@ namespace Netzkollektiv\EasyCredit\Subscriber;
 use Netzkollektiv\EasyCredit\Api\MerchantFactory;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Order\Event\OrderStateMachineStateChangeEvent;
+use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class OrderStatus implements EventSubscriberInterface
@@ -20,9 +21,11 @@ class OrderStatus implements EventSubscriberInterface
     private $merchantFactory;
 
     public function __construct(
+        SettingsServiceInterface $settingsService,
         MerchantFactory $merchantFactory,
         LoggerInterface $logger
     ) {
+        $this->settings = $settingsService;
         $this->merchantFactory = $merchantFactory;
         $this->logger = $logger;
     }
@@ -37,6 +40,14 @@ class OrderStatus implements EventSubscriberInterface
 
     public function onOrderShipped(OrderStateMachineStateChangeEvent $event): void
     {
+        $markShipped = $this->settings
+            ->getSettings($event->getSalesChannelId(), false)
+            ->getMarkShipped();
+
+        if (!$markShipped) {
+            return;
+        }
+
         if (!$txId = $this->getTransactionId($event)) {
             return;
         }
@@ -51,6 +62,14 @@ class OrderStatus implements EventSubscriberInterface
 
     public function onOrderReturned(OrderStateMachineStateChangeEvent $event): void
     {
+        $markRefunded = $this->settings
+            ->getSettings($event->getSalesChannelId(), false)
+            ->getMarkRefunded();
+            
+        if (!$markRefunded) {
+            return;
+        }
+
         if (!$txId = $this->getTransactionId($event)) {
             return;
         }
