@@ -60,9 +60,9 @@ class InterestRemover implements EventSubscriberInterface
                 INNER JOIN order_line_item ol ON ol.order_id = o.id AND ol.type = 'easycredit-interest'
                 Set 
                     o.price = JSON_REPLACE(o.price, 
-                        '$.netPrice', o.amount_net - ol.total_price,
-                        '$.totalPrice', o.amount_total - ol.total_price, 
-                        '$.positionPrice', o.position_price - ol.total_price
+                        '$.netPrice', ROUND(o.amount_net - ol.total_price, 2),
+                        '$.totalPrice', ROUND(o.amount_total - ol.total_price, 2), 
+                        '$.positionPrice', ROUND(o.position_price - ol.total_price, 2)
                     )
                 WHERE o.id = ?;
             ", [
