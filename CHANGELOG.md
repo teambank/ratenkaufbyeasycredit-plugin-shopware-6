@@ -1,3 +1,7 @@
+# 1.1.6
+
+* die automatischen Aktionen "Lieferung melden" & "Rückabwicklung" sind nun über eine Konfigurationsoption steuerbar 
+
 # 1.1.5
 
 * bei Gast-Bestellungen wird zur Initialisierung der Zahlung nun der Vor- und Nachname der Rechnungsadresse verwendet (vorher: Kundendaten)
