@@ -29,11 +29,11 @@ class Customer implements \Netzkollektiv\EasyCreditApi\Rest\CustomerInterface
 
     public function getPrefix(): ?string
     {
-        if ($this->billingAddress->getSalutation()) {
-            return $this->billingAddress->getSalutation()->getDisplayName();
-        }
         if ($this->customer->getSalutation()) {
             return $this->customer->getSalutation()->getDisplayName();
+        }
+	if ($this->billingAddress->getSalutation()) {
+	    return $this->billingAddress->getSalutation()->getDisplayName();
         }
     }
 

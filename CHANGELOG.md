@@ -1,3 +1,7 @@
+# 1.1.7
+
+* verwende die Kunden-Anrede als bevorzugten Wert (temporärer Fix für NEXT-17764) 
+
 # 1.1.6
 
 * die automatischen Aktionen "Lieferung melden" & "Rückabwicklung" sind nun über eine Konfigurationsoption steuerbar 
