@@ -1,7 +1,6 @@
-import { Component, Filter, Mixin, Context } from 'src/core/shopware';
+const { Component, Filter, Mixin, Context } = Shopware;
 const Criteria = Shopware.Data.Criteria;
 
-import '../../../../app/component/easycredit-payment-actions';
 import template from './easycredit-payment-detail.html.twig';
 
 Component.register('easycredit-payment-detail', {

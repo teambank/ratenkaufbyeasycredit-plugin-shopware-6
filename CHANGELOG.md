@@ -1,3 +1,8 @@
+# 1.1.8
+
+* in den Backend-Modulen wird nun das globale Shopware-Objekt verwendet
+* obsolete Komponenten wurden entfernt
+
 # 1.1.7
 
 * verwende die Kunden-Anrede als bevorzugten Wert (temporärer Fix für NEXT-17764) 

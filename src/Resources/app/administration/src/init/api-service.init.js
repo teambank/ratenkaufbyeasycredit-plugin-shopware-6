@@ -1,7 +1,5 @@
 import EasyCreditRatenkaufApiCredentialsService
-    from '../../src/core/service/api/easycredit-api-credentials.service';
-import EasyCreditRatenkaufPaymentService
-    from '../../src/core/service/api/easycredit-payment.service';
+    from '../core/service/api/easycredit-api-credentials.service';
 
 const { Application } = Shopware;
 
@@ -9,10 +7,4 @@ Application.addServiceProvider('EasyCreditRatenkaufApiCredentialsService', (cont
     const initContainer = Application.getContainer('init');
 
     return new EasyCreditRatenkaufApiCredentialsService(initContainer.httpClient, container.loginService);
-});
-
-Application.addServiceProvider('EasyCreditRatenkaufPaymentService', (container) => {
-    const initContainer = Application.getContainer('init');
-
-    return new EasyCreditRatenkaufPaymentService(initContainer.httpClient, container.loginService);
 });
