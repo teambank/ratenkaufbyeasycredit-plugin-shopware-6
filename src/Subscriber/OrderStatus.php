@@ -90,7 +90,7 @@ class OrderStatus implements EventSubscriberInterface
     {
         $tx = $event->getOrder()->getTransactions()->first();
 
-        if (!$tx && !isset($tx->getCustomFields()['easycredit_transaction_id'])) {
+        if (!$tx || !isset($tx->getCustomFields()['easycredit_transaction_id'])) {
             return false;
         }
 
