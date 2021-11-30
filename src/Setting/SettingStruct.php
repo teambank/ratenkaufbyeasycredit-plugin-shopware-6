@@ -37,6 +37,16 @@ class SettingStruct extends Struct
     protected $markRefunded = true;
 
     /**
+     * @var string|null
+     */
+    protected $paymentStatus = true;
+
+    /**
+     * @var string|null
+     */
+    protected $orderStatus = true;
+
+    /**
      * @var bool
      */
     protected $removeInterest = true;
@@ -109,6 +119,26 @@ class SettingStruct extends Struct
     public function setMarkRefunded(bool $markRefunded): void
     {
         $this->markRefunded = $markRefunded;
+    }
+
+    public function getOrderStatus(): string
+    {
+        return (string) $this->orderStatus;
+    }
+
+    public function setOrderStatus(string $orderStatus): void
+    {
+        $this->orderStatus = $orderStatus;
+    }
+
+    public function getPaymentStatus(): string
+    {
+        return (string) $this->paymentStatus;
+    }
+
+    public function setPaymentStatus(string $paymentStatus): void
+    {
+        $this->paymentStatus = $paymentStatus;
     }
 
     public function getRemoveInterest(): bool

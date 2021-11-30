@@ -66,20 +66,22 @@
             <helpText lang="en-GB">If this option is set, the refund is automatically reported to ratenkauf by easyCredit when the status of the delivery changes to "Returned".</helpText>
         </input-field>
 
-        <!-- component name="sw-order-state-select">
-            <name>orderStatus</name>
-            <label lang="de-DE">Bestellstatus</label>
-            <label lang="en-GB">Order Status</label>
-            <helpText lang="de-DE">Legt den Bestellstatus fest, den eine Bestellung nach Aufgabe durch den Kunden hat.</helpText>
-            <helpText lang="en-GB">Define the order status of orders paid with ratenkauf by easyCredit</helpText>
-        </component>
-        <component name="sw-order-state-select">
+        <component name="easycredit-payment-status-select">
             <name>paymentStatus</name>
+            <entity>state_machine_state</entity>
             <label lang="de-DE">Zahlungsstatus</label>
             <label lang="en-GB">Payment Status</label>
-            <helpText lang="de-DE">Legt den Zahlungs fest, den eine Bestellung nach Aufgabe durch den Kunden hat.</helpText>
-            <helpText lang="en-GB">Define the payment status of orders paid with ratenkauf by easyCredit</helpText>
-        </component -->
+            <helpText lang="de-DE">Legt den Zahlungs fest, den eine Bestellung nach Aufgabe durch den Kunden hat. Der Status ist auf die in den Statusübergängen für eine neue Bestellung definierten möglichen Werte beschränkt.</helpText>
+            <helpText lang="en-GB">Define the payment status of orders paid with ratenkauf by easyCredit. The status is restricted by the defined Shopware transitions available for a new order.</helpText>
+        </component>
+        <component name="easycredit-order-status-select">
+            <name>orderStatus</name>
+            <entity>state_machine_state</entity>
+            <label lang="de-DE">Bestellstatus</label>
+            <label lang="en-GB">Order Status</label>
+            <helpText lang="de-DE">Legt den Bestellstatus fest, den eine Bestellung nach Aufgabe durch den Kunden hat. Der Status ist auf die in den Statusübergängen für eine neue Bestellung definierten möglichen Werte beschränkt.</helpText>
+            <helpText lang="en-GB">Define the order status of orders paid with ratenkauf by easyCredit. The status is restricted by the defined Shopware transitions available for a new order.</helpText>
+       </component>
     </card>
 
     <card>

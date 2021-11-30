@@ -7,7 +7,7 @@
     <services>
 
         <service id="Netzkollektiv\EasyCredit\Payment\Handler">
-            <argument type="service" id="Netzkollektiv\EasyCredit\Payment\OrderTransactionStateHandler"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Payment\StateHandler"/>
             <argument type="service" id="order_transaction.repository"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\OrderDataProvider"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
@@ -18,8 +18,9 @@
             <tag name="shopware.payment.method.sync"/>
         </service>
 
-        <service id="Netzkollektiv\EasyCredit\Payment\OrderTransactionStateHandler">
+        <service id="Netzkollektiv\EasyCredit\Payment\StateHandler">
             <argument type="service" id="Shopware\Core\System\StateMachine\StateMachineRegistry"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Api\CheckoutFactory">
