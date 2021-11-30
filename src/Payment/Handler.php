@@ -23,7 +23,7 @@ use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class Handler implements SynchronousPaymentHandlerInterface
 {
-    private $transactionStateHandler;
+    private $stateHandler;
 
     private $orderTransactionRepo;
 
@@ -38,7 +38,7 @@ class Handler implements SynchronousPaymentHandlerInterface
     private $logger;
 
     public function __construct(
-        OrderTransactionStateHandler $transactionStateHandler,
+        StateHandler $stateHandler,
         EntityRepositoryInterface $orderTransactionRepo,
         OrderDataProvider $orderDataProvider,
         CheckoutFactory $checkoutFactory,
@@ -46,7 +46,7 @@ class Handler implements SynchronousPaymentHandlerInterface
         Storage $storage,
         Logger $logger
     ) {
-        $this->transactionStateHandler = $transactionStateHandler;
+        $this->stateHandler = $stateHandler;
         $this->orderTransactionRepo = $orderTransactionRepo;
         $this->orderDataProvider = $orderDataProvider;
 
@@ -79,9 +79,13 @@ class Handler implements SynchronousPaymentHandlerInterface
 
             $checkout->capture(null, $order->getOrderNumber());
 
-            $this->transactionStateHandler->authorized(
-                $transaction->getOrderTransaction()->getId(),
-                $salesChannelContext->getContext()
+            $this->stateHandler->handleTransactionState(
+                $transaction->getOrderTransaction(),
+                $salesChannelContext
+            );
+            $this->stateHandler->handleOrderState(
+                $order,
+                $salesChannelContext
             );
 
             $this->addEasyCreditTransactionId(
