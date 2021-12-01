@@ -84,7 +84,7 @@ class InstallUninstall
 
     public function install(Context $context): void
     {
-        $this->addDefaultConfiguration();
+        $this->addDefaultConfiguration($context);
         $this->addPaymentMethods($context);
     }
 
@@ -93,17 +93,26 @@ class InstallUninstall
         $this->removeConfiguration($context);
     }
 
-    private function addDefaultConfiguration(): void
+    private function addDefaultConfiguration(Context $context): void
     {
-        if ($this->validSettingsExists()) {
-            return;
-        }
+        $criteria = (new Criteria())
+            ->addFilter(new ContainsFilter('configurationKey', SettingsService::SYSTEM_CONFIG_DOMAIN));
+        $existingSettings = $this->systemConfigRepository->search($criteria, $context);
 
         foreach ((new SettingStruct())->jsonSerialize() as $key => $value) {
             if ($value === null || $value === []) {
                 continue;
             }
-            $this->systemConfig->set(SettingsService::SYSTEM_CONFIG_DOMAIN . $key, $value);
+
+            $fullKey = SettingsService::SYSTEM_CONFIG_DOMAIN . $key;
+
+            $sytemConfigCollection = $existingSettings->filter(function($item) use ($fullKey) {
+                return $item->getConfigurationKey() === $fullKey;
+            })->getEntities();
+
+            if (count($sytemConfigCollection) === 0) {
+                $this->systemConfig->set($fullKey, $value);
+            }
         }
     }
 
@@ -149,29 +158,5 @@ class InstallUninstall
         }
 
         $this->paymentRepository->upsert([$data], $context);
-    }
-
-    private function validSettingsExists(): bool
-    {
-        $keyValuePairs = $this->systemConfig->getDomain(SettingsService::SYSTEM_CONFIG_DOMAIN);
-
-        $structData = [];
-        foreach ($keyValuePairs as $key => $value) {
-            $identifier = (string) mb_substr($key, \mb_strlen(SettingsService::SYSTEM_CONFIG_DOMAIN));
-            if ($identifier === '') {
-                continue;
-            }
-            $structData[$identifier] = $value;
-        }
-
-        $settings = (new SettingStruct())->assign($structData);
-
-        try {
-            SettingStructValidator::validate($settings);
-        } catch (SettingsInvalidException $e) {
-            return false;
-        }
-
-        return true;
     }
 }
