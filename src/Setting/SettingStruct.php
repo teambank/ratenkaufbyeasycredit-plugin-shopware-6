@@ -39,12 +39,12 @@ class SettingStruct extends Struct
     /**
      * @var string|null
      */
-    protected $paymentStatus = true;
+    protected $paymentStatus = null;
 
     /**
      * @var string|null
      */
-    protected $orderStatus = true;
+    protected $orderStatus = null;
 
     /**
      * @var bool
