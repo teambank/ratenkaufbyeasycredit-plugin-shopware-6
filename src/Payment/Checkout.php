@@ -105,7 +105,7 @@ class Checkout implements EventSubscriberInterface
             if (is_null($error)) {
                 try {
 
-                    $quote = $this->quoteHelper->getQuote($salesChannelContext, $cart);
+                    $quote = $this->quoteHelper->getQuote($cart, $salesChannelContext);
                     $checkout->isAvailable(
                         $quote
                     );

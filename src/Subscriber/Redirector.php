@@ -13,6 +13,7 @@ use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Shopware\Core\System\SalesChannel\Event\SalesChannelContextSwitchEvent;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
+use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -43,6 +44,8 @@ class Redirector implements EventSubscriberInterface
      */
     private $router;
 
+    private $cartService;
+
     /**
      * @var QuoteHelper
      */
@@ -63,6 +66,7 @@ class Redirector implements EventSubscriberInterface
         CheckoutFactory $checkoutFactory,
         RequestStack $requestStack,
         UrlGeneratorInterface $router,
+        CartService $cartService,
         QuoteHelper $quoteHelper,
         PaymentHelper $paymentHelper,
         Storage $storage
@@ -71,6 +75,7 @@ class Redirector implements EventSubscriberInterface
         $this->checkoutFactory = $checkoutFactory;
         $this->request = $requestStack->getCurrentRequest();
         $this->router = $router;
+        $this->cartService = $cartService;
         $this->quoteHelper = $quoteHelper;
         $this->paymentHelper = $paymentHelper;
         $this->storage = $storage;
@@ -132,7 +137,9 @@ class Redirector implements EventSubscriberInterface
         $salesChannelContext = $event->getSalesChannelContext();
 
         $checkout = $this->checkoutFactory->create($salesChannelContext);
-        $quote = $this->quoteHelper->getQuote($salesChannelContext);
+
+        $cart = $this->cartService->getCart($salesChannelContext->getToken(), $salesChannelContext);
+        $quote = $this->quoteHelper->getQuote($cart, $salesChannelContext);
 
         try {
             $checkout->isAvailable($quote);

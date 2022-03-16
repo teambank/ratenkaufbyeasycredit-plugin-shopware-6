@@ -56,7 +56,7 @@ class Validator implements CartValidatorInterface
         }
 
         try {
-            $quote = $this->quoteHelper->getQuote($salesChannelContext, $cart);
+            $quote = $this->quoteHelper->getQuote($cart, $salesChannelContext);
         } catch (QuoteInvalidException $e) {
             $this->storage->clear();
 

@@ -64,7 +64,7 @@ class Handler implements SynchronousPaymentHandlerInterface
 
         $order = $this->orderDataProvider->getOrder($transaction->getOrder(), $salesChannelContext);
 
-        $quote = $this->quoteHelper->getQuote($salesChannelContext, $order);
+        $quote = $this->quoteHelper->getQuote($order, $salesChannelContext);
 
         try {
             if (!$checkout->isAmountValid($quote)

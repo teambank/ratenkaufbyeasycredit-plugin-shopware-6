@@ -14,20 +14,25 @@ use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Controller\StorefrontController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 
 /**
  * @RouteScope(scopes={"storefront"})
  */
 class PaymentController extends StorefrontController
 {
+    private $cartService;
+
     private $checkoutFactory;
 
     private $quoteHelper;
 
     public function __construct(
+        CartService $cartService,
         CheckoutFactory $checkoutFactory,
         QuoteHelper $quoteHelper
     ) {
+        $this->cartService = $cartService;
         $this->checkoutFactory = $checkoutFactory;
         $this->quoteHelper = $quoteHelper;
     }
@@ -53,7 +58,8 @@ class PaymentController extends StorefrontController
             );
         }
 
-        $quote = $this->quoteHelper->getQuote($salesChannelContext);
+        $cart = $this->cartService->getCart($salesChannelContext->getToken(), $salesChannelContext);
+        $quote = $this->quoteHelper->getQuote($cart, $salesChannelContext);
 
         if (!$checkout->isAmountValid($quote)
             || !$checkout->verifyAddressNotChanged($quote)
