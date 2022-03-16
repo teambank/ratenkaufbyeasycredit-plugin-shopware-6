@@ -17,6 +17,6 @@ class ShippingAddress extends Address implements \Netzkollektiv\EasyCreditApi\Re
             $this->address->getAdditionalAddressLine2(),
         ];
 
-        return (bool) mb_stripos(implode(' ', $street), 'packstation');
+        return (bool) \mb_stripos(\implode(' ', $street), 'packstation');
     }
 }

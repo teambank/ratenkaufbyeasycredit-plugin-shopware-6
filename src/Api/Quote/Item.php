@@ -68,7 +68,7 @@ class Item implements \Netzkollektiv\EasyCreditApi\Rest\ItemInterface
     {
         $categoryNames = [];
 
-        if ($this->item->hasPayloadValue('categoryIds') && is_array($this->item->getPayloadValue('categoryIds'))) {
+        if ($this->item->hasPayloadValue('categoryIds') && \is_array($this->item->getPayloadValue('categoryIds'))) {
             $categories = $this->metaDataProvider->getCategories(
                 $this->item->getPayloadValue('categoryIds'),
                 $this->context
@@ -80,12 +80,12 @@ class Item implements \Netzkollektiv\EasyCreditApi\Rest\ItemInterface
             }
         }
 
-        return mb_substr(implode(', ', $categoryNames), 0, 255);
+        return \mb_substr(\implode(', ', $categoryNames), 0, 255);
     }
 
     public function getSku(): array
     {
-        return array_filter([
+        return \array_filter([
             'shopware-id' => $this->item->getPayloadValue('productNumber'),
         ]);
     }

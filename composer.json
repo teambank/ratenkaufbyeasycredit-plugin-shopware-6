@@ -14,9 +14,6 @@
         "netzkollektiv/zend-http-client" : "~1",
         "ratenkaufbyeasycredit/php-sdk" : "~1.6.0"
     },
-    "require-dev": {
-        "phpunit/phpunit": "~9"
-    },
     "extra": {
         "shopware-plugin-class": "Netzkollektiv\\EasyCredit\\EasyCreditRatenkauf",
         "copyright": "(c) by NETZKOLLEKTIV GmbH",
@@ -51,5 +48,8 @@
       "preferred-install": {
         "*": "dist"
       }
+    },
+    "require-dev": {
+        "symplify/easy-coding-standard": "^10.1"
     }
 }

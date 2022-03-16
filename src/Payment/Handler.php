@@ -94,6 +94,7 @@ class Handler implements SynchronousPaymentHandlerInterface
             );
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
+
             throw new SyncPaymentProcessException(
                 $transaction->getOrderTransaction()->getId(),
                 'Could not complete transaction: ' . $e->getMessage() . $e->getTraceAsString()

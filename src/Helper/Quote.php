@@ -8,11 +8,11 @@
 namespace Netzkollektiv\EasyCredit\Helper;
 
 use Netzkollektiv\EasyCredit\Api;
+use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 use Netzkollektiv\EasyCreditApi\Rest\QuoteInterface;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 
 class Quote
 {

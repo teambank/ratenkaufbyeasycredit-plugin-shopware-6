@@ -56,7 +56,7 @@ class Checkout implements EventSubscriberInterface
      */
     public function onCheckoutConfirmLoaded(CheckoutConfirmPageLoadedEvent $event): void
     {
-        if ($this->storage->get('redirect_url') 
+        if ($this->storage->get('redirect_url')
             || $this->storage->get('init')
         ) {
             return;
@@ -98,13 +98,13 @@ class Checkout implements EventSubscriberInterface
             $agreement = $this->getCachedAgreement($checkout);
         } catch (\Throwable $e) {
             $this->removePaymentMethodFromConfirmPage($event);
+
             return;
         }
 
         if ($isSelected && !$this->storage->get('payment_plan')) {
-            if (is_null($error)) {
+            if ($error === null) {
                 try {
-
                     $quote = $this->quoteHelper->getQuote($cart, $salesChannelContext);
                     $checkout->isAvailable(
                         $quote
@@ -123,7 +123,7 @@ class Checkout implements EventSubscriberInterface
             'agreement' => $agreement,
             'paymentPlan' => $this->storage->get('payment_plan'),
             'error' => $error,
-            'webshopId' => $settings->getWebshopId()
+            'webshopId' => $settings->getWebshopId(),
         ]));
     }
 

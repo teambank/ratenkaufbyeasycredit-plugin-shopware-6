@@ -32,8 +32,8 @@ class Customer implements \Netzkollektiv\EasyCreditApi\Rest\CustomerInterface
         if ($this->customer->getSalutation()) {
             return $this->customer->getSalutation()->getDisplayName();
         }
-	if ($this->billingAddress->getSalutation()) {
-	    return $this->billingAddress->getSalutation()->getDisplayName();
+        if ($this->billingAddress->getSalutation()) {
+            return $this->billingAddress->getSalutation()->getDisplayName();
         }
     }
 
@@ -42,6 +42,7 @@ class Customer implements \Netzkollektiv\EasyCreditApi\Rest\CustomerInterface
         if ($this->customer->getGuest()) {
             return $this->billingAddress->getFirstName();
         }
+
         return $this->customer->getFirstName();
     }
 
@@ -50,6 +51,7 @@ class Customer implements \Netzkollektiv\EasyCreditApi\Rest\CustomerInterface
         if ($this->customer->getGuest()) {
             return $this->billingAddress->getLastName();
         }
+
         return $this->customer->getLastName();
     }
 

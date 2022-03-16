@@ -9,12 +9,12 @@ namespace Netzkollektiv\EasyCredit\Controller;
 
 use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
+use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Controller\StorefrontController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 
 /**
  * @RouteScope(scopes={"storefront"})

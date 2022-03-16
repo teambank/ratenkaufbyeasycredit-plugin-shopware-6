@@ -7,17 +7,14 @@
 
 namespace Netzkollektiv\EasyCredit\Payment;
 
-use Shopware\Core\Checkout\Order\OrderDefinition;
+use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionDefinition;
-use Shopware\Core\Framework\Context;
-use Shopware\Core\System\StateMachine\Aggregation\StateMachineTransition\StateMachineTransitionActions;
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
+use Shopware\Core\Checkout\Order\OrderDefinition;
+use Shopware\Core\Checkout\Order\OrderEntity;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\System\StateMachine\StateMachineRegistry;
 use Shopware\Core\System\StateMachine\Transition;
-use Shopware\Core\System\SalesChannel\SalesChannelContext;
-use Shopware\Core\Checkout\Order\OrderEntity;
-use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
-
-use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 
 class StateHandler
 {
@@ -29,24 +26,9 @@ class StateHandler
     public function __construct(
         StateMachineRegistry $stateMachineRegistry,
         SettingsServiceInterface $settingsService
-    )
-    {
+    ) {
         $this->stateMachineRegistry = $stateMachineRegistry;
         $this->settings = $settingsService;
-    }
-
-    protected function getSelectedTransition($entityName, $entity, $status, $context) {
-        $availableTransitions = $this->stateMachineRegistry->getAvailableTransitions(
-            $entityName,
-            $entity->getId(),
-            'stateId',
-            $context
-        );
-        foreach ($availableTransitions as $transition) {
-            if ($transition->getToStateId() === $status) {
-                return $transition;
-            }
-        }
     }
 
     /**
@@ -94,6 +76,21 @@ class StateHandler
                 ),
                 $salesChannelContext->getContext()
             );
+        }
+    }
+
+    protected function getSelectedTransition($entityName, $entity, $status, $context)
+    {
+        $availableTransitions = $this->stateMachineRegistry->getAvailableTransitions(
+            $entityName,
+            $entity->getId(),
+            'stateId',
+            $context
+        );
+        foreach ($availableTransitions as $transition) {
+            if ($transition->getToStateId() === $status) {
+                return $transition;
+            }
         }
     }
 }

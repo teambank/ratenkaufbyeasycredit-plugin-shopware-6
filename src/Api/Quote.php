@@ -8,12 +8,10 @@
 namespace Netzkollektiv\EasyCredit\Api;
 
 use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
-use Netzkollektiv\EasyCredit\Api\Storage;
+use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
-use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
-
 
 class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
 {
@@ -76,20 +74,23 @@ class Quote implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
             return '';
         }
         $shippingMethod = $delivery->getShippingMethod()->getName();
+
         return $shippingMethod;
     }
 
-    public function getIsClickAndCollect(): Bool {
+    public function getIsClickAndCollect(): bool
+    {
         $delivery = $this->cart->getDeliveries()->first();
         if ($delivery === null) {
             return false;
         }
 
-        return $delivery->getShippingMethod()->getId() 
+        return $delivery->getShippingMethod()->getId()
             === $this->settings->getSettings($this->context->getSalesChannel()->getId())->getClickAndCollectShippingMethod();
     }
 
-    public function getDuration(): string {
+    public function getDuration(): string
+    {
         return $this->storage->get('duration');
     }
 

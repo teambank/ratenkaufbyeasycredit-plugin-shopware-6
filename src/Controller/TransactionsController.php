@@ -66,6 +66,7 @@ class TransactionsController extends AbstractController
         switch ($params['status']) {
             case 'LIEFERUNG':
                 $client->confirmShipment($params['id']);
+
                 break;
             case 'WIDERRUF_VOLLSTAENDIG':
             case 'WIDERRUF_TEILWEISE':
@@ -77,6 +78,7 @@ class TransactionsController extends AbstractController
                     \DateTime::createFromFormat('Y-d-m', $params['date']),
                     $params['amount']
                 );
+
                 break;
         }
 

@@ -34,7 +34,7 @@ class Storage implements \Netzkollektiv\EasyCreditApi\StorageInterface
     {
         $session = [];
         foreach ($this->session as $key => $value) {
-            if (mb_strpos($key, 'easycredit') === 0) {
+            if (\mb_strpos($key, 'easycredit') === 0) {
                 $session[$key] = $value;
             }
         }
@@ -44,7 +44,7 @@ class Storage implements \Netzkollektiv\EasyCreditApi\StorageInterface
 
     public function clear(): self
     {
-        foreach (array_keys($this->all()) as $key) {
+        foreach (\array_keys($this->all()) as $key) {
             $this->session->remove($key);
         }
 

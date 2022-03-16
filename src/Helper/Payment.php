@@ -31,7 +31,7 @@ class Payment
 
     public function isSelected(SalesChannelContext $salesChannelContext, $paymentMethodId = null): bool
     {
-        if (is_null($paymentMethodId)) {
+        if ($paymentMethodId === null) {
             $paymentMethodId = $salesChannelContext->getPaymentMethod()->getId();
         }
 

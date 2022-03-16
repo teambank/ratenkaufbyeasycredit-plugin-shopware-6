@@ -1,11 +1,16 @@
 <?php declare(strict_types=1);
+/*
+ * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Netzkollektiv\EasyCredit\Migration;
 
 use Doctrine\DBAL\Connection;
+use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Migration\MigrationStep;
 use Shopware\Core\Framework\Uuid\Uuid;
-use Shopware\Core\Defaults;
 
 class Migration1637924278ConfigStatus extends MigrationStep
 {
@@ -25,7 +30,7 @@ class Migration1637924278ConfigStatus extends MigrationStep
             $connection->insert('system_config', [
                 'id' => Uuid::randomBytes(),
                 'configuration_key' => 'EasyCreditRatenkauf.config.orderStatus',
-                'configuration_value' => sprintf('{"_value": "%s"}', Uuid::fromBytesToHex($orderStateId)),
+                'configuration_value' => \sprintf('{"_value": "%s"}', Uuid::fromBytesToHex($orderStateId)),
                 'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             ]);
         }
@@ -39,29 +44,33 @@ class Migration1637924278ConfigStatus extends MigrationStep
             $connection->insert('system_config', [
                 'id' => Uuid::randomBytes(),
                 'configuration_key' => 'EasyCreditRatenkauf.config.paymentStatus',
-                'configuration_value' => sprintf('{"_value": "%s"}', Uuid::fromBytesToHex($paymentStateId)),
+                'configuration_value' => \sprintf('{"_value": "%s"}', Uuid::fromBytesToHex($paymentStateId)),
                 'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             ]);
         }
     }
 
-    protected function configKeyExists($connection, $key) {
-        return ($connection->fetchColumn('SELECT id FROM system_config WHERE configuration_key = :configuration_key',
-            ['configuration_key' => 'EasyCreditRatenkauf.config.'.$key]
-        ));
+    public function updateDestructive(Connection $connection): void
+    {
+        // implement update destructive
     }
 
-    protected function getStateId($connection, $params) {
-        return $connection->fetchColumn('
+    protected function configKeyExists($connection, $key)
+    {
+        return $connection->fetchColumn(
+            'SELECT id FROM system_config WHERE configuration_key = :configuration_key',
+            ['configuration_key' => 'EasyCreditRatenkauf.config.' . $key]
+        );
+    }
+
+    protected function getStateId($connection, $params)
+    {
+        return $connection->fetchColumn(
+            '
             SELECT sms.id FROM state_machine_state sms
                 LEFT JOIN state_machine sm ON sms.state_machine_id = sm.id WHERE
 	            sms.technical_name = :state_machine_state AND sm.technical_name = :state_machine',
             $params
         );
-    }
-
-    public function updateDestructive(Connection $connection): void
-    {
-        // implement update destructive
     }
 }

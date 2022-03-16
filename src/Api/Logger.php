@@ -87,8 +87,8 @@ class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface
 
     public function _format($msg): string
     {
-        if (is_array($msg) || is_object($msg)) {
-            $msg = print_r($msg, true);
+        if (\is_array($msg) || \is_object($msg)) {
+            $msg = \print_r($msg, true);
         }
 
         return $msg;
@@ -101,7 +101,7 @@ class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface
     {
         $handlers = $this->_logger->getHandlers();
         if (
-            is_array($handlers)
+            \is_array($handlers)
             && isset($handlers[0])
             && $handlers[0] instanceof \Monolog\Handler\StreamHandler
             && $handlers[0]->getFormatter() instanceof \Monolog\Formatter\LineFormatter

@@ -21,7 +21,7 @@ class InitError extends Error
     public function __construct(string $name)
     {
         $this->name = $name;
-        $this->message = sprintf(
+        $this->message = \sprintf(
             '%s Please correct your order and click "Recalculate installments"',
             $name
         );
@@ -30,7 +30,7 @@ class InitError extends Error
 
     public function getId(): string
     {
-        return sprintf('%s-%s', $this->getMessageKey(), $this->name);
+        return \sprintf('%s-%s', $this->getMessageKey(), $this->name);
     }
 
     public function getName(): string

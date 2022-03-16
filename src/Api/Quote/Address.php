@@ -42,12 +42,12 @@ class Address implements \Netzkollektiv\EasyCreditApi\Rest\AddressInterface
 
     public function getStreet(): string
     {
-        return trim($this->address->getStreet());
+        return \trim($this->address->getStreet());
     }
 
     public function getStreetAdditional(): string
     {
-        return trim(implode(' ', [
+        return \trim(\implode(' ', [
             $this->address->getAdditionalAddressLine1(),
             $this->address->getAdditionalAddressLine2(),
         ]));

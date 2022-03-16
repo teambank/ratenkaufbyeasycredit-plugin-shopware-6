@@ -29,9 +29,9 @@ class System implements \Netzkollektiv\EasyCreditApi\SystemInterface
 
     public function getModuleVersion(): ?string
     {
-        $json = file_get_contents(dirname(__FILE__) . '/../../composer.json');
+        $json = \file_get_contents(__DIR__ . '/../../composer.json');
         if ($json !== false) {
-            $json = json_decode($json);
+            $json = \json_decode($json);
             if (isset($json->version)) {
                 return $json->version;
             }

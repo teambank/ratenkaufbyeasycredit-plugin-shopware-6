@@ -11,16 +11,16 @@ use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
+use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\System\SalesChannel\Event\SalesChannelContextSwitchEvent;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
-use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Redirector implements EventSubscriberInterface
 {
@@ -86,19 +86,8 @@ class Redirector implements EventSubscriberInterface
         return [
             SalesChannelContextSwitchEvent::class => 'onSalesChannelContextSwitch',
             CheckoutConfirmPageLoadedEvent::class => 'onCheckoutConfirmLoaded',
-            KernelEvents::RESPONSE => 'onKernelResponse'
+            KernelEvents::RESPONSE => 'onKernelResponse',
         ];
-    }
-
-    protected function isRoute($route, $request) {
-        $attributes = (isset($request->attributes)) ? $request->attributes : null;
-
-        if ($attributes === null
-            || $attributes->get('_route') !== $route
-        ) {
-            return false;
-        }
-        return true;
     }
 
     public function onSalesChannelContextSwitch(SalesChannelContextSwitchEvent $event): void
@@ -110,13 +99,13 @@ class Redirector implements EventSubscriberInterface
             return;
         }
 
-        if (!$event->getRequestDataBag()->get('paymentMethodId') ||
-            !$this->paymentHelper->isSelected($salesChannelContext, $event->getRequestDataBag()->get('paymentMethodId'))
+        if (!$event->getRequestDataBag()->get('paymentMethodId')
+            || !$this->paymentHelper->isSelected($salesChannelContext, $event->getRequestDataBag()->get('paymentMethodId'))
         ) {
             return;
         }
 
-        if (version_compare($this->container->getParameter('kernel.shopware_version'), '6.4.0', '>=')
+        if (\version_compare($this->container->getParameter('kernel.shopware_version'), '6.4.0', '>=')
             && !$event->getRequestDataBag()->get('easycredit-submit')
         ) {
             return;
@@ -152,13 +141,12 @@ class Redirector implements EventSubscriberInterface
 
             $this->storage->set('redirect_url', $checkout->getRedirectUrl());
         } catch (\Throwable $e) {
-
             $this->storage->set('error', $e->getMessage());
         }
     }
 
     public function onKernelResponse(ResponseEvent $event): void
-    {       
+    {
         if (!$this->isRoute('frontend.checkout.confirm.page', $event->getRequest())) {
             return;
         }
@@ -167,5 +155,18 @@ class Redirector implements EventSubscriberInterface
             $event->setResponse(new RedirectResponse($redirectUrl));
             $this->storage->set('redirect_url', null);
         }
+    }
+
+    protected function isRoute($route, $request)
+    {
+        $attributes = (isset($request->attributes)) ? $request->attributes : null;
+
+        if ($attributes === null
+            || $attributes->get('_route') !== $route
+        ) {
+            return false;
+        }
+
+        return true;
     }
 }

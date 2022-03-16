@@ -54,6 +54,7 @@ class InterestRemover implements EventSubscriberInterface
         }
 
         $this->connection->beginTransaction();
+
         try {
             $this->connection->executeQuery("
                 UPDATE `order` o

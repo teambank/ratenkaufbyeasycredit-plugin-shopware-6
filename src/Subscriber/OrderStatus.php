@@ -8,9 +8,9 @@
 namespace Netzkollektiv\EasyCredit\Subscriber;
 
 use Netzkollektiv\EasyCredit\Api\MerchantFactory;
+use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Order\Event\OrderStateMachineStateChangeEvent;
-use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class OrderStatus implements EventSubscriberInterface
@@ -65,7 +65,7 @@ class OrderStatus implements EventSubscriberInterface
         $markRefunded = $this->settings
             ->getSettings($event->getSalesChannelId(), false)
             ->getMarkRefunded();
-            
+
         if (!$markRefunded) {
             return;
         }

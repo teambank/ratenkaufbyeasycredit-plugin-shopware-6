@@ -37,11 +37,13 @@ class Order implements \Netzkollektiv\EasyCreditApi\Rest\QuoteInterface
         return '';
     }
 
-    public function getIsClickAndCollect(): Bool {
+    public function getIsClickAndCollect(): bool
+    {
         return false;
     }
 
-    public function getDuration(): string {
+    public function getDuration(): string
+    {
         return 0;
     }
 
