@@ -102,7 +102,5 @@ class Logger implements \Psr\Log\LoggerInterface
      * @param array $context
      * @return void
      */
-    public function log($level, $message, array $context = array()) {
-
-    }
+    public function log($level, $message, array $context = array()) {}
 }

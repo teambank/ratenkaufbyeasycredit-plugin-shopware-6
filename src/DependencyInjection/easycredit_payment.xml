@@ -49,6 +49,7 @@
 
         <service id="Netzkollektiv\EasyCredit\Controller\PaymentController" public="true">
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Payment\StateHandler"/>
             <argument type="service" id="order_transaction.repository"/>
@@ -93,6 +94,7 @@
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
             <argument type="service" id="request_stack"/>
             <argument type="service" id="router"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Payment"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>

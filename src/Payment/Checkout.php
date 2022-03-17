@@ -104,13 +104,14 @@ class Checkout implements EventSubscriberInterface
         } catch (\Throwable $e) {
             $this->logger->error($e);
             $this->removePaymentMethodFromConfirmPage($event);
+
             return;
         }
 
         if ($isSelected && !$this->storage->get('payment_plan')) {
-            if (is_null($error)) {
+            if ($error === null) {
                 try {
-                    $quote = $this->quoteHelper->getQuote($salesChannelContext, $cart);
+                    $quote = $this->quoteHelper->getQuote($cart, $salesChannelContext);
                 } catch (\Throwable $e) {
                     $error = $e->getMessage();
                 }
@@ -125,7 +126,7 @@ class Checkout implements EventSubscriberInterface
             'agreement' => $agreement,
             'paymentPlan' => $this->buildPaymentPlan($this->storage->get('summary')),
             'error' => $error,
-            'webshopId' => $settings->getWebshopId()
+            'webshopId' => $settings->getWebshopId(),
         ]));
     }
 

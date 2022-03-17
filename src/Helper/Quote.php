@@ -8,9 +8,9 @@
 namespace Netzkollektiv\EasyCredit\Helper;
 
 use Netzkollektiv\EasyCredit\Api;
+use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 use Netzkollektiv\EasyCreditApi\Rest\QuoteInterface;
 use Shopware\Core\Checkout\Cart\Cart;
-use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Netzkollektiv\EasyCredit\Api\QuoteInvalidException;
 use Netzkollektiv\EasyCredit\Api\QuoteBuilder;
@@ -41,11 +41,8 @@ class Quote
     /**
      * @param Cart|\Shopware\Core\Checkout\Order\OrderEntity|null $cart
      */
-    public function getQuote(SalesChannelContext $salesChannelContext, $cart = null): TransactionInitRequestWrapper
+    public function getQuote($cart, SalesChannelContext $salesChannelContext): QuoteInterface
     {
-        if ($cart === null) {
-            $cart = $this->cartService->getCart($salesChannelContext->getToken(), $salesChannelContext);
-        }
         if ($cart instanceof Cart) {
             return $this->quoteBuilder->build($cart, $salesChannelContext);
         }

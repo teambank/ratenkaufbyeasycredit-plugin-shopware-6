@@ -1,3 +1,12 @@
+# 1.1.10
+
+* Änderungen zur Kompatibilität mit v6.4.9.0
+
+# 1.1.9
+
+* der Zahlungs- und Bestellstatus für neue Bestellungen kann nun konfiguriert werden
+* die Standard-Einstellungen werden bei Installation wieder korrekt gesetzt
+
 # 1.1.8
 
 * in den Backend-Modulen wird nun das globale Shopware-Objekt verwendet

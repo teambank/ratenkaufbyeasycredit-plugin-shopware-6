@@ -13,7 +13,7 @@
         "netzkollektiv/ratenkaufbyeasycredit-payment-api-v3-php": "dev-legacy-test"
     },
     "require-dev": {
-        "phpunit/phpunit": "~9"
+        "symplify/easy-coding-standard": "^10.1"
     },
     "replace": {
         "guzzlehttp/guzzle": "*",

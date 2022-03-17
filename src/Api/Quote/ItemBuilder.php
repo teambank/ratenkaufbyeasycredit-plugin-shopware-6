@@ -81,7 +81,7 @@ class ItemBuilder
             }
         }
 
-        return mb_substr(implode(', ', $categoryNames), 0, 255);
+        return \mb_substr(\implode(', ', $categoryNames), 0, 255);
     }
 
     protected function getSkus(): array
@@ -91,7 +91,7 @@ class ItemBuilder
         }
         
         $skus = [];
-        foreach (array_filter([
+        foreach (\array_filter([
             'shopware-id' => $this->item->getPayloadValue('productNumber'),
         ]) as $type => $sku) {
             $skus[] = new \Teambank\RatenkaufByEasyCreditApiV3\Model\ArticleNumberItem([

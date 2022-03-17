@@ -61,7 +61,7 @@ class Handler implements SynchronousPaymentHandlerInterface
 
         $order = $this->orderDataProvider->getOrder($transaction->getOrder(), $salesChannelContext);
 
-        $quote = $this->quoteHelper->getQuote($salesChannelContext, $order);
+        $quote = $this->quoteHelper->getQuote($order, $salesChannelContext);
 
         try {
             if (!$checkout->isAmountValid($quote)
@@ -82,6 +82,7 @@ class Handler implements SynchronousPaymentHandlerInterface
             );
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
+
             throw new SyncPaymentProcessException(
                 $transaction->getOrderTransaction()->getId(),
                 'Could not complete transaction: ' . $e->getMessage() . $e->getTraceAsString()

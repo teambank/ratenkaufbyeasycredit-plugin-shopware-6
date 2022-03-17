@@ -43,7 +43,7 @@ class Storage implements \Teambank\RatenkaufByEasyCreditApiV3\Integration\Storag
     {
         $session = [];
         foreach ($this->session as $key => $value) {
-            if (mb_strpos($key, 'easycredit') === 0) {
+            if (\mb_strpos($key, 'easycredit') === 0) {
                 $session[$key] = $value;
             }
         }
@@ -56,7 +56,7 @@ class Storage implements \Teambank\RatenkaufByEasyCreditApiV3\Integration\Storag
         $backtrace = debug_backtrace();
         $this->logger->info('storage::clear from ' .$backtrace[1]['class'].':'.$backtrace[1]['function']);
 
-        foreach (array_keys($this->all()) as $key) {
+        foreach (\array_keys($this->all()) as $key) {
             $this->session->remove($key);
         }
 

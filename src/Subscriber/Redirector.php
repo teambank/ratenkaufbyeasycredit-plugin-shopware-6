@@ -11,15 +11,16 @@ use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
+use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\System\SalesChannel\Event\SalesChannelContextSwitchEvent;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class Redirector implements EventSubscriberInterface
@@ -44,6 +45,8 @@ class Redirector implements EventSubscriberInterface
      */
     private $router;
 
+    private $cartService;
+
     /**
      * @var QuoteHelper
      */
@@ -66,6 +69,7 @@ class Redirector implements EventSubscriberInterface
         IntegrationFactory $integrationFactory,
         RequestStack $requestStack,
         UrlGeneratorInterface $router,
+        CartService $cartService,
         QuoteHelper $quoteHelper,
         PaymentHelper $paymentHelper,
         Storage $storage,
@@ -75,6 +79,7 @@ class Redirector implements EventSubscriberInterface
         $this->integrationFactory = $integrationFactory;
         $this->request = $requestStack->getCurrentRequest();
         $this->router = $router;
+        $this->cartService = $cartService;
         $this->quoteHelper = $quoteHelper;
         $this->paymentHelper = $paymentHelper;
         $this->storage = $storage;
@@ -86,19 +91,8 @@ class Redirector implements EventSubscriberInterface
         return [
             SalesChannelContextSwitchEvent::class => 'onSalesChannelContextSwitch',
             CheckoutConfirmPageLoadedEvent::class => 'onCheckoutConfirmLoaded',
-            KernelEvents::RESPONSE => 'onKernelResponse'
+            KernelEvents::RESPONSE => 'onKernelResponse',
         ];
-    }
-
-    protected function isRoute($route, $request) {
-        $attributes = (isset($request->attributes)) ? $request->attributes : null;
-
-        if ($attributes === null
-            || $attributes->get('_route') !== $route
-        ) {
-            return false;
-        }
-        return true;
     }
 
     public function onSalesChannelContextSwitch(SalesChannelContextSwitchEvent $event): void
@@ -110,14 +104,14 @@ class Redirector implements EventSubscriberInterface
             return;
         }
 
-        if (!$event->getRequestDataBag()->get('paymentMethodId') ||
-            !$this->paymentHelper->isSelected($salesChannelContext, $event->getRequestDataBag()->get('paymentMethodId'))
+        if (!$event->getRequestDataBag()->get('paymentMethodId')
+            || !$this->paymentHelper->isSelected($salesChannelContext, $event->getRequestDataBag()->get('paymentMethodId'))
         ) {
             return;
         }
 
-        if (version_compare($this->container->getParameter('kernel.shopware_version'), '6.4.0', '>=')
-            && !$event->getRequestDataBag()->get('easycredit')
+        if (\version_compare($this->container->getParameter('kernel.shopware_version'), '6.4.0', '>=')
+            && !$event->getRequestDataBag()->get('easycredit-submit')
         ) {
             return;
         }
@@ -137,6 +131,7 @@ class Redirector implements EventSubscriberInterface
         $salesChannelContext = $event->getSalesChannelContext();
 
         $checkout = $this->integrationFactory->createCheckout($salesChannelContext);
+        $cart = $this->cartService->getCart($salesChannelContext->getToken(), $salesChannelContext);
         $quote = $this->quoteHelper->getQuote($salesChannelContext);
 
         try {
@@ -158,5 +153,18 @@ class Redirector implements EventSubscriberInterface
             $event->setResponse(new RedirectResponse($redirectUrl));
             $this->storage->set('redirect_url', null);
         }
+    }
+
+    protected function isRoute($route, $request)
+    {
+        $attributes = (isset($request->attributes)) ? $request->attributes : null;
+
+        if ($attributes === null
+            || $attributes->get('_route') !== $route
+        ) {
+            return false;
+        }
+
+        return true;
     }
 }

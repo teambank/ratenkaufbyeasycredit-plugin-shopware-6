@@ -11,6 +11,7 @@ use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Netzkollektiv\EasyCredit\Webhook\OrderTransactionNotFoundException;
 
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
+use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\Framework\Context;
@@ -35,17 +36,21 @@ class PaymentController extends StorefrontController
 {
     private $integrationFactory;
 
+    private $cartService;
+
     private $quoteHelper;
 
     private $stateHandler;
 
     public function __construct(
         IntegrationFactory $integrationFactory,
+        CartService $cartService,
         QuoteHelper $quoteHelper,
         StateHandler $stateHandler,
         EntityRepositoryInterface $orderTransactionRepository
     ) {
         $this->integrationFactory = $integrationFactory;
+        $this->cartService = $cartService;
         $this->quoteHelper = $quoteHelper;
         $this->stateHandler = $stateHandler;
         $this->orderTransactionRepository = $orderTransactionRepository;
@@ -72,7 +77,8 @@ class PaymentController extends StorefrontController
             );
         }
 
-        $quote = $this->quoteHelper->getQuote($salesChannelContext);
+        $cart = $this->cartService->getCart($salesChannelContext->getToken(), $salesChannelContext);
+        $quote = $this->quoteHelper->getQuote($cart, $salesChannelContext);
 
         if (!$checkout->isAmountValid($quote)
             || !$checkout->verifyAddress($quote)

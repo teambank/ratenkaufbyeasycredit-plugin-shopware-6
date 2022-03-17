@@ -39,6 +39,7 @@ class CustomerBuilder
         if ($this->customer->getGuest()) {
             return $this->billingAddress->getFirstName();
         }
+
         return $this->customer->getFirstName();
     }
 
@@ -47,6 +48,7 @@ class CustomerBuilder
         if ($this->customer->getGuest()) {
             return $this->billingAddress->getLastName();
         }
+
         return $this->customer->getLastName();
     }
 

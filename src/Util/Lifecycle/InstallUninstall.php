@@ -9,10 +9,8 @@ namespace Netzkollektiv\EasyCredit\Util\Lifecycle;
 
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Netzkollektiv\EasyCredit\Payment\Handler;
-use Netzkollektiv\EasyCredit\Setting\Exception\SettingsInvalidException;
 use Netzkollektiv\EasyCredit\Setting\Service\SettingsService;
 use Netzkollektiv\EasyCredit\Setting\SettingStruct;
-use Netzkollektiv\EasyCredit\Setting\SettingStructValidator;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -106,11 +104,11 @@ class InstallUninstall
 
             $fullKey = SettingsService::SYSTEM_CONFIG_DOMAIN . $key;
 
-            $sytemConfigCollection = $existingSettings->filter(function($item) use ($fullKey) {
+            $sytemConfigCollection = $existingSettings->filter(function ($item) use ($fullKey) {
                 return $item->getConfigurationKey() === $fullKey;
             })->getEntities();
 
-            if (count($sytemConfigCollection) === 0) {
+            if (\count($sytemConfigCollection) === 0) {
                 $this->systemConfig->set($fullKey, $value);
             }
         }
@@ -122,7 +120,7 @@ class InstallUninstall
             ->addFilter(new ContainsFilter('configurationKey', SettingsService::SYSTEM_CONFIG_DOMAIN));
         $idSearchResult = $this->systemConfigRepository->searchIds($criteria, $context);
 
-        $ids = array_map(static function ($id) {
+        $ids = \array_map(static function ($id) {
             return ['id' => $id];
         }, $idSearchResult->getIds());
 
