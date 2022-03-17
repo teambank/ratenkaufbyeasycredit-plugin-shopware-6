@@ -8,7 +8,7 @@
 namespace Netzkollektiv\EasyCredit\Payment;
 
 use Monolog\Logger;
-use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
+use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Helper\OrderDataProvider;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
@@ -20,16 +20,15 @@ use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Netzkollektiv\EasyCredit\EasyCreditRatenkauf;
 
 class Handler implements SynchronousPaymentHandlerInterface
 {
-    private $stateHandler;
-
     private $orderTransactionRepo;
 
     private $orderDataProvider;
 
-    private $checkoutFactory;
+    private $integrationFactory;
 
     private $quoteHelper;
 
@@ -38,19 +37,17 @@ class Handler implements SynchronousPaymentHandlerInterface
     private $logger;
 
     public function __construct(
-        StateHandler $stateHandler,
         EntityRepositoryInterface $orderTransactionRepo,
         OrderDataProvider $orderDataProvider,
-        CheckoutFactory $checkoutFactory,
+        IntegrationFactory $integrationFactory,
         QuoteHelper $quoteHelper,
         Storage $storage,
         Logger $logger
     ) {
-        $this->stateHandler = $stateHandler;
         $this->orderTransactionRepo = $orderTransactionRepo;
         $this->orderDataProvider = $orderDataProvider;
 
-        $this->checkoutFactory = $checkoutFactory;
+        $this->integrationFactory = $integrationFactory;
         $this->quoteHelper = $quoteHelper;
         $this->storage = $storage;
         $this->logger = $logger;
@@ -58,7 +55,7 @@ class Handler implements SynchronousPaymentHandlerInterface
 
     public function pay(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag, SalesChannelContext $salesChannelContext): void
     {
-        $checkout = $this->checkoutFactory->create(
+        $checkout = $this->integrationFactory->createCheckout(
             $salesChannelContext
         );
 
@@ -68,7 +65,7 @@ class Handler implements SynchronousPaymentHandlerInterface
 
         try {
             if (!$checkout->isAmountValid($quote)
-                || !$checkout->verifyAddressNotChanged($quote)
+                || !$checkout->verifyAddress($quote)
                 || !$checkout->isApproved()
             ) {
                 throw new SyncPaymentProcessException(
@@ -77,18 +74,9 @@ class Handler implements SynchronousPaymentHandlerInterface
                 );
             }
 
-            $checkout->capture(null, $order->getOrderNumber());
+            $checkout->authorize(null, $order->getOrderNumber());
 
-            $this->stateHandler->handleTransactionState(
-                $transaction->getOrderTransaction(),
-                $salesChannelContext
-            );
-            $this->stateHandler->handleOrderState(
-                $order,
-                $salesChannelContext
-            );
-
-            $this->addEasyCreditTransactionId(
+            $this->addEasyCreditTransactionCustomFields(
                 $transaction,
                 $salesChannelContext->getContext()
             );
@@ -101,14 +89,15 @@ class Handler implements SynchronousPaymentHandlerInterface
         }
     }
 
-    protected function addEasyCreditTransactionId(
+    protected function addEasyCreditTransactionCustomFields(
         SyncPaymentTransactionStruct $transaction,
         Context $context
     ): void {
         $data = [
             'id' => $transaction->getOrderTransaction()->getId(),
             'customFields' => [
-                ActivateDeactivate::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_ID => $this->storage->get('transaction_id'),
+                EasyCreditRatenkauf::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_ID => $this->storage->get('transaction_id'),
+                EasyCreditRatenkauf::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_SEC_TOKEN => $this->storage->get('sec_token'),
             ],
         ];
         $this->orderTransactionRepo->update([$data], $context);

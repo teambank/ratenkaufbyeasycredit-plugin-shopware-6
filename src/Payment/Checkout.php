@@ -7,7 +7,7 @@
 
 namespace Netzkollektiv\EasyCredit\Payment;
 
-use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
+use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
@@ -17,30 +17,35 @@ use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaI
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Psr\Log\LoggerInterface;
 
 class Checkout implements EventSubscriberInterface
 {
     private $paymentHelper;
 
-    private $checkoutFactory;
+    private $integrationFactory;
 
     private $storage;
 
     private $cache;
 
+    private $logger;
+
     public function __construct(
         PaymentHelper $paymentHelper,
         SettingsServiceInterface $settingsService,
-        CheckoutFactory $checkoutFactory,
+        IntegrationFactory $integrationFactory,
         QuoteHelper $quoteHelper,
         Storage $storage,
+        LoggerInterface $logger,
         TagAwareAdapterInterface $cache
     ) {
         $this->paymentHelper = $paymentHelper;
         $this->settings = $settingsService;
-        $this->checkoutFactory = $checkoutFactory;
+        $this->integrationFactory = $integrationFactory;
         $this->quoteHelper = $quoteHelper;
         $this->storage = $storage;
+        $this->logger = $logger;
         $this->cache = $cache;
     }
 
@@ -87,7 +92,7 @@ class Checkout implements EventSubscriberInterface
 
         try {
             $settings = $this->settings->getSettings($salesChannelContext->getSalesChannel()->getId());
-            $checkout = $this->checkoutFactory->create($salesChannelContext);
+            $checkout = $this->integrationFactory->createCheckout($salesChannelContext);
         } catch (SettingsInvalidException $e) {
             $this->removePaymentMethodFromConfirmPage($event);
 
@@ -95,8 +100,9 @@ class Checkout implements EventSubscriberInterface
         }
 
         try {
-            $agreement = $this->getCachedAgreement($checkout);
+            $agreement = $this->getWebshopDetails($checkout)->getPrivacyApprovalForm();
         } catch (\Throwable $e) {
+            $this->logger->error($e);
             $this->removePaymentMethodFromConfirmPage($event);
             return;
         }
@@ -104,11 +110,7 @@ class Checkout implements EventSubscriberInterface
         if ($isSelected && !$this->storage->get('payment_plan')) {
             if (is_null($error)) {
                 try {
-
                     $quote = $this->quoteHelper->getQuote($salesChannelContext, $cart);
-                    $checkout->isAvailable(
-                        $quote
-                    );
                 } catch (\Throwable $e) {
                     $error = $e->getMessage();
                 }
@@ -116,31 +118,36 @@ class Checkout implements EventSubscriberInterface
         }
 
         $event->getPage()->addExtension('easycredit', (new CheckoutData())->assign([
-            'isPrefixValid' => isset($quote) ? $checkout->isPrefixValid($quote->getCustomer()->getPrefix()) : false,
-            'grandTotal' => isset($quote) ? $quote->getGrandTotal() : null,
+            'isPrefixValid' => isset($quote) ? $checkout->isPrefixValid($quote->getTransactionInitRequest()->getCustomer()->getGender()) : false,
+            'grandTotal' => isset($quote) ? $quote->getTransactionInitRequest()->getOrderDetails()->getOrderValue() : null,
             'paymentMethodId' => $paymentMethodId,
             'isSelected' => $isSelected,
             'agreement' => $agreement,
-            'paymentPlan' => $this->storage->get('payment_plan'),
+            'paymentPlan' => $this->buildPaymentPlan($this->storage->get('summary')),
             'error' => $error,
             'webshopId' => $settings->getWebshopId()
         ]));
     }
 
-    protected function getCachedAgreement($checkout)
-    {
-        $agreement = '';
-        $cacheItem = $this->cache->getItem('easycredit-agreement');
+    protected function buildPaymentPlan($summary) {
+        $summary = json_decode($summary);
+        if ($summary === false || $summary === null) {
+            return null;
+        }
+        return json_encode($summary);
+    }
+
+    public function getWebshopDetails($checkout) {
+        $agreement = [];
+        $cacheItem = $this->cache->getItem('easycredit-webshop-details');
         if ($cacheItem->isHit() && $cacheItem->get()) {
             $agreement = $cacheItem->get();
         } else {
-            $agreement = $checkout->getAgreement();
-
+            $agreement = $checkout->getWebshopDetails();
             $cacheItem->set($agreement);
             $this->cache->save($cacheItem);
         }
-
-        return $agreement;
+        return $agreement;    
     }
 
     private function removePaymentMethodFromConfirmPage(CheckoutConfirmPageLoadedEvent $event): void

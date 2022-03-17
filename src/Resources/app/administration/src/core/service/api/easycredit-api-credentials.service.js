@@ -5,14 +5,14 @@ class EasyCreditRatenkaufApiCredentialsService extends ApiService {
         super(httpClient, loginService, apiEndpoint);
     }
 
-    validateApiCredentials(webshopId, apiPassword) {
+    validateApiCredentials(webshopId, apiPassword, apiSignature) {
         const headers = this.getBasicHeaders();
 
         return this.httpClient
             .get(
                 `_action/${this.getApiBasePath()}/validate-api-credentials`,
                 {
-                    params: { webshopId, apiPassword },
+                    params: { webshopId, apiPassword, apiSignature },
                     headers: headers
                 }
             )

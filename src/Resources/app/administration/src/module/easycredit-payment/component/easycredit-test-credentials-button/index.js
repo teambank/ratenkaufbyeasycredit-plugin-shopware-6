@@ -49,10 +49,13 @@ Shopware.Component.register('easycredit-test-credentials-button', {
                 this.getConfig(null)['EasyCreditRatenkauf.settings.webshopId'];
             const apiPassword = this.getConfig(salesChannelId)['EasyCreditRatenkauf.config.apiPassword'] ||
                 this.getConfig(null)['EasyCreditRatenkauf.settings.apiPassword'];
+            const apiSignature = this.getConfig(salesChannelId)['EasyCreditRatenkauf.config.apiSignature'] ||
+                this.getConfig(null)['EasyCreditRatenkauf.settings.apiSignature'];
 
             this.EasyCreditRatenkaufApiCredentialsService.validateApiCredentials(
                 webshopId,
-                apiPassword
+                apiPassword,
+                apiSignature
             ).then((response) => {
                 const credentialsValid = response.credentialsValid;
 
@@ -62,9 +65,9 @@ Shopware.Component.register('easycredit-test-credentials-button', {
                 }
             }).catch((errorResponse) => {
                 if (errorResponse.response.data && errorResponse.response.data.errors) {
-                    let message = `${this.$tc('easycredit.settingForm.messageTestError')}<br><br><ul>`;
+                    let message = `${this.$tc('easycredit.settingForm.messageTestError')}<br><ul>`;
                     errorResponse.response.data.errors.forEach((error) => {
-                        message = `${message}<li>${error.detail}</li>`;
+                        message = `${message}<li><strong>${error.detail}</strong></li>`;
                     });
                     message += '</li>';
                     this.createNotificationError({

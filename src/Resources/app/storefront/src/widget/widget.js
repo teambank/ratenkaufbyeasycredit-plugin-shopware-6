@@ -1,9 +1,14 @@
 import Plugin from 'src/plugin-system/plugin.class';
-import EasyCreditWidget from '../easycredit-widget.js';
-import PseudoModalUtil from 'src/utility/modal-extension/pseudo-modal.util';
+
+// TODO: webpack integration
+// import { applyPolyfills, defineCustomElements } from 'easycredit-components/loader';
 
 export default class EasyCreditRatenkaufWidget extends Plugin {
-    init() {        
+    init() {    
+        /*applyPolyfills().then(() => {
+            defineCustomElements();
+        });*/
+              
         this.initWidget();
     }
 
@@ -29,12 +34,11 @@ export default class EasyCreditRatenkaufWidget extends Plugin {
         if (null === amount || isNaN(amount)) {
             return;
         }
+        let widget = document.createElement('easycredit-widget')
+        widget.setAttribute('webshop-id', this.getMeta('api-key'))
+        widget.setAttribute('amount', this.getMeta('amount'))
 
-        new EasyCreditWidget(this.el,{
-            webshopId: this.getMeta('api-key'),
-            amount: amount,
-            modal: this.createModal,
-        });        
+        this.el.appendChild(widget)     
     }
 
     getMeta(key) {
@@ -43,12 +47,5 @@ export default class EasyCreditRatenkaufWidget extends Plugin {
             return null;
         }
         return meta.content;
-    }
-
-    createModal(content) {
-        const modal = new PseudoModalUtil(content);
-        modal.open();
-        const modalElement = modal.getModal();
-        modalElement.querySelector('.modal-dialog').classList.add('modal-lg');
     }
 }

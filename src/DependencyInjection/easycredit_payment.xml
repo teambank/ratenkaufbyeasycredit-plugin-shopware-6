@@ -7,10 +7,9 @@
     <services>
 
         <service id="Netzkollektiv\EasyCredit\Payment\Handler">
-            <argument type="service" id="Netzkollektiv\EasyCredit\Payment\StateHandler"/>
             <argument type="service" id="order_transaction.repository"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\OrderDataProvider"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
@@ -23,47 +22,52 @@
             <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
         </service>
 
-        <service id="Netzkollektiv\EasyCredit\Api\CheckoutFactory">
+        <service id="Netzkollektiv\EasyCredit\Api\IntegrationFactory">
             <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>            
             <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
-            <argument type="service" id="session"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Util\LoggerFactory">
+            <argument type="string">%kernel.logs_dir%/%%s_%kernel.environment%.log</argument>
+            <argument>%shopware.logger.file_rotation_count%</argument>
+
+            <call method="setLogLevel">
+                <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            </call>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Util\Logger" class="Monolog\Logger">
-            <factory service="Shopware\Core\Framework\Log\LoggerFactory" method="createRotating"/>
+            <factory service="Netzkollektiv\EasyCredit\Util\LoggerFactory" method="createRotating"/>
             <argument type="string">netzkollektiv_easycredit</argument>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Api\Storage">          
             <argument type="service" id="session"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Controller\PaymentController" public="true">
-            <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Payment\StateHandler"/>
+            <argument type="service" id="order_transaction.repository"/>
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Controller\TransactionsController" public="true">
-            <argument type="service" id="Netzkollektiv\EasyCredit\Api\MerchantFactory"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>
         </service>
 
-        <service id="Netzkollektiv\EasyCredit\Api\MerchantFactory">
-            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
-        </service>
-
         <service id="Netzkollektiv\EasyCredit\Helper\Quote">
-            <argument type="service" id="request_stack"/>
             <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\MetaDataProvider" />
-            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage" />
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\QuoteBuilder"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\OrderBuilder"/>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Helper\MetaDataProvider">
@@ -86,12 +90,13 @@
 
         <service id="Netzkollektiv\EasyCredit\Subscriber\Redirector">
             <argument type="service" id="service_container"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
             <argument type="service" id="request_stack"/>
             <argument type="service" id="router"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Payment"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
 
             <tag name="kernel.event_subscriber"/>
         </service>
@@ -99,9 +104,10 @@
         <service id="Netzkollektiv\EasyCredit\Payment\Checkout">
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Payment"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
             <argument type="service" id="cache.object"/>
 
             <tag name="kernel.event_subscriber"/>
@@ -134,10 +140,11 @@
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Cart\Validator">
-            <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Payment"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
             <tag name="shopware.cart.validator"/>
         </service>
 
@@ -169,10 +176,47 @@
 
         <service id="Netzkollektiv\EasyCredit\Subscriber\OrderStatus">
             <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Api\MerchantFactory"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
 
             <tag name="kernel.event_subscriber"/>
         </service>
+
+        <!-- EasyCredit Request Builder -->
+        <service id="Netzkollektiv\EasyCredit\Api\QuoteBuilder">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\MetaDataProvider" />
+            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>            
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
+            <argument type="service" id="router"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Quote\AddressBuilder" />
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Quote\ItemBuilder" />
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Quote\CustomerBuilder" />
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\SystemBuilder" />
+        </service>
+        <service id="Netzkollektiv\EasyCredit\Api\OrderBuilder">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\MetaDataProvider" />
+            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>            
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
+            <argument type="service" id="router"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Quote\AddressBuilder" />
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Quote\ItemBuilder" />
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Quote\CustomerBuilder" />
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\SystemBuilder" />
+        </service>
+        <service id="Netzkollektiv\EasyCredit\Api\Quote\ItemBuilder">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\MetaDataProvider" />
+        </service>
+        <service id="Netzkollektiv\EasyCredit\Api\Quote\CustomerBuilder">
+            <argument type="service" id="Teambank\RatenkaufByEasyCreditApiV3\Integration\Util\PrefixConverter" />
+        </service>
+        <service id="Teambank\RatenkaufByEasyCreditApiV3\Integration\Util\PrefixConverter" />
+        <service id="Netzkollektiv\EasyCredit\Api\SystemBuilder">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\MetaDataProvider" />
+        </service>
+        <service id="Netzkollektiv\EasyCredit\Api\Quote\AddressBuilder">
+            <!-- no params -->
+        </service>
+
+
     </services>
 </container>

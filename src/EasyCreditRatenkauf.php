@@ -25,6 +25,10 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 class EasyCreditRatenkauf extends Plugin
 {
+
+    public const ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_ID = 'easycredit_transaction_id';
+    public const ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_SEC_TOKEN = 'easycredit_transaction_sec_token';
+
     /**
      * @var ActivateDeactivate
      */

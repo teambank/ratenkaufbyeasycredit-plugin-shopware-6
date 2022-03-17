@@ -14,11 +14,10 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\IdSearchResult;
 use Shopware\Core\System\CustomField\CustomFieldTypes;
+use Netzkollektiv\EasyCredit\EasyCreditRatenkauf;
 
 class ActivateDeactivate
 {
-    public const ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_ID = 'easycredit_transaction_id';
-
     /**
      * @var EntityRepositoryInterface
      */
@@ -83,7 +82,7 @@ class ActivateDeactivate
         $this->customFieldRepository->upsert(
             [
                 [
-                    'name' => self::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_ID,
+                    'name' => EasyCreditRatenkauf::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_ID,
                     'type' => CustomFieldTypes::TEXT,
                 ],
             ],
@@ -108,7 +107,7 @@ class ActivateDeactivate
     private function getCustomFieldIds(Context $context): IdSearchResult
     {
         $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('name', self::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_ID));
+        $criteria->addFilter(new EqualsFilter('name', EasyCreditRatenkauf::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_ID));
 
         return $this->customFieldRepository->searchIds($criteria, $context);
     }

@@ -7,33 +7,32 @@
 
 namespace Netzkollektiv\EasyCredit\Setting\Service;
 
-use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
-use Netzkollektiv\EasyCredit\Setting\Exception\InvalidApiCredentialsException;
+use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
+use Teambank\RatenkaufByEasyCreditApiV3\ApiException;
+use Teambank\RatenkaufByEasyCreditApiV3\Integration\ApiCredentialsInvalidException;
+use Teambank\RatenkaufByEasyCreditApiV3\Integration\ApiCredentialsNotActiveException;
 
 class ApiCredentialService implements ApiCredentialServiceInterface
 {
-    private $checkoutFactory;
+    private $integrationFactory;
 
     public function __construct(
-        CheckoutFactory $checkoutFactory
+        IntegrationFactory $integrationFactory
     ) {
-        $this->checkoutFactory = $checkoutFactory;
+        $this->integrationFactory = $integrationFactory;
     }
 
     /**
-     * @throws InvalidApiCredentialsException
+     * @throws ApiCredentialsInvalidException
      */
-    public function testApiCredentials(string $webshopId, string $apiPassword): bool
+    public function testApiCredentials(string $webshopId, string $apiPassword, string $apiSignature = null): bool
     {
         if (!$webshopId || !$apiPassword) {
-            throw new InvalidApiCredentialsException();
+            throw new ApiCredentialsInvalidException();
         }
 
-        $checkout = $this->checkoutFactory->create(null, false);
-
-        if (!$checkout->verifyCredentials($webshopId, $apiPassword)) {
-            throw new InvalidApiCredentialsException();
-        }
+        $checkout = $this->integrationFactory->createCheckout(null, false);
+        $checkout->verifyCredentials($webshopId, $apiPassword, $apiSignature);
 
         return true;
     }

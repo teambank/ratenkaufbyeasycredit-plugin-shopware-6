@@ -7,7 +7,7 @@
 
 namespace Netzkollektiv\EasyCredit\Subscriber;
 
-use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
+use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
@@ -20,6 +20,7 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 class Redirector implements EventSubscriberInterface
 {
@@ -29,9 +30,9 @@ class Redirector implements EventSubscriberInterface
     private $container;
 
     /**
-     * @var CheckoutFactory
+     * @var IntegrationFactory
      */
-    private $checkoutFactory;
+    private $integrationFactory;
 
     /**
      * @var \Symfony\Component\HttpFoundation\Request|null
@@ -58,22 +59,26 @@ class Redirector implements EventSubscriberInterface
      */
     private $storage;
 
+    private $logger;
+
     public function __construct(
         ContainerInterface $container,
-        CheckoutFactory $checkoutFactory,
+        IntegrationFactory $integrationFactory,
         RequestStack $requestStack,
         UrlGeneratorInterface $router,
         QuoteHelper $quoteHelper,
         PaymentHelper $paymentHelper,
-        Storage $storage
+        Storage $storage,
+        LoggerInterface $logger
     ) {
         $this->container = $container;
-        $this->checkoutFactory = $checkoutFactory;
+        $this->integrationFactory = $integrationFactory;
         $this->request = $requestStack->getCurrentRequest();
         $this->router = $router;
         $this->quoteHelper = $quoteHelper;
         $this->paymentHelper = $paymentHelper;
         $this->storage = $storage;
+        $this->logger = $logger;
     }
 
     public static function getSubscribedEvents(): array
@@ -112,13 +117,13 @@ class Redirector implements EventSubscriberInterface
         }
 
         if (version_compare($this->container->getParameter('kernel.shopware_version'), '6.4.0', '>=')
-            && !$event->getRequestDataBag()->get('easycredit-submit')
+            && !$event->getRequestDataBag()->get('easycredit')
         ) {
             return;
         }
 
         $this->storage
-            ->set('duration', $event->getRequestDataBag()->get('easycredit-duration'))
+            ->set('duration', $event->getRequestDataBag()->get('easycredit')->get('number-of-installments'))
             ->set('init', true);
     }
 
@@ -131,22 +136,15 @@ class Redirector implements EventSubscriberInterface
 
         $salesChannelContext = $event->getSalesChannelContext();
 
-        $checkout = $this->checkoutFactory->create($salesChannelContext);
+        $checkout = $this->integrationFactory->createCheckout($salesChannelContext);
         $quote = $this->quoteHelper->getQuote($salesChannelContext);
 
         try {
             $checkout->isAvailable($quote);
-            $checkout->start(
-                $quote,
-                $this->router->generate('frontend.easycredit.cancel', [], UrlGeneratorInterface::ABSOLUTE_URL), // cancel
-                $this->router->generate('frontend.easycredit.return', [], UrlGeneratorInterface::ABSOLUTE_URL), // return
-                $this->router->generate('frontend.easycredit.reject', [], UrlGeneratorInterface::ABSOLUTE_URL) // reject
-            );
-
-            $this->storage->set('redirect_url', $checkout->getRedirectUrl());
+            $checkout->start($quote);
         } catch (\Throwable $e) {
-
-            $this->storage->set('error', $e->getMessage());
+            $this->logger->error($e);
+            $this->storage->set('error', 'Es ist ein Fehler aufgetreten. Leider steht Ihnen ratenkauf by easyCredit derzeit nicht zur Verfügung.');
         }
     }
 

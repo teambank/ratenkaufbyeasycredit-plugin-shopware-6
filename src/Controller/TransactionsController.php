@@ -7,79 +7,105 @@
 
 namespace Netzkollektiv\EasyCredit\Controller;
 
-use Netzkollektiv\EasyCredit\Api\MerchantFactory;
-use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Shopware\Core\Framework\Routing\Annotation\RouteScope;
+use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
+use Teambank\RatenkaufByEasyCreditApiV3\ApiException;
+use Teambank\RatenkaufByEasyCreditApiV3\Model\CaptureRequest;
+use Teambank\RatenkaufByEasyCreditApiV3\Model\RefundRequest;
 /**
  * @RouteScope(scopes={"api"})
  */
 class TransactionsController extends AbstractController
 {
     /**
-     * @var MerchantFactory
+     * @var IntegrationFactory
      */
-    private $merchantFactory;
+    private $integrationFactory;
 
-    public function __construct(MerchantFactory $merchantFactory)
+    public function __construct(IntegrationFactory $integrationFactory)
     {
-        $this->merchantFactory = $merchantFactory;
+        $this->integrationFactory = $integrationFactory;
+    }
+
+    protected function getJsonResponseFromException ($response) {
+        $response = new Response($response->getResponseBody(), $response->getCode());
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**
-     * @Route("/api/v{version}/easycredit/transactions", name="api.easycredit.transactions", methods={"GET"})
+     * @Route("/api/v{version}/easycredit/transaction/{transactionId}", name="api.easycredit.transaction.post", methods={"GET"})
      */
-    public function getTransactions(Request $request): JsonResponse
+    public function getTransaction(Request $request, $transactionId): Response
     {
-        $client = $this->merchantFactory->create();
+        try {
+            $transaction = $this->integrationFactory
+                ->createTransactionApi()
+                ->apiMerchantV3TransactionTransactionIdGet($transactionId);
 
-        $transactions = $client->searchTransactions();
-
-        return new JsonResponse($transactions);
-    }
-
-    /**
-     * @Route("/api/v{version}/easycredit/transaction", name="api.easycredit.transaction.post", methods={"GET"})
-     */
-    public function getTransaction(Request $request): JsonResponse
-    {
-        $transactionId = $request->query->get('id');
-
-        $client = $this->merchantFactory->create();
-
-        $transaction = $client->getTransaction($transactionId);
-
-        return new JsonResponse($transaction);
-    }
-
-    /**
-     * @Route("/api/v{version}/easycredit/transaction", name="api.easycredit.transaction.get", methods={"POST"})
-     */
-    public function updateTransaction(Request $request): JsonResponse
-    {
-        $client = $this->merchantFactory->create();
-
-        $params = $request->request->all();
-        switch ($params['status']) {
-            case 'LIEFERUNG':
-                $client->confirmShipment($params['id']);
-                break;
-            case 'WIDERRUF_VOLLSTAENDIG':
-            case 'WIDERRUF_TEILWEISE':
-            case 'RUECKGABE_GARANTIE_GEWAEHRLEISTUNG':
-            case 'MINDERUNG_GARANTIE_GEWAEHRLEISTUNG':
-                $client->cancelOrder(
-                    $params['id'],
-                    $params['status'],
-                    \DateTime::createFromFormat('Y-d-m', $params['date']),
-                    $params['amount']
-                );
-                break;
+            return new JsonResponse($transaction);
+        } catch (ApiException $e) {
+            return $this->getJsonFromException($e);
+        } catch (\Throwable $e) {
+            return new JsonResponse([
+                'error' => $e->getMessage()
+            ], 500);
         }
+    }
 
-        return new JsonResponse(true);
+    /**
+     * @Route("/api/v{version}/easycredit/transaction/{transactionId}/capture", name="api.easycredit.transaction.capture", methods={"POST"})
+     */
+    public function captureTransaction(Request $request, $transactionId): Response
+    {
+        try {
+            $params = $request->request->all();
+
+            $response = $this->integrationFactory
+                ->createTransactionApi()
+                ->apiMerchantV3TransactionTransactionIdCapturePost(
+                    $transactionId,
+                    new CaptureRequest(['trackingNumber' => $trackingNumber])
+                );
+
+            return new JsonResponse($response);
+        } catch (ApiException $e) {
+            return $this->getJsonResponseFromException($e);
+        } catch (\Throwable $e) {
+            return new JsonResponse([
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+    /**
+     * @Route("/api/v{version}/easycredit/transaction/{transactionId}/refund", name="api.easycredit.transaction.refund", methods={"POST"})
+     */
+    public function refundTransaction(Request $request, $transactionId): Response
+    {
+        try {
+            $params = $request->request->all();
+
+            $client = $this->integrationFactory
+                ->createTransactionApi()
+                ->apiMerchantV3TransactionTransactionIdRefundPost(
+                    $transactionId,
+                    new RefundRequest(['value' => $params['value']])
+                );
+
+                return new JsonResponse($response);
+        } catch (ApiException $e) {
+            return $this->getJsonResponseFromException($e);
+        } catch (\Throwable $e) {
+            return new JsonResponse([
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

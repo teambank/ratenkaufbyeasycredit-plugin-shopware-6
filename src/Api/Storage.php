@@ -8,18 +8,25 @@
 namespace Netzkollektiv\EasyCredit\Api;
 
 use Symfony\Component\HttpFoundation\Session\Session;
+use Monolog\Logger;
 
-class Storage implements \Netzkollektiv\EasyCreditApi\StorageInterface
+class Storage implements \Teambank\RatenkaufByEasyCreditApiV3\Integration\StorageInterface
 {
     protected $session;
 
-    public function __construct(Session $session)
-    {
+    protected $logger;
+
+    public function __construct(
+        Session $session,
+        Logger $logger
+    ) {
         $this->session = $session;
+        $this->logger = $logger;
     }
 
     public function set($key, $value): self
     {
+        $this->logger->debug('storage::set '.$key.' = '.$value);
         $this->session->set('easycredit_' . $key, $value);
 
         return $this;
@@ -27,7 +34,9 @@ class Storage implements \Netzkollektiv\EasyCreditApi\StorageInterface
 
     public function get($key): string
     {
-        return (string) $this->session->get('easycredit_' . $key);
+        $value = (string) $this->session->get('easycredit_' . $key);
+        $this->logger->debug('storage::get '.$key.' = '.$value);
+        return $value;
     }
 
     public function all(): array
@@ -44,6 +53,9 @@ class Storage implements \Netzkollektiv\EasyCreditApi\StorageInterface
 
     public function clear(): self
     {
+        $backtrace = debug_backtrace();
+        $this->logger->info('storage::clear from ' .$backtrace[1]['class'].':'.$backtrace[1]['function']);
+
         foreach (array_keys($this->all()) as $key) {
             $this->session->remove($key);
         }

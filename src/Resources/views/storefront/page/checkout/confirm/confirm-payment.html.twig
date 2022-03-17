@@ -7,9 +7,9 @@
     {% set easycredit = page.extensions.easycredit %}
 
     {% if easycredit and easycredit.isSelected %}
-        <easycredit-components-checkout-label></easycredit-components-checkout-label>
+        <easycredit-checkout-label></easycredit-checkout-label>
         {% if easycredit.paymentPlan %}
-            <easycredit-components-checkout payment-plan="{{ easycredit.paymentPlan }}"></easycredit-components-checkout>
+            <easycredit-checkout payment-plan="{{ easycredit.paymentPlan }}"></easycredit-checkout>
         {% elseif not easycredit.error %}
             <a href="#" id="easycredit-recalculate">{{ "easycredit.recalculate"|trans }}</a>
         {% endif %}

@@ -9,5 +9,5 @@ namespace Netzkollektiv\EasyCredit\Setting\Service;
 
 interface ApiCredentialServiceInterface
 {
-    public function testApiCredentials(string $webshopId, string $apiPassword): bool;
+    public function testApiCredentials(string $webshopId, string $apiPassword, string $apiSignature = null): bool;
 }

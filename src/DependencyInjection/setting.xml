@@ -13,7 +13,7 @@
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Setting\Service\ApiCredentialService">
-            <argument type="service" id="Netzkollektiv\EasyCredit\Api\CheckoutFactory"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService">

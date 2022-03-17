@@ -12,51 +12,43 @@ use Netzkollektiv\EasyCreditApi\Rest\QuoteInterface;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
+use Netzkollektiv\EasyCredit\Api\QuoteInvalidException;
+use Netzkollektiv\EasyCredit\Api\QuoteBuilder;
+use Netzkollektiv\EasyCredit\Api\OrderBuilder;
+use Shopware\Core\Framework\DataAbstractionLayer\Entity;
+
+use Teambank\RatenkaufByEasyCreditApiV3\Integration\TransactionInitRequestWrapper;
 
 class Quote
 {
-    private $requestStack;
-
     private $cartService;
 
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private $router;
+
     public function __construct(
-        RequestStack $requestStack,
         CartService $cartService,
-        MetaDataProvider $metaDataProvider,
-        SettingsServiceInterface $settingsService,
-        Api\Storage $storage
+        QuoteBuilder $quoteBuilder,
+        OrderBuilder $orderBuilder
     ) {
-        $this->requestStack = $requestStack;
         $this->cartService = $cartService;
-        $this->metaDataProvider = $metaDataProvider;
-        $this->settingsService = $settingsService;
-        $this->storage = $storage;
+        $this->quoteBuilder = $quoteBuilder;
+        $this->orderBuilder = $orderBuilder;
     }
 
     /**
      * @param Cart|\Shopware\Core\Checkout\Order\OrderEntity|null $cart
      */
-    public function getQuote(SalesChannelContext $salesChannelContext, $cart = null): QuoteInterface
+    public function getQuote(SalesChannelContext $salesChannelContext, $cart = null): TransactionInitRequestWrapper
     {
         if ($cart === null) {
             $cart = $this->cartService->getCart($salesChannelContext->getToken(), $salesChannelContext);
         }
         if ($cart instanceof Cart) {
-            return new Api\Quote(
-                $cart,
-                $this->metaDataProvider,
-                $salesChannelContext,
-                $this->settingsService,
-                $this->storage
-            );
+            return $this->quoteBuilder->build($cart, $salesChannelContext);
         }
-
-        return new Api\Order(
-            $cart,
-            $this->metaDataProvider,
-            $salesChannelContext
-        );
+        return $this->orderBuilder->build($cart, $salesChannelContext);
     }
 }

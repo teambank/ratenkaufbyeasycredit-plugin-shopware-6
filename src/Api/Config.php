@@ -9,7 +9,7 @@ namespace Netzkollektiv\EasyCredit\Api;
 
 use Netzkollektiv\EasyCredit\Setting\SettingStruct;
 
-class Config extends \Netzkollektiv\EasyCreditApi\Config
+class Config implements \Teambank\RatenkaufByEasyCreditApiV3\Integration\ConfigInterface
 {
     protected $settings;
 

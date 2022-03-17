@@ -22,6 +22,11 @@ class SettingStruct extends Struct
     protected $apiPassword;
 
     /**
+     * @var string
+     */
+    protected $apiSignature;
+
+    /**
      * @var bool
      */
     protected $debug = false;
@@ -71,7 +76,7 @@ class SettingStruct extends Struct
      */
     protected $widgetSelectorCart = '.checkout-aside-action';
 
-    public function getWebshopId(): string
+    public function getWebshopId(): ?string
     {
         return $this->webshopId;
     }
@@ -81,7 +86,7 @@ class SettingStruct extends Struct
         $this->webshopId = $webshopId;
     }
 
-    public function getApiPassword(): string
+    public function getApiPassword(): ?string
     {
         return $this->apiPassword;
     }
@@ -89,6 +94,16 @@ class SettingStruct extends Struct
     public function setApiPassword(string $apiPassword): void
     {
         $this->apiPassword = $apiPassword;
+    }
+
+    public function getApiSignature(): ?string
+    {
+        return $this->apiSignature;
+    }
+
+    public function setApiSignature(string $apiSignature): void
+    {
+        $this->apiSignature = $apiSignature;
     }
 
     public function getDebug(): bool

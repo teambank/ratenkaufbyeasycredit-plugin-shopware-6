@@ -98,24 +98,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "1754":
-/***/ (function(module, exports) {
-
-module.exports = {
-  methods: {
-    daysSinceOrder() {
-      const ymd = this.date.split('-');
-      const dateOrder = new Date(ymd[0], ymd[1] - 1, ymd[2]);
-      const dateNow = new Date();
-      const diff = Math.floor((dateNow - dateOrder) / (1000 * 60 * 60 * 24));
-      return diff;
-    }
-
-  }
-};
-
-/***/ }),
-
 /***/ "24aa":
 /***/ (function(module, exports) {
 
@@ -9811,32 +9793,33 @@ function normalizeComponent (
   }
 }
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"5d645420-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/Manager.vue?vue&type=template&id=ebacbcd8&shadow
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:(_vm.isLoading) ? 'easycredit-tx-manager loading' : 'easycredit-tx-manager'},[_c('div',{staticClass:"spinner"}),(_vm.tx)?_c('Progress',{attrs:{"tx":_vm.tx}}):_vm._e(),(_vm.tx)?_c('Actions',{attrs:{"tx":_vm.tx}}):_vm._e(),(!_vm.tx && _vm.daysSinceOrder() >= 1)?_c('span',[_vm._v(" Die Transaktion "),_c('strong',[_vm._v(_vm._s(_vm.id))]),_vm._v(" ist nicht vorhanden. Bitte loggen Sie sich im "),_c('a',{attrs:{"href":"https://app.easycredit.de"}},[_vm._v("Händlerinterface")]),_vm._v(" ein oder kontaktieren Sie unseren Support. ")]):(!_vm.tx)?_c('span',[_vm._v(" Die Transaktion "),_c('strong',[_vm._v(_vm._s(_vm.id))]),_vm._v(" ist noch nicht verfügbar. Es kann bis zu einem Tag dauern bis die Transaktion angezeigt wird. ")]):_vm._e()],1)}
+// CONCATENATED MODULE: ./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4004e486-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/Manager.vue?vue&type=template&id=ad88987c&shadow
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:(_vm.isLoading) ? 'easycredit-tx-manager loading' : 'easycredit-tx-manager'},[_c('div',{staticClass:"spinner"}),(_vm.tx)?_c('Progress',{attrs:{"tx":_vm.tx}}):_vm._e(),(_vm.tx)?_c('Actions',{attrs:{"tx":_vm.tx}}):_vm._e(),(!_vm.tx && _vm.helpers().daysSinceOrder(_vm.date) >= 1)?_c('span',[_vm._v(" Die Transaktion "),_c('strong',[_vm._v(_vm._s(_vm.id))]),_vm._v(" ist nicht vorhanden. Bitte loggen Sie sich im "),_c('a',{attrs:{"href":"https://app.easycredit.de"}},[_vm._v("Händlerinterface")]),_vm._v(" ein oder kontaktieren Sie unseren Support. ")]):(!_vm.tx)?_c('span',[_vm._v(" Die Transaktion "),_c('strong',[_vm._v(_vm._s(_vm.id))]),_vm._v(" ist noch nicht verfügbar. Es kann bis zu einem Tag dauern bis die Transaktion angezeigt wird. ")]):_vm._e()],1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/Manager.vue?vue&type=template&id=ebacbcd8&shadow
+// CONCATENATED MODULE: ./src/Manager.vue?vue&type=template&id=ad88987c&shadow
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"5d645420-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/manager/Progress.vue?vue&type=template&id=8376b518&
-var Progressvue_type_template_id_8376b518_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"transaction-info"},[_c('p',[_c('strong',[_vm._v(_vm._s(_vm.$t('Customer'))+":")]),_vm._v(" "+_vm._s(_vm.tx.kundeVorname)+" "+_vm._s(_vm.tx.kundeNachname)),_c('br'),_c('strong',[_vm._v(_vm._s(_vm.$t('Customer No'))+":")]),_vm._v(" "+_vm._s(_vm.tx.kundennummer)),_c('br'),_c('strong',[_vm._v(_vm._s(_vm.$t('Credit Account No'))+":")]),_vm._v(" "+_vm._s(_vm.tx.kreditkontonummer)),_c('br'),_c('strong',[_vm._v(_vm._s(_vm.$t('Transaction Id'))+":")]),_vm._v(" "+_vm._s(_vm.tx.vorgangskennungFachlich)),_c('br'),_c('strong',[_vm._v(_vm._s(_vm.$t('Order Amount'))+":")]),_vm._v(" "+_vm._s(_vm.tx.bestellwertAktuell)+" / "+_vm._s(_vm.tx.bestellwertUrspruenglich)),_c('br')]),_c('div',{staticClass:"progress-bar"},_vm._l((_vm.progressFields),function(field,index){return _c('div',{key:field.label,staticClass:"progress"},[_c('strong',[_vm._v(_vm._s(field.label))]),_c('br'),_c('span',[_vm._v(_vm._s(field.value ? field.value : 'n/a'))]),_c('br'),(index != Object.keys(_vm.progressFields).length - 1)?_c('span',[_vm._v("|")]):_vm._e()])}),0)])}
-var Progressvue_type_template_id_8376b518_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4004e486-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/manager/Progress.vue?vue&type=template&id=0100c2ae&
+var Progressvue_type_template_id_0100c2ae_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"transaction-info"},[_c('p',[_c('strong',[_vm._v(_vm._s(_vm.$t('Customer'))+":")]),_vm._v(" "+_vm._s(_vm.tx.customer.firstName)+" "+_vm._s(_vm.tx.customer.lastName)),_c('br'),_c('strong',[_vm._v(_vm._s(_vm.$t('Customer No'))+":")]),_vm._v(" "+_vm._s(_vm.tx.customer.customerNumber)),_c('br'),_c('strong',[_vm._v(_vm._s(_vm.$t('Credit Account No'))+":")]),_vm._v(" "+_vm._s(_vm.tx.creditAccountNumber)),_c('br'),_c('strong',[_vm._v(_vm._s(_vm.$t('Transaction Id'))+":")]),_vm._v(" "+_vm._s(_vm.tx.transactionId)),_c('br'),_c('strong',[_vm._v(_vm._s(_vm.$t('Order Amount'))+":")]),_vm._v(" "+_vm._s(_vm.orderAmount)),_c('br')]),_c('div',{staticClass:"progress-bar"},_vm._l((_vm.progressFields),function(field,index){return _c('div',{key:field.label,staticClass:"progress"},[_c('strong',[_vm._v(_vm._s(field.label))]),_c('br'),_c('span',[_vm._v(_vm._s(field.value ? field.value : 'n/a'))]),_c('br'),(index != Object.keys(_vm.progressFields).length - 1)?_c('span',[_vm._v("|")]):_vm._e()])}),0)])}
+var Progressvue_type_template_id_0100c2ae_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/manager/Progress.vue?vue&type=template&id=8376b518&
+// CONCATENATED MODULE: ./src/components/manager/Progress.vue?vue&type=template&id=0100c2ae&
 
 // CONCATENATED MODULE: ./src/de_DE.js
 /* harmony default export */ var de_DE = ({
-  get: function get(key) {
+  get(key) {
     return this.de[key] ? this.de[key] : key;
   },
+
   de: {
     Shipping: 'Lieferung',
     'Cancelled (completely)': 'Widerruf (vollständig)',
     'Cancelled (partially)': 'Widerruf (teilweise)',
     'Return (Warranty)': 'Rückgabe (Garantie / Gewährleistung)',
     'Abatement (Warranty)': 'Minderung (Garantie / Gewährleistung)',
-    Reversal: 'Rückabwicklung',
+    Refund: 'Rückabwicklung',
     Waiting: 'Wartend',
     Refunded: 'Rückerstattet',
     'Report Shipping': 'Lieferung melden',
@@ -9850,8 +9833,41 @@ var Progressvue_type_template_id_8376b518_staticRenderFns = []
     Order: 'Bestellung',
     Clearing: 'Abrechnung',
     'n/a': 'nicht verfügbar',
-    'Please select ...': 'Bitte wählen ...'
+    'Please select ...': 'Bitte wählen ...',
+    'Reduction by': 'Minderung um',
+    'Tracking number (Shipping)': 'Trackingnummer (Versanddienstleister)',
+    'Revocation': 'Widerruf',
+    'Partial Revocation': 'Widerruf (teilweise)',
+    'Refund (Guarantee / Warranty)': 'Erstattung (Garantie / Gewährleistung)',
+    'Reduction (Guarantee / Warranty)': 'Minderung (Garantie / Gewährleistung)'
   }
+});
+// CONCATENATED MODULE: ./src/helpers.js
+/* harmony default export */ var helpers = ({
+  daysSinceOrder(orderDate) {
+    const ymd = orderDate.split('-');
+    const dateOrder = new Date(ymd[0], ymd[1] - 1, ymd[2]);
+    const dateNow = new Date();
+    const diff = Math.floor((dateNow - dateOrder) / (1000 * 60 * 60 * 24));
+    return diff;
+  },
+
+  formatCurrency(value) {
+    return parseFloat(value).toFixed(2) + ' €';
+  },
+
+  formatDate(dateString) {
+    if (dateString) {
+      return new Date(dateString).toLocaleDateString('de-DE', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      });
+    }
+
+    return 'n/a';
+  }
+
 });
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/@vue/cli-plugin-babel/node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/manager/Progress.vue?vue&type=script&lang=js&
 //
@@ -9880,23 +9896,32 @@ var Progressvue_type_template_id_8376b518_staticRenderFns = []
 //
 //
 
+
 /* harmony default export */ var Progressvue_type_script_lang_js_ = ({
-  props: ['tx'],
+  props: {
+    tx: Object
+  },
   computed: {
     progressFields() {
+      var _this$tx$bookings$fin, _this$tx$bookings$fin2, _this$tx$bookings$fin3;
+
       return [{
         label: this.$t('Order'),
-        value: this.tx.bestelldatum
+        value: helpers.formatDate(this.tx.orderDetails.orderDate)
       }, {
         label: this.$t('Shipping'),
-        value: this.tx.lieferdatum
+        value: helpers.formatDate((_this$tx$bookings$fin = this.tx.bookings.find(b => b.type === 'CAPTURE')) === null || _this$tx$bookings$fin === void 0 ? void 0 : _this$tx$bookings$fin.created)
       }, {
         label: this.$t('Clearing'),
-        value: this.tx.abrechnungsdatum
+        value: helpers.formatDate((_this$tx$bookings$fin2 = this.tx.bookings.find(b => b.type === 'NOTIFY')) === null || _this$tx$bookings$fin2 === void 0 ? void 0 : _this$tx$bookings$fin2.created)
       }, {
-        label: this.$t('Reversal'),
-        value: this.tx.rueckabwicklungsdatum
+        label: this.$t('Refund'),
+        value: helpers.formatDate((_this$tx$bookings$fin3 = this.tx.bookings.find(b => b.type === 'REFUND')) === null || _this$tx$bookings$fin3 === void 0 ? void 0 : _this$tx$bookings$fin3.created)
       }];
+    },
+
+    orderAmount() {
+      return helpers.formatCurrency(this.tx.orderDetails.currentOrderValue) + ' / ' + helpers.formatCurrency(this.tx.orderDetails.originalOrderValue);
     }
 
   },
@@ -9919,8 +9944,8 @@ var Progressvue_type_template_id_8376b518_staticRenderFns = []
 
 var component = normalizeComponent(
   manager_Progressvue_type_script_lang_js_,
-  Progressvue_type_template_id_8376b518_render,
-  Progressvue_type_template_id_8376b518_staticRenderFns,
+  Progressvue_type_template_id_0100c2ae_render,
+  Progressvue_type_template_id_0100c2ae_staticRenderFns,
   false,
   null,
   null,
@@ -9929,12 +9954,12 @@ var component = normalizeComponent(
 )
 
 /* harmony default export */ var Progress = (component.exports);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"5d645420-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/manager/Actions.vue?vue&type=template&id=756feb00&
-var Actionsvue_type_template_id_756feb00_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.canShip || _vm.canRefund)?_c('div',{class:_vm.loading ? 'loading' : ''},[_c('div',{staticClass:"spinner"}),_c('input',{attrs:{"type":"hidden","name":"easycredit-merchant[transaction_id]"},domProps:{"value":_vm.tx.vorgangskennungFachlich}}),_c('p',[_c('label',{attrs:{"for":"easycredit-merchant-status"}},[_vm._v("Status")]),_c('br'),_c('select',{directives:[{name:"model",rawName:"v-model",value:(_vm.status),expression:"status"}],attrs:{"id":"easycredit-merchant-status","name":"easycredit-merchant[status]"},on:{"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.status=$event.target.multiple ? $$selectedVal : $$selectedVal[0]}}},[_c('option',{attrs:{"value":""}},[_vm._v(" "+_vm._s(_vm.$t('Please select ...'))+" ")]),(_vm.canShip)?_c('optgroup',{attrs:{"label":_vm.$t('Shipping')}},[_c('option',{attrs:{"value":"LIEFERUNG"}},[_vm._v(" "+_vm._s(_vm.$t('Shipping'))+" ")])]):_vm._e(),(_vm.canRefund)?_c('optgroup',{attrs:{"label":_vm.$t('Reversal')}},[_c('option',{attrs:{"value":"WIDERRUF_VOLLSTAENDIG"}},[_vm._v(" "+_vm._s(_vm.$t('Cancelled (completely)'))+" ")]),_c('option',{attrs:{"value":"WIDERRUF_TEILWEISE"}},[_vm._v(" "+_vm._s(_vm.$t('Cancelled (partially)'))+" ")]),_c('option',{attrs:{"value":"RUECKGABE_GARANTIE_GEWAEHRLEISTUNG"}},[_vm._v(" "+_vm._s(_vm.$t('Return (Warranty)'))+" ")]),_c('option',{attrs:{"value":"MINDERUNG_GARANTIE_GEWAEHRLEISTUNG"}},[_vm._v(" "+_vm._s(_vm.$t('Abatement (Warranty)'))+" ")])]):_vm._e()])]),(_vm.canShowAmount)?_c('p',{staticClass:"amount"},[_c('label',{attrs:{"for":"easycredit-merchant-amount"}},[_vm._v("Minderung um ")]),_c('br'),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.amount),expression:"amount"}],attrs:{"id":"easycredit-merchant-amount","name":"easycredit-merchant[amount]","type":"number","min":"0.01","max":_vm.tx.bestellwertAktuell,"value":"0"},domProps:{"value":(_vm.amount)},on:{"input":function($event){if($event.target.composing){ return; }_vm.amount=$event.target.value}}}),_vm._v(" EUR ")]):_vm._e(),_c('p',{staticClass:"date"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.date),expression:"date"}],staticClass:"date",attrs:{"for":"easycredit-merchant-date","name":"easycredit-merchant[date]","type":"date","disabled":!_vm.canEditDate},domProps:{"value":(_vm.date)},on:{"input":function($event){if($event.target.composing){ return; }_vm.date=$event.target.value}}}),_c('button',{staticClass:"set_merchant_status",attrs:{"type":"button","disabled":_vm.loading || !_vm.status},on:{"click":_vm.updateTransaction}},[_vm._v(" Senden ")])])]):_vm._e()}
-var Actionsvue_type_template_id_756feb00_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4004e486-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/manager/Actions.vue?vue&type=template&id=6350aaa7&
+var Actionsvue_type_template_id_6350aaa7_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.canShip || _vm.canRefund)?_c('div',{class:_vm.loading ? 'loading' : ''},[_c('div',{staticClass:"spinner"}),_c('input',{attrs:{"type":"hidden","name":"easycredit-merchant[transaction_id]"},domProps:{"value":_vm.tx.transactionId}}),_c('p',[_c('label',{attrs:{"for":"easycredit-merchant-status"}},[_vm._v("Status")]),_c('br'),_c('select',{directives:[{name:"model",rawName:"v-model",value:(_vm.status),expression:"status"}],attrs:{"id":"easycredit-merchant-status","name":"easycredit-merchant[status]"},on:{"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.status=$event.target.multiple ? $$selectedVal : $$selectedVal[0]}}},[_c('option',{attrs:{"value":""}},[_vm._v(" "+_vm._s(_vm.$t('Please select ...'))+" ")]),(_vm.canShip)?_c('option',{attrs:{"value":"CAPTURE"}},[_vm._v(" "+_vm._s(_vm.$t('Shipping'))+" ")]):_vm._e(),(_vm.canRefund)?_c('option',{attrs:{"value":"REFUND"}},[_vm._v(" "+_vm._s(_vm.$t('Refund'))+" ")]):_vm._e()])]),(_vm.status === 'CAPTURE')?_c('p',{staticClass:"tracking-number"},[_c('label',{attrs:{"for":"easycredit-merchant-tracking-number"}},[_vm._v("Trackingnummer (Versanddienstleister)")]),_c('br'),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.trackingNumber),expression:"trackingNumber"}],attrs:{"id":"easycredit-merchant-tracking-number","name":"easycredit-merchant[trackingNumber]","type":"text","maxlength":"50"},domProps:{"value":(_vm.trackingNumber)},on:{"input":function($event){if($event.target.composing){ return; }_vm.trackingNumber=$event.target.value}}})]):_vm._e(),(_vm.status === 'REFUND')?_c('p',{staticClass:"refund"},[_c('select',{directives:[{name:"model",rawName:"v-model",value:(_vm.refundReason),expression:"refundReason"}],attrs:{"id":"easycredit-merchant-refund-reason","name":"easycredit-merchant[refund-reason]"},on:{"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.refundReason=$event.target.multiple ? $$selectedVal : $$selectedVal[0]}}},[_c('option',{attrs:{"value":""}},[_vm._v(" "+_vm._s(_vm.$t('Please select ...'))+" ")]),_vm._l((_vm.refundReasons),function(name,value){return _c('option',{key:value,domProps:{"value":value}},[_vm._v(" "+_vm._s(_vm.$t(name))+" ")])})],2),(_vm.canShowAmount)?_c('span',{staticClass:"amount"},[_c('label',{attrs:{"for":"easycredit-merchant-amount"}},[_vm._v(_vm._s(_vm.$t('Reduction by'))+" ")]),_c('br'),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.amount),expression:"amount"}],attrs:{"id":"easycredit-merchant-amount","name":"easycredit-merchant[amount]","type":"number","min":"0.01","max":_vm.tx.orderDetails.currentOrderValue,"value":"0"},domProps:{"value":(_vm.amount)},on:{"input":function($event){if($event.target.composing){ return; }_vm.amount=$event.target.value}}}),_vm._v(" € / "+_vm._s(_vm.helpers().formatCurrency(_vm.tx.orderDetails.currentOrderValue))+" ")]):_vm._e()]):_vm._e(),_c('p',[_c('button',{staticClass:"set_merchant_status",attrs:{"type":"button","disabled":_vm.loading || !_vm.status},on:{"click":_vm.updateTransaction}},[_vm._v(" Senden ")])])]):_vm._e()}
+var Actionsvue_type_template_id_6350aaa7_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/manager/Actions.vue?vue&type=template&id=756feb00&
+// CONCATENATED MODULE: ./src/components/manager/Actions.vue?vue&type=template&id=6350aaa7&
 
 // CONCATENATED MODULE: ./src/config.js
 var getConfig = function () {
@@ -9973,8 +9998,7 @@ var vuex_esm = __webpack_require__("2f62");
 /* harmony default export */ var getters = ({
   transaction(state) {
     return id => {
-      const index = state.transactions.findIndex(obj => obj && obj.vorgangskennungFachlich === id);
-      return state.transactions[index];
+      return state.transactions.find(obj => obj && obj.transactionId === id);
     };
   },
 
@@ -9998,7 +10022,7 @@ var vuex_esm = __webpack_require__("2f62");
     id
   }) {
     state.transactions = state.transactions.filter(t => t !== null).map(transaction => {
-      return transaction.vorgangskennungFachlich === id ? data : transaction;
+      return transaction.transactionId === id ? data : transaction;
     });
   },
 
@@ -10026,9 +10050,10 @@ vue_runtime_esm["a" /* default */].use(vuex_esm["a" /* default */]);
       context.commit('loading', true);
       const result = await fetch(config.getEndpoints().list, config.getRequestConfig());
       const json = await result.json();
+      const transactions = json.TransactionList;
 
-      if (json && Array.isArray(json)) {
-        context.commit('fetchList', json);
+      if (transactions && Array.isArray(transactions)) {
+        context.commit('fetchList', transactions);
         context.commit('loading', false);
       }
     },
@@ -10142,6 +10167,22 @@ vue_runtime_esm["a" /* default */].use(vuex_esm["a" /* default */]);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -10152,29 +10193,36 @@ vue_runtime_esm["a" /* default */].use(vuex_esm["a" /* default */]);
 
   data() {
     return {
-      id: this.tx.vorgangskennungFachlich,
-      status: this.tx.lieferdatum === null ? 'LIEFERUNG' : '',
+      id: this.tx.transactionId,
+      status: this.tx.bookings.filter(b => b.type === 'CAPTURE').length ? 'CAPTURE' : '',
       date: new Date(Date.now()).toLocaleString().split(',')[0].split('/').reverse().join('-'),
       amount: 0.01,
-      loading: false
+      loading: false,
+      trackingNumber: '',
+      refundReason: ''
     };
   },
 
   computed: {
     canShowAmount() {
-      return this.status === 'WIDERRUF_TEILWEISE' || this.status === 'MINDERUNG_GARANTIE_GEWAEHRLEISTUNG';
-    },
-
-    canEditDate() {
-      return this.status !== 'LIEFERUNG';
+      return ['REVOCATION_PARTIAL', 'REDUCTION_GUARANTEE_WARRANTY'].includes(this.refundReason);
     },
 
     canShip() {
-      return this.tx.lieferdatum === null;
+      return !this.tx.bookings.filter(b => b.type === 'CAPTURE').length;
     },
 
     canRefund() {
-      return this.tx.bestellwertAktuell > 0;
+      return this.tx.orderDetails.currentOrderValue > 0;
+    },
+
+    refundReasons() {
+      return {
+        REVOCATION_FULL: this.$t('Revocation'),
+        REVOCATION_PARTIAL: this.$t('Partial Revocation'),
+        REFUND_GUARANTEE_WARRANTY: this.$t('Refund (Guarantee / Warranty)'),
+        REDUCTION_GUARANTEE_WARRANTY: this.$t('Reduction (Guarantee / Warranty)')
+      };
     }
 
   },
@@ -10193,12 +10241,16 @@ vue_runtime_esm["a" /* default */].use(vuex_esm["a" /* default */]);
             body: JSON.stringify(this.$data)
           }
         });
-        await store.dispatch('loadTransaction', this.tx.vorgangskennungFachlich);
+        await store.dispatch('loadTransaction', this.tx.transactionId);
         this.loading = false;
       } catch (err) {
         // eslint-disable-next-line no-console
         console.log(err);
       }
+    },
+
+    helpers() {
+      return helpers;
     }
 
   }
@@ -10215,8 +10267,8 @@ vue_runtime_esm["a" /* default */].use(vuex_esm["a" /* default */]);
 
 var Actions_component = normalizeComponent(
   manager_Actionsvue_type_script_lang_js_,
-  Actionsvue_type_template_id_756feb00_render,
-  Actionsvue_type_template_id_756feb00_staticRenderFns,
+  Actionsvue_type_template_id_6350aaa7_render,
+  Actionsvue_type_template_id_6350aaa7_staticRenderFns,
   false,
   null,
   null,
@@ -10225,10 +10277,6 @@ var Actions_component = normalizeComponent(
 )
 
 /* harmony default export */ var Actions = (Actions_component.exports);
-// EXTERNAL MODULE: ./src/mixins/dateHelper.js
-var dateHelper = __webpack_require__("1754");
-var dateHelper_default = /*#__PURE__*/__webpack_require__.n(dateHelper);
-
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/@vue/cli-plugin-babel/node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/Manager.vue?vue&type=script&lang=js&shadow
 //
 //
@@ -10261,7 +10309,6 @@ var dateHelper_default = /*#__PURE__*/__webpack_require__.n(dateHelper);
     Progress: Progress,
     Actions: Actions
   },
-  mixins: [dateHelper_default.a],
   props: {
     id: String,
     date: String
@@ -10283,8 +10330,14 @@ var dateHelper_default = /*#__PURE__*/__webpack_require__.n(dateHelper);
 
   beforeMount() {
     store.dispatch('loadTransactions');
-  }
+  },
 
+  methods: {
+    helpers() {
+      return helpers;
+    }
+
+  }
 });
 // CONCATENATED MODULE: ./src/Manager.vue?vue&type=script&lang=js&shadow
  /* harmony default export */ var src_Managervue_type_script_lang_js_shadow = (Managervue_type_script_lang_js_shadow); 
@@ -10313,12 +10366,12 @@ var Managershadow_component = normalizeComponent(
 )
 
 /* harmony default export */ var Managershadow = (Managershadow_component.exports);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"5d645420-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/StatusWidget.vue?vue&type=template&id=5f47fce0&shadow
-var StatusWidgetvue_type_template_id_5f47fce0_shadow_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:(_vm.isLoading) ? 'easycredit-tx-status-widget loading' : 'easycredit-tx-status-widget'},[_c('span',{staticClass:"logo"}),_c('span',[_vm._v(_vm._s(_vm.statusLabel))])])}
-var StatusWidgetvue_type_template_id_5f47fce0_shadow_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4004e486-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/StatusWidget.vue?vue&type=template&id=d2acb22a&shadow
+var StatusWidgetvue_type_template_id_d2acb22a_shadow_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:(_vm.isLoading) ? 'easycredit-tx-status-widget loading' : 'easycredit-tx-status-widget'},[_c('span',{staticClass:"logo"}),_c('span',[_vm._v(_vm._s(_vm.statusLabel))])])}
+var StatusWidgetvue_type_template_id_d2acb22a_shadow_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/StatusWidget.vue?vue&type=template&id=5f47fce0&shadow
+// CONCATENATED MODULE: ./src/StatusWidget.vue?vue&type=template&id=d2acb22a&shadow
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/@vue/cli-plugin-babel/node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/StatusWidget.vue?vue&type=script&lang=js&shadow
 //
@@ -10332,15 +10385,23 @@ var StatusWidgetvue_type_template_id_5f47fce0_shadow_staticRenderFns = []
 
 
 /* harmony default export */ var StatusWidgetvue_type_script_lang_js_shadow = ({
-  mixins: [dateHelper_default.a],
-  props: ['id', 'date'],
+  props: {
+    id: {
+      type: String
+    },
+    date: {
+      type: String
+    }
+  },
 
   data() {
     return {
       statusMapping: {
-        LIEFERUNG_MELDEN: this.$t('Report Shipping'),
-        IN_ABRECHNUNG: this.$t('In Clearing'),
-        ABGERECHNET: this.$t('Cleared')
+        REPORT_CAPTURE: this.$t('Report Shipping'),
+        REPORT_CAPTURE_EXPIRING: this.$t('Report Shipping (expiring)'),
+        IN_BILLING: this.$t('In Clearing'),
+        BILLED: this.$t('Cleared'),
+        EXPIRED: this.$t('Expired')
       }
     };
   },
@@ -10362,18 +10423,18 @@ var StatusWidgetvue_type_template_id_5f47fce0_shadow_staticRenderFns = []
       let label = this.$t('Waiting');
 
       if (!this.tx) {
-        if (this.daysSinceOrder() > 1) {
+        if (helpers.daysSinceOrder(this.date) > 1) {
           label = this.$t('n/a');
         }
 
         return label;
       }
 
-      if (this.statusMapping[this.tx.haendlerstatusV2] !== 'undefined') {
-        label = this.statusMapping[this.tx.haendlerstatusV2];
+      if (this.statusMapping[this.tx.status] !== 'undefined') {
+        label = this.statusMapping[this.tx.status];
       }
 
-      if (this.tx.bestellwertUrspruenglich > this.tx.bestellwertAktuell) {
+      if (this.tx.orderDetails.originalOrderValue > this.tx.orderDetails.currentOrderValue) {
         label = this.$t('Refunded');
       }
 
@@ -10410,8 +10471,8 @@ if (style0.__inject__) style0.__inject__(context)
 
 var StatusWidgetshadow_component = normalizeComponent(
   src_StatusWidgetvue_type_script_lang_js_shadow,
-  StatusWidgetvue_type_template_id_5f47fce0_shadow_render,
-  StatusWidgetvue_type_template_id_5f47fce0_shadow_staticRenderFns,
+  StatusWidgetvue_type_template_id_d2acb22a_shadow_render,
+  StatusWidgetvue_type_template_id_d2acb22a_shadow_staticRenderFns,
   false,
   StatusWidgetshadow_injectStyles,
   null,
@@ -10457,7 +10518,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("4bad");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, ".easycredit-tx-manager{background-color:#fff;border-radius:10px;-webkit-box-shadow:0 0 25px rgba(0,0,0,.1);box-shadow:0 0 25px rgba(0,0,0,.1);padding:30px 25px;min-width:200px;width:250px;max-width:100%;font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#000;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-text-size-adjust:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.easycredit-tx-manager:before{content:\"\";margin-bottom:15px;display:block;height:25px;background-color:transparent;background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='238' height='52' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M14.384 9.308l-.258 5.84h-1.07c-4.133 0-6.384 2.116-6.384 6.86v5.73H.768V9.418h5.904v3.503C8 10.73 10.03 9.162 13.056 9.162c.516 0 .886.037 1.328.146m15.526 9.27c0-2.81-2.14-4.744-4.538-4.744-2.583 0-4.464 1.933-4.464 4.744 0 2.846 1.881 4.743 4.464 4.743 2.399 0 4.539-1.897 4.539-4.743zm5.905 9.16H29.91v-1.46c-1.44 1.277-3.358 2.007-5.757 2.007-4.907 0-9.04-3.905-9.04-9.707 0-5.766 4.133-9.707 9.04-9.707 2.399 0 4.317.73 5.757 2.007v-1.46h5.904v18.32zm17.489-.804c-1.44.766-2.952 1.35-5.055 1.35-4.613 0-7.38-2.481-7.38-7.298v-6.934H37.51V9.418h3.358v-5.4h5.904v5.4h5.461v4.634h-5.461v6.35c0 1.898.922 2.664 2.472 2.664.812 0 1.918-.292 2.694-.73l1.365 4.598zm6.302-10.436h7.638c-.554-1.97-2.03-2.883-3.727-2.883-1.66 0-3.358 1.022-3.911 2.883zm13.468 3.576H59.496c.48 2.19 1.992 3.54 3.984 3.54 1.365 0 2.952-.33 3.948-2.117l5.24 1.058c-1.586 3.869-4.944 5.73-9.188 5.73-5.35 0-9.778-3.905-9.778-9.708 0-5.766 4.428-9.706 9.815-9.706 5.24 0 9.446 3.722 9.557 9.706v1.497zm21.282-3.576v11.24H88.49v-10c0-2.153-1.292-3.613-3.174-3.613-2.324 0-3.837 1.57-3.837 5.11v8.503h-5.904V9.418h5.904v1.751c1.402-1.46 3.358-2.298 5.682-2.298 4.317 0 7.195 3.029 7.195 7.627m16.427 11.239l-6.014-6.605h-1.07v6.605h-5.904V1.462h5.904v14.196h.811l5.867-6.24h7.121l-8.117 8.722 8.967 9.597z' fill='%23005DA9'/%3E%3Cpath d='M132.085 18.578c0-2.81-2.14-4.744-4.54-4.744-2.582 0-4.464 1.933-4.464 4.744 0 2.846 1.882 4.743 4.465 4.743 2.398 0 4.539-1.897 4.539-4.743zm5.904 9.16h-5.904v-1.46c-1.44 1.277-3.358 2.007-5.757 2.007-4.907 0-9.04-3.905-9.04-9.707 0-5.766 4.133-9.707 9.04-9.707 2.399 0 4.317.73 5.757 2.007v-1.46h5.904v18.32zm22.201-.001h-5.904v-1.751c-1.402 1.46-3.357 2.298-5.682 2.298-4.317 0-7.196-3.028-7.196-7.626V9.418h5.868v10c0 2.152 1.291 3.612 3.173 3.612 2.325 0 3.837-1.57 3.837-5.11V9.418h5.904v18.32zm15.814-18.319v4.634h-5.092v13.686h-5.867V14.052h-2.656V9.418h2.656V7.995c0-4.307 2.989-7.044 7.454-7.044 1.254 0 2.472.256 3.653.767l-1.255 4.525c-.553-.182-1.144-.292-1.586-.292-1.402 0-2.399.84-2.399 2.299v1.168h5.092zM60.048 43.903c0-1.384-.926-2.336-2.197-2.336-1.18 0-2.235.952-2.235 2.336 0 1.401 1.054 2.335 2.235 2.335 1.271 0 2.197-.934 2.197-2.335m2.852 0c0 2.857-2.034 4.78-4.45 4.78-1.18 0-2.126-.36-2.834-.989v.72H52.71V35.475h2.906v4.635c.708-.628 1.654-.987 2.834-.987 2.416 0 4.45 1.94 4.45 4.78m5.41 7.565h-3.142l1.471-3.36-3.778-8.733h3.124l2.162 5.265 2.306-5.265h3.125zm12.97-8.589h3.76c-.273-.97-1-1.42-1.834-1.42-.818 0-1.653.503-1.926 1.42zm6.63 1.76h-6.685c.237 1.079.981 1.744 1.962 1.744.672 0 1.453-.162 1.943-1.042l2.58.52c-.781 1.905-2.434 2.822-4.523 2.822-2.633 0-4.813-1.923-4.813-4.78 0-2.839 2.18-4.78 4.832-4.78 2.579 0 4.65 1.833 4.704 4.78v.736zm8.116-.736c0-1.384-1.053-2.336-2.234-2.336-1.271 0-2.198.952-2.198 2.336 0 1.401.927 2.335 2.198 2.335 1.18 0 2.234-.934 2.234-2.335zm2.906 4.51h-2.906v-.719c-.708.629-1.653.989-2.834.989-2.415 0-4.45-1.923-4.45-4.78 0-2.839 2.035-4.78 4.45-4.78 1.181 0 2.126.36 2.834.988v-.718h2.906v9.02zm4.182-2.929c.127.773.836 1.06 1.617 1.06.763 0 1.18-.323 1.18-.718 0-.306-.236-.54-.908-.665l-1.853-.36c-1.688-.305-2.651-1.203-2.651-2.623 0-1.85 1.616-3.054 3.923-3.054 2.27 0 3.778 1.024 4.142 2.587l-2.652.521c-.092-.557-.636-1.06-1.526-1.06-.781 0-1.035.377-1.035.7 0 .252.108.504.69.63l2.143.43c1.725.36 2.525 1.385 2.525 2.714 0 1.994-1.744 3.037-4.142 3.037-2.143 0-3.977-.773-4.286-2.624l2.833-.575zm11.203 5.984h-3.142l1.47-3.36-3.777-8.733h3.124l2.161 5.265 2.307-5.265h3.124zm18.38-7.565c-.562 3.018-3.015 4.78-6.14 4.78-3.614 0-6.465-2.75-6.465-6.29 0-3.521 2.851-6.288 6.466-6.288 2.997 0 5.54 1.76 6.121 4.618l-2.943.682c-.381-1.743-1.616-2.587-3.178-2.587-1.926 0-3.469 1.527-3.469 3.575 0 2.049 1.543 3.595 3.469 3.595 1.544 0 2.78-.863 3.197-2.66l2.942.575zm8.297-4.564l-.127 2.875h-.528c-2.034 0-3.142 1.042-3.142 3.378v2.821h-2.906v-9.02h2.906v1.725c.654-1.078 1.654-1.85 3.142-1.85.255 0 .436.017.655.071m3.403 3.54h3.76c-.273-.97-1-1.42-1.835-1.42-.817 0-1.653.503-1.925 1.42zm6.63 1.76h-6.685c.236 1.079.98 1.744 1.962 1.744.672 0 1.453-.162 1.943-1.042l2.58.52c-.781 1.905-2.435 2.822-4.523 2.822-2.635 0-4.814-1.923-4.814-4.78 0-2.839 2.18-4.78 4.832-4.78 2.578 0 4.65 1.833 4.705 4.78v.736zm8.115-.736c0-1.384-1.053-2.336-2.234-2.336-1.272 0-2.198.952-2.198 2.336 0 1.401.926 2.335 2.198 2.335 1.18 0 2.234-.934 2.234-2.335zm2.906 4.51h-2.906v-.719c-.708.629-1.653.989-2.833.989-2.416 0-4.45-1.923-4.45-4.78 0-2.839 2.034-4.78 4.45-4.78 1.18 0 2.125.36 2.833.988v-4.635h2.906v12.937zm2.008 0h2.907v-9.02h-2.907v9.02zm3.143-11.679c0 .916-.708 1.599-1.69 1.599-.98 0-1.67-.683-1.67-1.599 0-.88.69-1.635 1.67-1.635.982 0 1.69.754 1.69 1.635zm8.491 11.284c-.708.377-1.452.665-2.488.665-2.27 0-3.633-1.222-3.633-3.595v-3.413h-1.652v-2.282h1.652v-2.66h2.907v2.66h2.688v2.282h-2.688v3.126c0 .935.453 1.312 1.216 1.312.4 0 .945-.144 1.327-.36l.672 2.265zm61.405-23.243c0 12.525-10.153 22.678-22.679 22.678-12.525 0-22.678-10.153-22.678-22.678 0-12.526 10.153-22.68 22.678-22.68 12.526 0 22.68 10.154 22.68 22.68' fill='%23005DA9'/%3E%3Cpath d='M216.966 10.306h-6.299a7.074 7.074 0 00-7.073 7.075v14.15a7.074 7.074 0 017.073-7.075l6.3-.002a7.074 7.074 0 100-14.148' fill='%23FFF'/%3E%3Cpath d='M210.668 24.455c-3.823 0-6.929 3.034-7.062 6.824h-.013v7.324h21.86l-14.785-14.148z' fill='%23EC6608'/%3E%3C/g%3E%3C/svg%3E\");background-position:0;background-repeat:no-repeat;background-size:contain}.easycredit-tx-manager label,.easycredit-tx-manager strong{font-family:Helvetica,Arial,sans-serif}.easycredit-tx-manager label{display:inline-block;margin-bottom:5px}.easycredit-tx-manager p{margin-top:0;margin-bottom:0;font-size:13px;-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}.easycredit-tx-manager p strong{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.easycredit-tx-manager p a,.easycredit-tx-manager span a{color:#0066b3;font-weight:700}.easycredit-tx-manager .transaction-info p{margin:1em 0}.easycredit-tx-manager .progress-bar{margin-bottom:20px;text-align:center}.easycredit-tx-manager button,.easycredit-tx-manager input,.easycredit-tx-manager select{display:inline-block;margin-bottom:10px;padding:1px 15px 0;width:100%;max-width:300px;height:35px;-webkit-box-sizing:border-box;box-sizing:border-box;line-height:32px;background-color:transparent;background-image:none;border:1px solid rgba(0,0,0,.2);border-radius:3px;font-family:Helvetica,Arial,sans-serif!important;font-size:14px;color:#000}.easycredit-tx-manager select{background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='20' height='13' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19.799 2.4l-9.9 9.899L0 2.399 2.121.28 9.9 8.055 17.678.278z' fill-rule='evenodd'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:10px;cursor:pointer}.easycredit-tx-manager select#easycredit-merchant-status{-webkit-appearance:none;-moz-appearance:none;appearance:none}.easycredit-tx-manager select#easycredit-merchant-status::-ms-expand{display:none}.easycredit-tx-manager select:disabled{color:rgba(0,0,0,.4)}.easycredit-tx-manager input::-webkit-inner-spin-button{display:none}.easycredit-tx-manager input::-webkit-calendar-picker-indicator{color:transparent;background:transparent;margin-left:10px;margin-right:-5px;padding:0;width:10px;background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='20' height='13' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19.799 2.4l-9.9 9.899L0 2.399 2.121.28 9.9 8.055 17.678.278z' fill-rule='evenodd'/%3E%3C/svg%3E\");background-position:50%;background-repeat:no-repeat;background-size:10px;cursor:pointer}.easycredit-tx-manager input:disabled{color:rgba(0,0,0,.4)}.easycredit-tx-manager button{margin-bottom:0;background-color:#0066b3;border:0;border-radius:20px;text-align:center;font-family:Helvetica,Arial,sans-serif!important;color:#fff;cursor:pointer;-webkit-transition:all .15s ease-in-out;transition:all .15s ease-in-out}.easycredit-tx-manager button:hover{background-color:#00579a}.easycredit-tx-manager button:disabled{background-color:#f2f2f2}.easycredit-tx-manager .amount input{width:calc(100% - 35px)}.easycredit-tx-manager.loading .spinner,.easycredit-tx-manager .loading .spinner{background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='46' height='46' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M46 23c0 12.703-10.297 23-23 23S0 35.703 0 23 10.297 0 23 0s23 10.297 23 23' fill='%23005DA9'/%3E%3Cpath fill='%23EC6608' d='M19.12 22.58L12 16v21h22z'/%3E%3Cpath d='M25.734 8h-6.469C15.252 8 12 11.283 12 15.333V30c0-4.05 3.252-7.333 7.265-7.333l6.47-.002c4.012 0 7.265-3.283 7.265-7.332C33 11.283 29.747 8 25.734 8' fill='%23FFF'/%3E%3C/g%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:50%;-webkit-animation:circle-linear--animation 1.4s linear infinite both;animation:circle-linear--animation 1.4s linear infinite both;-webkit-animation-delay:.3s;animation-delay:.3s;visibility:visible;min-width:250px;height:200px}.easycredit-tx-manager.loading:before,.easycredit-tx-manager.loading div,.easycredit-tx-manager .loading p,.easycredit-tx-manager.loading span{visibility:hidden}.easycredit-tx-status-widget{display:inline-block;padding:0 15px 0 15px;width:auto;height:35px;vertical-align:middle;border:0 solid #f2f2f2;border-radius:3px;background-color:#fff;font-family:Helvetica,Arial,sans-serif;font-size:14px;line-height:35px;color:#000;white-space:nowrap;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;border-radius:10px;-webkit-box-shadow:0 0 25px rgba(0,0,0,.1);box-shadow:0 0 25px rgba(0,0,0,.1)}.easycredit-tx-status-widget span{display:inline-block}.easycredit-tx-status-widget span.logo{vertical-align:middle;background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='46' height='46' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M46 23c0 12.703-10.297 23-23 23S0 35.703 0 23 10.297 0 23 0s23 10.297 23 23' fill='%23005DA9'/%3E%3Cpath fill='%23EC6608' d='M19.12 22.58L12 16v21h22z'/%3E%3Cpath d='M25.734 8h-6.469C15.252 8 12 11.283 12 15.333V30c0-4.05 3.252-7.333 7.265-7.333l6.47-.002c4.012 0 7.265-3.283 7.265-7.332C33 11.283 29.747 8 25.734 8' fill='%23FFF'/%3E%3C/g%3E%3C/svg%3E\");background-position:50%;background-repeat:no-repeat;background-size:25px;width:40px;height:25px}.easycredit-tx-status-widget.loading span.logo{-webkit-animation:circle-linear--animation 1.4s linear infinite both;animation:circle-linear--animation 1.4s linear infinite both}.easycredit-tx-alert{display:block;margin:10px 0;padding:10px 15px;width:100%;max-width:300px;-webkit-box-sizing:border-box;box-sizing:border-box;background-color:#0066b3;border-radius:3px;font-family:Helvetica,Arial,sans-serif!important;font-size:14px;color:#fff}.easycredit-tx-alert.error{background-color:#e90202}.easycredit-tx-alert.success{background-color:#8dd600}@-webkit-keyframes circle-linear--animation{0%{-webkit-transform:rotate(0);transform:rotate(0)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes circle-linear--animation{0%{-webkit-transform:rotate(0);transform:rotate(0)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}", ""]);
+exports.push([module.i, ".easycredit-tx-manager{background-color:#fff;border-radius:10px;-webkit-box-shadow:0 0 25px rgba(0,0,0,.1);box-shadow:0 0 25px rgba(0,0,0,.1);padding:30px 25px;min-width:200px;width:250px;max-width:100%;font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#000;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-text-size-adjust:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.easycredit-tx-manager:before{content:\"\";margin-bottom:15px;display:block;height:25px;background-color:transparent;background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='238' height='52' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M14.384 9.308l-.258 5.84h-1.07c-4.133 0-6.384 2.116-6.384 6.86v5.73H.768V9.418h5.904v3.503C8 10.73 10.03 9.162 13.056 9.162c.516 0 .886.037 1.328.146m15.526 9.27c0-2.81-2.14-4.744-4.538-4.744-2.583 0-4.464 1.933-4.464 4.744 0 2.846 1.881 4.743 4.464 4.743 2.399 0 4.539-1.897 4.539-4.743zm5.905 9.16H29.91v-1.46c-1.44 1.277-3.358 2.007-5.757 2.007-4.907 0-9.04-3.905-9.04-9.707 0-5.766 4.133-9.707 9.04-9.707 2.399 0 4.317.73 5.757 2.007v-1.46h5.904v18.32zm17.489-.804c-1.44.766-2.952 1.35-5.055 1.35-4.613 0-7.38-2.481-7.38-7.298v-6.934H37.51V9.418h3.358v-5.4h5.904v5.4h5.461v4.634h-5.461v6.35c0 1.898.922 2.664 2.472 2.664.812 0 1.918-.292 2.694-.73l1.365 4.598zm6.302-10.436h7.638c-.554-1.97-2.03-2.883-3.727-2.883-1.66 0-3.358 1.022-3.911 2.883zm13.468 3.576H59.496c.48 2.19 1.992 3.54 3.984 3.54 1.365 0 2.952-.33 3.948-2.117l5.24 1.058c-1.586 3.869-4.944 5.73-9.188 5.73-5.35 0-9.778-3.905-9.778-9.708 0-5.766 4.428-9.706 9.815-9.706 5.24 0 9.446 3.722 9.557 9.706v1.497zm21.282-3.576v11.24H88.49v-10c0-2.153-1.292-3.613-3.174-3.613-2.324 0-3.837 1.57-3.837 5.11v8.503h-5.904V9.418h5.904v1.751c1.402-1.46 3.358-2.298 5.682-2.298 4.317 0 7.195 3.029 7.195 7.627m16.427 11.239l-6.014-6.605h-1.07v6.605h-5.904V1.462h5.904v14.196h.811l5.867-6.24h7.121l-8.117 8.722 8.967 9.597z' fill='%23005DA9'/%3E%3Cpath d='M132.085 18.578c0-2.81-2.14-4.744-4.54-4.744-2.582 0-4.464 1.933-4.464 4.744 0 2.846 1.882 4.743 4.465 4.743 2.398 0 4.539-1.897 4.539-4.743zm5.904 9.16h-5.904v-1.46c-1.44 1.277-3.358 2.007-5.757 2.007-4.907 0-9.04-3.905-9.04-9.707 0-5.766 4.133-9.707 9.04-9.707 2.399 0 4.317.73 5.757 2.007v-1.46h5.904v18.32zm22.201-.001h-5.904v-1.751c-1.402 1.46-3.357 2.298-5.682 2.298-4.317 0-7.196-3.028-7.196-7.626V9.418h5.868v10c0 2.152 1.291 3.612 3.173 3.612 2.325 0 3.837-1.57 3.837-5.11V9.418h5.904v18.32zm15.814-18.319v4.634h-5.092v13.686h-5.867V14.052h-2.656V9.418h2.656V7.995c0-4.307 2.989-7.044 7.454-7.044 1.254 0 2.472.256 3.653.767l-1.255 4.525c-.553-.182-1.144-.292-1.586-.292-1.402 0-2.399.84-2.399 2.299v1.168h5.092zM60.048 43.903c0-1.384-.926-2.336-2.197-2.336-1.18 0-2.235.952-2.235 2.336 0 1.401 1.054 2.335 2.235 2.335 1.271 0 2.197-.934 2.197-2.335m2.852 0c0 2.857-2.034 4.78-4.45 4.78-1.18 0-2.126-.36-2.834-.989v.72H52.71V35.475h2.906v4.635c.708-.628 1.654-.987 2.834-.987 2.416 0 4.45 1.94 4.45 4.78m5.41 7.565h-3.142l1.471-3.36-3.778-8.733h3.124l2.162 5.265 2.306-5.265h3.125zm12.97-8.589h3.76c-.273-.97-1-1.42-1.834-1.42-.818 0-1.653.503-1.926 1.42zm6.63 1.76h-6.685c.237 1.079.981 1.744 1.962 1.744.672 0 1.453-.162 1.943-1.042l2.58.52c-.781 1.905-2.434 2.822-4.523 2.822-2.633 0-4.813-1.923-4.813-4.78 0-2.839 2.18-4.78 4.832-4.78 2.579 0 4.65 1.833 4.704 4.78v.736zm8.116-.736c0-1.384-1.053-2.336-2.234-2.336-1.271 0-2.198.952-2.198 2.336 0 1.401.927 2.335 2.198 2.335 1.18 0 2.234-.934 2.234-2.335zm2.906 4.51h-2.906v-.719c-.708.629-1.653.989-2.834.989-2.415 0-4.45-1.923-4.45-4.78 0-2.839 2.035-4.78 4.45-4.78 1.181 0 2.126.36 2.834.988v-.718h2.906v9.02zm4.182-2.929c.127.773.836 1.06 1.617 1.06.763 0 1.18-.323 1.18-.718 0-.306-.236-.54-.908-.665l-1.853-.36c-1.688-.305-2.651-1.203-2.651-2.623 0-1.85 1.616-3.054 3.923-3.054 2.27 0 3.778 1.024 4.142 2.587l-2.652.521c-.092-.557-.636-1.06-1.526-1.06-.781 0-1.035.377-1.035.7 0 .252.108.504.69.63l2.143.43c1.725.36 2.525 1.385 2.525 2.714 0 1.994-1.744 3.037-4.142 3.037-2.143 0-3.977-.773-4.286-2.624l2.833-.575zm11.203 5.984h-3.142l1.47-3.36-3.777-8.733h3.124l2.161 5.265 2.307-5.265h3.124zm18.38-7.565c-.562 3.018-3.015 4.78-6.14 4.78-3.614 0-6.465-2.75-6.465-6.29 0-3.521 2.851-6.288 6.466-6.288 2.997 0 5.54 1.76 6.121 4.618l-2.943.682c-.381-1.743-1.616-2.587-3.178-2.587-1.926 0-3.469 1.527-3.469 3.575 0 2.049 1.543 3.595 3.469 3.595 1.544 0 2.78-.863 3.197-2.66l2.942.575zm8.297-4.564l-.127 2.875h-.528c-2.034 0-3.142 1.042-3.142 3.378v2.821h-2.906v-9.02h2.906v1.725c.654-1.078 1.654-1.85 3.142-1.85.255 0 .436.017.655.071m3.403 3.54h3.76c-.273-.97-1-1.42-1.835-1.42-.817 0-1.653.503-1.925 1.42zm6.63 1.76h-6.685c.236 1.079.98 1.744 1.962 1.744.672 0 1.453-.162 1.943-1.042l2.58.52c-.781 1.905-2.435 2.822-4.523 2.822-2.635 0-4.814-1.923-4.814-4.78 0-2.839 2.18-4.78 4.832-4.78 2.578 0 4.65 1.833 4.705 4.78v.736zm8.115-.736c0-1.384-1.053-2.336-2.234-2.336-1.272 0-2.198.952-2.198 2.336 0 1.401.926 2.335 2.198 2.335 1.18 0 2.234-.934 2.234-2.335zm2.906 4.51h-2.906v-.719c-.708.629-1.653.989-2.833.989-2.416 0-4.45-1.923-4.45-4.78 0-2.839 2.034-4.78 4.45-4.78 1.18 0 2.125.36 2.833.988v-4.635h2.906v12.937zm2.008 0h2.907v-9.02h-2.907v9.02zm3.143-11.679c0 .916-.708 1.599-1.69 1.599-.98 0-1.67-.683-1.67-1.599 0-.88.69-1.635 1.67-1.635.982 0 1.69.754 1.69 1.635zm8.491 11.284c-.708.377-1.452.665-2.488.665-2.27 0-3.633-1.222-3.633-3.595v-3.413h-1.652v-2.282h1.652v-2.66h2.907v2.66h2.688v2.282h-2.688v3.126c0 .935.453 1.312 1.216 1.312.4 0 .945-.144 1.327-.36l.672 2.265zm61.405-23.243c0 12.525-10.153 22.678-22.679 22.678-12.525 0-22.678-10.153-22.678-22.678 0-12.526 10.153-22.68 22.678-22.68 12.526 0 22.68 10.154 22.68 22.68' fill='%23005DA9'/%3E%3Cpath d='M216.966 10.306h-6.299a7.074 7.074 0 00-7.073 7.075v14.15a7.074 7.074 0 017.073-7.075l6.3-.002a7.074 7.074 0 100-14.148' fill='%23FFF'/%3E%3Cpath d='M210.668 24.455c-3.823 0-6.929 3.034-7.062 6.824h-.013v7.324h21.86l-14.785-14.148z' fill='%23EC6608'/%3E%3C/g%3E%3C/svg%3E\");background-position:0;background-repeat:no-repeat;background-size:contain}.easycredit-tx-manager label,.easycredit-tx-manager strong{font-family:Helvetica,Arial,sans-serif}.easycredit-tx-manager label{display:inline-block;margin-bottom:5px}.easycredit-tx-manager p{margin-top:0;margin-bottom:0;font-size:13px;-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}.easycredit-tx-manager p strong{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.easycredit-tx-manager p a,.easycredit-tx-manager span a{color:#0066b3;font-weight:700}.easycredit-tx-manager .transaction-info p{margin:1em 0}.easycredit-tx-manager .progress-bar{margin-bottom:20px;text-align:center}.easycredit-tx-manager button,.easycredit-tx-manager input,.easycredit-tx-manager select{display:inline-block;margin-bottom:10px;padding:1px 15px 0;width:100%;max-width:300px;height:35px;-webkit-box-sizing:border-box;box-sizing:border-box;line-height:32px;background-color:transparent;background-image:none;border:1px solid rgba(0,0,0,.2);border-radius:3px;font-family:Helvetica,Arial,sans-serif!important;font-size:14px;color:#000}.easycredit-tx-manager select{background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='20' height='13' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19.799 2.4l-9.9 9.899L0 2.399 2.121.28 9.9 8.055 17.678.278z' fill-rule='evenodd'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:10px;cursor:pointer}.easycredit-tx-manager select#easycredit-merchant-refund-reason,.easycredit-tx-manager select#easycredit-merchant-status{-webkit-appearance:none;-moz-appearance:none;appearance:none}.easycredit-tx-manager select#easycredit-merchant-refund-reason::-ms-expand,.easycredit-tx-manager select#easycredit-merchant-status::-ms-expand{display:none}.easycredit-tx-manager select:disabled{color:rgba(0,0,0,.4)}.easycredit-tx-manager input::-webkit-inner-spin-button{display:none}.easycredit-tx-manager input::-webkit-calendar-picker-indicator{color:transparent;background:transparent;margin-left:10px;margin-right:-5px;padding:0;width:10px;background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='20' height='13' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19.799 2.4l-9.9 9.899L0 2.399 2.121.28 9.9 8.055 17.678.278z' fill-rule='evenodd'/%3E%3C/svg%3E\");background-position:50%;background-repeat:no-repeat;background-size:10px;cursor:pointer}.easycredit-tx-manager input:disabled{color:rgba(0,0,0,.4)}.easycredit-tx-manager button{margin-bottom:0;background-color:#0066b3;border:0;border-radius:20px;text-align:center;font-family:Helvetica,Arial,sans-serif!important;color:#fff;cursor:pointer;-webkit-transition:all .15s ease-in-out;transition:all .15s ease-in-out}.easycredit-tx-manager button:hover{background-color:#00579a}.easycredit-tx-manager button:disabled{background-color:#f2f2f2}.easycredit-tx-manager .amount input{width:120px}.easycredit-tx-manager.loading .spinner,.easycredit-tx-manager .loading .spinner{background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='46' height='46' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M46 23c0 12.703-10.297 23-23 23S0 35.703 0 23 10.297 0 23 0s23 10.297 23 23' fill='%23005DA9'/%3E%3Cpath fill='%23EC6608' d='M19.12 22.58L12 16v21h22z'/%3E%3Cpath d='M25.734 8h-6.469C15.252 8 12 11.283 12 15.333V30c0-4.05 3.252-7.333 7.265-7.333l6.47-.002c4.012 0 7.265-3.283 7.265-7.332C33 11.283 29.747 8 25.734 8' fill='%23FFF'/%3E%3C/g%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:50%;-webkit-animation:circle-linear--animation 1.4s linear infinite both;animation:circle-linear--animation 1.4s linear infinite both;-webkit-animation-delay:.3s;animation-delay:.3s;visibility:visible;min-width:250px;height:200px}.easycredit-tx-manager.loading:before,.easycredit-tx-manager.loading div,.easycredit-tx-manager .loading p,.easycredit-tx-manager.loading span{visibility:hidden}.easycredit-tx-status-widget{display:inline-block;padding:0 15px 0 15px;width:auto;height:35px;vertical-align:middle;border:0 solid #f2f2f2;border-radius:3px;background-color:#fff;font-family:Helvetica,Arial,sans-serif;font-size:14px;line-height:35px;color:#000;white-space:nowrap;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;border-radius:10px;-webkit-box-shadow:0 0 25px rgba(0,0,0,.1);box-shadow:0 0 25px rgba(0,0,0,.1)}.easycredit-tx-status-widget span{display:inline-block}.easycredit-tx-status-widget span.logo{vertical-align:middle;background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='46' height='46' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M46 23c0 12.703-10.297 23-23 23S0 35.703 0 23 10.297 0 23 0s23 10.297 23 23' fill='%23005DA9'/%3E%3Cpath fill='%23EC6608' d='M19.12 22.58L12 16v21h22z'/%3E%3Cpath d='M25.734 8h-6.469C15.252 8 12 11.283 12 15.333V30c0-4.05 3.252-7.333 7.265-7.333l6.47-.002c4.012 0 7.265-3.283 7.265-7.332C33 11.283 29.747 8 25.734 8' fill='%23FFF'/%3E%3C/g%3E%3C/svg%3E\");background-position:50%;background-repeat:no-repeat;background-size:25px;width:40px;height:25px}.easycredit-tx-status-widget.loading span.logo{-webkit-animation:circle-linear--animation 1.4s linear infinite both;animation:circle-linear--animation 1.4s linear infinite both}.easycredit-tx-alert{display:block;margin:10px 0;padding:10px 15px;width:100%;max-width:300px;-webkit-box-sizing:border-box;box-sizing:border-box;background-color:#0066b3;border-radius:3px;font-family:Helvetica,Arial,sans-serif!important;font-size:14px;color:#fff}.easycredit-tx-alert.error{background-color:#e90202}.easycredit-tx-alert.success{background-color:#8dd600}@-webkit-keyframes circle-linear--animation{0%{-webkit-transform:rotate(0);transform:rotate(0)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes circle-linear--animation{0%{-webkit-transform:rotate(0);transform:rotate(0)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}", ""]);
 // Exports
 module.exports = exports;
 
@@ -10574,7 +10635,7 @@ module.exports.__inject__ = function (shadowRoot) {
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("4bad");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, ".easycredit-tx-manager{background-color:#fff;border-radius:10px;-webkit-box-shadow:0 0 25px rgba(0,0,0,.1);box-shadow:0 0 25px rgba(0,0,0,.1);padding:30px 25px;min-width:200px;width:250px;max-width:100%;font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#000;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-text-size-adjust:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.easycredit-tx-manager:before{content:\"\";margin-bottom:15px;display:block;height:25px;background-color:transparent;background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='238' height='52' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M14.384 9.308l-.258 5.84h-1.07c-4.133 0-6.384 2.116-6.384 6.86v5.73H.768V9.418h5.904v3.503C8 10.73 10.03 9.162 13.056 9.162c.516 0 .886.037 1.328.146m15.526 9.27c0-2.81-2.14-4.744-4.538-4.744-2.583 0-4.464 1.933-4.464 4.744 0 2.846 1.881 4.743 4.464 4.743 2.399 0 4.539-1.897 4.539-4.743zm5.905 9.16H29.91v-1.46c-1.44 1.277-3.358 2.007-5.757 2.007-4.907 0-9.04-3.905-9.04-9.707 0-5.766 4.133-9.707 9.04-9.707 2.399 0 4.317.73 5.757 2.007v-1.46h5.904v18.32zm17.489-.804c-1.44.766-2.952 1.35-5.055 1.35-4.613 0-7.38-2.481-7.38-7.298v-6.934H37.51V9.418h3.358v-5.4h5.904v5.4h5.461v4.634h-5.461v6.35c0 1.898.922 2.664 2.472 2.664.812 0 1.918-.292 2.694-.73l1.365 4.598zm6.302-10.436h7.638c-.554-1.97-2.03-2.883-3.727-2.883-1.66 0-3.358 1.022-3.911 2.883zm13.468 3.576H59.496c.48 2.19 1.992 3.54 3.984 3.54 1.365 0 2.952-.33 3.948-2.117l5.24 1.058c-1.586 3.869-4.944 5.73-9.188 5.73-5.35 0-9.778-3.905-9.778-9.708 0-5.766 4.428-9.706 9.815-9.706 5.24 0 9.446 3.722 9.557 9.706v1.497zm21.282-3.576v11.24H88.49v-10c0-2.153-1.292-3.613-3.174-3.613-2.324 0-3.837 1.57-3.837 5.11v8.503h-5.904V9.418h5.904v1.751c1.402-1.46 3.358-2.298 5.682-2.298 4.317 0 7.195 3.029 7.195 7.627m16.427 11.239l-6.014-6.605h-1.07v6.605h-5.904V1.462h5.904v14.196h.811l5.867-6.24h7.121l-8.117 8.722 8.967 9.597z' fill='%23005DA9'/%3E%3Cpath d='M132.085 18.578c0-2.81-2.14-4.744-4.54-4.744-2.582 0-4.464 1.933-4.464 4.744 0 2.846 1.882 4.743 4.465 4.743 2.398 0 4.539-1.897 4.539-4.743zm5.904 9.16h-5.904v-1.46c-1.44 1.277-3.358 2.007-5.757 2.007-4.907 0-9.04-3.905-9.04-9.707 0-5.766 4.133-9.707 9.04-9.707 2.399 0 4.317.73 5.757 2.007v-1.46h5.904v18.32zm22.201-.001h-5.904v-1.751c-1.402 1.46-3.357 2.298-5.682 2.298-4.317 0-7.196-3.028-7.196-7.626V9.418h5.868v10c0 2.152 1.291 3.612 3.173 3.612 2.325 0 3.837-1.57 3.837-5.11V9.418h5.904v18.32zm15.814-18.319v4.634h-5.092v13.686h-5.867V14.052h-2.656V9.418h2.656V7.995c0-4.307 2.989-7.044 7.454-7.044 1.254 0 2.472.256 3.653.767l-1.255 4.525c-.553-.182-1.144-.292-1.586-.292-1.402 0-2.399.84-2.399 2.299v1.168h5.092zM60.048 43.903c0-1.384-.926-2.336-2.197-2.336-1.18 0-2.235.952-2.235 2.336 0 1.401 1.054 2.335 2.235 2.335 1.271 0 2.197-.934 2.197-2.335m2.852 0c0 2.857-2.034 4.78-4.45 4.78-1.18 0-2.126-.36-2.834-.989v.72H52.71V35.475h2.906v4.635c.708-.628 1.654-.987 2.834-.987 2.416 0 4.45 1.94 4.45 4.78m5.41 7.565h-3.142l1.471-3.36-3.778-8.733h3.124l2.162 5.265 2.306-5.265h3.125zm12.97-8.589h3.76c-.273-.97-1-1.42-1.834-1.42-.818 0-1.653.503-1.926 1.42zm6.63 1.76h-6.685c.237 1.079.981 1.744 1.962 1.744.672 0 1.453-.162 1.943-1.042l2.58.52c-.781 1.905-2.434 2.822-4.523 2.822-2.633 0-4.813-1.923-4.813-4.78 0-2.839 2.18-4.78 4.832-4.78 2.579 0 4.65 1.833 4.704 4.78v.736zm8.116-.736c0-1.384-1.053-2.336-2.234-2.336-1.271 0-2.198.952-2.198 2.336 0 1.401.927 2.335 2.198 2.335 1.18 0 2.234-.934 2.234-2.335zm2.906 4.51h-2.906v-.719c-.708.629-1.653.989-2.834.989-2.415 0-4.45-1.923-4.45-4.78 0-2.839 2.035-4.78 4.45-4.78 1.181 0 2.126.36 2.834.988v-.718h2.906v9.02zm4.182-2.929c.127.773.836 1.06 1.617 1.06.763 0 1.18-.323 1.18-.718 0-.306-.236-.54-.908-.665l-1.853-.36c-1.688-.305-2.651-1.203-2.651-2.623 0-1.85 1.616-3.054 3.923-3.054 2.27 0 3.778 1.024 4.142 2.587l-2.652.521c-.092-.557-.636-1.06-1.526-1.06-.781 0-1.035.377-1.035.7 0 .252.108.504.69.63l2.143.43c1.725.36 2.525 1.385 2.525 2.714 0 1.994-1.744 3.037-4.142 3.037-2.143 0-3.977-.773-4.286-2.624l2.833-.575zm11.203 5.984h-3.142l1.47-3.36-3.777-8.733h3.124l2.161 5.265 2.307-5.265h3.124zm18.38-7.565c-.562 3.018-3.015 4.78-6.14 4.78-3.614 0-6.465-2.75-6.465-6.29 0-3.521 2.851-6.288 6.466-6.288 2.997 0 5.54 1.76 6.121 4.618l-2.943.682c-.381-1.743-1.616-2.587-3.178-2.587-1.926 0-3.469 1.527-3.469 3.575 0 2.049 1.543 3.595 3.469 3.595 1.544 0 2.78-.863 3.197-2.66l2.942.575zm8.297-4.564l-.127 2.875h-.528c-2.034 0-3.142 1.042-3.142 3.378v2.821h-2.906v-9.02h2.906v1.725c.654-1.078 1.654-1.85 3.142-1.85.255 0 .436.017.655.071m3.403 3.54h3.76c-.273-.97-1-1.42-1.835-1.42-.817 0-1.653.503-1.925 1.42zm6.63 1.76h-6.685c.236 1.079.98 1.744 1.962 1.744.672 0 1.453-.162 1.943-1.042l2.58.52c-.781 1.905-2.435 2.822-4.523 2.822-2.635 0-4.814-1.923-4.814-4.78 0-2.839 2.18-4.78 4.832-4.78 2.578 0 4.65 1.833 4.705 4.78v.736zm8.115-.736c0-1.384-1.053-2.336-2.234-2.336-1.272 0-2.198.952-2.198 2.336 0 1.401.926 2.335 2.198 2.335 1.18 0 2.234-.934 2.234-2.335zm2.906 4.51h-2.906v-.719c-.708.629-1.653.989-2.833.989-2.416 0-4.45-1.923-4.45-4.78 0-2.839 2.034-4.78 4.45-4.78 1.18 0 2.125.36 2.833.988v-4.635h2.906v12.937zm2.008 0h2.907v-9.02h-2.907v9.02zm3.143-11.679c0 .916-.708 1.599-1.69 1.599-.98 0-1.67-.683-1.67-1.599 0-.88.69-1.635 1.67-1.635.982 0 1.69.754 1.69 1.635zm8.491 11.284c-.708.377-1.452.665-2.488.665-2.27 0-3.633-1.222-3.633-3.595v-3.413h-1.652v-2.282h1.652v-2.66h2.907v2.66h2.688v2.282h-2.688v3.126c0 .935.453 1.312 1.216 1.312.4 0 .945-.144 1.327-.36l.672 2.265zm61.405-23.243c0 12.525-10.153 22.678-22.679 22.678-12.525 0-22.678-10.153-22.678-22.678 0-12.526 10.153-22.68 22.678-22.68 12.526 0 22.68 10.154 22.68 22.68' fill='%23005DA9'/%3E%3Cpath d='M216.966 10.306h-6.299a7.074 7.074 0 00-7.073 7.075v14.15a7.074 7.074 0 017.073-7.075l6.3-.002a7.074 7.074 0 100-14.148' fill='%23FFF'/%3E%3Cpath d='M210.668 24.455c-3.823 0-6.929 3.034-7.062 6.824h-.013v7.324h21.86l-14.785-14.148z' fill='%23EC6608'/%3E%3C/g%3E%3C/svg%3E\");background-position:0;background-repeat:no-repeat;background-size:contain}.easycredit-tx-manager label,.easycredit-tx-manager strong{font-family:Helvetica,Arial,sans-serif}.easycredit-tx-manager label{display:inline-block;margin-bottom:5px}.easycredit-tx-manager p{margin-top:0;margin-bottom:0;font-size:13px;-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}.easycredit-tx-manager p strong{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.easycredit-tx-manager p a,.easycredit-tx-manager span a{color:#0066b3;font-weight:700}.easycredit-tx-manager .transaction-info p{margin:1em 0}.easycredit-tx-manager .progress-bar{margin-bottom:20px;text-align:center}.easycredit-tx-manager button,.easycredit-tx-manager input,.easycredit-tx-manager select{display:inline-block;margin-bottom:10px;padding:1px 15px 0;width:100%;max-width:300px;height:35px;-webkit-box-sizing:border-box;box-sizing:border-box;line-height:32px;background-color:transparent;background-image:none;border:1px solid rgba(0,0,0,.2);border-radius:3px;font-family:Helvetica,Arial,sans-serif!important;font-size:14px;color:#000}.easycredit-tx-manager select{background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='20' height='13' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19.799 2.4l-9.9 9.899L0 2.399 2.121.28 9.9 8.055 17.678.278z' fill-rule='evenodd'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:10px;cursor:pointer}.easycredit-tx-manager select#easycredit-merchant-status{-webkit-appearance:none;-moz-appearance:none;appearance:none}.easycredit-tx-manager select#easycredit-merchant-status::-ms-expand{display:none}.easycredit-tx-manager select:disabled{color:rgba(0,0,0,.4)}.easycredit-tx-manager input::-webkit-inner-spin-button{display:none}.easycredit-tx-manager input::-webkit-calendar-picker-indicator{color:transparent;background:transparent;margin-left:10px;margin-right:-5px;padding:0;width:10px;background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='20' height='13' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19.799 2.4l-9.9 9.899L0 2.399 2.121.28 9.9 8.055 17.678.278z' fill-rule='evenodd'/%3E%3C/svg%3E\");background-position:50%;background-repeat:no-repeat;background-size:10px;cursor:pointer}.easycredit-tx-manager input:disabled{color:rgba(0,0,0,.4)}.easycredit-tx-manager button{margin-bottom:0;background-color:#0066b3;border:0;border-radius:20px;text-align:center;font-family:Helvetica,Arial,sans-serif!important;color:#fff;cursor:pointer;-webkit-transition:all .15s ease-in-out;transition:all .15s ease-in-out}.easycredit-tx-manager button:hover{background-color:#00579a}.easycredit-tx-manager button:disabled{background-color:#f2f2f2}.easycredit-tx-manager .amount input{width:calc(100% - 35px)}.easycredit-tx-manager.loading .spinner,.easycredit-tx-manager .loading .spinner{background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='46' height='46' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M46 23c0 12.703-10.297 23-23 23S0 35.703 0 23 10.297 0 23 0s23 10.297 23 23' fill='%23005DA9'/%3E%3Cpath fill='%23EC6608' d='M19.12 22.58L12 16v21h22z'/%3E%3Cpath d='M25.734 8h-6.469C15.252 8 12 11.283 12 15.333V30c0-4.05 3.252-7.333 7.265-7.333l6.47-.002c4.012 0 7.265-3.283 7.265-7.332C33 11.283 29.747 8 25.734 8' fill='%23FFF'/%3E%3C/g%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:50%;-webkit-animation:circle-linear--animation 1.4s linear infinite both;animation:circle-linear--animation 1.4s linear infinite both;-webkit-animation-delay:.3s;animation-delay:.3s;visibility:visible;min-width:250px;height:200px}.easycredit-tx-manager.loading:before,.easycredit-tx-manager.loading div,.easycredit-tx-manager .loading p,.easycredit-tx-manager.loading span{visibility:hidden}.easycredit-tx-status-widget{display:inline-block;padding:0 15px 0 15px;width:auto;height:35px;vertical-align:middle;border:0 solid #f2f2f2;border-radius:3px;background-color:#fff;font-family:Helvetica,Arial,sans-serif;font-size:14px;line-height:35px;color:#000;white-space:nowrap;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;border-radius:10px;-webkit-box-shadow:0 0 25px rgba(0,0,0,.1);box-shadow:0 0 25px rgba(0,0,0,.1)}.easycredit-tx-status-widget span{display:inline-block}.easycredit-tx-status-widget span.logo{vertical-align:middle;background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='46' height='46' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M46 23c0 12.703-10.297 23-23 23S0 35.703 0 23 10.297 0 23 0s23 10.297 23 23' fill='%23005DA9'/%3E%3Cpath fill='%23EC6608' d='M19.12 22.58L12 16v21h22z'/%3E%3Cpath d='M25.734 8h-6.469C15.252 8 12 11.283 12 15.333V30c0-4.05 3.252-7.333 7.265-7.333l6.47-.002c4.012 0 7.265-3.283 7.265-7.332C33 11.283 29.747 8 25.734 8' fill='%23FFF'/%3E%3C/g%3E%3C/svg%3E\");background-position:50%;background-repeat:no-repeat;background-size:25px;width:40px;height:25px}.easycredit-tx-status-widget.loading span.logo{-webkit-animation:circle-linear--animation 1.4s linear infinite both;animation:circle-linear--animation 1.4s linear infinite both}.easycredit-tx-alert{display:block;margin:10px 0;padding:10px 15px;width:100%;max-width:300px;-webkit-box-sizing:border-box;box-sizing:border-box;background-color:#0066b3;border-radius:3px;font-family:Helvetica,Arial,sans-serif!important;font-size:14px;color:#fff}.easycredit-tx-alert.error{background-color:#e90202}.easycredit-tx-alert.success{background-color:#8dd600}@-webkit-keyframes circle-linear--animation{0%{-webkit-transform:rotate(0);transform:rotate(0)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes circle-linear--animation{0%{-webkit-transform:rotate(0);transform:rotate(0)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}", ""]);
+exports.push([module.i, ".easycredit-tx-manager{background-color:#fff;border-radius:10px;-webkit-box-shadow:0 0 25px rgba(0,0,0,.1);box-shadow:0 0 25px rgba(0,0,0,.1);padding:30px 25px;min-width:200px;width:250px;max-width:100%;font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#000;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-text-size-adjust:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.easycredit-tx-manager:before{content:\"\";margin-bottom:15px;display:block;height:25px;background-color:transparent;background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='238' height='52' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M14.384 9.308l-.258 5.84h-1.07c-4.133 0-6.384 2.116-6.384 6.86v5.73H.768V9.418h5.904v3.503C8 10.73 10.03 9.162 13.056 9.162c.516 0 .886.037 1.328.146m15.526 9.27c0-2.81-2.14-4.744-4.538-4.744-2.583 0-4.464 1.933-4.464 4.744 0 2.846 1.881 4.743 4.464 4.743 2.399 0 4.539-1.897 4.539-4.743zm5.905 9.16H29.91v-1.46c-1.44 1.277-3.358 2.007-5.757 2.007-4.907 0-9.04-3.905-9.04-9.707 0-5.766 4.133-9.707 9.04-9.707 2.399 0 4.317.73 5.757 2.007v-1.46h5.904v18.32zm17.489-.804c-1.44.766-2.952 1.35-5.055 1.35-4.613 0-7.38-2.481-7.38-7.298v-6.934H37.51V9.418h3.358v-5.4h5.904v5.4h5.461v4.634h-5.461v6.35c0 1.898.922 2.664 2.472 2.664.812 0 1.918-.292 2.694-.73l1.365 4.598zm6.302-10.436h7.638c-.554-1.97-2.03-2.883-3.727-2.883-1.66 0-3.358 1.022-3.911 2.883zm13.468 3.576H59.496c.48 2.19 1.992 3.54 3.984 3.54 1.365 0 2.952-.33 3.948-2.117l5.24 1.058c-1.586 3.869-4.944 5.73-9.188 5.73-5.35 0-9.778-3.905-9.778-9.708 0-5.766 4.428-9.706 9.815-9.706 5.24 0 9.446 3.722 9.557 9.706v1.497zm21.282-3.576v11.24H88.49v-10c0-2.153-1.292-3.613-3.174-3.613-2.324 0-3.837 1.57-3.837 5.11v8.503h-5.904V9.418h5.904v1.751c1.402-1.46 3.358-2.298 5.682-2.298 4.317 0 7.195 3.029 7.195 7.627m16.427 11.239l-6.014-6.605h-1.07v6.605h-5.904V1.462h5.904v14.196h.811l5.867-6.24h7.121l-8.117 8.722 8.967 9.597z' fill='%23005DA9'/%3E%3Cpath d='M132.085 18.578c0-2.81-2.14-4.744-4.54-4.744-2.582 0-4.464 1.933-4.464 4.744 0 2.846 1.882 4.743 4.465 4.743 2.398 0 4.539-1.897 4.539-4.743zm5.904 9.16h-5.904v-1.46c-1.44 1.277-3.358 2.007-5.757 2.007-4.907 0-9.04-3.905-9.04-9.707 0-5.766 4.133-9.707 9.04-9.707 2.399 0 4.317.73 5.757 2.007v-1.46h5.904v18.32zm22.201-.001h-5.904v-1.751c-1.402 1.46-3.357 2.298-5.682 2.298-4.317 0-7.196-3.028-7.196-7.626V9.418h5.868v10c0 2.152 1.291 3.612 3.173 3.612 2.325 0 3.837-1.57 3.837-5.11V9.418h5.904v18.32zm15.814-18.319v4.634h-5.092v13.686h-5.867V14.052h-2.656V9.418h2.656V7.995c0-4.307 2.989-7.044 7.454-7.044 1.254 0 2.472.256 3.653.767l-1.255 4.525c-.553-.182-1.144-.292-1.586-.292-1.402 0-2.399.84-2.399 2.299v1.168h5.092zM60.048 43.903c0-1.384-.926-2.336-2.197-2.336-1.18 0-2.235.952-2.235 2.336 0 1.401 1.054 2.335 2.235 2.335 1.271 0 2.197-.934 2.197-2.335m2.852 0c0 2.857-2.034 4.78-4.45 4.78-1.18 0-2.126-.36-2.834-.989v.72H52.71V35.475h2.906v4.635c.708-.628 1.654-.987 2.834-.987 2.416 0 4.45 1.94 4.45 4.78m5.41 7.565h-3.142l1.471-3.36-3.778-8.733h3.124l2.162 5.265 2.306-5.265h3.125zm12.97-8.589h3.76c-.273-.97-1-1.42-1.834-1.42-.818 0-1.653.503-1.926 1.42zm6.63 1.76h-6.685c.237 1.079.981 1.744 1.962 1.744.672 0 1.453-.162 1.943-1.042l2.58.52c-.781 1.905-2.434 2.822-4.523 2.822-2.633 0-4.813-1.923-4.813-4.78 0-2.839 2.18-4.78 4.832-4.78 2.579 0 4.65 1.833 4.704 4.78v.736zm8.116-.736c0-1.384-1.053-2.336-2.234-2.336-1.271 0-2.198.952-2.198 2.336 0 1.401.927 2.335 2.198 2.335 1.18 0 2.234-.934 2.234-2.335zm2.906 4.51h-2.906v-.719c-.708.629-1.653.989-2.834.989-2.415 0-4.45-1.923-4.45-4.78 0-2.839 2.035-4.78 4.45-4.78 1.181 0 2.126.36 2.834.988v-.718h2.906v9.02zm4.182-2.929c.127.773.836 1.06 1.617 1.06.763 0 1.18-.323 1.18-.718 0-.306-.236-.54-.908-.665l-1.853-.36c-1.688-.305-2.651-1.203-2.651-2.623 0-1.85 1.616-3.054 3.923-3.054 2.27 0 3.778 1.024 4.142 2.587l-2.652.521c-.092-.557-.636-1.06-1.526-1.06-.781 0-1.035.377-1.035.7 0 .252.108.504.69.63l2.143.43c1.725.36 2.525 1.385 2.525 2.714 0 1.994-1.744 3.037-4.142 3.037-2.143 0-3.977-.773-4.286-2.624l2.833-.575zm11.203 5.984h-3.142l1.47-3.36-3.777-8.733h3.124l2.161 5.265 2.307-5.265h3.124zm18.38-7.565c-.562 3.018-3.015 4.78-6.14 4.78-3.614 0-6.465-2.75-6.465-6.29 0-3.521 2.851-6.288 6.466-6.288 2.997 0 5.54 1.76 6.121 4.618l-2.943.682c-.381-1.743-1.616-2.587-3.178-2.587-1.926 0-3.469 1.527-3.469 3.575 0 2.049 1.543 3.595 3.469 3.595 1.544 0 2.78-.863 3.197-2.66l2.942.575zm8.297-4.564l-.127 2.875h-.528c-2.034 0-3.142 1.042-3.142 3.378v2.821h-2.906v-9.02h2.906v1.725c.654-1.078 1.654-1.85 3.142-1.85.255 0 .436.017.655.071m3.403 3.54h3.76c-.273-.97-1-1.42-1.835-1.42-.817 0-1.653.503-1.925 1.42zm6.63 1.76h-6.685c.236 1.079.98 1.744 1.962 1.744.672 0 1.453-.162 1.943-1.042l2.58.52c-.781 1.905-2.435 2.822-4.523 2.822-2.635 0-4.814-1.923-4.814-4.78 0-2.839 2.18-4.78 4.832-4.78 2.578 0 4.65 1.833 4.705 4.78v.736zm8.115-.736c0-1.384-1.053-2.336-2.234-2.336-1.272 0-2.198.952-2.198 2.336 0 1.401.926 2.335 2.198 2.335 1.18 0 2.234-.934 2.234-2.335zm2.906 4.51h-2.906v-.719c-.708.629-1.653.989-2.833.989-2.416 0-4.45-1.923-4.45-4.78 0-2.839 2.034-4.78 4.45-4.78 1.18 0 2.125.36 2.833.988v-4.635h2.906v12.937zm2.008 0h2.907v-9.02h-2.907v9.02zm3.143-11.679c0 .916-.708 1.599-1.69 1.599-.98 0-1.67-.683-1.67-1.599 0-.88.69-1.635 1.67-1.635.982 0 1.69.754 1.69 1.635zm8.491 11.284c-.708.377-1.452.665-2.488.665-2.27 0-3.633-1.222-3.633-3.595v-3.413h-1.652v-2.282h1.652v-2.66h2.907v2.66h2.688v2.282h-2.688v3.126c0 .935.453 1.312 1.216 1.312.4 0 .945-.144 1.327-.36l.672 2.265zm61.405-23.243c0 12.525-10.153 22.678-22.679 22.678-12.525 0-22.678-10.153-22.678-22.678 0-12.526 10.153-22.68 22.678-22.68 12.526 0 22.68 10.154 22.68 22.68' fill='%23005DA9'/%3E%3Cpath d='M216.966 10.306h-6.299a7.074 7.074 0 00-7.073 7.075v14.15a7.074 7.074 0 017.073-7.075l6.3-.002a7.074 7.074 0 100-14.148' fill='%23FFF'/%3E%3Cpath d='M210.668 24.455c-3.823 0-6.929 3.034-7.062 6.824h-.013v7.324h21.86l-14.785-14.148z' fill='%23EC6608'/%3E%3C/g%3E%3C/svg%3E\");background-position:0;background-repeat:no-repeat;background-size:contain}.easycredit-tx-manager label,.easycredit-tx-manager strong{font-family:Helvetica,Arial,sans-serif}.easycredit-tx-manager label{display:inline-block;margin-bottom:5px}.easycredit-tx-manager p{margin-top:0;margin-bottom:0;font-size:13px;-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}.easycredit-tx-manager p strong{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.easycredit-tx-manager p a,.easycredit-tx-manager span a{color:#0066b3;font-weight:700}.easycredit-tx-manager .transaction-info p{margin:1em 0}.easycredit-tx-manager .progress-bar{margin-bottom:20px;text-align:center}.easycredit-tx-manager button,.easycredit-tx-manager input,.easycredit-tx-manager select{display:inline-block;margin-bottom:10px;padding:1px 15px 0;width:100%;max-width:300px;height:35px;-webkit-box-sizing:border-box;box-sizing:border-box;line-height:32px;background-color:transparent;background-image:none;border:1px solid rgba(0,0,0,.2);border-radius:3px;font-family:Helvetica,Arial,sans-serif!important;font-size:14px;color:#000}.easycredit-tx-manager select{background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='20' height='13' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19.799 2.4l-9.9 9.899L0 2.399 2.121.28 9.9 8.055 17.678.278z' fill-rule='evenodd'/%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;background-size:10px;cursor:pointer}.easycredit-tx-manager select#easycredit-merchant-refund-reason,.easycredit-tx-manager select#easycredit-merchant-status{-webkit-appearance:none;-moz-appearance:none;appearance:none}.easycredit-tx-manager select#easycredit-merchant-refund-reason::-ms-expand,.easycredit-tx-manager select#easycredit-merchant-status::-ms-expand{display:none}.easycredit-tx-manager select:disabled{color:rgba(0,0,0,.4)}.easycredit-tx-manager input::-webkit-inner-spin-button{display:none}.easycredit-tx-manager input::-webkit-calendar-picker-indicator{color:transparent;background:transparent;margin-left:10px;margin-right:-5px;padding:0;width:10px;background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='20' height='13' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19.799 2.4l-9.9 9.899L0 2.399 2.121.28 9.9 8.055 17.678.278z' fill-rule='evenodd'/%3E%3C/svg%3E\");background-position:50%;background-repeat:no-repeat;background-size:10px;cursor:pointer}.easycredit-tx-manager input:disabled{color:rgba(0,0,0,.4)}.easycredit-tx-manager button{margin-bottom:0;background-color:#0066b3;border:0;border-radius:20px;text-align:center;font-family:Helvetica,Arial,sans-serif!important;color:#fff;cursor:pointer;-webkit-transition:all .15s ease-in-out;transition:all .15s ease-in-out}.easycredit-tx-manager button:hover{background-color:#00579a}.easycredit-tx-manager button:disabled{background-color:#f2f2f2}.easycredit-tx-manager .amount input{width:120px}.easycredit-tx-manager.loading .spinner,.easycredit-tx-manager .loading .spinner{background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='46' height='46' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M46 23c0 12.703-10.297 23-23 23S0 35.703 0 23 10.297 0 23 0s23 10.297 23 23' fill='%23005DA9'/%3E%3Cpath fill='%23EC6608' d='M19.12 22.58L12 16v21h22z'/%3E%3Cpath d='M25.734 8h-6.469C15.252 8 12 11.283 12 15.333V30c0-4.05 3.252-7.333 7.265-7.333l6.47-.002c4.012 0 7.265-3.283 7.265-7.332C33 11.283 29.747 8 25.734 8' fill='%23FFF'/%3E%3C/g%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:50%;-webkit-animation:circle-linear--animation 1.4s linear infinite both;animation:circle-linear--animation 1.4s linear infinite both;-webkit-animation-delay:.3s;animation-delay:.3s;visibility:visible;min-width:250px;height:200px}.easycredit-tx-manager.loading:before,.easycredit-tx-manager.loading div,.easycredit-tx-manager .loading p,.easycredit-tx-manager.loading span{visibility:hidden}.easycredit-tx-status-widget{display:inline-block;padding:0 15px 0 15px;width:auto;height:35px;vertical-align:middle;border:0 solid #f2f2f2;border-radius:3px;background-color:#fff;font-family:Helvetica,Arial,sans-serif;font-size:14px;line-height:35px;color:#000;white-space:nowrap;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;border-radius:10px;-webkit-box-shadow:0 0 25px rgba(0,0,0,.1);box-shadow:0 0 25px rgba(0,0,0,.1)}.easycredit-tx-status-widget span{display:inline-block}.easycredit-tx-status-widget span.logo{vertical-align:middle;background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg width='46' height='46' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M46 23c0 12.703-10.297 23-23 23S0 35.703 0 23 10.297 0 23 0s23 10.297 23 23' fill='%23005DA9'/%3E%3Cpath fill='%23EC6608' d='M19.12 22.58L12 16v21h22z'/%3E%3Cpath d='M25.734 8h-6.469C15.252 8 12 11.283 12 15.333V30c0-4.05 3.252-7.333 7.265-7.333l6.47-.002c4.012 0 7.265-3.283 7.265-7.332C33 11.283 29.747 8 25.734 8' fill='%23FFF'/%3E%3C/g%3E%3C/svg%3E\");background-position:50%;background-repeat:no-repeat;background-size:25px;width:40px;height:25px}.easycredit-tx-status-widget.loading span.logo{-webkit-animation:circle-linear--animation 1.4s linear infinite both;animation:circle-linear--animation 1.4s linear infinite both}.easycredit-tx-alert{display:block;margin:10px 0;padding:10px 15px;width:100%;max-width:300px;-webkit-box-sizing:border-box;box-sizing:border-box;background-color:#0066b3;border-radius:3px;font-family:Helvetica,Arial,sans-serif!important;font-size:14px;color:#fff}.easycredit-tx-alert.error{background-color:#e90202}.easycredit-tx-alert.success{background-color:#8dd600}@-webkit-keyframes circle-linear--animation{0%{-webkit-transform:rotate(0);transform:rotate(0)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes circle-linear--animation{0%{-webkit-transform:rotate(0);transform:rotate(0)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}", ""]);
 // Exports
 module.exports = exports;
 

@@ -1,10 +1,10 @@
 <easycredit-merchant-manager 
     v-if="isEasyCreditPayment && componentType == 'manager'"
-    :id="transactionId" 
-    date="transactionDate" 
+    :tx-id="transactionId"
+    :date="transactionDate"
 />
 <easycredit-merchant-status-widget 
     v-else-if="isEasyCreditPayment && componentType == 'status'"
-    :id="transactionId" 
-    :date="transactionDate" 
+    :tx-id="transactionId"
+    :date="transactionDate"
 />

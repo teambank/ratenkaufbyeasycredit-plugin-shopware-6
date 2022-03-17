@@ -37,9 +37,9 @@ Component.register('easycredit-tx-widget', {
         initRequestConfig() {
             window.ratenkaufbyeasycreditOrderManagementConfig = {
                 'endpoints': {
-                    'get': 'api/v2/easycredit/transaction',
-                    'list': 'api/v2/easycredit/transactions',
-                    'post': 'api/v2/easycredit/transaction'
+                    'get': 'api/v2/easycredit/transaction/{transactionId}',
+                    'capture': 'api/v2/easycredit/transaction/{transactionId}/capture',
+                    'refund': 'api/v2/easycredit/transaction/{transactionId}/refund'
                 },
                 'request_config': {
                     'headers': {

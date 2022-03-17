@@ -7,7 +7,7 @@
 
 namespace Netzkollektiv\EasyCredit\Cart;
 
-use Netzkollektiv\EasyCredit\Api\CheckoutFactory;
+use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Netzkollektiv\EasyCredit\Api\QuoteInvalidException;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
@@ -16,10 +16,11 @@ use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\CartValidatorInterface;
 use Shopware\Core\Checkout\Cart\Error\ErrorCollection;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Monolog\Logger;
 
 class Validator implements CartValidatorInterface
 {
-    protected $checkoutFactory;
+    protected $integrationFactory;
 
     protected $quoteHelper;
 
@@ -28,15 +29,17 @@ class Validator implements CartValidatorInterface
     protected $storage;
 
     public function __construct(
-        CheckoutFactory $checkoutFactory,
+        IntegrationFactory $integrationFactory,
         QuoteHelper $quoteHelper,
         PaymentHelper $paymentHelper,
-        Storage $storage
+        Storage $storage,
+        Logger $logger
     ) {
-        $this->checkoutFactory = $checkoutFactory;
+        $this->integrationFactory = $integrationFactory;
         $this->quoteHelper = $quoteHelper;
         $this->paymentHelper = $paymentHelper;
         $this->storage = $storage;
+        $this->logger = $logger;
     }
 
     public function validate(
@@ -46,7 +49,7 @@ class Validator implements CartValidatorInterface
     ): void {
 
         try {
-            $checkout = $this->checkoutFactory->create(
+            $checkout = $this->integrationFactory->createCheckout(
                 $salesChannelContext
             );
         } catch (\Throwable $e) {
@@ -69,11 +72,23 @@ class Validator implements CartValidatorInterface
             return;
         }
 
-        if (!$this->storage->get('interest_amount')
-            || !$checkout->isAmountValid($quote)
-            || !$checkout->verifyAddressNotChanged($quote)
-        ) {
+        if (!$this->storage->get('interest_amount')) {
+            $this->logger->debug('InterestError: interest amount not set'); 
             $errors->add(new InterestError());
+
+            return;
+        }
+        if (!$checkout->isAmountValid($quote)) {
+            $this->logger->debug('InterestError: amount not valid');
+            $errors->add(new InterestError());
+
+            return;
+        }
+        if (!$checkout->verifyAddress($quote)) {
+            $this->logger->debug('InterestError: address changed');
+            $errors->add(new InterestError());
+
+            return;
         }
     }
 }

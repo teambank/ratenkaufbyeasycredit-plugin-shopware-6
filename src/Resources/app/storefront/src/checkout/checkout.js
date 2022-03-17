@@ -22,9 +22,11 @@ export default class EasyCreditRatenkaufCheckout extends Plugin {
         });
 
         // >= 6.4
-        $('easycredit-components-checkout').submit(function(){
+        $('easycredit-checkout').submit(function(e){
             $('#changePaymentForm')
-                .append('<input type="hidden" name="easycredit-submit" value="1" />')
+                .append('<input type="hidden" name="easycredit[submit]" value="1" />')
+                .append('<input type="hidden" name="easycredit[number-of-installments]" value="'+ e.detail.numberOfInstallments +'" />')
+                .append('<input type="hidden" name="easycredit[agreement-checked]" value="'+ e.detail.privacyCheckboxChecked +'" />')
                 .submit();
             return false;
         });

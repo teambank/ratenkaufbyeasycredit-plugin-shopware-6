@@ -7,106 +7,102 @@
 
 namespace Netzkollektiv\EasyCredit\Api;
 
-use Monolog\Logger as Monolog;
 use Netzkollektiv\EasyCredit\Setting\SettingStruct;
 
-class Logger implements \Netzkollektiv\EasyCreditApi\LoggerInterface
+class Logger implements \Psr\Log\LoggerInterface
 {
     /**
-     * @var Monolog
+     * System is unusable.
+     *
+     * @param string $message
+     * @param array $context
+     * @return void
      */
-    protected $_logger;
+    public function emergency($message, array $context = array()) {}
 
     /**
-     * @var bool
+     * Action must be taken immediately.
+     *
+     * Example: Entire website down, database unavailable, etc. This should
+     * trigger the SMS alerts and wake you up.
+     *
+     * @param string $message
+     * @param array $context
+     * @return void
      */
-    protected $debug = false;
-
-    public function __construct(
-        Monolog $logger,
-        SettingStruct $settings
-    ) {
-        $this->_logger = $logger;
-
-        if ($settings->getDebug()) {
-            $this->debug = true;
-            $this->allowLineBreaks(true);
-        }
-    }
-
-    public function log($msg): self
-    {
-        $this->logInfo($msg);
-
-        return $this;
-    }
-
-    public function logDebug($msg): self
-    {
-        if (!$this->debug) {
-            return $this;
-        }
-
-        $this->_logger->info(
-            $this->_format($msg)
-        );
-
-        return $this;
-    }
-
-    public function logInfo($msg): self
-    {
-        if (!$this->debug) {
-            return $this;
-        }
-
-        $this->_logger->info(
-            $this->_format($msg)
-        );
-
-        return $this;
-    }
-
-    public function logWarn($msg): self
-    {
-        $this->_logger->warning(
-            $this->_format($msg)
-        );
-
-        return $this;
-    }
-
-    public function logError($msg): self
-    {
-        $this->_logger->error(
-            $this->_format($msg)
-        );
-
-        return $this;
-    }
-
-    public function _format($msg): string
-    {
-        if (is_array($msg) || is_object($msg)) {
-            $msg = print_r($msg, true);
-        }
-
-        return $msg;
-    }
+    public function alert($message, array $context = array()) {}
 
     /**
-     * @param true $bool
+     * Critical conditions.
+     *
+     * Example: Application component unavailable, unexpected exception.
+     *
+     * @param string $message
+     * @param array $context
+     * @return void
      */
-    protected function allowLineBreaks(bool $bool): void
-    {
-        $handlers = $this->_logger->getHandlers();
-        if (
-            is_array($handlers)
-            && isset($handlers[0])
-            && $handlers[0] instanceof \Monolog\Handler\StreamHandler
-            && $handlers[0]->getFormatter() instanceof \Monolog\Formatter\LineFormatter
-        ) {
-            $handlers[0]->getFormatter()->allowInlineLineBreaks($bool);
-        }
+    public function critical($message, array $context = array()) {}
+
+    /**
+     * Runtime errors that do not require immediate action but should typically
+     * be logged and monitored.
+     *
+     * @param string $message
+     * @param array $context
+     * @return void
+     */
+    public function error($message, array $context = array()) {}
+
+    /**
+     * Exceptional occurrences that are not errors.
+     *
+     * Example: Use of deprecated APIs, poor use of an API, undesirable things
+     * that are not necessarily wrong.
+     *
+     * @param string $message
+     * @param array $context
+     * @return void
+     */
+    public function warning($message, array $context = array()) {}
+
+    /**
+     * Normal but significant events.
+     *
+     * @param string $message
+     * @param array $context
+     * @return void
+     */
+    public function notice($message, array $context = array()) {}
+
+    /**
+     * Interesting events.
+     *
+     * Example: User logs in, SQL logs.
+     *
+     * @param string $message
+     * @param array $context
+     * @return void
+     */
+    public function info($message, array $context = array()) {}
+
+    /**
+     * Detailed debug information.
+     *
+     * @param string $message
+     * @param array $context
+     * @return void
+     */
+    public function debug($message, array $context = array()) {}
+
+    /**
+     * Logs with an arbitrary level.
+     *
+     * @param mixed $level
+     * @param string $message
+     * @param array $context
+     * @return void
+     */
+    public function log($level, $message, array $context = array()) {
+
     }
 }

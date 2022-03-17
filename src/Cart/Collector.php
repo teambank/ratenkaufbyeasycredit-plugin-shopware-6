@@ -50,7 +50,6 @@ class Collector implements CartDataCollectorInterface
         if (!$price = $this->getInterestPrice()) {
             return;
         }
-
         $data->set(Processor::DATA_KEY, new LineItemCollection([
             $this->buildInterestLineItem($price),
         ]));
@@ -61,6 +60,7 @@ class Collector implements CartDataCollectorInterface
         if (!$this->storage->get('interest_amount')) {
             return null;
         }
+        $this->storage->set('debug','adding interest line item: '.(float)$this->storage->get('interest_amount'));
 
         return new CalculatedPrice(
             (float) $this->storage->get('interest_amount'),

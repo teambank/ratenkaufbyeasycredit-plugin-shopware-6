@@ -36,8 +36,9 @@ class SettingsController extends AbstractController
     {
         $webshopId = $request->query->get('webshopId');
         $apiPassword = $request->query->get('apiPassword');
+        $apiSignature = $request->query->get('apiSignature');
 
-        $credentialsValid = $this->apiCredentialTestService->testApiCredentials($webshopId, $apiPassword);
+        $credentialsValid = $this->apiCredentialTestService->testApiCredentials($webshopId, $apiPassword, $apiSignature);
 
         return new JsonResponse(['credentialsValid' => $credentialsValid]);
     }

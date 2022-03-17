@@ -14,7 +14,7 @@
             "titleSaveError": "ratenkauf by easyCredit settings error",
             "messageSaveSuccess": "The ratenkauf by easyCredit settings have been saved successfully.",
             "messageTestSuccess": "The API credentials have been successfully validated.",
-            "messageTestError": "The API credentials could not been validated."
+            "messageTestError": "The API credentials could not be validated."
         }
     }
 }

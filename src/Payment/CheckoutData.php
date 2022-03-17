@@ -24,11 +24,6 @@ class CheckoutData extends Struct
     /**
      * @var string
      */
-    protected $agreement;
-
-    /**
-     * @var string
-     */
     protected $paymentPlan;
 
     /**
@@ -59,11 +54,6 @@ class CheckoutData extends Struct
     public function getIsSelected(): bool
     {
         return $this->isSelected;
-    }
-
-    public function getAgreement(): string
-    {
-        return $this->agreement;
     }
 
     public function getPaymentPlan(): ?string
