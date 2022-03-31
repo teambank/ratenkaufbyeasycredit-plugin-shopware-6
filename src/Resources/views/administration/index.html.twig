@@ -9,8 +9,7 @@
 {% block administration_favicons %}
     {{ parent() }}
 
-    <!-- script type="text/javascript" src="{{ asset('bundles/easycreditratenkauf/administration/js/easy-credit-ratenkauf.js') }}"></script -->
-    <script nonce="{{ cspNonce }}" type="module" src="{{ asset('bundles/easycreditratenkauf/static/easycredit-components/easycredit-components/easycredit-components.esm.js') }}"></script>
-    <script nonce="{{ cspNonce }}" nomodule src="{{ asset('bundles/easycreditratenkauf/static/easycredit-components/easycredit-components/easycredit-components.js') }}"></script>
+    <script nonce="{{ cspNonce }}" type="module" src="https://ratenkaufbyeasycredit-components.netzkollektiv.com/easycredit-components/easycredit-components.esm.js"></script>
+    <script nonce="{{ cspNonce }}" nomodule src="https://ratenkaufbyeasycredit-components.netzkollektiv.com/easycredit-components/easycredit-components.esm.js"></script>
 
 {% endblock %}

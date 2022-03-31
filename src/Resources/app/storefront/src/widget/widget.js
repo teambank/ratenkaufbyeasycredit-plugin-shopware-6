@@ -1,14 +1,7 @@
 import Plugin from 'src/plugin-system/plugin.class';
 
-// TODO: webpack integration
-// import { applyPolyfills, defineCustomElements } from 'easycredit-components/loader';
-
 export default class EasyCreditRatenkaufWidget extends Plugin {
-    init() {    
-        /*applyPolyfills().then(() => {
-            defineCustomElements();
-        });*/
-              
+    init() {
         this.initWidget();
     }
 

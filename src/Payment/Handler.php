@@ -8,11 +8,7 @@
 namespace Netzkollektiv\EasyCredit\Payment;
 
 use Monolog\Logger;
-use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
-use Netzkollektiv\EasyCredit\Api\Storage;
-use Netzkollektiv\EasyCredit\Helper\OrderDataProvider;
-use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
-use Netzkollektiv\EasyCredit\Util\Lifecycle\ActivateDeactivate;
+
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Exception\SyncPaymentProcessException;
@@ -20,6 +16,12 @@ use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+
+use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
+use Netzkollektiv\EasyCredit\Api\Storage;
+use Netzkollektiv\EasyCredit\Helper\OrderDataProvider;
+use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
+use Netzkollektiv\EasyCredit\Util\Lifecycle\ActivateDeactivate;
 use Netzkollektiv\EasyCredit\EasyCreditRatenkauf;
 
 class Handler implements SynchronousPaymentHandlerInterface

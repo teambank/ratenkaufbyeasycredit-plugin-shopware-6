@@ -22,6 +22,8 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Psr\Log\LoggerInterface;
+use Teambank\RatenkaufByEasyCreditApiV3\Integration\ValidationException;
+use Teambank\RatenkaufByEasyCreditApiV3\ApiException;
 
 class Redirector implements EventSubscriberInterface
 {
@@ -111,7 +113,7 @@ class Redirector implements EventSubscriberInterface
         }
 
         if (\version_compare($this->container->getParameter('kernel.shopware_version'), '6.4.0', '>=')
-            && !$event->getRequestDataBag()->get('easycredit-submit')
+            && !$event->getRequestDataBag()->get('easycredit')
         ) {
             return;
         }
@@ -132,11 +134,25 @@ class Redirector implements EventSubscriberInterface
 
         $checkout = $this->integrationFactory->createCheckout($salesChannelContext);
         $cart = $this->cartService->getCart($salesChannelContext->getToken(), $salesChannelContext);
-        $quote = $this->quoteHelper->getQuote($salesChannelContext);
-
+        $quote = $this->quoteHelper->getQuote($cart, $salesChannelContext);
         try {
-            $checkout->isAvailable($quote);
-            $checkout->start($quote);
+            try {
+                $checkout->isAvailable($quote);
+                $checkout->start($quote);
+            } catch (ValidationException $e) {
+                $this->storage->set('error',$e->getMessage());
+            } catch (ApiException $e) {
+                $response = json_decode($e->getResponseBody());
+                if ($response === null || !isset($response->violations)) {
+                    throw new \Exception('violations could not be parsed');
+                }
+                $messages = [];
+                foreach ($response->violations as $violation) {
+                    $messages[] = $violation->message;
+                }
+                $this->logger->warning($e);
+                $this->storage->set('error', implode(' ',$messages));
+            }
         } catch (\Throwable $e) {
             $this->logger->error($e);
             $this->storage->set('error', 'Es ist ein Fehler aufgetreten. Leider steht Ihnen ratenkauf by easyCredit derzeit nicht zur Verfügung.');

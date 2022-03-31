@@ -13,6 +13,7 @@ use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Netzkollektiv\EasyCredit\Setting\Exception\SettingsInvalidException;
 use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
+use Netzkollektiv\EasyCredit\Cart\InterestError;
 use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
@@ -82,7 +83,7 @@ class Checkout implements EventSubscriberInterface
         }
 
         foreach ($cart->getErrors()->getElements() as $cartError) {
-            if ($cartError instanceof \Netzkollektiv\EasyCredit\Cart\InterestError) {
+            if ($cartError instanceof InterestError) {
                 $this->storage->clear();
             }
         }
@@ -100,7 +101,7 @@ class Checkout implements EventSubscriberInterface
         }
 
         try {
-            $agreement = $this->getWebshopDetails($checkout)->getPrivacyApprovalForm();
+            $this->getWebshopDetails($checkout);
         } catch (\Throwable $e) {
             $this->logger->error($e);
             $this->removePaymentMethodFromConfirmPage($event);
@@ -123,10 +124,9 @@ class Checkout implements EventSubscriberInterface
             'grandTotal' => isset($quote) ? $quote->getTransactionInitRequest()->getOrderDetails()->getOrderValue() : null,
             'paymentMethodId' => $paymentMethodId,
             'isSelected' => $isSelected,
-            'agreement' => $agreement,
             'paymentPlan' => $this->buildPaymentPlan($this->storage->get('summary')),
             'error' => $error,
-            'webshopId' => $settings->getWebshopId(),
+            'webshopId' => $settings->getWebshopId()
         ]));
     }
 

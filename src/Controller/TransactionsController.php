@@ -17,6 +17,7 @@ use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Teambank\RatenkaufByEasyCreditApiV3\ApiException;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\CaptureRequest;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\RefundRequest;
+
 /**
  * @RouteScope(scopes={"api"})
  */
@@ -50,7 +51,7 @@ class TransactionsController extends AbstractController
 
             return new JsonResponse($transaction);
         } catch (ApiException $e) {
-            return $this->getJsonFromException($e);
+            return $this->getJsonResponseFromException($e);
         } catch (\Throwable $e) {
             return new JsonResponse([
                 'error' => $e->getMessage()
@@ -70,7 +71,7 @@ class TransactionsController extends AbstractController
                 ->createTransactionApi()
                 ->apiMerchantV3TransactionTransactionIdCapturePost(
                     $transactionId,
-                    new CaptureRequest(['trackingNumber' => $trackingNumber])
+                    new CaptureRequest(['trackingNumber' => $params['trackingNumber']])
                 );
 
             return new JsonResponse($response);
@@ -92,7 +93,7 @@ class TransactionsController extends AbstractController
         try {
             $params = $request->request->all();
 
-            $client = $this->integrationFactory
+            $response = $this->integrationFactory
                 ->createTransactionApi()
                 ->apiMerchantV3TransactionTransactionIdRefundPost(
                     $transactionId,

@@ -10,14 +10,13 @@
         }
     ],
     "require": {
-        "netzkollektiv/ratenkaufbyeasycredit-payment-api-v3-php": "dev-legacy-test"
+        "netzkollektiv/ratenkaufbyeasycredit-api-v3-php": "^1.0"
     },
     "require-dev": {
         "symplify/easy-coding-standard": "^10.1"
     },
     "replace": {
-        "guzzlehttp/guzzle": "*",
-        "psr/log": "*"
+        "psr/http-client": "*"
     },
     "extra": {
         "shopware-plugin-class": "Netzkollektiv\\EasyCredit\\EasyCreditRatenkauf",
@@ -54,11 +53,5 @@
         "netzkollektiv/ratenkaufbyeasycredit-api-v3-php": "auto",
         "*": "dist"
       }
-    },
-    "repositories": [
-      {
-        "type": "vcs",
-        "url": "https://github.com/netzkollektiv/ratenkaufbyeasycredit-api-v3-php.git"
-      }
-    ]
+    }
 }

@@ -8,11 +8,11 @@
 namespace Netzkollektiv\EasyCredit\Subscriber;
 
 use Doctrine\DBAL\Connection;
-use Netzkollektiv\EasyCredit\Api\Storage;
-use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Shopware\Core\Checkout\Cart\Event\CheckoutOrderPlacedEvent;
 use Shopware\Core\Framework\Uuid\Uuid;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Netzkollektiv\EasyCredit\Api\Storage;
+use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 
 class InterestRemover implements EventSubscriberInterface
 {

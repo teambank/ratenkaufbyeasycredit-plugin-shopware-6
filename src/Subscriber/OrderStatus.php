@@ -11,6 +11,9 @@ use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Order\Event\OrderStateMachineStateChangeEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use  Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
+use Teambank\RatenkaufByEasyCreditApiV3\Model\CaptureRequest;
+use Teambank\RatenkaufByEasyCreditApiV3\Model\RefundRequest;
 
 class OrderStatus implements EventSubscriberInterface
 {
@@ -52,8 +55,12 @@ class OrderStatus implements EventSubscriberInterface
         }
 
         try {
-            $client = $this->merchantFactory->create();
-            $client->confirmShipment($txId);
+            $this->integrationFactory
+                ->createTransactionApi()
+                ->apiMerchantV3TransactionTransactionIdCapturePost(
+                    $txId,
+                    new CaptureRequest(['trackingNumber' => ''])
+                );
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
         }
@@ -74,12 +81,16 @@ class OrderStatus implements EventSubscriberInterface
         }
 
         try {
-            $client = $this->merchantFactory->create();
-            $client->cancelOrder(
-                $txId,
-                'WIDERRUF_VOLLSTAENDIG',
-                new \DateTime()
-            );
+            $transaction = $this->integrationFactory
+                ->createTransactionApi()
+                ->apiMerchantV3TransactionTransactionIdGet($txId);
+
+            $this->integrationFactory
+                ->createTransactionApi()
+                ->apiMerchantV3TransactionTransactionIdRefundPost(
+                    $txId,
+                    new RefundRequest(['value' => $transaction->getOrderDetails()->getCurrentOrderValue()])
+                );
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
         }

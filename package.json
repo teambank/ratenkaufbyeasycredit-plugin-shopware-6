@@ -1,13 +1,8 @@
 {
   "scripts": {
-    "build:copy-easycredit-components": "(cd node_modules/@ratenkaufbyeasycredit/easycredit-components; yarn build); cp -r ./node_modules/@ratenkaufbyeasycredit/easycredit-components/dist/* src/Resources/public/static/easycredit-components/",
-    "build:copy-easycredit-merchant": "cp -r ./node_modules/@ratenkaufbyeasycredit/easycredit-merchant-interface/dist/* src/Resources/app/administration/src/module/easycredit-merchant/",
     "release": "docker run --rm -v $(pwd):/storage --entrypoint=\"\" friendsofshopware/plugin-uploader sh -c \"/app/bin/pluginupload ext:zip /storage/; mv /*.zip /storage/;\"",
     "pre-release": "docker run --rm -v $(pwd):/storage --entrypoint=\"\" friendsofshopware/plugin-uploader sh -c \"/app/bin/pluginupload ext:zip /storage/ api-v3; mv /*.zip /storage/;\"",
     "validate": "docker run --rm -v $(pwd):/storage --entrypoint=\"\" friendsofshopware/plugin-uploader sh -c \"/app/bin/pluginupload ext:validate /storage/ext.zip\"",
     "fix-cs": "php vendor/bin/ecs check --fix --config=easy-coding-standard.php -vv . && php vendor/bin/ecs check --fix --config=ecs.php -vv ."
-  },
-  "dependencies": {
-    "@ratenkaufbyeasycredit/easycredit-components": "git+ssh://git@github.com:netzkollektiv/ratenkaufbyeasycredit-components.git#stencil"
   }
 }

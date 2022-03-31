@@ -66,7 +66,6 @@
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Helper\Quote">
-            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\QuoteBuilder"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\OrderBuilder"/>
         </service>

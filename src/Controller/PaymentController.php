@@ -7,27 +7,26 @@
 
 namespace Netzkollektiv\EasyCredit\Controller;
 
-use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
-use Netzkollektiv\EasyCredit\Webhook\OrderTransactionNotFoundException;
-
-use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
-use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
-use Shopware\Core\Framework\Routing\Annotation\RouteScope;
-use Shopware\Core\System\SalesChannel\SalesChannelContext;
-use Shopware\Core\Framework\Context;
-use Shopware\Storefront\Controller\StorefrontController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
+use Shopware\Core\Framework\Routing\Annotation\RouteScope;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Shopware\Core\Framework\Context;
+use Shopware\Storefront\Controller\StorefrontController;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
+use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Netzkollektiv\EasyCredit\EasyCreditRatenkauf;
 use Netzkollektiv\EasyCredit\Payment\StateHandler;
+use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
+use Netzkollektiv\EasyCredit\Webhook\OrderTransactionNotFoundException;
 
 /**
  * @RouteScope(scopes={"storefront"})

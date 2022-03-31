@@ -7,16 +7,16 @@
 
 namespace Netzkollektiv\EasyCredit\Util\Lifecycle;
 
-use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
-use Netzkollektiv\EasyCredit\Payment\Handler;
-use Netzkollektiv\EasyCredit\Setting\Service\SettingsService;
-use Netzkollektiv\EasyCredit\Setting\SettingStruct;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\ContainsFilter;
 use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
+use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
+use Netzkollektiv\EasyCredit\Payment\Handler;
+use Netzkollektiv\EasyCredit\Setting\Service\SettingsService;
+use Netzkollektiv\EasyCredit\Setting\SettingStruct;
 
 class InstallUninstall
 {
