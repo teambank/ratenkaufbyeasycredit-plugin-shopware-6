@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ratenkauf by easyCredit Checkout</title>
+  <script src="./easycredit-components.js"></script>
+</head>
+  <body>
+    <noscript>
+      <strong>We're sorry but ratenkauf by easyCredit Checkout doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+
+    <div>
+      <h2>Fehler</h2>
+
+      <easycredit-components-checkout-label></easycredit-components-checkout-label>
+      <easycredit-components-checkout 
+        webshop-id="2.de.7387.1" 
+        amount="420.31" 
+        is-active="true" 
+        alert="Es ist ein Fehler aufgetreten."
+        payment-plan='{"anzahlRaten":12,"terminErsteRate":1625090400000,"terminLetzteRate":1654034400000,"betragRate":"20.00","betragLetzteRate":"14.41"}'
+      ></easycredit-components-checkout>
+    </div>
+
+    <div>
+      <h2>berechnet</h2>
+
+      <easycredit-components-checkout-label></easycredit-components-checkout-label>
+      <easycredit-components-checkout 
+        webshop-id="2.de.7387.1" 
+        amount="420.31" 
+        is-active="true" 
+        payment-plan='{"anzahlRaten":12,"terminErsteRate":1625090400000,"terminLetzteRate":1654034400000,"betragRate":"20.00","betragLetzteRate":"14.41"}'
+      ></easycredit-components-checkout>
+    </div>
+
+
+    <div>
+      <h2>unberechnet, Prefix Abfrage</h2>
+
+      <easycredit-components-checkout-label></easycredit-components-checkout-label>
+      <easycredit-components-checkout 
+        webshop-id="2.de.7387.1" 
+        amount="420.31" 
+        is-active="true" 
+        prefix="HERR" 
+        ask-for-prefix="true"
+      />
+
+    </div>
+
+    <div>
+      <h2>unberechnet, keine Prefix Abfrage</h2>
+
+      <easycredit-components-checkout-label></easycredit-components-checkout-label>
+      <easycredit-components-checkout 
+        webshop-id="2.de.7387.1" 
+        amount="420.31" 
+        is-active="true" 
+        prefix="HERR" 
+      />
+
+    </div>
+
+    <style>
+      h2 { font-family: sans-serif; display:block; text-decoration: underline; }
+    </style>
+  </body>
+</html>

@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@ratenkaufbyeasycredit/easycredit-components@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@ratenkaufbyeasycredit/easycredit-components/-/easycredit-components-0.1.2.tgz#19f1ea8ac85db7dc821a84c22e4f9b39cbce7675"
-  integrity sha512-dj0UqQBBA4pQxIZTfqHAGpzGJmcahaVOJUbOksoFfvK1/UK1DSU4DpoITVcqpti8WT/uZ4rGX/qDcA+Za28AEA==
+"@ratenkaufbyeasycredit/easycredit-components@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@ratenkaufbyeasycredit/easycredit-components/-/easycredit-components-0.1.3.tgz#1f2905ea7a11376eaf17b919e2bdf92bcf6ca607"
+  integrity sha512-Ia4AV9/jRBOTHtar59qH/kXjc0oW7BRSYAgt1uvWVwKHUJdHhz4URgVjLkXJLNgBxzlxbYRLlHVxoffxfz8zfA==
   dependencies:
     fetch-jsonp "^1.1.3"
     vue "^2.6.10"
