@@ -1,3 +1,7 @@
+# 1.1.11
+
+* das Checkout-Widget berücksichtigt nun die Gesamtbreite des Parent-Elements
+
 # 1.1.10
 
 * Änderungen zur Kompatibilität mit v6.4.9.0
