@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "netzkollektiv/ratenkaufbyeasycredit-api-v3-php": "^1.0"
+        "netzkollektiv/ratenkaufbyeasycredit-api-v3-php": "^1.0",
+        "shopware/core": "^6.0"
     },
     "require-dev": {
         "symplify/easy-coding-standard": "^10.1"
