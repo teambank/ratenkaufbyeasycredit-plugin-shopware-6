@@ -22,6 +22,7 @@ use Shopware\Core\Checkout\Cart\Tax\Struct\CalculatedTaxCollection;
 use Shopware\Core\Checkout\Cart\Tax\Struct\TaxRule;
 use Shopware\Core\Checkout\Cart\Tax\Struct\TaxRuleCollection;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Shopware\Core\Checkout\Cart\Delivery\Struct\DeliveryInformation;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Collector implements CartDataCollectorInterface
@@ -80,7 +81,13 @@ class Collector implements CartDataCollectorInterface
         $interestItem->setGood(false);
         $interestItem->setRemovable(false);
         $interestItem->setPayloadValue('productNumber', '');
-
+        $interestItem->setDeliveryInformation(
+            new DeliveryInformation(
+                1, // $stock
+                0, // $weight
+                true // $freeDelivery
+            )
+        );
         $interestItem->setPrice($price);
         $interestItem->setReferencedId($id);
 
