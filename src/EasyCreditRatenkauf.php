@@ -44,6 +44,7 @@ class EasyCreditRatenkauf extends Plugin
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/DependencyInjection/'));
         $loader->load('easycredit_payment.xml');
         $loader->load('setting.xml');
+        $loader->load('rule.xml');
     }
 
     public function install(InstallContext $installContext): void
