@@ -59,6 +59,8 @@ class EasyCreditRatenkauf extends Plugin
         $ruleRepository = $this->container->get('rule.repository');
         /** @var EntityRepositoryInterface $countryRepository */
         $countryRepository = $this->container->get('country.repository');
+        /** @var EntityRepositoryInterface $currencyRepository */
+        $currencyRepository = $this->container->get('currency.repository');
 
         (new InstallUninstall(
             $systemConfigRepository,
@@ -66,6 +68,7 @@ class EasyCreditRatenkauf extends Plugin
             $salesChannelRepository,
             $ruleRepository,
             $countryRepository,
+            $currencyRepository,
             $this->container->get(PluginIdProvider::class),
             $this->container->get(SystemConfigService::class),
             static::class
@@ -76,31 +79,33 @@ class EasyCreditRatenkauf extends Plugin
 
     public function uninstall(UninstallContext $uninstallContext): void
     {
-        $context = $uninstallContext->getContext();
-        /** @var EntityRepositoryInterface $paymentRepository */
-        $paymentRepository = $this->container->get('payment_method.repository');
-        /** @var EntityRepositoryInterface $salesChannelRepository */
-        $salesChannelRepository = $this->container->get('sales_channel.repository');
-
         if ($uninstallContext->keepUserData()) {
             parent::uninstall($uninstallContext);
 
             return;
         }
 
+        $context = $uninstallContext->getContext();
         /** @var EntityRepositoryInterface $systemConfigRepository */
         $systemConfigRepository = $this->container->get('system_config.repository');
-        /** @var EntityRepositoryInterface $countryRepository */
-        $countryRepository = $this->container->get('country.repository');
+        /** @var EntityRepositoryInterface $paymentRepository */
+        $paymentRepository = $this->container->get('payment_method.repository');
+        /** @var EntityRepositoryInterface $salesChannelRepository */
+        $salesChannelRepository = $this->container->get('sales_channel.repository');
         /** @var EntityRepositoryInterface $ruleRepository */
         $ruleRepository = $this->container->get('rule.repository');
+        /** @var EntityRepositoryInterface $countryRepository */
+        $countryRepository = $this->container->get('country.repository');
+        /** @var EntityRepositoryInterface $currencyRepository */
 
+        $currencyRepository = $this->container->get('currency.repository');
         (new InstallUninstall(
             $systemConfigRepository,
             $paymentRepository,
             $salesChannelRepository,
             $ruleRepository,
             $countryRepository,
+            $currencyRepository,
             $this->container->get(PluginIdProvider::class),
             $this->container->get(SystemConfigService::class),
             static::class
