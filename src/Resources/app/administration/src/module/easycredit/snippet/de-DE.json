@@ -15,6 +15,10 @@
             "messageSaveSuccess": "Die ratenkauf by easyCredit Einstellungen wurden erfolgreich gespeichert.",
             "messageTestSuccess": "Die API Zugangsdaten wurden erfolgreich validiert.",
             "messageTestError": "Die API Zugangsdaten konnten nicht validiert werden."
+        },
+        "rule": {
+            "cartAmountRule": "Gesamtsumme, exkl. Zinsen (kompatibel mit ratenkauf by easyCredit)",
+            "cartPositionPrice": "Summe, exkl. Zinsen (kompatibel mit ratenkauf by easyCredit)"
         }
     }
 }
