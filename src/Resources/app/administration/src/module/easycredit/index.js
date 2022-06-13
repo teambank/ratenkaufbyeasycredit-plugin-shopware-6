@@ -1,4 +1,4 @@
-import './extension/sw-settings-index';
+import './components/easycredit-settings-icon';
 
 const { Module } = Shopware;
 
@@ -20,5 +20,19 @@ Module.register('netzkollektiv-easycredit', {
                 parentPath: 'sw.settings.index'
             }
         }
+    },
+
+    settingsItem: {
+        group: 'plugins',
+        to: {
+            name: 'sw.extension.config',
+            params: {
+                namespace: 'EasyCreditRatenkauf'
+            }
+        },
+        iconComponent: 'easycredit-settings-icon',
+        backgroundEnabled: true,
+        privilege: 'system.system_config',
     }
+    
 });
