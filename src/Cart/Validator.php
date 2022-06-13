@@ -47,6 +47,10 @@ class Validator implements CartValidatorInterface
         ErrorCollection $errors,
         SalesChannelContext $salesChannelContext
     ): void {
+        if (in_array($cart->getName(), ['recalculation', 'sales-channel'])) {
+            return;
+        }
+
         try {
             $checkout = $this->integrationFactory->createCheckout(
                 $salesChannelContext
