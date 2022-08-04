@@ -13,6 +13,7 @@ use Shopware\Core\Checkout\Cart\Event\CheckoutOrderPlacedEvent;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
+use Psr\Log\LoggerInterface;
 
 class InterestRemover implements EventSubscriberInterface
 {
@@ -23,11 +24,13 @@ class InterestRemover implements EventSubscriberInterface
     public function __construct(
         SettingsServiceInterface $settingsService,
         Connection $connection,
-        Storage $storage
+        Storage $storage,
+        LoggerInterface $logger
     ) {
         $this->settings = $settingsService;
         $this->connection = $connection;
         $this->storage = $storage;
+        $this->logger = $logger;
     }
 
     public static function getSubscribedEvents(): array
@@ -54,9 +57,8 @@ class InterestRemover implements EventSubscriberInterface
         }
 
         $this->connection->beginTransaction();
-
         try {
-            $this->connection->executeQuery("
+            $this->connection->executeStatement("
                 UPDATE `order` o
                 INNER JOIN order_line_item ol ON ol.order_id = o.id AND ol.type = 'easycredit-interest'
                 Set 
@@ -70,7 +72,7 @@ class InterestRemover implements EventSubscriberInterface
                 Uuid::fromHexToBytes($order->getId()),
             ]);
 
-            $this->connection->executeQuery("
+            $this->connection->executeStatement("
                 DELETE order_line_item FROM order_line_item
                 INNER JOIN `order` o ON order_line_item.order_id = o.id
                 WHERE 
@@ -79,9 +81,11 @@ class InterestRemover implements EventSubscriberInterface
             ", [
                 Uuid::fromHexToBytes($order->getId()),
             ]);
+
             $this->storage->set('interest_amount', null);
             $this->connection->commit();
         } catch (\Throwable $e) {
+            $this->logger->error($e->getMessage());
             $this->connection->rollBack();
         }
     }
