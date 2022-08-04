@@ -1,3 +1,24 @@
+# 2.0.2
+
+* es sind nun auch Finanzierungen ohne Zinsen möglich
+* die Bestellnummer wird bei Bestätigung der Bestellung nun korrekt übergeben
+* eine Inkompatibilität mit Doctrine wurde behoben, die dazu führte, dass die Zinsen nicht entfernt wurden
+* die doppelte Betrags- und Adressprüfung im PayHandler wurde zur besseren Kompatibilität zwischen den Versionen entfernt (Konflikt mit "Zinsen entfernen") 
+* die API-Library wurde auf v1.3.0 aktualisiert
+
+# 2.0.1
+
+* Rule Builder: es wurden die Bedingungen Summe, inkl. Zinsen (kompatibel mit ratenkauf by easyCredit) und Gesamtsumme, inkl. Zinsen (kompatibel mit ratenkauf by easyCredit) hinzugefügt
+* bei Plugin-Installation wird eine Standard-Verfügbarkeitsregel für ratenkauf by easyCredit angelegt (DE & EUR)
+* es wurde eine DeliveryInfo zur Zins-Position hinzugefügt, die die Zinsen als versandkostenfrei markiert
+* das Plugin-Icon wurde durch eine schärfere Version ersetzt und der Menüpunkt ratenkauf by easyCredit wieder unter Einstellungen -> Erweiterungen aufgenommen
+* bei interner Neuberechnung des Warenkorb wird die Warenkorb-Validierung nicht mehr angewendet (verhindert Abbruch des Bezahlvorgangs durch Flow Builder)
+
+# 2.0.0
+
+* Migration auf ratenkauf by easyCredit API v3
+* Integration von EasyCredit Ratenkauf Web-Komponenten
+
 # 1.1.10
 
 * Änderungen zur Kompatibilität mit v6.4.9.0
