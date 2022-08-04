@@ -120,8 +120,8 @@ class Checkout implements EventSubscriberInterface
         }
 
         $event->getPage()->addExtension('easycredit', (new CheckoutData())->assign([
-            'isPrefixValid' => isset($quote) ? $checkout->isPrefixValid($quote->getTransactionInitRequest()->getCustomer()->getGender()) : false,
-            'grandTotal' => isset($quote) ? $quote->getTransactionInitRequest()->getOrderDetails()->getOrderValue() : null,
+            'isPrefixValid' => isset($quote) ? $checkout->isPrefixValid($quote->getCustomer()->getGender()) : false,
+            'grandTotal' => isset($quote) ? $quote->getOrderDetails()->getOrderValue() : null,
             'paymentMethodId' => $paymentMethodId,
             'isSelected' => $isSelected,
             'paymentPlan' => $this->buildPaymentPlan($this->storage->get('summary')),
@@ -131,7 +131,7 @@ class Checkout implements EventSubscriberInterface
     }
 
     protected function buildPaymentPlan($summary) {
-        $summary = json_decode($summary);
+        $summary = \json_decode((string)$summary);
         if ($summary === false || $summary === null) {
             return null;
         }

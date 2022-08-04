@@ -18,10 +18,9 @@ use Netzkollektiv\EasyCredit\Api\Quote\ItemBuilder;
 use Netzkollektiv\EasyCredit\Api\Quote\CustomerBuilder;
 
 use Teambank\RatenkaufByEasyCreditApiV3\Integration;
-use Teambank\RatenkaufByEasyCreditApiV3\Model\TransactionInitRequest;
+use Teambank\RatenkaufByEasyCreditApiV3\Model\Transaction;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\ShippingAddress;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\InvoiceAddress;
-use Teambank\RatenkaufByEasyCreditApiV3\Integration\TransactionInitRequestWrapper;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -187,7 +186,7 @@ class QuoteBuilder
         ]);
     }
 
-    public function build($cart, SalesChannelContext $context): TransactionInitRequestWrapper {
+    public function build($cart, SalesChannelContext $context): Transaction {
         $this->cart = $cart;
         $this->context = $context;
         $this->customer = $context->getCustomer();
@@ -199,7 +198,7 @@ class QuoteBuilder
             throw new QuoteInvalidException();
         }
 
-        $transactionInitRequest = new TransactionInitRequest([
+        return new Transaction([
             'financingTerm' => $this->getDuration(),
             'orderDetails' => new \Teambank\RatenkaufByEasyCreditApiV3\Model\OrderDetails([
                 'orderValue' => $this->getGrandTotal(),
@@ -218,11 +217,6 @@ class QuoteBuilder
                 'logisticsServiceProvider' => $this->getShippingMethod()      
             ]),
             'redirectLinks' => $this->getRedirectLinks()
-        ]);
-
-        return new \Teambank\RatenkaufByEasyCreditApiV3\Integration\TransactionInitRequestWrapper([
-            'transactionInitRequest' => $transactionInitRequest,
-            'company' => $this->customer->getActiveBillingAddress() ? $this->customer->getActiveBillingAddress()->getCompany() : null
         ]);
     }
 }

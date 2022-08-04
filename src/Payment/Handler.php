@@ -76,7 +76,7 @@ class Handler implements SynchronousPaymentHandlerInterface
                 );
             }
 
-            $checkout->authorize(null, $order->getOrderNumber());
+            $checkout->authorize($order->getOrderNumber());
 
             $this->addEasyCreditTransactionCustomFields(
                 $transaction,

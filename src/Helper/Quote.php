@@ -15,7 +15,7 @@ use Netzkollektiv\EasyCredit\Api\QuoteInvalidException;
 use Netzkollektiv\EasyCredit\Api\QuoteBuilder;
 use Netzkollektiv\EasyCredit\Api\OrderBuilder;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
-use Teambank\RatenkaufByEasyCreditApiV3\Integration\TransactionInitRequestWrapper;
+use Teambank\RatenkaufByEasyCreditApiV3\Model\Transaction;
 
 class Quote
 {
@@ -35,7 +35,7 @@ class Quote
     /**
      * @param Cart|\Shopware\Core\Checkout\Order\OrderEntity|null $cart
      */
-    public function getQuote($cart, SalesChannelContext $salesChannelContext): TransactionInitRequestWrapper
+    public function getQuote($cart, SalesChannelContext $salesChannelContext): Transaction
     {
         if ($cart instanceof Cart) {
             return $this->quoteBuilder->build($cart, $salesChannelContext);

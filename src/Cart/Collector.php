@@ -58,7 +58,7 @@ class Collector implements CartDataCollectorInterface
 
     public function getInterestPrice(): ?CalculatedPrice
     {
-        if (!$this->storage->get('interest_amount')) {
+        if ($this->storage->get('interest_amount') === null) {
             return null;
         }
         $this->storage->set('debug','adding interest line item: '.(float)$this->storage->get('interest_amount'));

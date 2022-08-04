@@ -105,6 +105,7 @@ class CustomerBuilder
             'contact' => new \Teambank\RatenkaufByEasyCreditApiV3\Model\Contact([
                 'email' => $this->customer->getEmail()
             ]),
+            'companyName' => $this->customer->getActiveBillingAddress() ? $this->customer->getActiveBillingAddress()->getCompany() : null
         ]);
     }
 }
