@@ -76,18 +76,7 @@ class PaymentController extends StorefrontController
             );
         }
 
-        $cart = $this->cartService->getCart($salesChannelContext->getToken(), $salesChannelContext);
-        $quote = $this->quoteHelper->getQuote($cart, $salesChannelContext);
-
-        if (!$checkout->isAmountValid($quote)
-            || !$checkout->verifyAddress($quote)
-        ) {
-            throw new \Exception(
-                'Raten müssen neu berechnet werden.'
-            );
-        }
-
-        try {
+	try {
             $checkout->loadTransaction();
         } catch (\Throwable $e) {
             throw new \Exception($e->getMessage());

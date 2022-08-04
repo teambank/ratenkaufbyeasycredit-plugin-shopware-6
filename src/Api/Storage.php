@@ -26,16 +26,16 @@ class Storage implements \Teambank\RatenkaufByEasyCreditApiV3\Integration\Storag
 
     public function set($key, $value): self
     {
-        $this->logger->debug('storage::set '.$key.' = '.$value);
+        $this->logger->debug('storage::set '.$key.' = ('.gettype($value).') '.$value);
         $this->session->set('easycredit_' . $key, $value);
 
         return $this;
     }
 
-    public function get($key): string
+    public function get($key): mixed
     {
-        $value = (string) $this->session->get('easycredit_' . $key);
-        $this->logger->debug('storage::get '.$key.' = '.$value);
+        $value = $this->session->get('easycredit_' . $key);
+        $this->logger->debug('storage::get '.$key.' = ('.gettype($value).')'.$value);
         return $value;
     }
 

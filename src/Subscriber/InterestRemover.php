@@ -79,7 +79,7 @@ class InterestRemover implements EventSubscriberInterface
             ", [
                 Uuid::fromHexToBytes($order->getId()),
             ]);
-            $this->storage->set('interest_amount', 0);
+            $this->storage->set('interest_amount', null);
             $this->connection->commit();
         } catch (\Throwable $e) {
             $this->connection->rollBack();
