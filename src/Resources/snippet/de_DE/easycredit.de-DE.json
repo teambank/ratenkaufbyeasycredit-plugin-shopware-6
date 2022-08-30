@@ -1,7 +1,7 @@
 {
     "error": {
-        "installments-must-be-recalculated": "ratenkauf by easyCredit: Ihre Bestellung hat sich verändert, bitte führen Sie die Ratenberechnung erneut durch.",
-        "init-error": "ratenkauf by easyCredit: Bitte korrigieren Sie Ihre Bestellung und klicken Sie 'Raten neu berechnen'"
+        "installments-must-be-recalculated": "easyCredit-Ratenkauf: Ihre Bestellung hat sich verändert, bitte führen Sie die Ratenberechnung erneut durch.",
+        "init-error": "easyCredit-Ratenkauf: Bitte korrigieren Sie Ihre Bestellung und klicken Sie 'Raten neu berechnen'"
     },
     "easycredit": {
         "recalculate": "Raten neu berechnen",
@@ -9,7 +9,7 @@
         "whatis": "Was ist"
     },
     "checkout": {
-        "installments-must-be-recalculated": "Um mit ratenkauf by easyCredit zu bezahlen, klicken Sie auf \"Weiter zum Ratenkauf\" in der Zahlartenauswahl.",
+        "installments-must-be-recalculated": "Um mit easyCredit-Ratenkauf zu bezahlen, klicken Sie auf \"Weiter zum Ratenkauf\" in der Zahlartenauswahl.",
         "interest-line-item" : "Zinsen für Ratenzahlung"
     }
 }

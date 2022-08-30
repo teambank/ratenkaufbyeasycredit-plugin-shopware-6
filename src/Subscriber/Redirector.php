@@ -155,7 +155,7 @@ class Redirector implements EventSubscriberInterface
             }
         } catch (\Throwable $e) {
             $this->logger->error($e);
-            $this->storage->set('error', 'Es ist ein Fehler aufgetreten. Leider steht Ihnen ratenkauf by easyCredit derzeit nicht zur Verfügung.');
+            $this->storage->set('error', 'Es ist ein Fehler aufgetreten. Leider steht Ihnen easyCredit-Ratenkauf derzeit nicht zur Verfügung.');
         }
     }
 

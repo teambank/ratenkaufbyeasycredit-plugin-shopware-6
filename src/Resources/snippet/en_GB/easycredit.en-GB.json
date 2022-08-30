@@ -1,7 +1,7 @@
 {
     "error": {
-        "installments-must-be-recalculated": "ratenkauf by easyCredit: Your order was changed, please recalculate installments.",
-        "init-error": "ratenkauf by easyCredit: Please correct your order and click 'Recalculate installments'"
+        "installments-must-be-recalculated": "easyCredit-Ratenkauf: Your order was changed, please recalculate installments.",
+        "init-error": "easyCredit-Ratenkauf: Please correct your order and click 'Recalculate installments'"
     },
     "easycredit": {
         "recalculate": "Recalculate installments",
@@ -9,7 +9,7 @@
         "whatis": "What is"
     },
     "checkout": {
-        "installments-must-be-recalculated": "To pay with ratenkauf by easyCredit click \"Go to Installments payment\" after selecting the payment method.",
+        "installments-must-be-recalculated": "To pay with easyCredit-Ratenkauf click \"Go to Installments payment\" after selecting the payment method.",
         "interest-line-item" : "Interest for installments payment"
     }
 }
