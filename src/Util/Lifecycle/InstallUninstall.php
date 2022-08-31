@@ -150,21 +150,21 @@ class InstallUninstall
 
         $data = [
             'handlerIdentifier' => Handler::class,
-            'name' => 'ratenkauf by easyCredit',
+            'name' => 'easyCredit-Ratenkauf',
             'position' => -100,
             'pluginId' => $pluginId,
             'translations' => [
                 'de-DE' => [
-                    'description' => 'ratenkauf by easyCredit - Einfach. Fair. In Raten zahlen.',
+                    'description' => 'easyCredit-Ratenkauf - Einfach. Fair. In Raten zahlen.',
                 ],
                 'en-GB' => [
-                    'description' => 'ratenkauf by easyCredit - Easy. Fair. Pay by installments.',
+                    'description' => 'easyCredit-Ratenkauf - Easy. Fair. Pay by installments.',
                 ],
             ],
             'availabilityRule' => [
-                'name' => 'ratenkauf by easyCredit - nur verfügbar in DE, bei Zahlung in EUR',
+                'name' => 'easyCredit-Ratenkauf - nur verfügbar in DE, bei Zahlung in EUR',
                 'priority' => 1,
-                'description' => 'Diese Verfügbarkeitsregel wurde automatisch bei Installation von ratenkauf by easyCredit erstellt. Sie kann beliebig angepasst werden und bei Updates nicht überschrieben.',
+                'description' => 'Diese Verfügbarkeitsregel wurde automatisch bei Installation von easyCredit-Ratenkauf erstellt. Sie kann beliebig angepasst werden und wird bei Updates nicht überschrieben.',
                 'conditions' => [
                     [
                         'type' => (new AndRule())->getName(),

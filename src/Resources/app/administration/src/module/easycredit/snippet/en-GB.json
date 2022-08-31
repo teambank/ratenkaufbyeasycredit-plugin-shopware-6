@@ -1,24 +1,24 @@
 {
     "easycredit": {
-        "header": "ratenkauf by easyCredit",
+        "header": "easyCredit-Ratenkauf",
         "general": {
-            "mainMenuItemGeneral": "ratenkauf by easyCredit",
-            "descriptionTextModule": "Settings for ratenkauf by easyCredit"
+            "mainMenuItemGeneral": "easyCredit-Ratenkauf",
+            "descriptionTextModule": "Settings for easyCredit-Ratenkauf"
         },
         "settingForm": {
             "save": "Save",
             "test": "Test API credentials",
-            "titleSaveSuccess": "ratenkauf by easyCredit settings",
+            "titleSaveSuccess": "easyCredit-Ratenkauf settings",
             "titleTestSuccess": "API credentials",
             "titleTestError": "API credentials error",
-            "titleSaveError": "ratenkauf by easyCredit settings error",
-            "messageSaveSuccess": "The ratenkauf by easyCredit settings have been saved successfully.",
+            "titleSaveError": "easyCredit-Ratenkauf settings error",
+            "messageSaveSuccess": "The easyCredit-Ratenkauf settings have been saved successfully.",
             "messageTestSuccess": "The API credentials have been successfully validated.",
             "messageTestError": "The API credentials could not be validated."
         },
         "rule": {
-            "cartAmountRule": "Grand total, excl. interest (compatible with ratenkauf by easyCredit)",
-            "cartPositionPrice": "Total, excl. interest (compatible with ratenkauf by easyCredit)"
+            "cartAmountRule": "Grand total, excl. interest (compatible with easyCredit-Ratenkauf)",
+            "cartPositionPrice": "Total, excl. interest (compatible with easyCredit-Ratenkauf)"
         }
     }
 }
