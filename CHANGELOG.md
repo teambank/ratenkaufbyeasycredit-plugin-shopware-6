@@ -1,3 +1,7 @@
+# 2.0.3
+
+* Änderungen zum Markenrelaunch von easyCredit-Ratenkauf
+
 # 2.0.2
 
 * es sind nun auch Finanzierungen ohne Zinsen möglich
