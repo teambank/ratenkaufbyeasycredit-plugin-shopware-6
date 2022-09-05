@@ -66,7 +66,7 @@ class IntegrationFactory
     public function createCheckout(?\Shopware\Core\System\SalesChannel\SalesChannelContext $salesChannelContext = null, bool $validateSettings = true): Api\Integration\Checkout
     {
         $client = $this->getClient();
-        $config = $this->getConfig();
+        $config = $this->getConfig($salesChannelContext);
 
         $webshopApi = new Api\Service\WebshopApi(
             $client,
