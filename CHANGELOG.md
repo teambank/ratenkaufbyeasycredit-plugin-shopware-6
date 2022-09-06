@@ -1,3 +1,7 @@
+# 2.0.4
+
+* bei mehreren Sales Channels werden nun die korrekten Zugangsdaten je Sales Channel verwendet
+
 # 2.0.3
 
 * Änderungen zum Markenrelaunch von easyCredit-Ratenkauf

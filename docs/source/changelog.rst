@@ -1,6 +1,11 @@
 Changelog
 =========
 
+v2.0.4
+------
+
+* bei mehreren Sales Channels werden nun die korrekten Zugangsdaten je Sales Channel verwendet
+
 v2.0.3
 ------
 
