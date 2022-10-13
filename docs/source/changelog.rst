@@ -1,6 +1,14 @@
 Changelog
 =========
 
+v2.0.5
+------
+
+* eine Bestellung kann nur abgeschlossen werden, wenn der Transaktionstatus PREAUTHORIZED ist, andernfalls erhält der Kunde eine Fehlermeldung
+* eine Bestellung wird nur als bezahlt markiert, wenn der Transaktionsstatus bei Aufruf des AuthorizationCallback AUTHORIZED ist
+* beim automatischen Melden der Lieferung durch Bestellstatusänderung wird der Status nur übertragen, wenn dies nicht bereits geschehen ist 
+* die package-lock.json im Administrations-Modul wird nun mitgeliefert
+
 v2.0.4
 ------
 
