@@ -11,7 +11,7 @@ Nachdem Sie die Installation erfolgreich abgeschlossen haben, konfigurieren Sie 
 Konfigurations Menü öffnen
 --------------------------
 
-Zur Konfiguration öffnen Sie in der Administration den Bereich *Plugins*. In der Liste der installierten Plugins sollte nun **easyCredit-Ratenkauf** enthalten sein.
+Zur Konfiguration öffnen Sie in der Administration den Bereich *Erweiterungen -> Meine Erweiterungen*. In der Liste der installierten Plugins sollte nun **easyCredit-Ratenkauf** enthalten sein.
 In dieser Zeile klicken Sie einfach auf das Plugin um die Konfiguration zu öffnen.
 
 .. image:: ./_static/config-open.png

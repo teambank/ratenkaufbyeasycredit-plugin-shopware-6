@@ -11,9 +11,6 @@ Transaktionsmanager
 
 Der Transaktionsmanager in der Detailansicht einer mit easyCredit-Ratenkauf bezahlten Bestellung zeigt eine Übersicht über die zur Bestellung gehörende Zahlungstransaktion und deren Historie. Über den Transaktionsmanager kann der Transaktionsstatus aus der Shopware Administration heraus direkt an easyCredit-Ratenkauf gemeldet werden.
 
-.. image:: ./_static/merchant-tx-manager.png
-           :scale: 50%
-
 Statusmeldung über den Transaktionsmanager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -21,8 +18,7 @@ Zur Meldung des Transaktionsstatus wählen Sie den gewünschten Status und sende
 
 Bei Rückabwicklung wählen Sie bitte den Grund und geben Sie bei einer Teil-Rückabwicklung den entsprechenden Betrag ein.
 
-.. image:: ./_static/merchant-tx-manager-options.png
-           :scale: 50%
+.. image:: ./_static/merchant-tx-manager.png
 
 Statusmeldung über die Bestellverarbeitung
 ----------------------------------------------------

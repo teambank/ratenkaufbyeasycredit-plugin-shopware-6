@@ -11,7 +11,7 @@ Zu Nutzung von **easyCredit-Ratenkauf für Shopware** benötigen Sie:
 Versionskompatibilität
 ----------------------
 
-Das Plugin hat neben Shopware 6.x keine weiteren Abhängigkeiten. Es wurde für die folgenden Versionen mit dem "Shopware default" Theme getestet:
+Die Erweiterung hat neben Shopware 6.x keine weiteren Abhängigkeiten. Es wurde für die folgenden Versionen mit dem "Shopware default" Theme getestet:
 
 * 6.4.x
 

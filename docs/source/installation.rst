@@ -4,27 +4,26 @@
 Installation
 ============
 
-Die Extension für easyCredit-Ratenkauf kann in der Administration unter :menuselection:`Einstellungen --> System --> Plugins` entweder über den direkten Download aus dem *Shopware Community Store* oder über den Datei-Upload des bereitgestellten Archives über *Plugin Hochladen* installiert werden.
+Die Extension für easyCredit-Ratenkauf kann in der Administration unter :menuselection:`Erweiterungen --> Meine Erweiterungen` entweder über den direkten Download aus dem *Shopware Community Store* oder über den Datei-Upload des bereitgestellten Archives über *Erweiterung hochladen* installiert werden.
 Alternativ ist auch die Installation über die Kommandozeile möglich.
 
 Shopware Community Store
 ------------------------
 
-Sie finden das Plugin im Shopware Community Store unter der folgenden URL:
-https://store.shopware.com/easyc36021249341f/ratenkauf-by-easycredit.html
+Sie finden das Erweiterung im Shopware Community Store unter der folgenden URL:
+https://store.shopware.com/easyc36021249341f/easycredit-ratenkauf-fuer-shopware-6.html
+
+Legen Sie die Erweiterung in den Warenkorb und kaufen Sie es kostenlos unter der ihrer Lizenzdomain. In der Shopware-Administration sollte die Erweiterung nun unter :menuselection:`Erweiterungen --> Meine Erweiterungen` zu finden sein:
 
 .. image:: ./_static/installation-community_store.png
 
-Legen Sie das Plugin in den Warenkorb und kaufen Sie es kostenlos unter der ihrer Lizenzdomain. In der Shopware-Administration sollte das Plugin nun unter :menuselection:`Einstellungen --> System --> Plugins --> Einkäufe` zu finden sein:
 
-.. image:: ./_static/installation-licence.png
-
-Das Plugin wird Ihnen nun unter "Meine Plugins" zur Installation angezeigt. Installieren Sie das Plugin durch Klick auf **Installieren**. Fahren Sie anschließend mit der :ref:`configuration` fort.
+Die Erweiterung wird Ihnen nun unter „Erweiterungen -> Meine Erweiterungen -> Reiter "Apps"“ zur Installation angezeigt. Installieren Sie die Erweiterung durch Klick auf Installieren. Fahren Sie anschließend mit der Konfiguration fort.
 
 manueller Datei-Upload
 ---------------------------------
 
-Navigieren Sie in der Shopware-Administration zu :menuselection:`Einstellungen --> System --> Plugins`. Klicken Sie dort oben rechts auf den Button *Plugin hochladen*. Wählen Sie den lokalen Pfad aus, unter dem sich das ZIP-Archiv des Shopware Plugins befindet und klicken Sie anschließend auf *Plugin hochladen*.
+Navigieren Sie in der Shopware-Administration zu :menuselection:`Erweiterungen --> Meine Erweiterungen`. Klicken Sie dort oben rechts auf den Button *Erweiterung hochladen*. Wählen Sie den lokalen Pfad aus, unter dem sich das ZIP-Archiv der Shopware Erweiterung befindet und bestätigen Sie.
 
 Fahren Sie anschließend mit der :ref:`configuration` fort.
 
@@ -33,13 +32,13 @@ Fahren Sie anschließend mit der :ref:`configuration` fort.
 Kommandozeile
 -------------
 
-Um das Plugin über die Kommandozeile zu installieren, entpacken Sie das Plugin nach :
+Um die Erweiterung über die Kommandozeile zu installieren, entpacken Sie diese nach:
 
 .. code-block:: console
 
     $ unzip EasyCreditRatenkauf-x.x.x.zip -d custom/plugins/
 
-Um sicher zu gehen, überprüfen Sie, ob das folgende Verzeichnis existiert: ``custom/plugins/EasyCreditRatenkauf``. Im Anschluss installieren und aktivieren Sie das Plugin mit den folgenden Befehlen:
+Um sicher zu gehen, überprüfen Sie, ob das folgende Verzeichnis existiert: ``custom/plugins/EasyCreditRatenkauf``. Im Anschluss installieren und aktivieren Sie die Erweiterung mit den folgenden Befehlen:
 
 .. code-block:: console
 
