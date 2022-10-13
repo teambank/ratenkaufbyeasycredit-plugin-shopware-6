@@ -28,6 +28,8 @@ use Netzkollektiv\EasyCredit\Payment\StateHandler;
 use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Netzkollektiv\EasyCredit\Webhook\OrderTransactionNotFoundException;
 
+use Teambank\RatenkaufByEasyCreditApiV3\Model\TransactionInformation;
+
 /**
  * @RouteScope(scopes={"storefront"})
  */
@@ -76,7 +78,7 @@ class PaymentController extends StorefrontController
             );
         }
 
-	try {
+        try {
             $checkout->loadTransaction();
         } catch (\Throwable $e) {
             throw new \Exception($e->getMessage());
@@ -99,12 +101,27 @@ class PaymentController extends StorefrontController
     public function authorize(Request $request, SalesChannelContext $salesChannelContext): Response
     {
         $secToken = $request->attributes->get('secToken');
-        if ($transactionId = $request->query->get('transactionId')) {
+        $transactionId = $request->query->get('transactionId');
+
+        try {
+            if (!$transactionId) {
+                throw new OrderTransactionNotFoundException([
+                    'suffix' => 'no transaction ID provided'
+                ]);
+            }
+
             $orderTransaction = $this->getOrderTransaction(
                 $transactionId,
                 $secToken,
                 $salesChannelContext->getContext()
             );
+
+            $checkout = $this->integrationFactory->createCheckout($salesChannelContext);
+            $tx = $checkout->loadTransaction($orderTransaction->getCustomFields()['easycredit_technical_transaction_id']);
+
+            if ($tx->getStatus() !== TransactionInformation::STATUS_AUTHORIZED) {
+                return new Response('payment status of transaction not updated as transaction status is not AUTHORIZED', Response::HTTP_CONFLICT);
+            }
 
             $this->stateHandler->handleTransactionState(
                 $orderTransaction,
@@ -114,12 +131,13 @@ class PaymentController extends StorefrontController
                 $orderTransaction->getOrder(),
                 $salesChannelContext
             );
-            return new Response();
+            return new Response('payment status successfully set', Resppnse::HTTP_OK);
+
+        } catch (OrderTransactionNotFoundException $e) {
+            return new Response($e->getMessage(), Response::HTTP_NOT_FOUND);
+        } catch (\Throwable $e) {
+            return new Response($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-        throw new OrderTransactionNotFoundException([
-            'suffix' => 'no transaction ID provided'
-        ]);
-        return new Response();
     }
 
     public function getOrderTransaction ($transactionId, $secToken, Context $context) {

@@ -71,7 +71,12 @@ class Handler implements SynchronousPaymentHandlerInterface
                 );
             }
 
-            $checkout->authorize($order->getOrderNumber());
+            if (!$checkout->authorize($order->getOrderNumber())) {
+                throw new SyncPaymentProcessException(
+                    $transaction->getOrderTransaction()->getId(),
+                    'Transaction could not be captured'
+                );
+            }
 
             $this->addEasyCreditTransactionCustomFields(
                 $transaction,
@@ -95,6 +100,7 @@ class Handler implements SynchronousPaymentHandlerInterface
             'id' => $transaction->getOrderTransaction()->getId(),
             'customFields' => [
                 EasyCreditRatenkauf::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_ID => $this->storage->get('transaction_id'),
+                EasyCreditRatenkauf::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TECHNICAL_TRANSACTION_ID => $this->storage->get('token'),
                 EasyCreditRatenkauf::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_SEC_TOKEN => $this->storage->get('sec_token'),
             ],
         ];

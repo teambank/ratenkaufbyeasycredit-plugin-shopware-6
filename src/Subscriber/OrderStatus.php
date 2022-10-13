@@ -14,6 +14,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use  Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\CaptureRequest;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\RefundRequest;
+use Teambank\RatenkaufByEasyCreditApiV3\Model\TransactionResponse;
 
 class OrderStatus implements EventSubscriberInterface
 {
@@ -55,6 +56,14 @@ class OrderStatus implements EventSubscriberInterface
         }
 
         try {
+            $transaction = $this->integrationFactory
+                ->createTransactionApi()
+                ->apiMerchantV3TransactionTransactionIdGet($txId);
+
+            if ($transaction->getStatus() !== TransactionResponse::STATUS_REPORT_CAPTURE) {
+                return;
+            }
+
             $this->integrationFactory
                 ->createTransactionApi()
                 ->apiMerchantV3TransactionTransactionIdCapturePost(
