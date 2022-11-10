@@ -122,6 +122,13 @@
             <tag name="kernel.event_subscriber"/>
         </service>
 
+        <service id="Netzkollektiv\EasyCredit\Marketing\Marketing">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Payment"/>
+
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
         <service id="Netzkollektiv\EasyCredit\Helper\Payment">
             <argument type="service" id="payment_method.repository"/>
             <argument type="service" id="sales_channel.repository"/>

@@ -6,13 +6,29 @@
     {% if page.extensions.easycredit.apiKey %}
     <meta name="easycredit-api-key" content="{{page.extensions.easycredit.apiKey}}" />
     {% endif %}
-    
+
     {% if page.extensions.easycredit.widgetSelector %}
     <meta name="easycredit-widget-selector" content="{{page.extensions.easycredit.widgetSelector}}" />
     {% endif %}
 
+    {% if page.extensions.easycredit.widgetExtended %}
+    <meta name="easycredit-widget-extended" content="{{page.extensions.easycredit.widgetExtended}}" />
+    {% endif %}
+
     {% if page.extensions.easycredit.amount %}
     <meta name="easycredit-amount" content="{{page.extensions.easycredit.amount}}" />
+    {% endif %}
+
+    {% if page.extensions.easycredit.modal %}
+    <easycredit-box-modal is-open="{{page.extensions.easycredit.modalIsOpen}}" snooze-for="{{page.extensions.easycredit.modalSettingsSnoozeFor}}" delay="{{page.extensions.easycredit.modalSettingsDelay}}"></easycredit-box-modal>
+    {% endif %}
+
+    {% if page.extensions.easycredit.flashbox %}
+    <easycredit-box-flash is-open="false"></easycredit-box-flash>
+    {% endif %}
+
+    {% if page.extensions.easycredit.bar %}
+    <easycredit-box-top></easycredit-box-top>
     {% endif %}
 
     <script type="module" src="https://ratenkauf.easycredit.de/api/resource/webcomponents/v3/easycredit-components/easycredit-components.esm.js"></script>

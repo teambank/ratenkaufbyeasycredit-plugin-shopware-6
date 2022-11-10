@@ -1,8 +1,10 @@
 import './component/easycredit-tx-widget';
-import './component/easycredit-click-and-collect-intro';
+import './component/easycredit-intro';
 import './component/easycredit-payment-status-select';
 import './component/easycredit-order-status-select';
 import './component/easycredit-test-credentials-button';
+import './component/easycredit-click-and-collect-intro';
+import './component/easycredit-marketing';
 
 import './extension/sw-order-detail';
 import './extension/sw-order-detail-base';

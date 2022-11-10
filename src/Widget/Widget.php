@@ -57,6 +57,7 @@ class Widget implements EventSubscriberInterface
         $event->getPage()->addExtension('easycredit', (new WidgetData())->assign([
             'apiKey' => $settings->getWebshopId(),
             'widgetSelector' => $settings->getWidgetSelectorProductDetail(),
+            'widgetExtended' => $settings->getWidgetExtended(),
             'amount' => $product->getCalculatedPrice()->getUnitPrice(),
         ]));
     }
@@ -75,6 +76,7 @@ class Widget implements EventSubscriberInterface
         $event->getPage()->addExtension('easycredit', (new WidgetData())->assign([
             'apiKey' => $settings->getWebshopId(),
             'widgetSelector' => $settings->getWidgetSelectorCart(),
+            'widgetExtended' => $settings->getWidgetExtended(),
             'amount' => $cart->getPrice()->getTotalPrice(),
         ]));
     }

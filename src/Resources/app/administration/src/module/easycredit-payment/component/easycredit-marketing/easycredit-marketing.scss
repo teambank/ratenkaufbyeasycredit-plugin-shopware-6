@@ -1,0 +1,261 @@
+.easycredit-marketing {
+    $font-size-base: 14px;
+    $font-size-md: $font-size-base * 1.075;
+    $font-size-lg: $font-size-base * 1.15;
+    $font-size-h3: $font-size-base * 1.15;
+    $line-height: 1.55;
+
+    $color-shopware-brand-vivid-500: #189eff;
+    $color-neutrals-gray-300: #d1d9e0;
+    $color-neutrals-generic-black: #000;
+
+    $color-ec-gray: #E5EAEE;
+    $color-darkblue: #002C5A;
+
+    font-size: $font-size-base;
+    line-height: $line-height;
+
+    :last-child {
+        margin-bottom: 0;
+    }
+
+    &__tabs {
+        display: flex;
+        margin-bottom: 12px;
+
+        border-bottom: 1px solid $color-neutrals-gray-300;
+    }
+    &__tab {
+        flex: 0 0 auto;
+
+        position: relative;
+        padding: 0 16px 8px;
+
+        white-space: nowrap;
+        font-size: $font-size-md;
+
+        &:first-child {
+            margin-left: -16px;
+        }
+
+        &:not(.active) {
+            cursor: pointer;
+        }
+
+        &.active {
+            font-weight: 600;
+            color: $color-neutrals-generic-black;
+
+            &:after {
+                content: '';
+                display: block;
+
+                position: absolute;
+                left: 50%;
+                bottom: 0;
+                transform: translateX(-50%);
+
+                height: 2px;
+                width: calc(100% - 32px);
+
+                border-bottom: 2px solid $color-shopware-brand-vivid-500;
+            }
+        }
+    }
+
+    &__tab-content {
+        &:not(.active) {
+            display: none;
+        }
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        grid-column-gap: 48px;
+    }
+    &__tab-content {
+        .easycredit-marketing__grid {
+            padding-top: 24px;
+        }
+    }
+
+    &__content {
+        h3 {
+            margin-bottom: .5em;
+    
+            font-size: $font-size-h3 !important;
+            line-height: $line-height;
+            font-weight: bold !important;
+        }
+    
+        p, ul {
+            margin-bottom: 1em;
+    
+            font-size: $font-size-base;
+            line-height: $line-height;
+        }
+        ul {
+            list-style: none;
+    
+            li {
+                margin-bottom: 5px;
+            }
+        }
+
+        .sw-field {
+            margin-top: 0;
+            margin-bottom: 1em;
+
+            &--switch {
+                margin-top: 0;
+                margin-bottom: 0;
+
+                .sw-field {
+                    margin-bottom: 0;
+                }
+            }
+        }
+        .sw-field--switch + :not(.sw-field--switch) {
+            margin-top: 1em;
+        }
+
+    }
+
+    &__image {
+        &.bg {
+            position: relative;
+            overflow: hidden;
+
+            background-color: $color-ec-gray;
+            border-radius: 15px;
+
+            &:after {
+                content: '';
+                display: block;
+                width: 100%;
+                padding-bottom: 75%;
+            }
+
+            img {
+                position: absolute;
+                max-width: 100%;
+                max-height: 100%;
+            }
+        }
+
+        img {
+            display: block;
+            width: 100%;
+            background-color: transparent;
+            border-radius: 7px;
+            box-shadow: 0 4px 20px 0 rgba(0,0,0,.25);
+        }
+    }
+    .widget {
+        .easycredit-marketing__image {
+            &.bg {
+                img {
+                    left: 50%;
+                    top: 0;
+                    transform: translateX(-50%);
+                    width: 200px;
+                    height: auto;
+
+                    border-radius: 0 0 30px 30px;
+                }
+            }
+        }
+    }
+    .modal {
+        .easycredit-marketing__image {
+            &.bg {
+                img {
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 225px;
+                    height: auto;
+
+                    border-radius: 5px;
+                }
+            }
+        }
+    }
+    .card {
+        .easycredit-marketing__image {
+            &.bg {
+                min-height: 280px;
+
+                img {
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 145px;
+                    height: auto;
+
+                    border-radius: 8px;
+                }
+            }
+        }
+    }
+    .flashbox {
+        .easycredit-marketing__image {
+            &.bg {
+                img {
+                    left: 50%;
+                    bottom: 0;
+                    transform: translateX(-50%);
+                    width: 225px;
+                    height: auto;
+
+                    box-shadow: none;
+                    border-radius: 0;
+                }
+            }
+        }
+    }
+    .bar {
+        .easycredit-marketing__image {
+            &.bg {
+                img {
+                    left: 50%;
+                    top: 0;
+                    transform: translateX(-50%);
+                    width: 100%;
+                    height: auto;
+
+                    box-shadow: none;
+                    border-radius: 0;
+                }
+            }
+        }
+    }
+
+    &.intro {
+        .easycredit-marketing__image {
+            img {
+                margin-left: auto;
+                width: 120px;
+                border-radius: 0;
+                box-shadow: none;
+            }
+        }
+    }
+    &.clickandcollect {
+        margin-bottom: 1em;
+
+        .easycredit-marketing__image {
+            &.bg {
+                background-color: $color-darkblue;
+
+                img {
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+}

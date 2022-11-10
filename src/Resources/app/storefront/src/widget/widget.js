@@ -30,6 +30,7 @@ export default class EasyCreditRatenkaufWidget extends Plugin {
         let widget = document.createElement('easycredit-widget')
         widget.setAttribute('webshop-id', this.getMeta('api-key'))
         widget.setAttribute('amount', this.getMeta('amount'))
+        widget.setAttribute('extended', this.getMeta('extended'))
 
         this.el.appendChild(widget)     
     }

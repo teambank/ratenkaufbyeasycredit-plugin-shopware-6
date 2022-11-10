@@ -1,0 +1,425 @@
+{% block netzkollektiv_easycredit_marketing %}
+<div class="easycredit-marketing">
+    <nav class="easycredit-marketing__tabs">
+        <a
+            v-for="(tab, index) in tabs"
+            :key="index"
+            class="easycredit-marketing__tab"
+            :class="{ active: selectedTab === tab.id }"
+            @click="selectTab(tab.id)"
+        >
+            {{ tab.title }}
+        </a>
+    </nav>
+
+    <div
+        class="easycredit-marketing__tab-content intro"
+        :class="{ active: selectedTab === 'intro' }"
+    >
+        <div class="easycredit-marketing__grid">
+            <div class="easycredit-marketing__content">
+                <p>
+                    {{ $tc('easycredit-payment.marketing.overview.introText') }}
+                </p>
+
+                <h3>{{ $tc('easycredit-payment.marketing.overview.introLinks.title') }}</h3>
+                <ul>
+                    <li><a href="https://netzkollektiv.com/docs/easycredit-ratenkauf-components/" target="_blank">{{ $tc('easycredit-payment.marketing.overview.introLinks.documentation') }}</a></li>
+                    <li><a href="https://easycredit-demo.netzkollektiv.com/" target="_blank">{{ $tc('easycredit-payment.marketing.overview.introLinks.demoshop') }}</a></li>
+                    <li><a href="https://www.easycredit-ratenkauf.de/marketingmaterial-schulung/" target="_blank">{{ $tc('easycredit-payment.marketing.overview.introLinks.marketingPortal') }}</a></li>
+                <ul>
+            </div>
+
+            <div class="easycredit-marketing__image">
+                <img :src="'/easycreditratenkauf/static/easycredit-marketing-modal.png' | asset">
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="easycredit-marketing__tab-content widget"
+        :class="{ active: selectedTab === 'widget' }"
+    >
+        <div class="easycredit-marketing__grid">
+            <div class="easycredit-marketing__content">
+                <p>
+                    {{ $tc('easycredit-payment.marketing.widget.introText') }}
+                </p>
+
+                <h3>{{ $tc('easycredit-payment.marketing.widget.fieldsActivate.title') }}</h3>
+                {% block netzkollektiv_easycredit_marketing_widget_fields_activation %}
+                    <sw-inherit-wrapper v-model="config['EasyCreditRatenkauf.config.widgetEnabled']"
+                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.widgetEnabled']"
+                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
+                        <template #content="props">
+                            <sw-switch-field name="EasyCreditRatenkauf.config.widgetEnabled"
+                                            {#bordered#}
+                                            :mapInheritance="props"
+                                            :label="$tc('easycredit-payment.marketing.widget.fieldsActivate.showLabel')"
+                                            :disabled="props.isInherited"
+                                            :value="props.currentValue"
+                                            @change="props.updateCurrentValue">
+                            </sw-switch-field>
+                        </template>
+                    </sw-inherit-wrapper>
+                    <!--
+                    <sw-switch-field name="EasyCreditRatenkauf.config.widgetEnabled"
+                                    {#bordered#}
+                                    :label="$tc('easycredit-payment.marketing.widget.fieldsActivate.showLabel')"
+                                    :value="config['EasyCreditRatenkauf.config.widgetEnabled']"
+                                    @change="setConfig(event)">
+                    </sw-switch-field>
+                    -->
+                {% endblock %}
+
+                <h3>{{ $tc('easycredit-payment.marketing.widget.fieldsSettings.title') }}</h3>
+                {% block netzkollektiv_easycredit_marketing_widget_fields_settings %}
+                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetSelectorProductDetail']"
+                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.widgetSelectorProductDetail']"
+                                        :customInheritationCheckFunction="checkTextFieldInheritance">
+                        <template #content="props">
+                            <sw-text-field name="EasyCreditRatenkauf.config.widgetSelectorProductDetail"
+                                            {#bordered#}
+                                            :mapInheritance="props"
+                                            :label="$tc('easycredit-payment.marketing.widget.fieldsSettings.selectorProductLabel')"
+                                            :disabled="props.isInherited"
+                                            :value="props.currentValue"
+                                            @change="props.updateCurrentValue">
+                            </sw-text-field>
+                        </template>
+                    </sw-inherit-wrapper>
+                    <!--
+                    <sw-text-field name="EasyCreditRatenkauf.config.widgetSelectorProductDetail"
+                                    :label="$tc('easycredit-payment.marketing.widget.fieldsSettings.selectorProductLabel')"
+                                    :value="config['EasyCreditRatenkauf.config.widgetSelectorProductDetail']"
+                                    @change="setConfig(event)">
+                    </sw-text-field>
+                    -->
+                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetSelectorCart']"
+                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.widgetSelectorCart']"
+                                        :customInheritationCheckFunction="checkTextFieldInheritance">
+                        <template #content="props">
+                            <sw-text-field name="EasyCreditRatenkauf.config.widgetSelectorCart"
+                                            {#bordered#}
+                                            :mapInheritance="props"
+                                            :label="$tc('easycredit-payment.marketing.widget.fieldsSettings.selectorCartLabel')"
+                                            :disabled="props.isInherited"
+                                            :value="props.currentValue"
+                                            @change="props.updateCurrentValue">
+                            </sw-text-field>
+                        </template>
+                    </sw-inherit-wrapper>
+                    <!--
+                    <sw-text-field name="EasyCreditRatenkauf.config.widgetSelectorCart"
+                                    :label="$tc('easycredit-payment.marketing.widget.fieldsSettings.selectorCartLabel')"
+                                    :value="config['EasyCreditRatenkauf.config.widgetSelectorCart']"
+                                    @change="setConfig(event)">
+                    </sw-text-field>
+                    -->
+                    <sw-inherit-wrapper v-model="config['EasyCreditRatenkauf.config.widgetExtended']"
+                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.widgetExtended']"
+                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
+                        <template #content="props">
+                            <sw-switch-field name="EasyCreditRatenkauf.config.widgetExtended"
+                                            {#bordered#}
+                                            :mapInheritance="props"
+                                            :label="$tc('easycredit-payment.marketing.widget.fieldsSettings.extendedLabel')"
+                                            :disabled="props.isInherited"
+                                            :value="props.currentValue"
+                                            @change="props.updateCurrentValue">
+                            </sw-switch-field>
+                        </template>
+                    </sw-inherit-wrapper>
+                    <!--
+                    <sw-switch-field name="EasyCreditRatenkauf.config.widgetExtended"
+                                    {#bordered#}
+                                    :label="$tc('easycredit-payment.marketing.widget.fieldsSettings.extendedLabel')"
+                                    :value="config['EasyCreditRatenkauf.config.widgetExtended']"
+                                    @change="setConfig(event)">
+                    </sw-switch-field>
+                    -->
+                {% endblock %}
+            </div>
+
+            <div class="easycredit-marketing__image bg">
+                <img :src="'/easycreditratenkauf/static/easycredit-marketing-widget.png' | asset">
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="easycredit-marketing__tab-content modal"
+        :class="{ active: selectedTab === 'modal' }"
+    >
+        <div class="easycredit-marketing__grid">
+            <div class="easycredit-marketing__content">
+                <p>
+                    {{ $tc('easycredit-payment.marketing.modal.introText') }}
+                </p>
+
+                <h3>{{ $tc('easycredit-payment.marketing.modal.fieldsActivate.title') }}</h3>
+                {% block netzkollektiv_easycredit_marketing_modal_fields_activation %}
+                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.modalEnabled']"
+                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.modalEnabled']"
+                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
+                        <template #content="props">
+                            <sw-switch-field name="EasyCreditRatenkauf.config.modalEnabled"
+                                            {#bordered#}
+                                            :mapInheritance="props"
+                                            :label="$tc('easycredit-payment.marketing.modal.fieldsActivate.showLabel')"
+                                            :disabled="props.isInherited"
+                                            :value="props.currentValue"
+                                            @change="props.updateCurrentValue">
+                            </sw-switch-field>
+                        </template>
+                    </sw-inherit-wrapper>
+                    <!--
+                    <sw-switch-field name="EasyCreditRatenkauf.config.modalEnabled"
+                                    :label="$tc('easycredit-payment.marketing.modal.fieldsActivate.showLabel')"
+                                    :value="config['EasyCreditRatenkauf.config.modalEnabled']"
+                                    @change="setConfig(event)">
+                    </sw-switch-field>
+                    -->
+                {% endblock %}
+
+                <h3>{{ $tc('easycredit-payment.marketing.modal.fieldsSettings.title') }}</h3>
+                {% block netzkollektiv_easycredit_marketing_modal_fields_settings %}
+                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.modalSettingsDelay']"
+                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.modalSettingsDelay']"
+                                        :customInheritationCheckFunction="checkTextFieldInheritance">
+                        <template #content="props">
+                            <sw-text-field name="EasyCreditRatenkauf.config.modalSettingsDelay"
+                                            {#bordered#}
+                                            {#min="0"
+                                            step="1"#}
+                                            placeholder="0"
+                                            @keyup="textToNumber(event)"
+                                            :mapInheritance="props"
+                                            :label="$tc('easycredit-payment.marketing.modal.fieldsSettings.delayLabel')"
+                                            :disabled="props.isInherited"
+                                            :value="props.currentValue"
+                                            @change="props.updateCurrentValue">
+                            </sw-text-field>
+                        </template>
+                    </sw-inherit-wrapper>
+                    <!--
+                    <sw-number-field name="EasyCreditRatenkauf.config.modalSettingsDelay"
+                                    :label="$tc('easycredit-payment.marketing.modal.fieldsSettings.delayLabel')"
+                                    :value="config['EasyCreditRatenkauf.config.modalSettingsDelay']"
+                                    @change="setConfig(event)">
+                    </sw-number-field>
+                    -->
+                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.modalSettingsSnoozeFor']"
+                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.modalSettingsSnoozeFor']"
+                                        :customInheritationCheckFunction="checkTextFieldInheritance">
+                        <template #content="props">
+                            <sw-text-field name="EasyCreditRatenkauf.config.modalSettingsSnoozeFor"
+                                            {#bordered#}
+                                            {#min="0"
+                                            step="1"#}
+                                            placeholder="0"
+                                            @keyup="textToNumber(event)"
+                                            :mapInheritance="props"
+                                            :label="$tc('easycredit-payment.marketing.modal.fieldsSettings.reactivationLabel')"
+                                            :disabled="props.isInherited"
+                                            :value="props.currentValue"
+                                            @change="props.updateCurrentValue">
+                            </sw-text-field>
+                        </template>
+                    </sw-inherit-wrapper>
+                    <!--
+                    <sw-number-field name="EasyCreditRatenkauf.config.modalSettingsSnoozeFor"
+                                    :label="$tc('easycredit-payment.marketing.modal.fieldsSettings.reactivationLabel')"
+                                    :value="config['EasyCreditRatenkauf.config.modalSettingsSnoozeFor']"
+                                    @change="setConfig(event)">
+                    </sw-number-field>
+                    -->
+                {% endblock %}
+            </div>
+
+            <div class="easycredit-marketing__image bg">
+                <img :src="'/easycreditratenkauf/static/easycredit-marketing-modal.png' | asset">
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="easycredit-marketing__tab-content card"
+        :class="{ active: selectedTab === 'card' }"
+    >
+        <div class="easycredit-marketing__grid">
+            <div class="easycredit-marketing__content">
+                <p>
+                    {{ $tc('easycredit-payment.marketing.card.introText') }}
+                </p>
+
+                <h3>{{ $tc('easycredit-payment.marketing.card.fieldsActivate.title') }}</h3>
+                {% block netzkollektiv_easycredit_marketing_card_fields_activation %}
+                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.cardEnabled']"
+                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.cardEnabled']"
+                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
+                        <template #content="props">
+                            <sw-switch-field name="EasyCreditRatenkauf.config.cardEnabled"
+                                            {#bordered#}
+                                            :mapInheritance="props"
+                                            :label="$tc('easycredit-payment.marketing.card.fieldsActivate.showCategoryLabel')"
+                                            :disabled="props.isInherited"
+                                            :value="props.currentValue"
+                                            @change="props.updateCurrentValue">
+                            </sw-switch-field>
+                        </template>
+                    </sw-inherit-wrapper>
+                    <!--
+                    <sw-switch-field name="EasyCreditRatenkauf.config.cardEnabled"
+                                    :label="$tc('easycredit-payment.marketing.card.fieldsActivate.showCategoryLabel')"
+                                    :value="config['EasyCreditRatenkauf.config.cardEnabled']"
+                                    @change="setConfig(event)">
+                    </sw-switch-field>
+                    -->
+                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.cardSearchEnabled']"
+                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.cardSearchEnabled']"
+                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
+                        <template #content="props">
+                            <sw-switch-field name="EasyCreditRatenkauf.config.cardSearchEnabled"
+                                            {#bordered#}
+                                            :mapInheritance="props"
+                                            :label="$tc('easycredit-payment.marketing.card.fieldsActivate.showSearchLabel')"
+                                            :disabled="props.isInherited"
+                                            :value="props.currentValue"
+                                            @change="props.updateCurrentValue">
+                            </sw-switch-field>
+                        </template>
+                    </sw-inherit-wrapper>
+                    <!--
+                    <sw-switch-field name="EasyCreditRatenkauf.config.cardSearchEnabled"
+                                    :label="$tc('easycredit-payment.marketing.card.fieldsActivate.showSearchLabel')"
+                                    :value="config['EasyCreditRatenkauf.config.cardSearchEnabled']"
+                                    @change="setConfig(event)">
+                    </sw-switch-field>
+                    -->
+                {% endblock %}
+
+                <h3>{{ $tc('easycredit-payment.marketing.card.fieldsSettings.title') }}</h3>
+                {% block netzkollektiv_easycredit_marketing_card_fields_settings %}
+                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.cardSettingsPosition']"
+                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.cardSettingsPosition']"
+                                        :customInheritationCheckFunction="checkTextFieldInheritance">
+                        <template #content="props">
+                            <sw-text-field name="EasyCreditRatenkauf.config.cardSettingsPosition"
+                                            {#bordered#}
+                                            {#min="1"
+                                            step="1"#}
+                                            placeholder="1"
+                                            @keyup="textToNumber(event)"
+                                            :mapInheritance="props"
+                                            :label="$tc('easycredit-payment.marketing.card.fieldsSettings.positionLabel')"
+                                            :disabled="props.isInherited"
+                                            :value="props.currentValue"
+                                            @change="props.updateCurrentValue">
+                            </sw-text-field>
+                        </template>
+                    </sw-inherit-wrapper>
+                    <!--
+                    <sw-number-field name="EasyCreditRatenkauf.config.cardSettingsPosition"
+                                    :label="$tc('easycredit-payment.marketing.card.fieldsSettings.positionLabel')"
+                                    min="1"
+                                    step="1"
+                                    placeholder="1"
+                                    :value="config['EasyCreditRatenkauf.config.cardSettingsPosition']"
+                                    @change="setConfig(event)">
+                    </sw-number-field>
+                    -->
+                {% endblock %}
+            </div>
+
+            <div class="easycredit-marketing__image bg">
+                <img :src="'/easycreditratenkauf/static/easycredit-marketing-card.png' | asset">
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="easycredit-marketing__tab-content flashbox"
+        :class="{ active: selectedTab === 'flashbox' }"
+    >
+        <div class="easycredit-marketing__grid">
+            <div class="easycredit-marketing__content">
+                <p>
+                    {{ $tc('easycredit-payment.marketing.flashbox.introText') }}
+                </p>
+
+                <h3>{{ $tc('easycredit-payment.marketing.flashbox.fieldsActivate.title') }}</h3>
+                {% block netzkollektiv_easycredit_marketing_flashbox_fields_activation %}
+                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.flashboxEnabled']"
+                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.flashboxEnabled']"
+                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
+                        <template #content="props">
+                            <sw-switch-field name="EasyCreditRatenkauf.config.flashboxEnabled"
+                                            {#bordered#}
+                                            :mapInheritance="props"
+                                            :label="$tc('easycredit-payment.marketing.flashbox.fieldsActivate.showLabel')"
+                                            :disabled="props.isInherited"
+                                            :value="props.currentValue"
+                                            @change="props.updateCurrentValue">
+                            </sw-switch-field>
+                        </template>
+                    </sw-inherit-wrapper>
+                    <!--
+                    <sw-switch-field name="EasyCreditRatenkauf.config.flashboxEnabled"
+                                    :label="$tc('easycredit-payment.marketing.flashbox.fieldsActivate.showLabel')"
+                                    :value="config['EasyCreditRatenkauf.config.flashboxEnabled']"
+                                    @change="setConfig(event)">
+                    </sw-switch-field>
+                    -->
+                {% endblock %}
+            </div>
+
+            <div class="easycredit-marketing__image bg">
+                <img :src="'/easycreditratenkauf/static/easycredit-marketing-flashbox.png' | asset">
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="easycredit-marketing__tab-content bar"
+        :class="{ active: selectedTab === 'bar' }"
+    >
+        <div class="easycredit-marketing__grid">
+            <div class="easycredit-marketing__content">
+                <p>
+                    {{ $tc('easycredit-payment.marketing.bar.introText') }}
+                </p>
+
+                <h3>{{ $tc('easycredit-payment.marketing.bar.fieldsActivate.title') }}</h3>
+                {% block netzkollektiv_easycredit_marketing_bar_fields_activation %}
+                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.barEnabled']"
+                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.barEnabled']"
+                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
+                        <template #content="props">
+                            <sw-switch-field name="EasyCreditRatenkauf.config.barEnabled"
+                                            {#bordered#}
+                                            :mapInheritance="props"
+                                            :label="$tc('easycredit-payment.marketing.bar.fieldsActivate.showLabel')"
+                                            :disabled="props.isInherited"
+                                            :value="props.currentValue"
+                                            @change="props.updateCurrentValue">
+                            </sw-switch-field>
+                        </template>
+                    </sw-inherit-wrapper>
+                    <!--
+                    <sw-switch-field name="EasyCreditRatenkauf.config.barEnabled"
+                                    :label="$tc('easycredit-payment.marketing.bar.fieldsActivate.showLabel')"
+                                    :value="config['EasyCreditRatenkauf.config.barEnabled']"
+                                    @change="setConfig(event)">
+                    </sw-switch-field>
+                    -->
+                {% endblock %}
+            </div>
+
+            <div class="easycredit-marketing__image bg">
+                <img :src="'/easycreditratenkauf/static/easycredit-marketing-bar.png' | asset">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

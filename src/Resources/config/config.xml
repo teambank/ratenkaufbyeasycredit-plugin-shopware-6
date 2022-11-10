@@ -3,6 +3,16 @@
         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
 
     <card>
+        <title lang="de-DE">Intro</title>
+        <title lang="en-GB">Intro</title>
+        <name>intro</name>
+
+        <component name="easycredit-intro">
+            <name>introCols</name>
+        </component>
+    </card>
+
+    <card>
         <title lang="de-DE">API Zugangsdaten</title>
         <title lang="en-GB">API Credentials</title>
         <name>api-credentials</name>
@@ -112,6 +122,50 @@
     </card>
 
     <card>
+        <title lang="de-DE">Marketing</title>
+        <title lang="en-GB">Marketing</title>
+        <name>marketing</name>
+
+        <!--
+        <input-field type="bool">
+            <name>widgetEnabledProductPages</name>
+            <label lang="de-DE">Widget anzeigen auf Produktseiten</label>
+            <label lang="en-GB">Show widget on product pages</label>
+            <helpText lang="de-DE">Wenn diese Option aktiv ist, wird das easyCredit-Ratenkauf Widget auf Produktseiten angezeigt.</helpText>
+            <helpText lang="en-GB">When this option is active, the easyCredit-Ratenkauf widget is displayed on product pages.</helpText>
+        </input-field>
+
+        <input-field type="bool">
+            <name>modalEnabled</name>
+            <label lang="de-DE">Modal beim ersten Besuch des Onlineshops automatisch einblenden</label>
+            <label lang="en-GB">Automatically show modal on first visit to the online shop</label>
+        </input-field>
+
+        <input-field type="bool">
+            <name>cardEnabled</name>
+            <label lang="de-DE">Card innerhalb der Produktliste (Kategorie) anzeigen</label>
+            <label lang="en-GB">Show card within product list (category)</label>
+        </input-field>
+
+        <input-field type="bool">
+            <name>flashboxEnabled</name>
+            <label lang="de-DE">Flashbox am unteren Bildschirmrand anzeigen</label>
+            <label lang="en-GB">Show flashbox at the bottom of the screen</label>
+        </input-field>
+
+        <input-field type="bool">
+            <name>barEnabled</name>
+            <label lang="de-DE">Bar am oberen Bildschirmrand anzeigen</label>
+            <label lang="en-GB">Show bar at the top of the screen</label>
+        </input-field>
+        -->
+
+        <component name="easycredit-marketing">
+            <name>marketingTabs</name>
+        </component>
+    </card>
+
+    <card>
         <title lang="de-DE">Marketing: Modellrechner-Widget</title>
         <title lang="en-GB">Marketing: Model Calculation Widget</title>
         <name>widget</name>
@@ -132,6 +186,11 @@
             <name>widgetSelectorCart</name>
             <label lang="de-DE">CSS-Selektor für Warenkorb</label>
             <label lang="en-GB">CSS selector for cart</label>
+        </input-field>
+        <input-field>
+            <name>widgetExtended</name>
+            <label lang="de-DE">außerhalb der Betragsgrenzen anzeigen</label>
+            <label lang="en-GB">Show outside amount limits</label>
         </input-field>
     </card>
 </config>

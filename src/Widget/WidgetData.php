@@ -36,6 +36,11 @@ class WidgetData extends Struct
         return $this->widgetSelector;
     }
 
+    public function getWidgetExtended(): string
+    {
+        return $this->widgetExtended;
+    }
+
     public function getAmount(): float
     {
         return $this->amount;

@@ -1,0 +1,12 @@
+{% sw_extends '@Storefront/storefront/component/product/listing.html.twig' %}
+
+{% block element_product_listing_col %}
+
+    {% if page.extensions.easycreditCard.card %}
+    <div class="cms-listing-col {{ listingColumns }} easycredit-box-listing">
+        <easycredit-box-listing position="{{page.extensions.easycreditCard.cardSettingsPosition}}"></easycredit-box-listing>
+    </div>
+    {% endif %}
+
+    {{ parent() }}
+{% endblock %}

@@ -64,6 +64,41 @@ class SettingStruct extends Struct
     /**
      * @var bool
      */
+    protected $modalEnabled = false;
+
+    /**
+     * @var string|null
+     */
+    protected $modalSettingsDelay = null;
+
+    /**
+     * @var string|null
+     */
+    protected $modalSettingsSnoozeFor = null;
+
+    /**
+     * @var bool
+     */
+    protected $flashboxEnabled = false;
+
+    /**
+     * @var bool
+     */
+    protected $barEnabled = false;
+
+    /**
+     * @var bool
+     */
+    protected $cardEnabled = false;
+
+    /**
+     * @var string|null
+     */
+    protected $cardSettingsPosition = null;
+
+    /**
+     * @var bool
+     */
     protected $widgetEnabled = true;
 
     /**
@@ -176,6 +211,86 @@ class SettingStruct extends Struct
         $this->clickAndCollectShippingMethod = $shippingMethod;
     }
 
+    public function getModalEnabled(): bool
+    {
+        return (bool) $this->modalEnabled;
+    }
+
+    public function setModalEnabled(bool $modalEnabled): void
+    {
+        $this->modalEnabled = $modalEnabled;
+    }
+
+    public function getModalSettingsDelay(): ?string
+    {
+        return $this->modalSettingsDelay;
+    }
+
+    public function setModalSettingsDelay(string $modalSettingsDelay): void
+    {
+        $this->modalSettingsDelay = $modalSettingsDelay;
+    }
+
+    public function getModalSettingsSnoozeFor(): ?string
+    {
+        return $this->modalSettingsSnoozeFor;
+    }
+
+    public function setModalSettingsSnoozeFor(string $modalSettingsSnoozeFor): void
+    {
+        $this->modalSettingsSnoozeFor = $modalSettingsSnoozeFor;
+    }
+
+    public function getFlashboxEnabled(): bool
+    {
+        return (bool) $this->flashboxEnabled;
+    }
+
+    public function setFlashboxEnabled(bool $flashboxEnabled): void
+    {
+        $this->flashboxEnabled = $flashboxEnabled;
+    }
+
+    public function getBarEnabled(): bool
+    {
+        return (bool) $this->barEnabled;
+    }
+
+    public function setBarEnabled(bool $barEnabled): void
+    {
+        $this->barEnabled = $barEnabled;
+    }
+
+    public function getCardEnabled(): bool
+    {
+        return (bool) $this->cardEnabled;
+    }
+
+    public function setCardEnabled(bool $cardEnabled): void
+    {
+        $this->cardEnabled = $cardEnabled;
+    }
+
+    public function getCardSearchEnabled(): bool
+    {
+        return (bool) $this->cardSearchEnabled;
+    }
+
+    public function setCardSearchEnabled(bool $cardSearchEnabled): void
+    {
+        $this->cardSearchEnabled = $cardSearchEnabled;
+    }
+
+    public function getCardSettingsPosition(): ?string
+    {
+        return $this->cardSettingsPosition;
+    }
+
+    public function setCardSettingsPosition(string $cardSettingsPosition): void
+    {
+        $this->cardSettingsPosition = $cardSettingsPosition;
+    }
+
     public function getWidgetEnabled(): bool
     {
         return (bool) $this->widgetEnabled;
@@ -204,5 +319,15 @@ class SettingStruct extends Struct
     public function setWidgetSelectorCart(string $widgetSelectorCart): void
     {
         $this->widgetSelectorCart = $widgetSelectorCart;
+    }
+
+    public function getWidgetExtended(): bool
+    {
+        return (bool) $this->widgetExtended;
+    }
+
+    public function setWidgetExtended(bool $widgetExtended): void
+    {
+        $this->widgetExtended = $widgetExtended;
     }
 }
