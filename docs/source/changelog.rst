@@ -1,6 +1,11 @@
 Changelog
 =========
 
+v2.0.6
+------
+
+* verhindert, dass die Payment Session durch den Aufruf einer nicht existenten Ressource geleert wurde
+
 v2.0.5
 ------
 
