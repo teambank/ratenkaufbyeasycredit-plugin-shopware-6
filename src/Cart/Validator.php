@@ -7,16 +7,17 @@
 
 namespace Netzkollektiv\EasyCredit\Cart;
 
+use Monolog\Logger;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Shopware\Core\Checkout\Cart\Cart;
+use Shopware\Core\Checkout\Cart\CartValidatorInterface;
+use Shopware\Core\Checkout\Cart\Error\ErrorCollection;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Netzkollektiv\EasyCredit\Api\QuoteInvalidException;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
-use Shopware\Core\Checkout\Cart\Cart;
-use Shopware\Core\Checkout\Cart\CartValidatorInterface;
-use Shopware\Core\Checkout\Cart\Error\ErrorCollection;
-use Shopware\Core\System\SalesChannel\SalesChannelContext;
-use Monolog\Logger;
 
 class Validator implements CartValidatorInterface
 {
@@ -33,13 +34,15 @@ class Validator implements CartValidatorInterface
         QuoteHelper $quoteHelper,
         PaymentHelper $paymentHelper,
         Storage $storage,
-        Logger $logger
+        Logger $logger,
+        RequestStack $requestStack
     ) {
         $this->integrationFactory = $integrationFactory;
         $this->quoteHelper = $quoteHelper;
         $this->paymentHelper = $paymentHelper;
         $this->storage = $storage;
         $this->logger = $logger;
+        $this->requestStack = $requestStack;
     }
 
     public function validate(
@@ -47,7 +50,10 @@ class Validator implements CartValidatorInterface
         ErrorCollection $errors,
         SalesChannelContext $salesChannelContext
     ): void {
-        if (in_array($cart->getName(), ['recalculation', 'sales-channel'])) {
+        if (
+            !$this->requestStack->getCurrentRequest()->attributes->get('_route') || // if route is not set no controller was resolved (leading to 404) and the cart is empty
+            in_array($cart->getName(), ['recalculation', 'sales-channel'])
+        ) {
             return;
         }
 

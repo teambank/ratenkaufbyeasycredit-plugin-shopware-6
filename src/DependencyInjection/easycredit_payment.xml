@@ -140,7 +140,7 @@
             <tag name="shopware.cart.processor" priority="-5000"/>
         </service>
 
-        <service id="Netzkollektiv\EasyCredit\Cart\Validator">
+        <service id="Netzkollektiv\EasyCredit\Cart\Validator" autowire="true">
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Payment"/>
