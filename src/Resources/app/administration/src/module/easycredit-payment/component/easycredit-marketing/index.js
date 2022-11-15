@@ -38,25 +38,6 @@ Component.register('easycredit-marketing', {
             this.selectedTab = this.tabs[0].id
         },
 
-        /*
-        moveFields() {
-            var widgetEnabledProductPages = document.querySelector('.sw-system-config--field-easy-credit-ratenkauf-config-widget-enabled-product-pages')
-            document.querySelector('.easycredit-marketing__tab-content.widget .easycredit-marketing__content').append(widgetEnabledProductPages)
-
-            var modalEnabled = document.querySelector('.sw-system-config--field-easy-credit-ratenkauf-config-modal-enabled')
-            document.querySelector('.easycredit-marketing__tab-content.modal .easycredit-marketing__content').append(modalEnabled)
-
-            var cardEnabled = document.querySelector('.sw-system-config--field-easy-credit-ratenkauf-config-card-enabled')
-            document.querySelector('.easycredit-marketing__tab-content.card .easycredit-marketing__content').append(cardEnabled)
-
-            var flashboxEnabled = document.querySelector('.sw-system-config--field-easy-credit-ratenkauf-config-flashbox-enabled')
-            document.querySelector('.easycredit-marketing__tab-content.flashbox .easycredit-marketing__content').append(flashboxEnabled)
-
-            var barEnabled = document.querySelector('.sw-system-config--field-easy-credit-ratenkauf-config-bar-enabled')
-            document.querySelector('.easycredit-marketing__tab-content.bar .easycredit-marketing__content').append(barEnabled)
-        },
-        */
-
         getConfigComponent() {
             var component = this
             while (component.$parent) {
@@ -160,6 +141,5 @@ Component.register('easycredit-marketing', {
 
     mounted () {
         this.selectInitialTab()
-        // this.moveFields()
     }
 });
