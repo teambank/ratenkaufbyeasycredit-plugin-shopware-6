@@ -113,12 +113,6 @@ class Marketing implements EventSubscriberInterface
             return false;
         }
 
-        /*
-        if (!$settings->getModalEnabled()) {
-            return false;
-        }
-        */
-
         return $settings;
     }
 }
