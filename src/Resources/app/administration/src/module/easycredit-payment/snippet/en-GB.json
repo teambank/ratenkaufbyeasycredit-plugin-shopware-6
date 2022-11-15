@@ -135,7 +135,7 @@
             },
             "modal": {
                 "title": "Modal",
-                "introText": "The modal component can be used to actively draw the customer's attention to the instalment purchase at a certain point in the shop. A time-controlled display of the modal is possible. If the customer closes the modal, the component remembers this and prevents it from being displayed again.",
+                "introText": "The modal component can be used to actively draw the customer's attention to the instalment purchase in the shop. A time-controlled display of the modal is possible. If the customer closes the modal, the component remembers this and prevents it from being displayed again.",
                 "fieldsActivate": {
                     "title": "Activate modal",
                     "showLabel": "Automatically show modal on first visit to the online shop"
@@ -143,12 +143,16 @@
                 "fieldsSettings": {
                     "title": "Settings",
                     "delayLabel": "Delay (in milliseconds)",
-                    "reactivationLabel": "Reactivation after (in seconds)"
+                    "delayHelpText": "Here you can specify in milliseconds the delay after which the modal is displayed to the customer when the page is loaded (for example \"10000\" for 10 seconds delay).",
+                    "reactivationLabel": "Reactivation after (in seconds)",
+                    "reactivationHelpText": "Here you can specify in seconds the time after which the modal is displayed again to the customer (when the page is loaded) after he has actively closed the modal (for example \"3600\" for 1 hour).",
+                    "mediaLabel": "Replace default image with your own image",
+                    "mediaHelpText": "To set an image per sales channel, please do not choose an image on the global level."
                 }
             },
             "card": {
                 "title": "Card",
-                "introText": "The listing component can be used to replace a product within the product list with a banner to advertise the hire purchase. The banner shows a standard image that can be overwritten via the src attribute. This allows you to use an image that matches your product offering.",
+                "introText": "The listing component can be used to replace a product within the product list with a banner to advertise the hire purchase. The banner shows a standard image that can be overwritten. This allows you to use an image that matches your product offering.",
                 "fieldsActivate": {
                     "title": "Activate card",
                     "showCategoryLabel": "Show card within product list (category)",
@@ -156,20 +160,27 @@
                 },
                 "fieldsSettings": {
                     "title": "Settings",
-                    "positionLabel": "Position in product list"
+                    "positionLabel": "Position in product list",
+                    "mediaLabel": "Replace default image with your own image",
+                    "mediaHelpText": "To set an image per sales channel, please do not choose an image on the global level."
                 }
             },
             "flashbox": {
                 "title": "Flashbox",
-                "introText": "This marketing component allows a banner to be displayed at the bottom of the screen to advertise hire purchase. The banner shows a standard image that can be overwritten via the src attribute. This allows you to use an image that matches your product offer.",
+                "introText": "This marketing component allows a banner to be displayed at the bottom of the screen to advertise hire purchase. The banner shows a standard image that can be overwritten. This allows you to use an image that matches your product offer.",
                 "fieldsActivate": {
                     "title": "Activate Flashbox",
                     "showLabel": "Show flashbox at the bottom of the screen"
+                },
+                "fieldsSettings": {
+                    "title": "Settings",
+                    "mediaLabel": "Replace default image with your own image",
+                    "mediaHelpText": "To set an image per sales channel, please do not choose an image on the global level."
                 }
             },
             "bar": {
                 "title": "Bar",
-                "introText": "The slider component can be displayed at the top of the screen or at the top of a container and promotes the hire purchase with short slogans. The slogans are predefined and cannot be customised.",
+                "introText": "The slider component can be displayed at the top of the screen and promotes the hire purchase with short slogans. The slogans are predefined and cannot be customised.",
                 "fieldsActivate": {
                     "title": "Activate bar",
                     "showLabel": "Show bar at the top of the screen"

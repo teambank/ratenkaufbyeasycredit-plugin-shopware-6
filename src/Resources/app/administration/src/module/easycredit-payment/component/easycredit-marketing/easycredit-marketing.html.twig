@@ -27,7 +27,7 @@
                     <li><a href="https://netzkollektiv.com/docs/easycredit-ratenkauf-components/" target="_blank">{{ $tc('easycredit-payment.marketing.overview.introLinks.documentation') }}</a></li>
                     <li><a href="https://easycredit-demo.netzkollektiv.com/" target="_blank">{{ $tc('easycredit-payment.marketing.overview.introLinks.demoshop') }}</a></li>
                     <li><a href="https://www.easycredit-ratenkauf.de/marketingmaterial-schulung/" target="_blank">{{ $tc('easycredit-payment.marketing.overview.introLinks.marketingPortal') }}</a></li>
-                <ul>
+                </ul>
             </div>
 
             <div class="easycredit-marketing__image">
@@ -48,7 +48,7 @@
 
                 <h3>{{ $tc('easycredit-payment.marketing.widget.fieldsActivate.title') }}</h3>
                 {% block netzkollektiv_easycredit_marketing_widget_fields_activation %}
-                    <sw-inherit-wrapper v-model="config['EasyCreditRatenkauf.config.widgetEnabled']"
+                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetEnabled']"
                                         :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.widgetEnabled']"
                                         :customInheritationCheckFunction="checkBoolFieldInheritance">
                         <template #content="props">
@@ -116,7 +116,7 @@
                                     @change="setConfig(event)">
                     </sw-text-field>
                     -->
-                    <sw-inherit-wrapper v-model="config['EasyCreditRatenkauf.config.widgetExtended']"
+                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetExtended']"
                                         :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.widgetExtended']"
                                         :customInheritationCheckFunction="checkBoolFieldInheritance">
                         <template #content="props">
@@ -196,6 +196,7 @@
                                             @keyup="textToNumber(event)"
                                             :mapInheritance="props"
                                             :label="$tc('easycredit-payment.marketing.modal.fieldsSettings.delayLabel')"
+                                            :helpText="$tc('easycredit-payment.marketing.modal.fieldsSettings.delayHelpText')"
                                             :disabled="props.isInherited"
                                             :value="props.currentValue"
                                             @change="props.updateCurrentValue">
@@ -221,6 +222,7 @@
                                             @keyup="textToNumber(event)"
                                             :mapInheritance="props"
                                             :label="$tc('easycredit-payment.marketing.modal.fieldsSettings.reactivationLabel')"
+                                            :helpText="$tc('easycredit-payment.marketing.modal.fieldsSettings.reactivationHelpText')"
                                             :disabled="props.isInherited"
                                             :value="props.currentValue"
                                             @change="props.updateCurrentValue">
@@ -234,6 +236,27 @@
                                     @change="setConfig(event)">
                     </sw-number-field>
                     -->
+                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.modalSettingsMedia']"
+                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.modalSettingsMedia']"
+                                        :customInheritationCheckFunction="checkTextFieldInheritance">
+                        <template #content="props">
+                            <sw-help-text
+                                            :text="$tc('easycredit-payment.marketing.modal.fieldsSettings.mediaHelpText')"
+                                            :width="200"
+                                            tooltipPosition="top"
+                                            :showDelay="100"
+                                            :hideDelay="100">
+                            </sw-help-text>
+                            <sw-media-field name="EasyCreditRatenkauf.config.modalSettingsMedia"
+                                            bordered
+                                            :mapInheritance="props"
+                                            :label="$tc('easycredit-payment.marketing.modal.fieldsSettings.mediaLabel')"
+                                            :disabled="props.isInherited"
+                                            v-model="props.currentValue"
+                                            @media-id-change="props.updateCurrentValue">
+                            </sw-media-field>
+                        </template>
+                    </sw-inherit-wrapper>
                 {% endblock %}
             </div>
 
@@ -276,6 +299,7 @@
                                     @change="setConfig(event)">
                     </sw-switch-field>
                     -->
+
                     <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.cardSearchEnabled']"
                                         :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.cardSearchEnabled']"
                                         :customInheritationCheckFunction="checkBoolFieldInheritance">
@@ -329,6 +353,27 @@
                                     @change="setConfig(event)">
                     </sw-number-field>
                     -->
+                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.cardSettingsMedia']"
+                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.cardSettingsMedia']"
+                                        :customInheritationCheckFunction="checkTextFieldInheritance">
+                        <template #content="props">
+                            <sw-help-text
+                                            :text="$tc('easycredit-payment.marketing.card.fieldsSettings.mediaHelpText')"
+                                            :width="200"
+                                            tooltipPosition="top"
+                                            :showDelay="100"
+                                            :hideDelay="100">
+                            </sw-help-text>
+                            <sw-media-field name="EasyCreditRatenkauf.config.cardSettingsMedia"
+                                            {#bordered#}
+                                            :mapInheritance="props"
+                                            :label="$tc('easycredit-payment.marketing.card.fieldsSettings.mediaLabel')"
+                                            :disabled="props.isInherited"
+                                            v-model="props.currentValue"
+                                            @media-id-change="props.updateCurrentValue">
+                            </sw-media-field>
+                        </template>
+                    </sw-inherit-wrapper>
                 {% endblock %}
             </div>
 
@@ -371,6 +416,31 @@
                                     @change="setConfig(event)">
                     </sw-switch-field>
                     -->
+                {% endblock %}
+
+                <h3>{{ $tc('easycredit-payment.marketing.flashbox.fieldsSettings.title') }}</h3>
+                {% block netzkollektiv_easycredit_marketing_flashbox_fields_settings %}
+                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.flashboxSettingsMedia']"
+                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.flashboxSettingsMedia']"
+                                        :customInheritationCheckFunction="checkTextFieldInheritance">
+                        <template #content="props">
+                            <sw-help-text
+                                            :text="$tc('easycredit-payment.marketing.flashbox.fieldsSettings.mediaHelpText')"
+                                            :width="200"
+                                            tooltipPosition="top"
+                                            :showDelay="100"
+                                            :hideDelay="100">
+                            </sw-help-text>
+                            <sw-media-field name="EasyCreditRatenkauf.config.flashboxSettingsMedia"
+                                            {#bordered#}
+                                            :mapInheritance="props"
+                                            :label="$tc('easycredit-payment.marketing.flashbox.fieldsSettings.mediaLabel')"
+                                            :disabled="props.isInherited"
+                                            v-model="props.currentValue"
+                                            @media-id-change="props.updateCurrentValue">
+                            </sw-media-field>
+                        </template>
+                    </sw-inherit-wrapper>
                 {% endblock %}
             </div>
 

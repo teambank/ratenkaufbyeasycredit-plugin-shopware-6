@@ -231,6 +231,16 @@ class SettingStruct extends Struct
         $this->modalSettingsDelay = $modalSettingsDelay;
     }
 
+    public function getModalSettingsMedia(): ?string
+    {
+        return $this->modalSettingsMedia;
+    }
+
+    public function setModalSettingsMedia(string $modalSettingsMedia): void
+    {
+        $this->modalSettingsMedia = $modalSettingsMedia;
+    }
+
     public function getModalSettingsSnoozeFor(): ?string
     {
         return $this->modalSettingsSnoozeFor;
@@ -249,6 +259,16 @@ class SettingStruct extends Struct
     public function setFlashboxEnabled(bool $flashboxEnabled): void
     {
         $this->flashboxEnabled = $flashboxEnabled;
+    }
+
+    public function getFlashboxSettingsMedia(): ?string
+    {
+        return $this->flashboxSettingsMedia;
+    }
+
+    public function setFlashboxSettingsMedia(string $flashboxSettingsMedia): void
+    {
+        $this->flashboxSettingsMedia = $flashboxSettingsMedia;
     }
 
     public function getBarEnabled(): bool
@@ -289,6 +309,16 @@ class SettingStruct extends Struct
     public function setCardSettingsPosition(string $cardSettingsPosition): void
     {
         $this->cardSettingsPosition = $cardSettingsPosition;
+    }
+
+    public function getCardSettingsMedia(): ?string
+    {
+        return $this->cardSettingsMedia;
+    }
+
+    public function setCardSettingsMedia(string $cardSettingsMedia): void
+    {
+        $this->cardSettingsMedia = $cardSettingsMedia;
     }
 
     public function getWidgetEnabled(): bool

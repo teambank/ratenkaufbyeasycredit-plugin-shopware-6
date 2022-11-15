@@ -3,8 +3,10 @@
 {% block element_product_listing_col %}
 
     {% if page.extensions.easycreditCard.card %}
+    {% set cardMediaCollection = searchMedia([page.extensions.easycreditCard.cardSettingsMedia], context.context) %}
+    {% set cardMedia = cardMediaCollection.get(page.extensions.easycreditCard.cardSettingsMedia) %}
     <div class="cms-listing-col {{ listingColumns }} easycredit-box-listing">
-        <easycredit-box-listing position="{{page.extensions.easycreditCard.cardSettingsPosition}}"></easycredit-box-listing>
+        <easycredit-box-listing position="{{page.extensions.easycreditCard.cardSettingsPosition}}" src="{{ cardMedia.url }}"></easycredit-box-listing>
     </div>
     {% endif %}
 

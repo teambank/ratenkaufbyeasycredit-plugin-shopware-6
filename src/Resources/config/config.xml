@@ -165,6 +165,7 @@
         </component>
     </card>
 
+    <!--
     <card>
         <title lang="de-DE">Marketing: Modellrechner-Widget</title>
         <title lang="en-GB">Marketing: Model Calculation Widget</title>
@@ -193,4 +194,5 @@
             <label lang="en-GB">Show outside amount limits</label>
         </input-field>
     </card>
+    -->
 </config>

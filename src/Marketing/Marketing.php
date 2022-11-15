@@ -60,7 +60,9 @@ class Marketing implements EventSubscriberInterface
             'modalIsOpen' => $modalIsOpen,
             'modalSettingsDelay' => $settings->getModalSettingsDelay(),
             'modalSettingsSnoozeFor' => $settings->getModalSettingsSnoozeFor(),
+            'modalSettingsMedia' => $settings->getModalSettingsMedia(),
             'flashbox' => $settings->getFlashboxEnabled(),
+            'flashboxSettingsMedia' => $settings->getFlashboxSettingsMedia(),
             'bar' => $settings->getBarEnabled(),
         ]));
     }
@@ -77,6 +79,7 @@ class Marketing implements EventSubscriberInterface
         $event->getPage()->addExtension('easycreditCard', (new ArrayEntity())->assign([
             'card' => $settings->getCardEnabled(),
             'cardSettingsPosition' => $settings->getCardSettingsPosition(),
+            'cardSettingsMedia' => $settings->getCardSettingsMedia(),
         ]));
     }
 
@@ -92,6 +95,7 @@ class Marketing implements EventSubscriberInterface
         $event->getPage()->addExtension('easycreditCard', (new ArrayEntity())->assign([
             'card' => $settings->getCardSearchEnabled(),
             'cardSettingsPosition' => $settings->getCardSettingsPosition(),
+            'cardSettingsMedia' => $settings->getCardSettingsMedia(),
         ]));
     }
 

@@ -135,7 +135,7 @@
             },
             "modal": {
                 "title": "Modal",
-                "introText": "Die Modal-Komponente kann eingesetzt werden, um einen Kunden an einer bestimmten Stelle im Shop aktiv auf den Ratenkauf hinzuweisen. Ein zeitgesteuertes Einblenden des Modals ist möglich. Schliesst der Kunde das Modal, merkt die Komponente sich dies und verhindert ein weiteres Anzeigen.",
+                "introText": "Die Modal-Komponente kann eingesetzt werden, um einen Kunden im Shop aktiv auf den Ratenkauf hinzuweisen. Ein zeitgesteuertes Einblenden des Modals ist möglich. Schliesst der Kunde das Modal, merkt die Komponente sich dies und verhindert ein weiteres Anzeigen.",
                 "fieldsActivate": {
                     "title": "Modal aktivieren",
                     "showLabel": "Automatisches Anzeigen des Modals beim ersten Besuch des Online-Shops"
@@ -143,12 +143,16 @@
                 "fieldsSettings": {
                     "title": "Einstellungen",
                     "delayLabel": "Verzögerung (in Millisekunden)",
-                    "reactivationLabel": "Reaktivierung nach (in Sekunden)"
+                    "delayHelpText": "Hier können Sie in Millisekunden die Verzögerung angeben, nach welcher dem Kunden beim Laden der Seite das Modal angezeigt wird (beispielsweise \"10000\" für 10 Sekunden Verzögerung).",
+                    "reactivationLabel": "Reaktivierung nach (in Sekunden)",
+                    "reactivationHelpText": "Hier können Sie in Sekunden angeben, nach welcher Zeit dem Kunden das Modal wieder angezeigt wird (beim Laden der Seite), nachdem er das Modal aktiv geschlossen hat (beispielsweise \"3600\" für 1 Stunde).",
+                    "mediaLabel": "Standard-Bild mit eigenem Bild ersetzen",
+                    "mediaHelpText": "Um ein Bild pro Verkaufskanal einzustellen, wählen Sie bitte kein Bild auf globaler Ebene."
                 }
             },
             "card": {
                 "title": "Card",
-                "introText": "Mit der Listing-Komponente kann innerhalb der Produktliste ein Produkt durch einen Banner zur Bewerbung des Ratenkaufs ersetzt werden. Der Banner zeigt ein Standardbild, das sich über das src-Attribut überschreiben lässt. So können Sie ein zu ihrem Produktangebot passendes Bild verwenden.",
+                "introText": "Mit der Listing-Komponente kann innerhalb der Produktliste ein Produkt durch einen Banner zur Bewerbung des Ratenkaufs ersetzt werden. Der Banner zeigt ein Standardbild, das sich überschreiben lässt. So können Sie ein zu ihrem Produktangebot passendes Bild verwenden.",
                 "fieldsActivate": {
                     "title": "Card aktivieren",
                     "showCategoryLabel": "Card innerhalb der Produktliste (Kategorie) anzeigen",
@@ -156,20 +160,27 @@
                 },
                 "fieldsSettings": {
                     "title": "Einstellungen",
-                    "positionLabel": "Position in der Produktliste"
+                    "positionLabel": "Position in der Produktliste",
+                    "mediaLabel": "Standard-Bild mit eigenem Bild ersetzen",
+                    "mediaHelpText": "Um ein Bild pro Verkaufskanal einzustellen, wählen Sie bitte kein Bild auf globaler Ebene."
                 }
             },
             "flashbox": {
                 "title": "Flashbox",
-                "introText": "Mit dieser Marketing-Komponente lässt sich ein Banner zur Bewerbung des Ratenkaufs am unteren Bildschirmrand einblenden. Der Banner zeigt ein Standardbild, das sich über das src-Attribut überschreiben lässt. So können Sie ein zu ihrem Produktangebot passendes Bild verwenden.",
+                "introText": "Mit dieser Marketing-Komponente lässt sich ein Banner zur Bewerbung des Ratenkaufs am unteren Bildschirmrand einblenden. Der Banner zeigt ein Standardbild, das sich überschreiben lässt. So können Sie ein zu ihrem Produktangebot passendes Bild verwenden.",
                 "fieldsActivate": {
                     "title": "Flashbox aktivieren",
                     "showLabel": "Flashbox am unteren Rand des Bildschirms anzeigen"
+                },
+                "fieldsSettings": {
+                    "title": "Einstellungen",
+                    "mediaLabel": "Standard-Bild mit eigenem Bild ersetzen",
+                    "mediaHelpText": "Um ein Bild pro Verkaufskanal einzustellen, wählen Sie bitte kein Bild auf globaler Ebene."
                 }
             },
             "bar": {
                 "title": "Bar",
-                "introText": "Die Slider-Komponente kann am oberen Bildschirmrand oder am oberen Rand eines Containers angezeigt werden und bewirbt den Ratenkauf mit kurzen Slogans. Die Slogans sind vorgegeben und können nicht angepasst werden.",
+                "introText": "Die Slider-Komponente kann am oberen Bildschirmrand angezeigt werden und bewirbt den Ratenkauf mit kurzen Slogans. Die Slogans sind vorgegeben und können nicht angepasst werden.",
                 "fieldsActivate": {
                     "title": "Bar aktivieren",
                     "showLabel": "Leiste am oberen Rand des Bildschirms anzeigen"
