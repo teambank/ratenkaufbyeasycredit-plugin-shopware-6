@@ -5,7 +5,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Netzkollektiv\EasyCredit\Widget;
+namespace Netzkollektiv\EasyCredit\Marketing;
 
 use Shopware\Core\Framework\Struct\Struct;
 

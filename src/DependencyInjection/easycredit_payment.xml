@@ -114,16 +114,9 @@
             <tag name="kernel.event_subscriber"/>
         </service>
 
-        <service id="Netzkollektiv\EasyCredit\Widget\Widget">
-            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
-            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Payment"/>
-
-            <tag name="kernel.event_subscriber"/>
-        </service>
-
         <service id="Netzkollektiv\EasyCredit\Marketing\Marketing">
             <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Payment"/>
 
             <tag name="kernel.event_subscriber"/>
