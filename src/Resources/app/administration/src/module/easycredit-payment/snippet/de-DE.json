@@ -129,10 +129,7 @@
                 "fieldsSettings": {
                     "title": "Einstellungen",
                     "selectorProductLabel": "CSS-Selektor für die Produkt-Detailseite",
-                    "selectorCartLabel": "CSS-Selektor für den Warenkorb",
-                    "extendedLabel": "außerhalb der Betragsgrenzen anzeigen",
-                    "displayTypeLabel": "vereinfachte Darstellung des Widgets",
-                    "displayTypeHelpText": "Wenn diese Einstellung gesetzt ist, wird das Widget ohne Schlagschatten angezeigt."
+                    "selectorCartLabel": "CSS-Selektor für den Warenkorb"
                 }
             },
             "modal": {

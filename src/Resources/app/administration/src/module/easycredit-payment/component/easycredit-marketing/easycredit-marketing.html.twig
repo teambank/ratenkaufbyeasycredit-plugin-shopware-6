@@ -94,35 +94,6 @@
                             </sw-text-field>
                         </template>
                     </sw-inherit-wrapper>
-                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetExtended']"
-                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.widgetExtended']"
-                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
-                        <template #content="props">
-                            <sw-switch-field name="EasyCreditRatenkauf.config.widgetExtended"
-                                            {#bordered#}
-                                            :mapInheritance="props"
-                                            :label="$tc('easycredit-payment.marketing.widget.fieldsSettings.extendedLabel')"
-                                            :disabled="props.isInherited"
-                                            :value="props.currentValue"
-                                            @change="props.updateCurrentValue">
-                            </sw-switch-field>
-                        </template>
-                    </sw-inherit-wrapper>
-                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetDisplayType']"
-                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.widgetDisplayType']"
-                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
-                        <template #content="props">
-                            <sw-switch-field name="EasyCreditRatenkauf.config.widgetDisplayType"
-                                            {#bordered#}
-                                            :mapInheritance="props"
-                                            :label="$tc('easycredit-payment.marketing.widget.fieldsSettings.displayTypeLabel')"
-                                            :helpText="$tc('easycredit-payment.marketing.widget.fieldsSettings.displayTypeHelpText')"
-                                            :disabled="props.isInherited"
-                                            :value="props.currentValue"
-                                            @change="props.updateCurrentValue">
-                            </sw-switch-field>
-                        </template>
-                    </sw-inherit-wrapper>
                 {% endblock %}
             </div>
 
