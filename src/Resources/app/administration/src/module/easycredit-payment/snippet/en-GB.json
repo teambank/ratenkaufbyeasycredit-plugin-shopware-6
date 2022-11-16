@@ -130,7 +130,9 @@
                     "title": "Settings",
                     "selectorProductLabel": "CSS selector for product detail page",
                     "selectorCartLabel": "CSS selector for cart",
-                    "extendedLabel": "Show outside amount limits"
+                    "extendedLabel": "Show outside amount limits",
+                    "displayTypeLabel": "Simplified display of the widget",
+                    "displayTypeHelpText": "When this setting is set, the widget is displayed without drop shadow."
                 }
             },
             "modal": {

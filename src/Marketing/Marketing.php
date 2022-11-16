@@ -70,6 +70,7 @@ class Marketing implements EventSubscriberInterface
             'apiKey' => $settings->getWebshopId(),
             'widgetSelector' => $settings->getWidgetSelectorProductDetail(),
             'widgetExtended' => $settings->getWidgetExtended(),
+            'widgetDisplayType' => $settings->getWidgetDisplayType(),
             'amount' => $product->getCalculatedPrice()->getUnitPrice(),
         ]));
     }
@@ -93,6 +94,7 @@ class Marketing implements EventSubscriberInterface
             'apiKey' => $settings->getWebshopId(),
             'widgetSelector' => $settings->getWidgetSelectorCart(),
             'widgetExtended' => $settings->getWidgetExtended(),
+            'widgetDisplayType' => $settings->getWidgetDisplayType(),
             'amount' => $cart->getPrice()->getTotalPrice(),
         ]));
     }
@@ -115,6 +117,7 @@ class Marketing implements EventSubscriberInterface
         $event->getPage()->addExtension('easycredit', (new WidgetData())->assign([
             'apiKey' => $settings->getWebshopId(),
             'widgetSelector' => $settings->getWidgetSelectorCart(),
+            'widgetDisplayType' => $settings->getWidgetDisplayType(),
             'amount' => $cart->getPrice()->getTotalPrice(),
         ]));
     }
