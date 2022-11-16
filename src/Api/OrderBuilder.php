@@ -41,8 +41,7 @@ class OrderBuilder extends QuoteBuilder
     public function getShippingAddress(): ShippingAddress
     {
         $deliveries = $this->cart->getDeliveries();
-        if ($deliveries === null
-            || $deliveries->first() === null
+        if ($deliveries->first() === null
             || $deliveries->first()->getShippingOrderAddress() === null
         ) {
             throw new QuoteInvalidException('quote invalid');

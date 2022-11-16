@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
+use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\Framework\Context;
 use Shopware\Storefront\Controller\StorefrontController;
@@ -22,9 +23,9 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\System\SalesChannel\SalesChannel\ContextSwitchRoute;
 use Shopware\Core\System\SalesChannel\Context\SalesChannelContextService;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
-use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Netzkollektiv\EasyCredit\EasyCreditRatenkauf;
 use Netzkollektiv\EasyCredit\Payment\StateHandler;
 use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
@@ -41,10 +42,6 @@ class PaymentController extends StorefrontController
 {
     private $integrationFactory;
 
-    private $cartService;
-
-    private $quoteHelper;
-
     private $stateHandler;
 
     private $storage;
@@ -55,10 +52,10 @@ class PaymentController extends StorefrontController
 
     private ContextSwitchRoute $contextSwitchRoute;
 
+    private $orderTransactionRepository;
+
     public function __construct(
         IntegrationFactory $integrationFactory,
-        CartService $cartService,
-        QuoteHelper $quoteHelper,
         StateHandler $stateHandler,
         EntityRepository $orderTransactionRepository,
         Storage $storage,
@@ -67,8 +64,6 @@ class PaymentController extends StorefrontController
         ContextSwitchRoute $contextSwitchRoute
     ) {
         $this->integrationFactory = $integrationFactory;
-        $this->cartService = $cartService;
-        $this->quoteHelper = $quoteHelper;
         $this->stateHandler = $stateHandler;
         $this->orderTransactionRepository = $orderTransactionRepository;
         $this->storage = $storage;

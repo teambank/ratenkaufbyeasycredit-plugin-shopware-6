@@ -17,6 +17,8 @@ class MetaDataProvider
 
     private $categoryRepository;
 
+    private $shopwareVersion;
+
     public function __construct(
         EntityRepository $manufacturerRepository,
         EntityRepository $categoryRepository,

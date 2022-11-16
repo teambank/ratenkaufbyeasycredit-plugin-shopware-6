@@ -11,6 +11,8 @@ use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 
 class SystemBuilder
 {
+    private $metaDataProvider;   
+ 
     public function __construct(
         MetaDataProvider $metaDataProvider
     ) {
@@ -36,6 +38,7 @@ class SystemBuilder
                 return $json->version;
             }
         }
+        return '';
     }
 
     public function build () {

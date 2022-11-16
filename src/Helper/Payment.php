@@ -26,6 +26,9 @@ use Psr\Log\LoggerInterface;
 
 class Payment
 {
+    /**
+     * @var EntityRepositoryInterface
+     */
     private $paymentMethodRepository;
 
     /**

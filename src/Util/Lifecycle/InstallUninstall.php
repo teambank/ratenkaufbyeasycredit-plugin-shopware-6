@@ -20,6 +20,7 @@ use Shopware\Core\Framework\Rule\Container\AndRule;
 use Shopware\Core\System\Currency\Rule\CurrencyRule;
 use Shopware\Core\System\Country\CountryDefinition;
 use Shopware\Core\System\Currency\CurrencyDefinition;
+use Shopware\Core\Framework\Uuid\Uuid;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Netzkollektiv\EasyCredit\Payment\Handler;
 use Netzkollektiv\EasyCredit\Setting\Service\SettingsService;
@@ -41,11 +42,6 @@ class InstallUninstall
      * @var EntityRepository
      */
     private $salesChannelRepository;
-
-    /**
-     * @var EntityRepository
-     */
-    private $ruleRepository;
 
     /**
      * @var EntityRepository
@@ -86,7 +82,6 @@ class InstallUninstall
         $this->systemConfigRepository = $systemConfigRepository;
         $this->paymentMethodRepository = $paymentMethodRepository;
         $this->salesChannelRepository = $salesChannelRepository;
-        $this->ruleRepository = $ruleRepository;
         $this->countryRepository = $countryRepository;
         $this->currencyRepository = $currencyRepository;
         $this->pluginIdProvider = $pluginIdProvider;

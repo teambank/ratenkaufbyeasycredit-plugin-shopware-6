@@ -42,7 +42,7 @@ class InitError extends Error
 
     public function getMessageKey(): string
     {
-        return static::KEY;
+        return self::KEY;
     }
 
     public function getLevel(): int

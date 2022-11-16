@@ -31,6 +31,10 @@ class Validator implements CartValidatorInterface
 
     protected $storage;
 
+    protected $logger;
+
+    protected $requestStack;
+
     public function __construct(
         IntegrationFactory $integrationFactory,
         QuoteHelper $quoteHelper,

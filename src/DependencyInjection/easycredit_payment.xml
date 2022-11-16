@@ -10,7 +10,6 @@
             <argument type="service" id="order_transaction.repository"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\OrderDataProvider"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
 
@@ -114,9 +113,6 @@
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Helper\Payment" autowire="true">
-            <!--argument type="service" id="payment_method.repository"/>
-            <argument type="service" id="sales_channel.repository"/>
-            <argument type="service" id="Shopware\Core\Checkout\Payment\Cart\PaymentHandler\PaymentHandlerRegistry"/-->
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Cart\Collector">

@@ -9,6 +9,7 @@ namespace Netzkollektiv\EasyCredit\Api\Quote;
 
 use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Teambank\RatenkaufByEasyCreditApiV3\Integration;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\ShoppingCartInformationItem;
 
@@ -18,6 +19,10 @@ class ItemBuilder
      * @var LineItem
      */
     protected $item;
+
+    protected $context;
+
+    protected $metaDataProvider;
 
     public function __construct(
         MetaDataProvider $metaDataProvider

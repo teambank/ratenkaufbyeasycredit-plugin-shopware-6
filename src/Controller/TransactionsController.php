@@ -66,14 +66,14 @@ class TransactionsController extends AbstractController
         try {
             $params = $request->request->all();
 
-            $response = $this->integrationFactory
+            $this->integrationFactory
                 ->createTransactionApi()
                 ->apiMerchantV3TransactionTransactionIdCapturePost(
                     $transactionId,
                     new CaptureRequest(['trackingNumber' => $params['trackingNumber']])
                 );
 
-            return new JsonResponse($response);
+            return new JsonResponse();
         } catch (ApiException $e) {
             return $this->getJsonResponseFromException($e);
         } catch (\Throwable $e) {
@@ -92,14 +92,14 @@ class TransactionsController extends AbstractController
         try {
             $params = $request->request->all();
 
-            $response = $this->integrationFactory
+            $this->integrationFactory
                 ->createTransactionApi()
                 ->apiMerchantV3TransactionTransactionIdRefundPost(
                     $transactionId,
                     new RefundRequest(['value' => $params['value']])
                 );
 
-                return new JsonResponse($response);
+                return new JsonResponse();
         } catch (ApiException $e) {
             return $this->getJsonResponseFromException($e);
         } catch (\Throwable $e) {

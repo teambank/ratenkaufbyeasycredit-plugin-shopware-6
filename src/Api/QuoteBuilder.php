@@ -48,6 +48,18 @@ class QuoteBuilder
      */
     protected $storage;
 
+    protected $metaDataProvider;
+
+    protected $router; 
+
+    protected $addressBuilder;
+
+    protected $itemBuilder;
+
+    protected $customerBuilder;
+
+    protected $systemBuilder; 
+
     public function __construct(
         MetaDataProvider $metaDataProvider,
         SettingsServiceInterface $settingsService,

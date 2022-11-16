@@ -20,7 +20,7 @@ class InterestError extends Error
 
     public function getId(): string
     {
-        return static::KEY;
+        return self::KEY;
     }
 
     public function isPersistent(): bool
@@ -30,7 +30,7 @@ class InterestError extends Error
 
     public function getMessageKey(): string
     {
-        return static::KEY;
+        return self::KEY;
     }
 
     public function getLevel(): int

@@ -24,7 +24,11 @@ class Checkout implements EventSubscriberInterface
 {
     private $paymentHelper;
 
+    private $settings;
+
     private $integrationFactory;
+
+    private $quoteHelper;
 
     private $storage;
 
@@ -103,7 +107,7 @@ class Checkout implements EventSubscriberInterface
         try {
             $this->getWebshopDetails($checkout);
         } catch (\Throwable $e) {
-            $this->logger->error($e);
+            $this->logger->error($e->getMessage());
             $this->removePaymentMethodFromConfirmPage($event);
 
             return;

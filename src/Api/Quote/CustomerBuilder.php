@@ -17,6 +17,8 @@ class CustomerBuilder
 
     protected $billingAddress;
 
+    protected $prefixConverter;
+
     public function __construct(PrefixConverter $prefixConverter) {
         $this->prefixConverter = $prefixConverter;
     }

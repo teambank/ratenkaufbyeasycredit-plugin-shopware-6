@@ -20,7 +20,7 @@ use Netzkollektiv\EasyCredit\Setting\Service\SettingsService;
 
 class LoggerFactory extends ShopwareLoggerFactory
 {
-    private int $logLevel = Logger::WARNING;
+    protected $logLevel;
 
     public function setLogLevel(SystemConfigService $systemConfigService): void
     {
