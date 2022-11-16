@@ -131,7 +131,7 @@ class PaymentController extends StorefrontController
                 $orderTransaction->getOrder(),
                 $salesChannelContext
             );
-            return new Response('payment status successfully set', Resppnse::HTTP_OK);
+            return new Response('payment status successfully set', Response::HTTP_OK);
 
         } catch (OrderTransactionNotFoundException $e) {
             return new Response($e->getMessage(), Response::HTTP_NOT_FOUND);
