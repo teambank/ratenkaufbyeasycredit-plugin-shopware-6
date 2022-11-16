@@ -1,6 +1,11 @@
 Changelog
 =========
 
+v2.0.7
+------
+
+* behebt einen Fehler in der 2-Phasen-Bestätigung
+
 v2.0.6
 ------
 
