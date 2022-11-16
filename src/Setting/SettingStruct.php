@@ -350,24 +350,4 @@ class SettingStruct extends Struct
     {
         $this->widgetSelectorCart = $widgetSelectorCart;
     }
-
-    public function getWidgetExtended(): bool
-    {
-        return (bool) $this->widgetExtended;
-    }
-
-    public function setWidgetExtended(bool $widgetExtended): void
-    {
-        $this->widgetExtended = $widgetExtended;
-    }
-
-    public function getWidgetDisplayType(): bool
-    {
-        return (bool) $this->widgetDisplayType;
-    }
-
-    public function setWidgetDisplayType(bool $widgetDisplayType): void
-    {
-        $this->widgetDisplayType = $widgetDisplayType;
-    }
 }
