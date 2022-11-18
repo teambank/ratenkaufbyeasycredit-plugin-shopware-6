@@ -51,9 +51,13 @@ class Validator implements CartValidatorInterface
         SalesChannelContext $salesChannelContext
     ): void {
         if (
-            !$this->requestStack->getCurrentRequest()->attributes->get('_route') || // if route is not set no controller was resolved (leading to 404) and the cart is empty
-            in_array($cart->getName(), ['recalculation', 'sales-channel'])
+            isset($this->requestStack->getCurrentRequest()->attributes) &&
+            !$this->requestStack->getCurrentRequest()->attributes->get('_route') // if route is not set no controller was resolved (leading to 404) and the cart is empty
         ) {
+            return;
+        }
+
+        if (in_array($cart->getName(), ['recalculation', 'sales-channel'])) {
             return;
         }
 
