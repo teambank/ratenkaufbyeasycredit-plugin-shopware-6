@@ -54,57 +54,6 @@ Component.register('easycredit-marketing', {
             return this.getConfigComponent().actualConfigData[salesChannelId]
         },
 
-        /*
-        setConfig(event) {
-            var element = event.target
-            var value = null
-
-            if ( element.type == 'checkbox' ) {
-                value = element.checked
-            } else {
-                value = element.value
-            }
-
-            this.config[element.name] = value
-
-            console.log('Config changed, saving ...')
-            this.saveConfig()
-        },
-        fetchConfig() {
-            const salesChannelId = this.getCurrentSalesChannelId()
-
-            this.isLoading = true;
-
-            return this.systemConfigApiService.getValues('EasyCreditRatenkauf.config', salesChannelId)
-                .then(values => {
-                    this.config = values;
-
-                    console.log('Config Data:')
-                    console.log(values)
-                })
-                .finally(() => {
-                    this.isLoading = false;
-                });
-        },
-        saveConfig() {
-            const salesChannelId = this.getCurrentSalesChannelId()
-
-            this.isLoading = true;
-
-            return this.systemConfigApiService.saveValues(this.config, salesChannelId)
-                .then(() => {
-                    this.createNotificationSuccess({
-                        message: 'Settings saved',
-                        autoClose: true,
-                    });
-
-                    return Promise.resolve();
-                }).then(() => {
-                    this.isLoading = false;
-                });
-        },
-        */
-
         textToNumber(event) {
             var element = event.target
             var oldValue = element.value
@@ -121,22 +70,9 @@ Component.register('easycredit-marketing', {
 
             return value.length <= 0;
         },
-        /*
-        checkNumberFieldInheritance(value) {
-            if (typeof value !== 'string' && typeof value !== 'number') {
-                return true;
-            }
-
-            return value.toString().length <= 0;
-        },
-        */
         checkBoolFieldInheritance(value) {
             return typeof value !== 'boolean';
         },
-    },
-
-    created () {
-        // this.fetchConfig()
     },
 
     mounted () {

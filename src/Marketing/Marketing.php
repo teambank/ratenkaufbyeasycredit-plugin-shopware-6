@@ -66,7 +66,7 @@ class Marketing implements EventSubscriberInterface
             return;
         }
 
-        $event->getPage()->addExtension('easycredit', (new WidgetData())->assign([
+        $event->getPage()->addExtension('easycredit', (new ArrayEntity())->assign([
             'apiKey' => $settings->getWebshopId(),
             'widgetSelector' => $settings->getWidgetSelectorProductDetail(),
             'amount' => $product->getCalculatedPrice()->getUnitPrice(),
@@ -88,7 +88,7 @@ class Marketing implements EventSubscriberInterface
 
         $cart = $this->cartService->getCart($context->getToken(), $context);
 
-        $event->getPage()->addExtension('easycredit', (new WidgetData())->assign([
+        $event->getPage()->addExtension('easycredit', (new ArrayEntity())->assign([
             'apiKey' => $settings->getWebshopId(),
             'widgetSelector' => $settings->getWidgetSelectorCart(),
             'amount' => $cart->getPrice()->getTotalPrice(),
@@ -110,7 +110,7 @@ class Marketing implements EventSubscriberInterface
 
         $cart = $this->cartService->getCart($context->getToken(), $context);
 
-        $event->getPage()->addExtension('easycredit', (new WidgetData())->assign([
+        $event->getPage()->addExtension('easycredit', (new ArrayEntity())->assign([
             'apiKey' => $settings->getWebshopId(),
             'widgetSelector' => $settings->getWidgetSelectorCart(),
             'amount' => $cart->getPrice()->getTotalPrice(),
@@ -121,7 +121,7 @@ class Marketing implements EventSubscriberInterface
     {
         $context = $event->getSalesChannelContext();
 
-	    $settings = $this->getSettings($context);
+        $settings = $this->getSettings($context);
         if (!$settings) {
             return;
         }

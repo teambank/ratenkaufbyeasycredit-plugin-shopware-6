@@ -1,0 +1,22 @@
+{% sw_extends '@Storefront/storefront/base.html.twig' %}
+
+{% block base_body_inner %}
+    {{ parent() }}
+
+    {% if page.extensions.easycredit.modal %}
+    {% set modalMediaCollection = searchMedia([page.extensions.easycredit.modalSettingsMedia], context.context) %}
+    {% set modalMedia = modalMediaCollection.get(page.extensions.easycredit.modalSettingsMedia) %}
+    <easycredit-box-modal is-open="{{page.extensions.easycredit.modalIsOpen}}" snooze-for="{{page.extensions.easycredit.modalSettingsSnoozeFor}}" delay="{{page.extensions.easycredit.modalSettingsDelay}}" src="{{ modalMedia.url }}"></easycredit-box-modal>
+    {% endif %}
+
+    {% if page.extensions.easycredit.flashbox %}
+    {% set flashboxMediaCollection = searchMedia([page.extensions.easycredit.flashboxSettingsMedia], context.context) %}
+    {% set flashboxMedia = flashboxMediaCollection.get(page.extensions.easycredit.flashboxSettingsMedia) %}
+    <easycredit-box-flash is-open="false" src="{{ flashboxMedia.url }}"></easycredit-box-flash>
+    {% endif %}
+
+    {% if page.extensions.easycredit.bar %}
+    <easycredit-box-top></easycredit-box-top>
+    {% endif %}
+
+{% endblock %}

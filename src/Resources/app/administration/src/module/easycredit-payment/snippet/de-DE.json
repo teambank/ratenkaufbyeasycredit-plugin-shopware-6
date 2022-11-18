@@ -121,7 +121,7 @@
             },
             "widget": {
                 "title": "Widget",
-                "introText": "Die Widget-Komponente wird typischerweise auf der Produktdetailseite gezeigt, kann aber auch im Warenkorb [oder in der Produktübersicht] integriert werden. Sie berechnet die günstigstmögliche Rate mit der ein Produkt mit einem bestimmten Preis finanziert werden kann. Bei Klick auf \"mehr Infos\" öffnet sich der Ratenrechner mit weiteren Details zur Finanzierung. Liegt der Produktpreis außerhalb der möglichen Finanzierungsbeträge weist das Widget auf Wunsch auf den minimal oder maximal möglichen Finanzierungsbetrag hin.",
+                "introText": "Die Widget-Komponente wird auf der Produktdetailseite und auch im Warenkorb angezeigt. Sie berechnet die günstigstmögliche Rate mit der ein Produkt mit einem bestimmten Preis finanziert werden kann. Bei Klick auf \"mehr Infos\" öffnet sich der Ratenrechner mit weiteren Details zur Finanzierung. Liegt der Produktpreis außerhalb der möglichen Finanzierungsbeträge weist das Widget auf Wunsch auf den minimal oder maximal möglichen Finanzierungsbetrag hin.",
                 "fieldsActivate": {
                     "title": "Widget aktivieren",
                     "showLabel": "Widget anzeigen"
@@ -151,7 +151,7 @@
             },
             "card": {
                 "title": "Card",
-                "introText": "Mit der Listing-Komponente kann innerhalb der Produktliste ein Produkt durch einen Banner zur Bewerbung des Ratenkaufs ersetzt werden. Der Banner zeigt ein Standardbild, das sich überschreiben lässt. So können Sie ein zu ihrem Produktangebot passendes Bild verwenden.",
+                "introText": "Mit der Card-Komponente kann innerhalb der Produktliste ein Produkt durch einen Banner zur Bewerbung des Ratenkaufs ersetzt werden. Der Banner zeigt ein Standardbild, das sich überschreiben lässt. So können Sie ein zu ihrem Produktangebot passendes Bild verwenden.",
                 "fieldsActivate": {
                     "title": "Card aktivieren",
                     "showCategoryLabel": "Card innerhalb der Produktliste (Kategorie) anzeigen",
@@ -179,7 +179,7 @@
             },
             "bar": {
                 "title": "Bar",
-                "introText": "Die Slider-Komponente kann am oberen Bildschirmrand angezeigt werden und bewirbt den Ratenkauf mit kurzen Slogans. Die Slogans sind vorgegeben und können nicht angepasst werden.",
+                "introText": "Die Bar-Komponente kann am oberen Bildschirmrand angezeigt werden und bewirbt den Ratenkauf mit kurzen Slogans. Die Slogans sind vorgegeben und können nicht angepasst werden.",
                 "fieldsActivate": {
                     "title": "Bar aktivieren",
                     "showLabel": "Leiste am oberen Rand des Bildschirms anzeigen"

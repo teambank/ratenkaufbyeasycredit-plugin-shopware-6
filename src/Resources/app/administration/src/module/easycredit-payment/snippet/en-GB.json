@@ -121,7 +121,7 @@
             },
             "widget": {
                 "title": "Widget",
-                "introText": "The widget component is typically shown on the product detail page, but can also be integrated in the shopping cart [or in the product overview]. It calculates the lowest possible rate with which a product with a certain price can be financed. Clicking on \"more info\" opens the rate calculator with further details on financing. If the product price is outside the possible financing amounts, the widget [on request] indicates the minimum or maximum possible financing amount.",
+                "introText": "The widget component is shown on the product detail page and in the shopping cart. It calculates the lowest possible rate with which a product with a certain price can be financed. Clicking on \"more info\" opens the rate calculator with further details on financing. If the product price is outside the possible financing amounts, the widget indicates the minimum or maximum possible financing amount.",
                 "fieldsActivate": {
                     "title": "Activate widget",
                     "showLabel": "Show widget"
@@ -151,7 +151,7 @@
             },
             "card": {
                 "title": "Card",
-                "introText": "The listing component can be used to replace a product within the product list with a banner to advertise the hire purchase. The banner shows a standard image that can be overwritten. This allows you to use an image that matches your product offering.",
+                "introText": "The card component can be used to replace a product within the product list with a banner to advertise the hire purchase. The banner shows a standard image that can be overwritten. This allows you to use an image that matches your product offering.",
                 "fieldsActivate": {
                     "title": "Activate card",
                     "showCategoryLabel": "Show card within product list (category)",
@@ -179,7 +179,7 @@
             },
             "bar": {
                 "title": "Bar",
-                "introText": "The slider component can be displayed at the top of the screen and promotes the hire purchase with short slogans. The slogans are predefined and cannot be customised.",
+                "introText": "The bar component can be displayed at the top of the screen and promotes the hire purchase with short slogans. The slogans are predefined and cannot be customised.",
                 "fieldsActivate": {
                     "title": "Activate bar",
                     "showLabel": "Show bar at the top of the screen"
