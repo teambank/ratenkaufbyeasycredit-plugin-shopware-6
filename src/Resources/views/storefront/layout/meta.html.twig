@@ -6,7 +6,7 @@
     {% if page.extensions.easycredit.apiKey %}
     <meta name="easycredit-api-key" content="{{page.extensions.easycredit.apiKey}}" />
     {% endif %}
-    
+
     {% if page.extensions.easycredit.widgetSelector %}
     <meta name="easycredit-widget-selector" content="{{page.extensions.easycredit.widgetSelector}}" />
     {% endif %}
@@ -15,7 +15,9 @@
     <meta name="easycredit-amount" content="{{page.extensions.easycredit.amount}}" />
     {% endif %}
 
+    {% if page.extensions.easycredit %}
     <script type="module" src="https://ratenkauf.easycredit.de/api/resource/webcomponents/v3/easycredit-components/easycredit-components.esm.js"></script>
     <script nomodule src="https://ratenkauf.easycredit.de/api/resource/webcomponents/v3/easycredit-components/easycredit-components.js"></script>
+    {% endif %}
 
 {% endblock %}
