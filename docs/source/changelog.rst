@@ -1,6 +1,12 @@
 Changelog
 =========
 
+v2.0.8
+------
+
+* umfangreiche Marketing-Komponenten wurden eingefügt und sind über das Backend einstellbar
+* behebt einen Fehler im Cart-Validator
+
 v2.0.7
 ------
 
