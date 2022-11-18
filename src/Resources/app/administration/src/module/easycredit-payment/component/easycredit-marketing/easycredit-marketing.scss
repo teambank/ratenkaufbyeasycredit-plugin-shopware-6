@@ -8,6 +8,7 @@
     $color-shopware-brand-vivid-500: #189eff;
     $color-neutrals-gray-300: #d1d9e0;
     $color-neutrals-generic-black: #000;
+    $color-typestyle-paragraph-default: #52667A;
 
     $color-ec-gray: #E5EAEE;
     $color-darkblue: #002C5A;
@@ -33,6 +34,8 @@
 
         white-space: nowrap;
         font-size: $font-size-md;
+        text-decoration: none !important;
+        color: $color-typestyle-paragraph-default;
 
         &:first-child {
             margin-left: -16px;
