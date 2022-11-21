@@ -74,12 +74,22 @@ class SettingStruct extends Struct
     /**
      * @var string|null
      */
+    protected $modalSettingsMedia = null;
+
+    /**
+     * @var string|null
+     */
     protected $modalSettingsSnoozeFor = null;
 
     /**
      * @var bool
      */
     protected $flashboxEnabled = false;
+
+    /**
+     * @var string|null
+     */
+    protected $flashboxSettingsMedia = null;
 
     /**
      * @var bool
@@ -95,6 +105,16 @@ class SettingStruct extends Struct
      * @var string|null
      */
     protected $cardSettingsPosition = null;
+
+    /**
+     * @var string|null
+     */
+    protected $cardSettingsMedia = null;
+
+    /**
+     * @var bool
+     */
+    protected $cardSearchEnabled = false;
 
     /**
      * @var bool
