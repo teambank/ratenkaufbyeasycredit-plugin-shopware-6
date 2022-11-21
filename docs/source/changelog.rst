@@ -1,6 +1,11 @@
 Changelog
 =========
 
+v2.0.9
+------
+
+* behebt ein Problem unter PHP 8.1
+
 v2.0.8
 ------
 
