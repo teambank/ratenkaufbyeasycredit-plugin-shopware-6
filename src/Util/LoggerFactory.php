@@ -20,6 +20,8 @@ use Netzkollektiv\EasyCredit\Setting\Service\SettingsService;
 
 class LoggerFactory extends ShopwareLoggerFactory
 {
+    private int $logLevel = Logger::WARNING;
+
     public function setLogLevel(SystemConfigService $systemConfigService): void
     {
         $this->logLevel = Logger::WARNING;
@@ -36,6 +38,6 @@ class LoggerFactory extends ShopwareLoggerFactory
     public function createRotating(string $filePrefix, ?int $fileRotationCount = null, int $loggerLevel = Logger::DEBUG): LoggerInterface
     {
         $loggerLevel = $this->logLevel;
-        return parent::createRotating($filePrefix, $fileRotationCount, $loggerLevel);
+	return parent::createRotating($filePrefix, $fileRotationCount, $loggerLevel);
     }
 }
