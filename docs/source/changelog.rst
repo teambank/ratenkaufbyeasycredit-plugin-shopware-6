@@ -1,6 +1,11 @@
 Changelog
 =========
 
+v2.0.10
+-------
+
+* behebt ein Problem mit Shopware 6.4.18.1
+
 v2.0.9
 ------
 
