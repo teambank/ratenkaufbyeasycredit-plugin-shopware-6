@@ -12,7 +12,7 @@ use Shopware\Development\Kernel;
 use Netzkollektiv\EasyCreditRatenkauf\EasyCreditRatenkauf;
 use Symfony\Component\Dotenv\Dotenv;
 
-$projectRoot = '/var/www/shopware';
+$projectRoot = '/opt/shopware';
 $pluginRootPath = $projectRoot.'/custom/plugins/EasyCreditRatenkauf';
 
 echo 'generating config with $projectRoot: '.$projectRoot.' and plugin root '.$pluginRootPath.PHP_EOL;

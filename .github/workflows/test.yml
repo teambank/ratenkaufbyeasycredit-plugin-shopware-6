@@ -12,26 +12,26 @@ jobs:
       max-parallel: 15
       fail-fast: false
       matrix:
-        php-version: [ '7.4', '8.0', '8.1' ]
-        shopware-version: [ '6.4.0.0', '6.4.1.0', '6.4.2.1', '6.4.3.1', '6.4.4.1', '6.4.5.1', '6.4.6.1', '6.4.7.0', '6.4.8.2', '6.4.9.0', '6.4.10.1', '6.4.11.1', '6.4.12.0', '6.4.13.0', '6.4.14.0', '6.4.15.2', '6.4.16.1', '6.4.17.2' ]
+        #php-version: [ '7.4', '8.0', '8.1' ]
+        shopware-version: [ 'v6.4.20' ]
 
-    name: Shopware ${{ matrix.shopware-version }} on PHP ${{ matrix.php-version }}
+    name: Shopware ${{ matrix.shopware-version }}
 
     container:
-      image: netzkollektivgmbh/docker-shopware:php-${{ matrix.php-version }}
+      image: ghcr.io/friendsofshopware/platform-plugin-dev:${{ matrix.shopware-version }}
     env:
-      SW6SETUP_DB_URL: mysql://root:root@db:3306/shopware
-      SW6SETUP_VERSION: ${{ matrix.shopware-version }}
-      SW6SETUP_URL: http://localhost
+      PLUGIN_DIR: /plugins/EasyCreditRatenkauf
+#      SW6SETUP_VERSION: ${{ matrix.shopware-version }}
+#      SW6SETUP_URL: http://localhost
 
-    services:
-      db:
-        image: mysql:5.7.38
-        env:
-          MYSQL_ROOT_PASSWORD: root
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+#    services:
+#      db:
+#        image: mysql:5.7.38
+#        env:
+#          MYSQL_ROOT_PASSWORD: root
+#        ports:
+#          - 3306:3306
+#        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Checkout
@@ -41,16 +41,26 @@ jobs:
           php -v
           php -m
           composer -V
-      - name: Fix MySQL max_allowed_packet size
-        run: |
-          mysql -h db -u root -proot -e "SHOW VARIABLES LIKE 'max_allowed_packet'"
-          mysql -h db -u root -proot -e "SET GLOBAL max_allowed_packet = 99999999;"
-          mysql -h db -u root -proot -e "SHOW VARIABLES LIKE 'max_allowed_packet'"
-      - name: Composer setup
-        run: composer install --prefer-dist --no-ansi --no-interaction --no-progress --optimize-autoloader
-      - name: Install Shopware 6
-        run: ${PWD}/bin/setup.sh
-      - name: Install Plugin
-        run: ${PWD}/bin/install-plugin.sh
+#      - name: Fix MySQL max_allowed_packet size
+#        run: |
+#          mysql -h db -u root -proot -e "SHOW VARIABLES LIKE 'max_allowed_packet'"
+#          mysql -h db -u root -proot -e "SET GLOBAL max_allowed_packet = 99999999;"
+#          mysql -h db -u root -proot -e "SHOW VARIABLES LIKE 'max_allowed_packet'"
+      - name: Start mysql
+        run: start-mysql
+      - name: Link plugin
+        run:  |
+          ln -s $GITHUB_WORKSPACE $PLUGIN_DIR
+          cd $PLUGIN_DIR
+          composer remove shopware/core
+          composer install -n
+#      - name: Composer setup
+#        run: composer install --prefer-dist --no-ansi --no-interaction --no-progress --optimize-autoloader
+#      - name: Install Shopware 6
+#        run: ${PWD}/bin/setup.sh
+#      - name: Install Plugin
+#        run: ${PWD}/bin/install-plugin.sh
       - name: Static Analyze
-        run: ${PWD}/bin/static-analyze.sh
+        run: |
+          php $PLUGIN_DIR/bin/phpstan-config-generator.php
+          php $PLUGIN_DIR/vendor/bin/phpstan analyze $PLUGIN_DIR/src
