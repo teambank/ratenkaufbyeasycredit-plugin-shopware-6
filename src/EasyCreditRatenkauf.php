@@ -11,7 +11,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Netzkollektiv\EasyCredit\Util\Lifecycle\ActivateDeactivate;
 use Netzkollektiv\EasyCredit\Util\Lifecycle\InstallUninstall;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\DeactivateContext;
@@ -50,26 +50,13 @@ class EasyCreditRatenkauf extends Plugin
 
     public function install(InstallContext $installContext): void
     {
-        /** @var EntityRepositoryInterface $systemConfigRepository */
-        $systemConfigRepository = $this->container->get('system_config.repository');
-        /** @var EntityRepositoryInterface $paymentRepository */
-        $paymentRepository = $this->container->get('payment_method.repository');
-        /** @var EntityRepositoryInterface $salesChannelRepository */
-        $salesChannelRepository = $this->container->get('sales_channel.repository');
-        /** @var EntityRepositoryInterface $ruleRepository */
-        $ruleRepository = $this->container->get('rule.repository');
-        /** @var EntityRepositoryInterface $countryRepository */
-        $countryRepository = $this->container->get('country.repository');
-        /** @var EntityRepositoryInterface $currencyRepository */
-        $currencyRepository = $this->container->get('currency.repository');
-
         (new InstallUninstall(
-            $systemConfigRepository,
-            $paymentRepository,
-            $salesChannelRepository,
-            $ruleRepository,
-            $countryRepository,
-            $currencyRepository,
+            $this->container->get('system_config.repository'),
+            $this->container->get('payment_method.repository'),
+            $this->container->get('sales_channel.repository'),
+            $this->container->get('rule.repository'),
+            $this->container->get('country.repository'),
+            $this->container->get('currency.repository'),
             $this->container->get(PluginIdProvider::class),
             $this->container->get(SystemConfigService::class),
             static::class
@@ -86,31 +73,17 @@ class EasyCreditRatenkauf extends Plugin
             return;
         }
 
-        $context = $uninstallContext->getContext();
-        /** @var EntityRepositoryInterface $systemConfigRepository */
-        $systemConfigRepository = $this->container->get('system_config.repository');
-        /** @var EntityRepositoryInterface $paymentRepository */
-        $paymentRepository = $this->container->get('payment_method.repository');
-        /** @var EntityRepositoryInterface $salesChannelRepository */
-        $salesChannelRepository = $this->container->get('sales_channel.repository');
-        /** @var EntityRepositoryInterface $ruleRepository */
-        $ruleRepository = $this->container->get('rule.repository');
-        /** @var EntityRepositoryInterface $countryRepository */
-        $countryRepository = $this->container->get('country.repository');
-        /** @var EntityRepositoryInterface $currencyRepository */
-
-        $currencyRepository = $this->container->get('currency.repository');
         (new InstallUninstall(
-            $systemConfigRepository,
-            $paymentRepository,
-            $salesChannelRepository,
-            $ruleRepository,
-            $countryRepository,
-            $currencyRepository,
+            $this->container->get('system_config.repository'),
+            $this->container->get('payment_method.repository'),
+            $this->container->get('sales_channel.repository'),
+            $this->container->get('rule.repository'),
+            $this->container->get('country.repository'),
+            $this->container->get('currency.repository'),
             $this->container->get(PluginIdProvider::class),
             $this->container->get(SystemConfigService::class),
             static::class
-        ))->uninstall($context);
+        ))->uninstall($uninstallContext->getContext());
 
         parent::uninstall($uninstallContext);
     }

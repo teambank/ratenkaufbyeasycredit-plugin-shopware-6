@@ -10,6 +10,8 @@ namespace Netzkollektiv\EasyCredit\Cart;
 use Monolog\Logger;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Shopware\Core\Checkout\Cart\Cart;
+use Shopware\Core\Checkout\Cart\Order\OrderConverter;
+use Shopware\Core\Checkout\Cart\Order\IdStruct;
 use Shopware\Core\Checkout\Cart\CartValidatorInterface;
 use Shopware\Core\Checkout\Cart\Error\ErrorCollection;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -57,7 +59,21 @@ class Validator implements CartValidatorInterface
             return;
         }
 
-        if (in_array($cart->getName(), ['recalculation', 'sales-channel'])) {
+        if (method_exists($cart, 'getName') && in_array($cart->getName(), ['recalculation', 'sales-channel'])) { // skip validation on recalculation (SW <= 6.4)
+            return;
+        }
+
+        if ($cart->getExtensionOfType(OrderConverter::ORIGINAL_ORDER_NUMBER, IdStruct::class)) { // skip validation on recalculation
+            return;
+        }
+
+        if ($this->storage->get('express')) { // skip validation during express initialization
+            return;
+        }
+
+        if (!$this->paymentHelper->isSelected($salesChannelContext)) {
+            $this->storage->clear();
+
             return;
         }
 
@@ -74,12 +90,6 @@ class Validator implements CartValidatorInterface
         try {
             $quote = $this->quoteHelper->getQuote($cart, $salesChannelContext);
         } catch (QuoteInvalidException $e) {
-            $this->storage->clear();
-
-            return;
-        }
-
-        if (!$this->paymentHelper->isSelected($salesChannelContext)) {
             $this->storage->clear();
 
             return;

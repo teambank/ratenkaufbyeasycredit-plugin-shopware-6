@@ -10,6 +10,7 @@
     },
     "checkout": {
         "installments-must-be-recalculated": "To pay with easyCredit-Ratenkauf click \"Go to Installments payment\" after selecting the payment method.",
-        "interest-line-item" : "Interest for installments payment"
+        "interest-line-item" : "Interest for installments payment",
+        "init-error": "%name%"
     }
 }

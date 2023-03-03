@@ -21,11 +21,8 @@ class InitError extends Error
     public function __construct(string $name)
     {
         $this->name = $name;
-        $this->message = \sprintf(
-            '%s Please correct your order and click "Recalculate installments"',
-            $name
-        );
-        parent::__construct($this->message);
+
+        parent::__construct($this->name);
     }
 
     public function getId(): string

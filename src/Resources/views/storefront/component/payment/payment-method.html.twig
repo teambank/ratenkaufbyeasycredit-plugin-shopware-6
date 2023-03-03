@@ -8,7 +8,12 @@
 
     {% if easycredit and easycredit.paymentMethodId is same as(payment.id) %}
 
-        <easycredit-checkout-label></easycredit-checkout-label>
+        {% if not payment.media %}
+            <easycredit-checkout-label></easycredit-checkout-label>
+        {% else %}
+            {{ parent() }}
+        {% endif %}
+
         <easycredit-checkout
           amount="{{ easycredit.grandTotal }}"
           webshop-id="{{ easycredit.webshopId }}"
@@ -24,3 +29,10 @@
 
     
 {% endblock %}
+
+
+ {% block component_payment_method_input %}
+    {% if not page.extensions.easycredit.expressUi %}
+        {{ parent() }}
+    {% endif %}
+ {% endblock %}

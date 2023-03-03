@@ -8,7 +8,7 @@
 namespace Netzkollektiv\EasyCredit\Helper;
 
 use Shopware\Core\Checkout\Order\OrderEntity;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
@@ -17,7 +17,7 @@ class OrderDataProvider
     private $orderRepository;
 
     public function __construct(
-        EntityRepositoryInterface $orderRepository
+        EntityRepository $orderRepository
     ) {
         $this->orderRepository = $orderRepository;
     }

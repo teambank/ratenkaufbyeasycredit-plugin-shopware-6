@@ -9,7 +9,7 @@ namespace Netzkollektiv\EasyCredit\Util\Lifecycle;
 
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\IdSearchResult;
@@ -19,12 +19,12 @@ use Netzkollektiv\EasyCredit\EasyCreditRatenkauf;
 class ActivateDeactivate
 {
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepository
      */
     private $paymentRepository;
 
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepository
      */
     private $customFieldRepository;
 
@@ -35,8 +35,8 @@ class ActivateDeactivate
 
     public function __construct(
         PaymentHelper $paymentHelper,
-        EntityRepositoryInterface $paymentRepository,
-        EntityRepositoryInterface $customFieldRepository
+        EntityRepository $paymentRepository,
+        EntityRepository $customFieldRepository
     ) {
         $this->paymentHelper = $paymentHelper;
         $this->paymentRepository = $paymentRepository;

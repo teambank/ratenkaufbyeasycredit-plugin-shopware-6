@@ -119,6 +119,14 @@ class Checkout implements EventSubscriberInterface
             }
         }
 
+        if ($this->storage->get('express-ui')) {
+            $event->getPage()->setPaymentMethods(
+                $event->getPage()->getPaymentMethods()->filter(function (\Shopware\Core\Checkout\Payment\PaymentMethodEntity $paymentMethod) use ($paymentMethodId) {
+                    return $paymentMethod->getId() === $paymentMethodId;
+                })
+            );
+        }
+
         $event->getPage()->addExtension('easycredit', (new CheckoutData())->assign([
             'isPrefixValid' => isset($quote) ? $checkout->isPrefixValid($quote->getCustomer()->getGender()) : false,
             'grandTotal' => isset($quote) ? $quote->getOrderDetails()->getOrderValue() : null,
@@ -126,7 +134,8 @@ class Checkout implements EventSubscriberInterface
             'isSelected' => $isSelected,
             'paymentPlan' => $this->buildPaymentPlan($this->storage->get('summary')),
             'error' => $error,
-            'webshopId' => $settings->getWebshopId()
+            'webshopId' => $settings->getWebshopId(),
+            'expressUi' => $this->storage->get('express-ui')
         ]));
     }
 

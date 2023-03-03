@@ -27,8 +27,8 @@ class CustomerBuilder
         if ($this->customer->getSalutation()) {
             $prefix = $this->customer->getSalutation()->getDisplayName();
         }
-	    if ($this->billingAddress->getSalutation()) {
-	        $prefix = $this->billingAddress->getSalutation()->getDisplayName();
+	    if ($this->customer->getActiveBillingAddress()->getSalutation()) {
+	        $prefix = $this->customer->getActiveBillingAddress()->getSalutation()->getDisplayName();
         }
 
         return $this->prefixConverter->convert($prefix);
@@ -37,7 +37,7 @@ class CustomerBuilder
     public function getFirstname(): string
     {
         if ($this->customer->getGuest()) {
-            return $this->billingAddress->getFirstName();
+            return $this->customer->getActiveBillingAddress()->getFirstName();
         }
 
         return $this->customer->getFirstName();
@@ -46,7 +46,7 @@ class CustomerBuilder
     public function getLastname(): string
     {
         if ($this->customer->getGuest()) {
-            return $this->billingAddress->getLastName();
+            return $this->customer->getActiveBillingAddress()->getLastName();
         }
 
         return $this->customer->getLastName();
@@ -66,16 +66,6 @@ class CustomerBuilder
         return null;
     }
 
-    public function getTelephone(): string
-    {
-        return '';
-    }
-
-    public function isLoggedIn(): bool
-    {
-        return !$this->customer->getGuest();
-    }
-
     public function getCreatedAt(): ?string
     {
         if ($this->customer->getCreatedAt() instanceof \DateTimeImmutable) {
@@ -91,10 +81,8 @@ class CustomerBuilder
     }
 
     public function build(
-        CustomerEntity $customer,
-        CustomerAddressEntity $billingAddress
+        ?CustomerEntity $customer
     ) {
-        $this->billingAddress = $billingAddress;
         $this->customer = $customer;
 
         return new \Teambank\RatenkaufByEasyCreditApiV3\Model\Customer([

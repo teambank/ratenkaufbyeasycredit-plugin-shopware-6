@@ -57,7 +57,7 @@ class Migration1637924278ConfigStatus extends MigrationStep
 
     protected function configKeyExists($connection, $key)
     {
-        return $connection->fetchColumn(
+        return $connection->fetchOne(
             'SELECT id FROM system_config WHERE configuration_key = :configuration_key',
             ['configuration_key' => 'EasyCreditRatenkauf.config.' . $key]
         );
@@ -65,7 +65,7 @@ class Migration1637924278ConfigStatus extends MigrationStep
 
     protected function getStateId($connection, $params)
     {
-        return $connection->fetchColumn(
+        return $connection->fetchOne(
             '
             SELECT sms.id FROM state_machine_state sms
                 LEFT JOIN state_machine sm ON sms.state_machine_id = sm.id WHERE

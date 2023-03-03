@@ -43,16 +43,16 @@
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Api\Storage">          
-            <argument type="service" id="session"/>
+            <argument type="service" id="request_stack"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
         </service>
 
-        <service id="Netzkollektiv\EasyCredit\Controller\PaymentController" public="true">
-            <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
-            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Payment\StateHandler"/>
-            <argument type="service" id="order_transaction.repository"/>
+        <service id="Netzkollektiv\EasyCredit\Service\CustomerService" autowire="true">
+            <argument type="service" id="Shopware\Core\Checkout\Customer\SalesChannel\RegisterRoute" />
+            <argument type="service" id="Shopware\Core\System\SalesChannel\Context\SalesChannelContextFactory"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Controller\PaymentController" public="true" autowire="true">
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>
@@ -88,17 +88,8 @@
             <argument type="service" id="sales_channel.repository"/>
         </service>
 
-        <service id="Netzkollektiv\EasyCredit\Subscriber\Redirector">
+        <service id="Netzkollektiv\EasyCredit\Subscriber\Redirector" autowire="true">
             <argument type="service" id="service_container"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
-            <argument type="service" id="request_stack"/>
-            <argument type="service" id="router"/>
-            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Payment"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
-
             <tag name="kernel.event_subscriber"/>
         </service>
 
@@ -122,10 +113,10 @@
             <tag name="kernel.event_subscriber"/>
         </service>
 
-        <service id="Netzkollektiv\EasyCredit\Helper\Payment">
-            <argument type="service" id="payment_method.repository"/>
+        <service id="Netzkollektiv\EasyCredit\Helper\Payment" autowire="true">
+            <!--argument type="service" id="payment_method.repository"/>
             <argument type="service" id="sales_channel.repository"/>
-            <argument type="service" id="Shopware\Core\Checkout\Payment\Cart\PaymentHandler\PaymentHandlerRegistry"/>
+            <argument type="service" id="Shopware\Core\Checkout\Payment\Cart\PaymentHandler\PaymentHandlerRegistry"/-->
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Cart\Collector">
@@ -173,6 +164,10 @@
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
 
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Netzkollektiv\EasyCredit\Subscriber\ExpressCheckoutCartHandler" autowire="true">
             <tag name="kernel.event_subscriber"/>
         </service>
 

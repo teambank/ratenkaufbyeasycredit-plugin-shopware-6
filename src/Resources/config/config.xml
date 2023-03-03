@@ -103,6 +103,16 @@
     </card>
 
     <card>
+        <title lang="de-DE">Marketing</title>
+        <title lang="en-GB">Marketing</title>
+        <name>marketing</name>
+
+        <component name="easycredit-marketing">
+            <name>marketingTabs</name>
+        </component>
+    </card>
+
+    <card>
         <title lang="de-DE"><![CDATA[Click & Collect]]></title>
         <title lang="en-GB"><![CDATA[Click & Collect]]></title>
         <name>clickandcollect</name>
@@ -118,16 +128,6 @@
             <label lang="en-GB"><![CDATA[Shipping Method]]></label>
             <helpText lang="de-DE"><![CDATA[Bitte geben Sie die Versandart an, mit der Sie Click & Collect anbieten. In der Regel handelt sich um die Versandart "Selbstabholung" oder ähnlich.]]></helpText>
             <helpText lang="en-GB"><![CDATA[Please specify the shipping method with which you offer "Click & Collect". Usually this shipping method is named "In-Store Pickup" or similar.]]></helpText>
-        </component>
-    </card>
-
-    <card>
-        <title lang="de-DE">Marketing</title>
-        <title lang="en-GB">Marketing</title>
-        <name>marketing</name>
-
-        <component name="easycredit-marketing">
-            <name>marketingTabs</name>
         </component>
     </card>
 </config>

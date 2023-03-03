@@ -67,8 +67,10 @@ class ItemBuilder
     {
         $categoryNames = [];
 
-        if (method_exists($this->item, 'hasPayloadValue')
-            && $this->item->hasPayloadValue('categoryIds') && is_array($this->item->getPayloadValue('categoryIds'))
+        if (method_exists($this->item, 'hasPayloadValue') &&
+	    $this->item->hasPayloadValue('categoryIds') &&
+	    is_array($this->item->getPayloadValue('categoryIds')) &&
+	    !empty(array_filter($this->item->getPayloadValue('categoryIds')))
         ) {
             $categories = $this->metaDataProvider->getCategories(
                 $this->item->getPayloadValue('categoryIds'),

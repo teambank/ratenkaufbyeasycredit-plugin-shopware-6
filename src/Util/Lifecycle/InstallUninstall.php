@@ -8,10 +8,11 @@
 namespace Netzkollektiv\EasyCredit\Util\Lifecycle;
 
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\ContainsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Shopware\Core\Checkout\Customer\Rule\BillingCountryRule;
@@ -27,32 +28,32 @@ use Netzkollektiv\EasyCredit\Setting\SettingStruct;
 class InstallUninstall
 {
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepository
      */
     private $systemConfigRepository;
 
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepository
      */
-    private $paymentRepository;
+    private $paymentMethodRepository;
 
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepository
      */
     private $salesChannelRepository;
 
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepository
      */
     private $ruleRepository;
 
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepository
      */
     private $countryRepository;
 
     /**
-     * @var EntityRepositoryInterface
+     * @var EntityRepository
      */
     private $currencyRepository;
 
@@ -72,18 +73,18 @@ class InstallUninstall
     private $systemConfig;
 
     public function __construct(
-        EntityRepositoryInterface $systemConfigRepository,
-        EntityRepositoryInterface $paymentRepository,
-        EntityRepositoryInterface $salesChannelRepository,
-        EntityRepositoryInterface $ruleRepository,
-        EntityRepositoryInterface $countryRepository,
-        EntityRepositoryInterface $currencyRepository,
+        EntityRepository $systemConfigRepository,
+        EntityRepository $paymentMethodRepository,
+        EntityRepository $salesChannelRepository,
+        EntityRepository $ruleRepository,
+        EntityRepository $countryRepository,
+        EntityRepository $currencyRepository,
         PluginIdProvider $pluginIdProvider,
         SystemConfigService $systemConfig,
         string $className
     ) {
         $this->systemConfigRepository = $systemConfigRepository;
-        $this->paymentRepository = $paymentRepository;
+        $this->paymentMethodRepository = $paymentMethodRepository;
         $this->salesChannelRepository = $salesChannelRepository;
         $this->ruleRepository = $ruleRepository;
         $this->countryRepository = $countryRepository;
@@ -143,10 +144,6 @@ class InstallUninstall
     private function addPaymentMethods(Context $context): void
     {
         $pluginId = $this->pluginIdProvider->getPluginIdByBaseClass($this->className, $context);
-        $paymentHelper = new PaymentHelper(
-            $this->paymentRepository,
-            $this->salesChannelRepository
-        );
 
         $data = [
             'handlerIdentifier' => Handler::class,
@@ -189,12 +186,15 @@ class InstallUninstall
             ]
         ];
 
-        $paymentMethodId = $paymentHelper->getPaymentMethodId($context);
+        $criteria = (new Criteria())
+            ->addFilter(new EqualsFilter('handlerIdentifier', Handler::class));
+
+        $paymentMethodId = $this->paymentMethodRepository->searchIds($criteria, $context)->firstId();
         if ($paymentMethodId !== null) {
             $data['id'] = $paymentMethodId;
         }
 
-        $this->paymentRepository->upsert([$data], $context);
+        $this->paymentMethodRepository->upsert([$data], $context);
     }
 
     protected function getCountryIds(array $countryIsos, Context $context): array
