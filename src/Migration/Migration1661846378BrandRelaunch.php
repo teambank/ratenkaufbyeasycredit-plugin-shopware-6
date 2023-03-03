@@ -1,4 +1,9 @@
 <?php declare(strict_types=1);
+/*
+ * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Netzkollektiv\EasyCredit\Migration;
 
@@ -14,7 +19,7 @@ class Migration1661846378BrandRelaunch extends MigrationStep
     }
 
     protected function _replace($column) {
-        return sprintf("%s = REPLACE(%s, 'ratenkauf by easyCredit', 'easyCredit-Ratenkauf')", $column, $column);
+        return \sprintf("%s = REPLACE(%s, 'ratenkauf by easyCredit', 'easyCredit-Ratenkauf')", $column, $column);
     }
 
     public function update(Connection $connection): void

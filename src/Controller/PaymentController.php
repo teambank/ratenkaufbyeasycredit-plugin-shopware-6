@@ -25,6 +25,7 @@ use Shopware\Core\System\SalesChannel\Context\SalesChannelContextService;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 
+use Teambank\RatenkaufByEasyCreditApiV3\Model\TransactionInformation;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Netzkollektiv\EasyCredit\EasyCreditRatenkauf;
 use Netzkollektiv\EasyCredit\Payment\StateHandler;
@@ -32,30 +33,36 @@ use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Webhook\OrderTransactionNotFoundException;
 use Netzkollektiv\EasyCredit\Service\CustomerService;
-
-use Teambank\RatenkaufByEasyCreditApiV3\Model\TransactionInformation;
+use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 
 /**
  * @Route(defaults={"_routeScope"={"storefront"}})
  */
 class PaymentController extends StorefrontController
 {
-    private $integrationFactory;
+    private IntegrationFactory $integrationFactory;
 
-    private $stateHandler;
+    private CartService $cartService;
 
-    private $storage;
+    private QuoteHelper $quoteHelper;
 
-    private $customerService;
+    private StateHandler $stateHandler;
+
+    private EntityRepository $orderTransactionRepository;
+
+    private Storage $storage;
+
+    private CustomerService $customerService;
 
     private PaymentHelper $paymentHelper;
 
     private ContextSwitchRoute $contextSwitchRoute;
 
-    private $orderTransactionRepository;
 
     public function __construct(
         IntegrationFactory $integrationFactory,
+        CartService $cartService,
+        QuoteHelper $quoteHelper,
         StateHandler $stateHandler,
         EntityRepository $orderTransactionRepository,
         Storage $storage,
@@ -64,6 +71,8 @@ class PaymentController extends StorefrontController
         ContextSwitchRoute $contextSwitchRoute
     ) {
         $this->integrationFactory = $integrationFactory;
+        $this->cartService = $cartService;
+        $this->quoteHelper = $quoteHelper;
         $this->stateHandler = $stateHandler;
         $this->orderTransactionRepository = $orderTransactionRepository;
         $this->storage = $storage;

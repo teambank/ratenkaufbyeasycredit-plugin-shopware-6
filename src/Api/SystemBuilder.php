@@ -43,7 +43,7 @@ class SystemBuilder
 
     public function build () {
         return new \Teambank\RatenkaufByEasyCreditApiV3\Model\Shopsystem([
-            'shopSystemManufacturer' => implode(' ',[$this->getSystemVendor(),$this->getSystemVersion()]),
+            'shopSystemManufacturer' => \implode(' ',[$this->getSystemVendor(),$this->getSystemVersion()]),
             'shopSystemModuleVersion' => $this->getModuleVersion()
         ]);
     }

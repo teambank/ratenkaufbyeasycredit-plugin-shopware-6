@@ -94,11 +94,6 @@ class SettingStruct extends Struct
     /**
      * @var bool
      */
-    protected $flashboxSettingsMedia = false;
-
-    /**
-     * @var bool
-     */
     protected $barEnabled = false;
 
     /**

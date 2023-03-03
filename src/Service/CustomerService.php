@@ -7,21 +7,23 @@
 
 namespace Netzkollektiv\EasyCredit\Service;
 
-use Teambank\RatenkaufByEasyCreditApiV3\Model\TransactionInformation as EasyCreditTransaction;
-
 use Shopware\Core\Checkout\Customer\SalesChannel\AbstractRegisterRoute;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+use Shopware\Core\Framework\Routing\Exception\MissingRequestParameterException;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\Framework\Struct\ArrayStruct;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\PlatformRequest;
-use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Shopware\Core\System\SalesChannel\Context\AbstractSalesChannelContextFactory;
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
+use Shopware\Core\Content\Newsletter\Exception\SalesChannelDomainNotFoundException;
+
+use Teambank\RatenkaufByEasyCreditApiV3\Model\TransactionInformation as EasyCreditTransaction;
+use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 
 
 class CustomerService {
@@ -39,6 +41,8 @@ class CustomerService {
     private PaymentHelper $paymentHelper;
 
     private AbstractSalesChannelContextFactory $salesChannelContextFactory;
+
+    private CartService $cartService;
 
     public function __construct(
         AbstractRegisterRoute $registerRoute,

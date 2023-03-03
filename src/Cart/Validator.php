@@ -63,7 +63,7 @@ class Validator implements CartValidatorInterface
             return;
         }
 
-        if (method_exists($cart, 'getName') && in_array($cart->getName(), ['recalculation', 'sales-channel'])) { // skip validation on recalculation (SW <= 6.4)
+        if (\method_exists($cart, 'getName') && \in_array($cart->getName(), ['recalculation', 'sales-channel'])) { // skip validation on recalculation (SW <= 6.4)
             return;
         }
 

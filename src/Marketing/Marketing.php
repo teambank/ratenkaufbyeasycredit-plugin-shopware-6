@@ -120,7 +120,7 @@ class Marketing implements EventSubscriberInterface
         }
 
         $modalIsOpen = 'true';
-        if ( intval( $settings->getModalSettingsDelay() ) > 0 ) {
+        if ( \intval( $settings->getModalSettingsDelay() ) > 0 ) {
             $modalIsOpen = 'false';
         }
 

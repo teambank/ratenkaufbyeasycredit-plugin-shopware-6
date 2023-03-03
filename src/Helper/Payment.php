@@ -7,54 +7,39 @@
 
 namespace Netzkollektiv\EasyCredit\Helper;
 
-use Netzkollektiv\EasyCredit\Payment\Handler as PaymentHandler;
-use Shopware\Core\Checkout\Payment\PaymentMethodCollection;
-use Shopware\Core\Checkout\Payment\PaymentMethodEntity;
+use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+use Shopware\Core\Checkout\Payment\PaymentMethodCollection;
+use Shopware\Core\Checkout\Payment\PaymentMethodEntity;
+use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\System\SalesChannel\SalesChannelEntity;
 
+use Teambank\RatenkaufByEasyCreditApiV3\Integration\ValidationException;
+use Teambank\RatenkaufByEasyCreditApiV3\ApiException;
+use Netzkollektiv\EasyCredit\Payment\Handler as PaymentHandler;
 use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
-use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Netzkollektiv\EasyCredit\Api\Storage;
-use Psr\Log\LoggerInterface;
-
 
 class Payment
 {
-    /**
-     * @var EntityRepositoryInterface
-     */
-    private $paymentMethodRepository;
+    private EntityRepository $paymentMethodRepository;
 
-    /**
-     * @var IntegrationFactory
-     */
-    private $integrationFactory;
+    private EntityRepository $salesChannelRepository;
 
-    /**
-     * @var CartService
-     */
-    private $cartService;
+    private IntegrationFactory $integrationFactory;
 
-    /**
-     * @var QuoteHelper
-     */
-    private $quoteHelper;
+    private CartService $cartService;
 
-    /**
-     * @var Storage
-     */
-    private $storage;
+    private QuoteHelper $quoteHelper;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private Storage $storage;
+
+    private LoggerInterface $logger;
 
     public function __construct(
         EntityRepository $paymentMethodRepository,
@@ -142,7 +127,7 @@ class Payment
             } catch (ValidationException $e) {
                 $this->storage->set('error',$e->getMessage());
             } catch (ApiException $e) {
-                $response = json_decode($e->getResponseBody());
+                $response = \json_decode($e->getResponseBody());
                 if ($response === null || !isset($response->violations)) {
                     throw new \Exception('violations could not be parsed');
                 }
@@ -151,7 +136,7 @@ class Payment
                     $messages[] = $violation->message;
                 }
                 $this->logger->warning($e);
-                $this->storage->set('error', implode(' ',$messages));
+                $this->storage->set('error', \implode(' ',$messages));
             }
         } catch (\Throwable $e) {
             $this->logger->error($e);

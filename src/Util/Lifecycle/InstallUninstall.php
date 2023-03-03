@@ -72,7 +72,6 @@ class InstallUninstall
         EntityRepository $systemConfigRepository,
         EntityRepository $paymentMethodRepository,
         EntityRepository $salesChannelRepository,
-        EntityRepository $ruleRepository,
         EntityRepository $countryRepository,
         EntityRepository $currencyRepository,
         PluginIdProvider $pluginIdProvider,

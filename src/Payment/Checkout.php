@@ -148,7 +148,7 @@ class Checkout implements EventSubscriberInterface
         if ($summary === false || $summary === null) {
             return null;
         }
-        return json_encode($summary);
+        return \json_encode($summary);
     }
 
     public function getWebshopDetails($checkout) {

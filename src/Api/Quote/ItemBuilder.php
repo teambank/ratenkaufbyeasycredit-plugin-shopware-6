@@ -53,7 +53,7 @@ class ItemBuilder
 
     public function getManufacturer(): string
     {
-        if (method_exists($this->item, 'hasPayloadValue')
+        if (\method_exists($this->item, 'hasPayloadValue')
             && $this->item->hasPayloadValue('manufacturerId')
         ) {
             $manufacturer = $this->metaDataProvider->getManufacturer(
@@ -72,10 +72,10 @@ class ItemBuilder
     {
         $categoryNames = [];
 
-        if (method_exists($this->item, 'hasPayloadValue') &&
+        if (\method_exists($this->item, 'hasPayloadValue') &&
 	    $this->item->hasPayloadValue('categoryIds') &&
-	    is_array($this->item->getPayloadValue('categoryIds')) &&
-	    !empty(array_filter($this->item->getPayloadValue('categoryIds')))
+	    \is_array($this->item->getPayloadValue('categoryIds')) &&
+	    !empty(\array_filter($this->item->getPayloadValue('categoryIds')))
         ) {
             $categories = $this->metaDataProvider->getCategories(
                 $this->item->getPayloadValue('categoryIds'),
@@ -93,7 +93,7 @@ class ItemBuilder
 
     protected function getSkus(): array
     {
-        if (!method_exists($this->item,'getPayloadValue')) {
+        if (!\method_exists($this->item,'getPayloadValue')) {
             return [];
         }
         

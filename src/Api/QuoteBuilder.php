@@ -189,7 +189,7 @@ class QuoteBuilder
 
     protected function getRedirectLinks() {
         if (!$this->storage->get('sec_token')) {
-            $this->storage->set('sec_token', uniqid());
+            $this->storage->set('sec_token', \uniqid());
         }
         
         return new \Teambank\RatenkaufByEasyCreditApiV3\Model\RedirectLinks([

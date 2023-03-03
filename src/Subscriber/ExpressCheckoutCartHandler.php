@@ -23,6 +23,8 @@ class ExpressCheckoutCartHandler implements EventSubscriberInterface
 {
     private CartService $cartService;
 
+    private Storage $storage;
+
     public function __construct(
         CartService $cartService,
         Storage $storage
@@ -47,7 +49,7 @@ class ExpressCheckoutCartHandler implements EventSubscriberInterface
         $arguments = $event->getArguments();
         $request = $event->getRequest();
 
-        if (is_array($controller)) {
+        if (\is_array($controller)) {
             $controller = $controller[0];
         }
         $cart = $arguments[0] ?? null;

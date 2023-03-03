@@ -29,7 +29,7 @@ class AddressBuilder
         $this->address['firstName'] = $address->getFirstName();
         $this->address['lastName'] = $address->getLastName();
         $this->address['address'] = $address->getStreet();
-        $this->address['additionalAddressInformation'] = trim(implode(' ', [
+        $this->address['additionalAddressInformation'] = \trim(\implode(' ', [
             $address->getAdditionalAddressLine1(),
             $address->getAdditionalAddressLine2(),
         ]));

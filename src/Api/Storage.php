@@ -26,7 +26,7 @@ class Storage implements \Teambank\RatenkaufByEasyCreditApiV3\Integration\Storag
 
     public function set($key, $value): self
     {
-        $this->logger->debug('storage::set '.$key.' = ('.gettype($value).') '.$value);
+        $this->logger->debug('storage::set '.$key.' = ('.\gettype($value).') '.$value);
         $this->requestStack->getSession()->set('easycredit_' . $key, $value);
 
         return $this;
@@ -35,7 +35,7 @@ class Storage implements \Teambank\RatenkaufByEasyCreditApiV3\Integration\Storag
     public function get($key)
     {
         $value = $this->requestStack->getSession()->get('easycredit_' . $key);
-        $this->logger->debug('storage::get '.$key.' = ('.gettype($value).')'.$value);
+        $this->logger->debug('storage::get '.$key.' = ('.\gettype($value).')'.$value);
         return $value;
     }
 
@@ -53,7 +53,7 @@ class Storage implements \Teambank\RatenkaufByEasyCreditApiV3\Integration\Storag
 
     public function clear(): self
     {
-        $backtrace = debug_backtrace();
+        $backtrace = \debug_backtrace();
         $this->logger->info('storage::clear from ' .$backtrace[1]['class'].':'.$backtrace[1]['function']);
 
         foreach (\array_keys($this->all()) as $key) {
