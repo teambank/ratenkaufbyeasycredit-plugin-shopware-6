@@ -70,7 +70,7 @@ class InstallUninstall
 
     public function __construct(
         EntityRepository $systemConfigRepository,
-        EntityRepository $paymentMethodRepository,
+        $paymentMethodRepository,
         EntityRepository $salesChannelRepository,
         EntityRepository $countryRepository,
         EntityRepository $currencyRepository,

@@ -27,7 +27,7 @@ use Netzkollektiv\EasyCredit\Api\Storage;
 
 class Payment
 {
-    private EntityRepository $paymentMethodRepository;
+    private $paymentMethodRepository;
 
     private EntityRepository $salesChannelRepository;
 
