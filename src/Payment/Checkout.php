@@ -138,7 +138,8 @@ class Checkout implements EventSubscriberInterface
             'isSelected' => $isSelected,
             'paymentPlan' => $this->buildPaymentPlan($this->storage->get('summary')),
             'error' => $error,
-            'webshopId' => $settings->getWebshopId()
+            'webshopId' => $settings->getWebshopId(),
+            'expressUi' => $this->storage->get('express-ui')
         ]));
     }
 
