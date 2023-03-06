@@ -1,3 +1,35 @@
+#2.1.0
+
+* Express-Checkout: der Ratenkauf kann direkt von der Produktdetailseite oder aus dem Warenkorb heraus gestartet werden
+
+# 2.0.10
+
+* behebt ein Problem mit Shopware 6.4.18.1
+
+# 2.0.9
+
+* behebt ein Problem unter PHP 8.1
+
+# 2.0.8
+
+* umfangreiche Marketing-Komponenten wurden eingefügt und sind über das Backend einstellbar
+* behebt einen Fehler im Cart-Validator
+
+# 2.0.7
+
+* behebt einen Fehler in der 2-Phasen-Bestätigung
+
+# 2.0.6
+
+* verhindert, dass die Payment Session durch den Aufruf einer nicht existenten Ressource geleert wurde
+
+# 2.0.5
+
+* eine Bestellung kann nur abgeschlossen werden, wenn der Transaktionstatus PREAUTHORIZED ist, andernfalls erhält der Kunde eine Fehlermeldung
+* eine Bestellung wird nur als bezahlt markiert, wenn der Transaktionsstatus bei Aufruf des AuthorizationCallback AUTHORIZED ist
+* beim automatischen Melden der Lieferung durch Bestellstatusänderung wird der Status nur übertragen, wenn dies nicht bereits geschehen ist
+* die package-lock.json im Administrations-Modul wird nun mitgeliefert
+
 # 2.0.4
 
 * bei mehreren Sales Channels werden nun die korrekten Zugangsdaten je Sales Channel verwendet
