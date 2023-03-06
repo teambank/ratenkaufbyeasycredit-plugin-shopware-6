@@ -1,34 +1,24 @@
-import Plugin from 'src/plugin-system/plugin.class';
+import Plugin from 'src/plugin-system/plugin.class'
 
 export default class EasyCreditRatenkaufCheckout extends Plugin {
     init() {
 
-        var handleEasyCreditRequired = function() {
-            var form = $('#easycredit-payment-form');
-            if (form.closest('.payment-method').find($(this)).length > 0) {
-                $('#easycredit-agreement').attr('required','required');
-            } else {
-                $('#easycredit-agreement').removeAttr('required');
-            }
+        function createHiddenField(name, value) {
+            var el = document.createElement('input')
+            el.setAttribute('type','hidden')
+            el.setAttribute('name',`easycredit[${name}]`)
+            el.setAttribute('value',value)
+            return el
         }
 
-        $('input[type=radio][name=paymentMethodId]:checked').each(handleEasyCreditRequired);
-        $('input[type=radio][name=paymentMethodId]').change(handleEasyCreditRequired);
+        document.querySelector('easycredit-checkout')?.addEventListener('submit', (e) => {
+            var form = document.getElementById('changePaymentForm')
+            form.append(createHiddenField('submit','1'))
+            form.append(createHiddenField('number-of-installments', e.detail.numberOfInstallments))
+            form.append(createHiddenField('agreement-checked', e.detail.privacyCheckboxChecked))
+            form.submit()
 
-        // < 6.4
-        $('#easycredit-recalculate').click(function(){
-            $('#confirmPaymentForm').submit();
-            return false;
-        });
-
-        // >= 6.4
-        $('easycredit-checkout').submit(function(e){
-            $('#changePaymentForm')
-                .append('<input type="hidden" name="easycredit[submit]" value="1" />')
-                .append('<input type="hidden" name="easycredit[number-of-installments]" value="'+ e.detail.numberOfInstallments +'" />')
-                .append('<input type="hidden" name="easycredit[agreement-checked]" value="'+ e.detail.privacyCheckboxChecked +'" />')
-                .submit();
-            return false;
-        });
+            return false
+        })
     }
 }
