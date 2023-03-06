@@ -20,7 +20,6 @@ use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Helper\OrderDataProvider;
-use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Netzkollektiv\EasyCredit\Util\Lifecycle\ActivateDeactivate;
 use Netzkollektiv\EasyCredit\EasyCreditRatenkauf;
 
@@ -32,8 +31,6 @@ class Handler implements SynchronousPaymentHandlerInterface
 
     private $integrationFactory;
 
-    private $quoteHelper;
-
     private $storage;
 
     private $logger;
@@ -42,7 +39,6 @@ class Handler implements SynchronousPaymentHandlerInterface
         EntityRepositoryInterface $orderTransactionRepo,
         OrderDataProvider $orderDataProvider,
         IntegrationFactory $integrationFactory,
-        QuoteHelper $quoteHelper,
         Storage $storage,
         Logger $logger
     ) {
@@ -50,7 +46,6 @@ class Handler implements SynchronousPaymentHandlerInterface
         $this->orderDataProvider = $orderDataProvider;
 
         $this->integrationFactory = $integrationFactory;
-        $this->quoteHelper = $quoteHelper;
         $this->storage = $storage;
         $this->logger = $logger;
     }

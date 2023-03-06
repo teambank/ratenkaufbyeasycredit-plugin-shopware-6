@@ -9,6 +9,7 @@ namespace Netzkollektiv\EasyCredit\Api\Quote;
 
 use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Teambank\RatenkaufByEasyCreditApiV3\Integration;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\ShoppingCartInformationItem;
 
@@ -18,6 +19,10 @@ class ItemBuilder
      * @var LineItem
      */
     protected $item;
+
+    protected $context;
+
+    protected $metaDataProvider;
 
     public function __construct(
         MetaDataProvider $metaDataProvider
@@ -48,7 +53,7 @@ class ItemBuilder
 
     public function getManufacturer(): string
     {
-        if (method_exists($this->item, 'hasPayloadValue')
+        if (\method_exists($this->item, 'hasPayloadValue')
             && $this->item->hasPayloadValue('manufacturerId')
         ) {
             $manufacturer = $this->metaDataProvider->getManufacturer(
@@ -67,8 +72,10 @@ class ItemBuilder
     {
         $categoryNames = [];
 
-        if (method_exists($this->item, 'hasPayloadValue')
-            && $this->item->hasPayloadValue('categoryIds') && is_array($this->item->getPayloadValue('categoryIds'))
+        if (\method_exists($this->item, 'hasPayloadValue') &&
+	    $this->item->hasPayloadValue('categoryIds') &&
+	    \is_array($this->item->getPayloadValue('categoryIds')) &&
+	    !empty(\array_filter($this->item->getPayloadValue('categoryIds')))
         ) {
             $categories = $this->metaDataProvider->getCategories(
                 $this->item->getPayloadValue('categoryIds'),
@@ -86,7 +93,7 @@ class ItemBuilder
 
     protected function getSkus(): array
     {
-        if (!method_exists($this->item,'getPayloadValue')) {
+        if (!\method_exists($this->item,'getPayloadValue')) {
             return [];
         }
         

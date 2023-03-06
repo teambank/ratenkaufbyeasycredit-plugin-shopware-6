@@ -10,6 +10,7 @@
     },
     "checkout": {
         "installments-must-be-recalculated": "Um mit easyCredit-Ratenkauf zu bezahlen, klicken Sie auf \"Weiter zum Ratenkauf\" in der Zahlartenauswahl.",
-        "interest-line-item" : "Zinsen für Ratenzahlung"
+        "interest-line-item" : "Zinsen für Ratenzahlung",
+        "init-error": "%name%"
     }
 }

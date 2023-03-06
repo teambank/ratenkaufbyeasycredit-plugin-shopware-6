@@ -19,6 +19,7 @@ Component.register('easycredit-marketing', {
             selectedTab: null,
             tabs: [
                 { id: 'intro', title: this.$tc('easycredit-payment.marketing.overview.title') },
+                { id: 'express', title: this.$tc('easycredit-payment.marketing.express.title') },
                 { id: 'widget', title: this.$tc('easycredit-payment.marketing.widget.title') },
                 { id: 'modal', title: this.$tc('easycredit-payment.marketing.modal.title') },
                 { id: 'card', title: this.$tc('easycredit-payment.marketing.card.title') },

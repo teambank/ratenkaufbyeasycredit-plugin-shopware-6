@@ -48,6 +48,18 @@ class QuoteBuilder
      */
     protected $storage;
 
+    protected $metaDataProvider;
+
+    protected $router; 
+
+    protected $addressBuilder;
+
+    protected $itemBuilder;
+
+    protected $customerBuilder;
+
+    protected $systemBuilder; 
+
     public function __construct(
         MetaDataProvider $metaDataProvider,
         SettingsServiceInterface $settingsService,
@@ -72,7 +84,8 @@ class QuoteBuilder
     {
         if ($this->cart instanceof Cart) {
             return $this->cart->getToken();
-        }
+	}
+	return null;
     }
 
     public function getShippingMethod(): ?string
@@ -133,13 +146,17 @@ class QuoteBuilder
 
     public function getCustomer()
     {
-        if ($this->customer->getActiveBillingAddress() === null) {
+        /*if ($this->customer->getActiveBillingAddress() === null) {
             throw new QuoteInvalidException();
+        }*/
+
+        if (!$this->customer) {
+            return null;
         }
 
         return $this->customerBuilder->build(
             $this->customer,
-            $this->customer->getActiveBillingAddress()
+            $this->customer ? $this->customer->getActiveBillingAddress() : null
         );
     }
 
@@ -173,7 +190,7 @@ class QuoteBuilder
 
     protected function getRedirectLinks() {
         if (!$this->storage->get('sec_token')) {
-            $this->storage->set('sec_token', uniqid());
+            $this->storage->set('sec_token', \uniqid());
         }
         
         return new \Teambank\RatenkaufByEasyCreditApiV3\Model\RedirectLinks([
@@ -186,16 +203,22 @@ class QuoteBuilder
         ]);
     }
 
+    protected function isExpress() {
+        return $this->storage->get('express');
+    }
+
     public function build($cart, SalesChannelContext $context): Transaction {
         $this->cart = $cart;
         $this->context = $context;
         $this->customer = $context->getCustomer();
 
-        if ($cart instanceof Cart && $cart->getDeliveries()->getAddresses()->first() === null) {
-            throw new QuoteInvalidException();
-        }
-        if (!$this->customer) {
-            throw new QuoteInvalidException();
+        if (!$this->isExpress()) {
+            if ($cart instanceof Cart && $cart->getDeliveries()->getAddresses()->first() === null) {
+                throw new QuoteInvalidException();
+            }
+            if (!$this->customer) {
+                throw new QuoteInvalidException();
+            }
         }
 
         return new Transaction([
@@ -204,16 +227,16 @@ class QuoteBuilder
                 'orderValue' => $this->getGrandTotal(),
                 'orderId' => $this->getId(),
                 'numberOfProductsInShoppingCart' => 1,
-                'invoiceAddress' => $this->getInvoiceAddress(),
-                'shippingAddress' => $this->getShippingAddress(),
+                'invoiceAddress' => $this->isExpress() ? null : $this->getInvoiceAddress(),
+                'shippingAddress' => $this->isExpress() ? null : $this->getShippingAddress(),
                 'shoppingCartInformation' => $this->getItems()
             ]),
             'shopsystem' => $this->getSystem(),
             'customer' => $this->getCustomer(),
             'customerRelationship' => new \Teambank\RatenkaufByEasyCreditApiV3\Model\CustomerRelationship([
-                'customerSince' => ($this->customer->getCreatedAt() instanceof \DateTimeImmutable) ? $this->customer->getCreatedAt()->format('Y-m-d') : null,
-                'orderDoneWithLogin' => !$this->customer->getGuest(),
-                'numberOfOrders' => $this->customer->getOrderCount(),
+                'customerSince' => ($this->customer && $this->customer->getCreatedAt() instanceof \DateTimeImmutable) ? $this->customer->getCreatedAt()->format('Y-m-d') : null,
+                'orderDoneWithLogin' => $this->customer && !$this->customer->getGuest(),
+                'numberOfOrders' => ($this->customer) ? $this->customer->getOrderCount() : 0,
                 'logisticsServiceProvider' => $this->getShippingMethod()      
             ]),
             'redirectLinks' => $this->getRedirectLinks()

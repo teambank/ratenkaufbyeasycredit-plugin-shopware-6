@@ -17,9 +17,13 @@ use Psr\Log\LoggerInterface;
 
 class InterestRemover implements EventSubscriberInterface
 {
-    protected $recalculationService;
+    private $settings;
 
-    private $orderLineItemRepository;
+    private $connection;
+
+    private $storage;
+
+    private $logger;
 
     public function __construct(
         SettingsServiceInterface $settingsService,

@@ -37,6 +37,55 @@
     </div>
 
     <div
+        class="easycredit-marketing__tab-content express"
+        :class="{ active: selectedTab === 'express' }"
+    >
+        <div class="easycredit-marketing__grid">
+            <div class="easycredit-marketing__content">
+                <p>
+                    {{ $tc('easycredit-payment.marketing.express.introText') }}
+                </p>
+
+                <h3>{{ $tc('easycredit-payment.marketing.express.fieldsActivate.title') }}</h3>
+                {% block netzkollektiv_easycredit_marketing_express_fields_activation %}
+                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.expressProductEnabled']"
+                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.expressProductEnabled']"
+                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
+                        <template #content="props">
+                            <sw-switch-field name="EasyCreditRatenkauf.config.expressProductEnabled"
+                                            {#bordered#}
+                                            :mapInheritance="props"
+                                            :label="$tc('easycredit-payment.marketing.express.fieldsActivate.expressProductLabel')"
+                                            :disabled="props.isInherited"
+                                            :value="props.currentValue"
+                                            @change="props.updateCurrentValue">
+                            </sw-switch-field>
+                        </template>
+                    </sw-inherit-wrapper>
+                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.expressCartEnabled']"
+                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.expressCartEnabled']"
+                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
+                        <template #content="props">
+                            <sw-switch-field name="EasyCreditRatenkauf.config.expressCartEnabled"
+                                            {#bordered#}
+                                            :mapInheritance="props"
+                                            :label="$tc('easycredit-payment.marketing.express.fieldsActivate.expressCartLabel')"
+                                            :disabled="props.isInherited"
+                                            :value="props.currentValue"
+                                            @change="props.updateCurrentValue">
+                            </sw-switch-field>
+                        </template>
+                    </sw-inherit-wrapper>
+                {% endblock %}
+            </div>
+
+            <div class="easycredit-marketing__image bg">
+                <img :src="'/easycreditratenkauf/static/easycredit-marketing-widget.png' | asset">
+            </div>
+        </div>
+    </div>
+
+    <div
         class="easycredit-marketing__tab-content widget"
         :class="{ active: selectedTab === 'widget' }"
     >

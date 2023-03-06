@@ -6,4 +6,3 @@ phpstan.neon
 /dist
 /vendor
 node_modules
-composer.lock

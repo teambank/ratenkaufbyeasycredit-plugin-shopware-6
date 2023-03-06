@@ -20,41 +20,65 @@ use Shopware\Storefront\Controller\StorefrontController;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+use Shopware\Core\System\SalesChannel\SalesChannel\ContextSwitchRoute;
+use Shopware\Core\System\SalesChannel\Context\SalesChannelContextService;
+use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 
+use Teambank\RatenkaufByEasyCreditApiV3\Model\TransactionInformation;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
-use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Netzkollektiv\EasyCredit\EasyCreditRatenkauf;
 use Netzkollektiv\EasyCredit\Payment\StateHandler;
 use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
+use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Webhook\OrderTransactionNotFoundException;
-
-use Teambank\RatenkaufByEasyCreditApiV3\Model\TransactionInformation;
+use Netzkollektiv\EasyCredit\Service\CustomerService;
+use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 
 /**
- * @RouteScope(scopes={"storefront"})
+ * @Route(defaults={"_routeScope"={"storefront"}})
  */
 class PaymentController extends StorefrontController
 {
-    private $integrationFactory;
+    private IntegrationFactory $integrationFactory;
 
-    private $cartService;
+    private CartService $cartService;
 
-    private $quoteHelper;
+    private QuoteHelper $quoteHelper;
 
-    private $stateHandler;
+    private StateHandler $stateHandler;
+
+    private EntityRepositoryInterface $orderTransactionRepository;
+
+    private Storage $storage;
+
+    private CustomerService $customerService;
+
+    private PaymentHelper $paymentHelper;
+
+    private ContextSwitchRoute $contextSwitchRoute;
+
 
     public function __construct(
         IntegrationFactory $integrationFactory,
         CartService $cartService,
         QuoteHelper $quoteHelper,
         StateHandler $stateHandler,
-        EntityRepositoryInterface $orderTransactionRepository
+        EntityRepositoryInterface $orderTransactionRepository,
+        Storage $storage,
+        PaymentHelper $paymentHelper,
+        CustomerService $customerService,
+        ContextSwitchRoute $contextSwitchRoute
     ) {
         $this->integrationFactory = $integrationFactory;
         $this->cartService = $cartService;
         $this->quoteHelper = $quoteHelper;
         $this->stateHandler = $stateHandler;
         $this->orderTransactionRepository = $orderTransactionRepository;
+        $this->storage = $storage;
+        $this->paymentHelper = $paymentHelper;
+        $this->customerService = $customerService;
+        $this->contextSwitchRoute = $contextSwitchRoute;
     }
 
     /**
@@ -66,25 +90,55 @@ class PaymentController extends StorefrontController
     }
 
     /**
+     * @Route("/easycredit/express", name="frontend.easycredit.express", options={"seo"="false"}, methods={"GET"})
+     */
+    public function express(SalesChannelContext $salesChannelContext): RedirectResponse
+    {
+        $this->storage
+            ->set('express', true);
+
+        $this->contextSwitchRoute->switchContext(new RequestDataBag([
+            SalesChannelContextService::PAYMENT_METHOD_ID => $this->paymentHelper->getPaymentMethodId($salesChannelContext->getContext())
+        ]), $salesChannelContext);
+
+        $this->paymentHelper->startCheckout($salesChannelContext);
+
+        if ($this->storage->get('error')) {
+            return $this->redirectToRoute('frontend.checkout.cart.page');
+        }
+        return $this->redirectToRoute('frontend.checkout.confirm.page');
+    }
+
+    /**
      * @Route("/easycredit/return", name="frontend.easycredit.return", options={"seo"="false"}, methods={"GET"})
      */
     public function return(SalesChannelContext $salesChannelContext): RedirectResponse
     {
-        $checkout = $this->integrationFactory->createCheckout($salesChannelContext);
-
-        if (!$checkout->isInitialized()) {
-            throw new \Exception(
-                'Payment was not initialized.'
-            );
-        }
-
         try {
-            $checkout->loadTransaction();
-        } catch (\Throwable $e) {
-            throw new \Exception($e->getMessage());
-        }
+            $checkout = $this->integrationFactory->createCheckout($salesChannelContext);
 
-        return $this->redirectToRoute('frontend.checkout.confirm.page');
+            if (!$checkout->isInitialized()) {
+                throw new \Exception(
+                    'Payment was not initialized.'
+                );
+            }
+
+            $transaction = $checkout->loadTransaction();
+
+            if ($this->storage->get('express')) {
+                $this->customerService->handleExpress($transaction, $salesChannelContext);
+
+                $this->storage->set('express', false);
+
+                $cart = $this->cartService->getCart($salesChannelContext->getToken(), $salesChannelContext);
+                $checkout->finalizeExpress($this->quoteHelper->getQuote($cart, $salesChannelContext));
+            }
+
+            return $this->redirectToRoute('frontend.checkout.confirm.page');
+        } catch (\Throwable $e) {
+            $this->storage->set('error', $e->getMessage());
+            return $this->redirectToRoute('frontend.checkout.cart.page');
+        }
     }
 
     /**

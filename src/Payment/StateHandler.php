@@ -15,6 +15,11 @@ use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\System\StateMachine\StateMachineRegistry;
 use Shopware\Core\System\StateMachine\Transition;
+use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
+use Shopware\Core\System\StateMachine\Exception\StateMachineNotFoundException;;
+use Shopware\Core\System\StateMachine\Exception\IllegalTransitionException;
+use Shopware\Core\System\StateMachine\Exception\StateMachineInvalidEntityIdException;
+use Shopware\Core\System\StateMachine\Exception\StateMachineInvalidStateFieldException;
 
 class StateHandler
 {
@@ -22,6 +27,8 @@ class StateHandler
      * @var StateMachineRegistry
      */
     private $stateMachineRegistry;
+
+    private $settings;
 
     public function __construct(
         StateMachineRegistry $stateMachineRegistry,

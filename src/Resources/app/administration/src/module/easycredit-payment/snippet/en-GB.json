@@ -119,6 +119,15 @@
                     "marketingPortal": "Marketing portal"
                 }
             },
+            "express": {
+                "title": "Express Button",
+                "introText": "The Express button can be displayed on the product detail page and in the shopping cart. It allows customers to buy the product or shopping cart without detours through the ordering process.",
+                "fieldsActivate": {
+                    "title": "Express-Button",
+                    "expressProductLabel": "Show express button on detail page",
+                    "expressCartLabel": "Show express button in shopping cart"
+                }
+            },
             "widget": {
                 "title": "Widget",
                 "introText": "The widget component is shown on the product detail page and in the shopping cart. It calculates the lowest possible rate with which a product with a certain price can be financed. Clicking on \"more info\" opens the rate calculator with further details on financing. If the product price is outside the possible financing amounts, the widget indicates the minimum or maximum possible financing amount.",

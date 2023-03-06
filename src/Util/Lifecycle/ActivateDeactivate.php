@@ -18,15 +18,9 @@ use Netzkollektiv\EasyCredit\EasyCreditRatenkauf;
 
 class ActivateDeactivate
 {
-    /**
-     * @var EntityRepositoryInterface
-     */
-    private $paymentRepository;
+    private EntityRepositoryInterface $paymentRepository;
 
-    /**
-     * @var EntityRepositoryInterface
-     */
-    private $customFieldRepository;
+    private EntityRepositoryInterface $customFieldRepository;
 
     /**
      * @var PaymentHelper

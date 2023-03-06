@@ -1,0 +1,9 @@
+{# @var easycredit #}
+{% set easycredit = page.extensions.easycredit %}
+{% if easycredit.apiKey %}
+    <easycredit-express-button 
+        webshop-id="{{ easycredit.apiKey }}"
+        amount="{{ easycredit.amount }}"
+        {% if fullWidth %}full-width="true"{% endif %}
+    ></easycredit-express-button>
+{% endif %}
