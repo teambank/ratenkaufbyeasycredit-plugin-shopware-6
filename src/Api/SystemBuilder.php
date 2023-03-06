@@ -11,6 +11,8 @@ use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 
 class SystemBuilder
 {
+    private $metaDataProvider;   
+ 
     public function __construct(
         MetaDataProvider $metaDataProvider
     ) {
@@ -36,11 +38,12 @@ class SystemBuilder
                 return $json->version;
             }
         }
+        return '';
     }
 
     public function build () {
         return new \Teambank\RatenkaufByEasyCreditApiV3\Model\Shopsystem([
-            'shopSystemManufacturer' => implode(' ',[$this->getSystemVendor(),$this->getSystemVersion()]),
+            'shopSystemManufacturer' => \implode(' ',[$this->getSystemVendor(),$this->getSystemVersion()]),
             'shopSystemModuleVersion' => $this->getModuleVersion()
         ]);
     }

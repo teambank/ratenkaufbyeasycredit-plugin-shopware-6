@@ -12,14 +12,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Teambank\RatenkaufByEasyCreditApiV3\ApiException;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\CaptureRequest;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\RefundRequest;
 
 /**
- * @RouteScope(scopes={"api"})
+ * @Route(defaults={"_routeScope"={"api"}})
  */
 class TransactionsController extends AbstractController
 {
@@ -67,14 +66,14 @@ class TransactionsController extends AbstractController
         try {
             $params = $request->request->all();
 
-            $response = $this->integrationFactory
+            $this->integrationFactory
                 ->createTransactionApi()
                 ->apiMerchantV3TransactionTransactionIdCapturePost(
                     $transactionId,
-                    new CaptureRequest(['trackingNumber' => $params['trackingNumber']])
+                    new CaptureRequest(['trackingNumber' => isset($params['trackingNumber']) ? $params['trackingNumber'] : null])
                 );
 
-            return new JsonResponse($response);
+            return new JsonResponse();
         } catch (ApiException $e) {
             return $this->getJsonResponseFromException($e);
         } catch (\Throwable $e) {
@@ -93,14 +92,14 @@ class TransactionsController extends AbstractController
         try {
             $params = $request->request->all();
 
-            $response = $this->integrationFactory
+            $this->integrationFactory
                 ->createTransactionApi()
                 ->apiMerchantV3TransactionTransactionIdRefundPost(
                     $transactionId,
                     new RefundRequest(['value' => $params['value']])
                 );
 
-                return new JsonResponse($response);
+                return new JsonResponse();
         } catch (ApiException $e) {
             return $this->getJsonResponseFromException($e);
         } catch (\Throwable $e) {

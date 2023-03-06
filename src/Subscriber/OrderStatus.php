@@ -18,10 +18,14 @@ use Teambank\RatenkaufByEasyCreditApiV3\Model\TransactionResponse;
 
 class OrderStatus implements EventSubscriberInterface
 {
+    private $settings;
+
     /**
      * @var IntegrationFactory
      */
     private $integrationFactory;
+
+    private $logger;
 
     public function __construct(
         SettingsServiceInterface $settingsService,

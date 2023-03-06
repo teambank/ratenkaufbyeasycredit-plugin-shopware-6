@@ -62,15 +62,10 @@ class Marketing implements EventSubscriberInterface
             return;
         }
 
-        if (!$settings->getWidgetEnabled()) {
-            return;
-        }
-
-        $event->getPage()->addExtension('easycredit', (new ArrayEntity())->assign([
-            'apiKey' => $settings->getWebshopId(),
+        $this->addVariables($event->getPage(), [
             'widgetSelector' => $settings->getWidgetSelectorProductDetail(),
-            'amount' => $product->getCalculatedPrice()->getUnitPrice(),
-        ]));
+            'amount' => $product->getCalculatedPrice()->getUnitPrice()
+        ]);
     }
 
     public function onCartPageLoaded(CheckoutCartPageLoadedEvent $event): void
@@ -88,11 +83,10 @@ class Marketing implements EventSubscriberInterface
 
         $cart = $this->cartService->getCart($context->getToken(), $context);
 
-        $event->getPage()->addExtension('easycredit', (new ArrayEntity())->assign([
-            'apiKey' => $settings->getWebshopId(),
+        $this->addVariables($event->getPage(), [
             'widgetSelector' => $settings->getWidgetSelectorCart(),
             'amount' => $cart->getPrice()->getTotalPrice(),
-        ]));
+        ]);
     }
 
     public function onOffcanvasCartPageLoaded(OffcanvasCartPageLoadedEvent $event): void
@@ -110,11 +104,10 @@ class Marketing implements EventSubscriberInterface
 
         $cart = $this->cartService->getCart($context->getToken(), $context);
 
-        $event->getPage()->addExtension('easycredit', (new ArrayEntity())->assign([
-            'apiKey' => $settings->getWebshopId(),
+        $this->addVariables($event->getPage(), [
             'widgetSelector' => $settings->getWidgetSelectorCart(),
             'amount' => $cart->getPrice()->getTotalPrice(),
-        ]));
+        ]);
     }
 
     public function onPageLoaded(GenericPageLoadedEvent $event): void
@@ -127,11 +120,12 @@ class Marketing implements EventSubscriberInterface
         }
 
         $modalIsOpen = 'true';
-        if ( intval( $settings->getModalSettingsDelay() ) > 0 ) {
+        if ( \intval( $settings->getModalSettingsDelay() ) > 0 ) {
             $modalIsOpen = 'false';
         }
 
-        $event->getPage()->addExtension('easycredit', (new ArrayEntity())->assign([
+        $this->addVariables($event->getPage(), [
+            'apiKey' => $settings->getWebshopId(),
             'modal' => $settings->getModalEnabled(),
             'modalIsOpen' => $modalIsOpen,
             'modalSettingsDelay' => $settings->getModalSettingsDelay(),
@@ -140,7 +134,10 @@ class Marketing implements EventSubscriberInterface
             'flashbox' => $settings->getFlashboxEnabled(),
             'flashboxSettingsMedia' => $settings->getFlashboxSettingsMedia(),
             'bar' => $settings->getBarEnabled(),
-        ]));
+            'widgetEnabled' => $settings->getWidgetEnabled(),
+            'expressProductEnabled' => $settings->getExpressProductEnabled(),
+            'expressCartEnabled' => $settings->getExpressCartEnabled()
+        ]);
     }
 
     public function onNavigationPageLoaded(NavigationPageLoadedEvent $event): void
@@ -152,11 +149,11 @@ class Marketing implements EventSubscriberInterface
             return;
         }
 
-        $event->getPage()->addExtension('easycreditCard', (new ArrayEntity())->assign([
+        $this->addVariables($event->getPage(), [
             'card' => $settings->getCardEnabled(),
             'cardSettingsPosition' => $settings->getCardSettingsPosition(),
             'cardSettingsMedia' => $settings->getCardSettingsMedia(),
-        ]));
+        ]);
     }
 
     public function onSearchPageLoaded(SearchPageLoadedEvent $event): void
@@ -168,11 +165,11 @@ class Marketing implements EventSubscriberInterface
             return;
         }
 
-        $event->getPage()->addExtension('easycreditCard', (new ArrayEntity())->assign([
+        $this->addVariables($event->getPage(), [
             'card' => $settings->getCardSearchEnabled(),
             'cardSettingsPosition' => $settings->getCardSettingsPosition(),
             'cardSettingsMedia' => $settings->getCardSettingsMedia(),
-        ]));
+        ]);
     }
 
     protected function getSettings(SalesChannelContext $context)
@@ -188,5 +185,14 @@ class Marketing implements EventSubscriberInterface
         }
 
         return $settings;
+    }
+
+    protected function addVariables($page, $variables) {
+        $extension = $page->getExtension('easycredit');
+        if ($extension === null) {
+            $extension = new ArrayEntity();
+        }
+        $extension->assign($variables);
+        $page->addExtension('easycredit', $extension);
     }
 }

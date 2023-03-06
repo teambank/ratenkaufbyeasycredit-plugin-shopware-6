@@ -20,9 +20,14 @@ use Teambank\RatenkaufByEasyCreditApiV3\Model\Transaction;
 class Quote
 {
     /**
-     * @var UrlGeneratorInterface
+     * @var \Netzkollektiv\EasyCredit\Api\QuoteBuilder
      */
-    private $router;
+    private $quoteBuilder;
+
+    /**
+     * @var \Netzkollektiv\EasyCredit\Api\OrderBuilder
+     */
+    private $orderBuilder;
 
     public function __construct(
         QuoteBuilder $quoteBuilder,

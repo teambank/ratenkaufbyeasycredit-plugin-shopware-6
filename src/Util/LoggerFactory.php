@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /*
- * (c) shopware AG <info@shopware.com>
+ * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -20,7 +20,7 @@ use Netzkollektiv\EasyCredit\Setting\Service\SettingsService;
 
 class LoggerFactory extends ShopwareLoggerFactory
 {
-    private int $logLevel = Logger::WARNING;
+    protected $logLevel = Logger::WARNING;
 
     public function setLogLevel(SystemConfigService $systemConfigService): void
     {
@@ -38,6 +38,6 @@ class LoggerFactory extends ShopwareLoggerFactory
     public function createRotating(string $filePrefix, ?int $fileRotationCount = null, int $loggerLevel = Logger::DEBUG): LoggerInterface
     {
         $loggerLevel = $this->logLevel;
-	return parent::createRotating($filePrefix, $fileRotationCount, $loggerLevel);
+	    return parent::createRotating($filePrefix, $fileRotationCount, $loggerLevel);
     }
 }

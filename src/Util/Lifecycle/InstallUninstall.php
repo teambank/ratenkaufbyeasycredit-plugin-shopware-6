@@ -12,6 +12,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\ContainsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Shopware\Core\Checkout\Customer\Rule\BillingCountryRule;
@@ -19,6 +20,7 @@ use Shopware\Core\Framework\Rule\Container\AndRule;
 use Shopware\Core\System\Currency\Rule\CurrencyRule;
 use Shopware\Core\System\Country\CountryDefinition;
 use Shopware\Core\System\Currency\CurrencyDefinition;
+use Shopware\Core\Framework\Uuid\Uuid;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Netzkollektiv\EasyCredit\Payment\Handler;
 use Netzkollektiv\EasyCredit\Setting\Service\SettingsService;
@@ -26,56 +28,26 @@ use Netzkollektiv\EasyCredit\Setting\SettingStruct;
 
 class InstallUninstall
 {
-    /**
-     * @var EntityRepositoryInterface
-     */
-    private $systemConfigRepository;
+    private EntityRepositoryInterface $systemConfigRepository;
 
-    /**
-     * @var EntityRepositoryInterface
-     */
-    private $paymentRepository;
+    private EntityRepositoryInterface $paymentMethodRepository;
 
-    /**
-     * @var EntityRepositoryInterface
-     */
-    private $salesChannelRepository;
+    private EntityRepositoryInterface $salesChannelRepository;
 
-    /**
-     * @var EntityRepositoryInterface
-     */
-    private $ruleRepository;
+    private EntityRepositoryInterface $countryRepository;
 
-    /**
-     * @var EntityRepositoryInterface
-     */
-    private $countryRepository;
+    private EntityRepositoryInterface $currencyRepository;
 
-    /**
-     * @var EntityRepositoryInterface
-     */
-    private $currencyRepository;
+    private PluginIdProvider $pluginIdProvider;
 
-    /**
-     * @var PluginIdProvider
-     */
-    private $pluginIdProvider;
+    private string $className;
 
-    /**
-     * @var string
-     */
-    private $className;
-
-    /**
-     * @var SystemConfigService
-     */
-    private $systemConfig;
+    private SystemConfigService $systemConfig;
 
     public function __construct(
         EntityRepositoryInterface $systemConfigRepository,
-        EntityRepositoryInterface $paymentRepository,
+        EntityRepositoryInterface $paymentMethodRepository,
         EntityRepositoryInterface $salesChannelRepository,
-        EntityRepositoryInterface $ruleRepository,
         EntityRepositoryInterface $countryRepository,
         EntityRepositoryInterface $currencyRepository,
         PluginIdProvider $pluginIdProvider,
@@ -83,9 +55,8 @@ class InstallUninstall
         string $className
     ) {
         $this->systemConfigRepository = $systemConfigRepository;
-        $this->paymentRepository = $paymentRepository;
+        $this->paymentMethodRepository = $paymentMethodRepository;
         $this->salesChannelRepository = $salesChannelRepository;
-        $this->ruleRepository = $ruleRepository;
         $this->countryRepository = $countryRepository;
         $this->currencyRepository = $currencyRepository;
         $this->pluginIdProvider = $pluginIdProvider;
@@ -143,10 +114,6 @@ class InstallUninstall
     private function addPaymentMethods(Context $context): void
     {
         $pluginId = $this->pluginIdProvider->getPluginIdByBaseClass($this->className, $context);
-        $paymentHelper = new PaymentHelper(
-            $this->paymentRepository,
-            $this->salesChannelRepository
-        );
 
         $data = [
             'handlerIdentifier' => Handler::class,
@@ -189,12 +156,15 @@ class InstallUninstall
             ]
         ];
 
-        $paymentMethodId = $paymentHelper->getPaymentMethodId($context);
+        $criteria = (new Criteria())
+            ->addFilter(new EqualsFilter('handlerIdentifier', Handler::class));
+
+        $paymentMethodId = $this->paymentMethodRepository->searchIds($criteria, $context)->firstId();
         if ($paymentMethodId !== null) {
             $data['id'] = $paymentMethodId;
         }
 
-        $this->paymentRepository->upsert([$data], $context);
+        $this->paymentMethodRepository->upsert([$data], $context);
     }
 
     protected function getCountryIds(array $countryIsos, Context $context): array

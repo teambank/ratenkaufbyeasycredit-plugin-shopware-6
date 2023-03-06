@@ -131,6 +131,16 @@ class SettingStruct extends Struct
      */
     protected $widgetSelectorCart = '.checkout-aside-action';
 
+    /**
+     * @var bool
+     */
+    protected $expressProductEnabled = true;
+
+    /**
+     * @var bool
+     */
+    protected $expressCartEnabled = true;
+
     public function getWebshopId(): ?string
     {
         return $this->webshopId;
@@ -369,5 +379,25 @@ class SettingStruct extends Struct
     public function setWidgetSelectorCart(string $widgetSelectorCart): void
     {
         $this->widgetSelectorCart = $widgetSelectorCart;
+    }
+
+    public function getExpressProductEnabled(): bool
+    {
+        return (bool) $this->expressProductEnabled;
+    }
+
+    public function setExpressProductEnabled(bool $expressProductEnabled): void
+    {
+        $this->expressProductEnabled = $expressProductEnabled;
+    }
+
+    public function getExpressCartEnabled(): bool
+    {
+        return (bool) $this->expressCartEnabled;
+    }
+
+    public function setExpressCartEnabled(bool $expressCartEnabled): void
+    {
+        $this->expressCartEnabled = $expressCartEnabled;
     }
 }

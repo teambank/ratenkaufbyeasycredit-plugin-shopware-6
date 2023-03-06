@@ -119,6 +119,15 @@
                     "marketingPortal": "Marketing-Portal"
                 }
             },
+            "express": {
+                "title": "Express Button",
+                "introText": "Der Express-Button kann auf der Produktdetailseite und im Warenkorb angezeigt werden. Er ermöglicht Kunden das Produkt oder den Warenkorb ohne Umwege über den Bestellprozess zu kaufen.",
+                "fieldsActivate": {
+                    "title": "Express-Button",
+                    "expressProductLabel": "Express-Button auf Detailseite anzeigen",
+                    "expressCartLabel": "Express-Button in Warenkorb anzeigen"
+                }
+            },
             "widget": {
                 "title": "Widget",
                 "introText": "Die Widget-Komponente wird auf der Produktdetailseite und auch im Warenkorb angezeigt. Sie berechnet die günstigstmögliche Rate mit der ein Produkt mit einem bestimmten Preis finanziert werden kann. Bei Klick auf \"mehr Infos\" öffnet sich der Ratenrechner mit weiteren Details zur Finanzierung. Liegt der Produktpreis außerhalb der möglichen Finanzierungsbeträge weist das Widget auf Wunsch auf den minimal oder maximal möglichen Finanzierungsbetrag hin.",

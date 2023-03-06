@@ -2,11 +2,11 @@
 
 {% block element_product_listing_col %}
 
-    {% if page.extensions.easycreditCard.card %}
-    {% set cardMediaCollection = searchMedia([page.extensions.easycreditCard.cardSettingsMedia], context.context) %}
-    {% set cardMedia = cardMediaCollection.get(page.extensions.easycreditCard.cardSettingsMedia) %}
+    {% if page.extensions.easycredit.card %}
+    {% set cardMediaCollection = searchMedia([page.extensions.easycredit.cardSettingsMedia], context.context) %}
+    {% set cardMedia = cardMediaCollection.get(page.extensions.easycredit.cardSettingsMedia) %}
     <div class="cms-listing-col {{ listingColumns }} easycredit-box-listing">
-        <easycredit-box-listing position="{{page.extensions.easycreditCard.cardSettingsPosition}}" src="{{ cardMedia.url }}"></easycredit-box-listing>
+        <easycredit-box-listing position="{{page.extensions.easycredit.cardSettingsPosition}}" src="{{ cardMedia.url }}"></easycredit-box-listing>
     </div>
     {% endif %}
 

@@ -24,7 +24,11 @@ class Checkout implements EventSubscriberInterface
 {
     private $paymentHelper;
 
+    private $settings;
+
     private $integrationFactory;
+
+    private $quoteHelper;
 
     private $storage;
 
@@ -103,7 +107,7 @@ class Checkout implements EventSubscriberInterface
         try {
             $this->getWebshopDetails($checkout);
         } catch (\Throwable $e) {
-            $this->logger->error($e);
+            $this->logger->error($e->getMessage());
             $this->removePaymentMethodFromConfirmPage($event);
 
             return;
@@ -117,6 +121,14 @@ class Checkout implements EventSubscriberInterface
                     $error = $e->getMessage();
                 }
             }
+        }
+
+        if ($this->storage->get('express-ui')) {
+            $event->getPage()->setPaymentMethods(
+                $event->getPage()->getPaymentMethods()->filter(function (\Shopware\Core\Checkout\Payment\PaymentMethodEntity $paymentMethod) use ($paymentMethodId) {
+                    return $paymentMethod->getId() === $paymentMethodId;
+                })
+            );
         }
 
         $event->getPage()->addExtension('easycredit', (new CheckoutData())->assign([
@@ -135,7 +147,7 @@ class Checkout implements EventSubscriberInterface
         if ($summary === false || $summary === null) {
             return null;
         }
-        return json_encode($summary);
+        return \json_encode($summary);
     }
 
     public function getWebshopDetails($checkout) {
