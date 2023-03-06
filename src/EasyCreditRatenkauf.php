@@ -16,6 +16,7 @@ use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\DeactivateContext;
 use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
+use Shopware\Core\Framework\Plugin\Context\UpdateContext;
 use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Component\Config\FileLocator;
@@ -83,6 +84,22 @@ class EasyCreditRatenkauf extends Plugin
         ))->uninstall($uninstallContext->getContext());
 
         parent::uninstall($uninstallContext);
+    }
+
+    public function update(UpdateContext $updateContext): void
+    {
+        (new InstallUninstall(
+            $this->container->get('system_config.repository'),
+            $this->container->get('payment_method.repository'),
+            $this->container->get('sales_channel.repository'),
+            $this->container->get('country.repository'),
+            $this->container->get('currency.repository'),
+            $this->container->get(PluginIdProvider::class),
+            $this->container->get(SystemConfigService::class),
+            static::class
+        ))->update($updateContext->getContext());
+
+        parent::update($updateContext);
     }
 
     /**

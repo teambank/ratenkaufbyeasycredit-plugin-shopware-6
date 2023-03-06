@@ -75,6 +75,11 @@ class InstallUninstall
         $this->removeConfiguration($context);
     }
 
+    public function update(Context $context): void
+    {
+        $this->addDefaultConfiguration($context);
+    }
+
     private function addDefaultConfiguration(Context $context): void
     {
         $criteria = (new Criteria())
