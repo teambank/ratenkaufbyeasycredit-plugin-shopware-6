@@ -42,12 +42,9 @@ class Redirector implements EventSubscriberInterface
     /**
      * @var PaymentHelper
      */
-    private $paymentHelper;
+    private PaymentHelper $paymentHelper;
 
-    /**
-     * @var Storage
-     */
-    private $storage;
+    private Storage $storage;
 
     public function __construct(
         ContainerInterface $container,

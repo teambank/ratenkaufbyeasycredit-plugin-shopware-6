@@ -24,11 +24,11 @@ use Shopware\Core\Framework\Struct\ArrayEntity;
 
 class Marketing implements EventSubscriberInterface
 {
-    private $settings;
+    private SettingsServiceInterface $settings;
 
     private $cartService;
 
-    private $paymentHelper;
+    private PaymentHelper $paymentHelper;
 
     public function __construct(
         SettingsServiceInterface $settingsService,

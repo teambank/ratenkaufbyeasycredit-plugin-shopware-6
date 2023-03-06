@@ -7,6 +7,8 @@
 
 namespace Netzkollektiv\EasyCredit\Api;
 
+use GuzzleHttp\Client;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 use Teambank\RatenkaufByEasyCreditApiV3 as Api;
 
@@ -43,13 +45,13 @@ class IntegrationFactory
                 new MessageFormatter(MessageFormatter::DEBUG),
             )
         );
-        return new \GuzzleHttp\Client([
+        return new Client([
             'debug'=> false,
             'handler' => $stack
         ]);
     }
 
-    protected function getConfig(?\Shopware\Core\System\SalesChannel\SalesChannelContext $salesChannelContext = null, bool $validateSettings = true) {
+    protected function getConfig(?SalesChannelContext $salesChannelContext = null, bool $validateSettings = true) {
         $salesChannelId = null;
         if ($salesChannelContext) {
             $salesChannelId = $salesChannelContext->getSalesChannel()->getId();
@@ -63,7 +65,7 @@ class IntegrationFactory
             ->setAccessToken($settings->getApiSignature());
     }
 
-    public function createCheckout(?\Shopware\Core\System\SalesChannel\SalesChannelContext $salesChannelContext = null, bool $validateSettings = true): Api\Integration\Checkout
+    public function createCheckout(?SalesChannelContext $salesChannelContext = null, bool $validateSettings = true): Api\Integration\Checkout
     {
         $client = $this->getClient();
         $config = $this->getConfig($salesChannelContext);
@@ -92,7 +94,7 @@ class IntegrationFactory
         );
     }
 
-    public function createTransactionApi(?\Shopware\Core\System\SalesChannel\SalesChannelContext $salesChannelContext = null): Api\Service\TransactionApi
+    public function createTransactionApi(?SalesChannelContext $salesChannelContext = null): Api\Service\TransactionApi
     {
         $client = $this->getClient();
         $config = $this->getConfig()

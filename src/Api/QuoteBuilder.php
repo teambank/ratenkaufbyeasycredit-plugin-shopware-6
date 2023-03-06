@@ -7,6 +7,9 @@
 
 namespace Netzkollektiv\EasyCredit\Api;
 
+use Teambank\RatenkaufByEasyCreditApiV3\Model\RedirectLinks;
+use Teambank\RatenkaufByEasyCreditApiV3\Model\OrderDetails;
+use Teambank\RatenkaufByEasyCreditApiV3\Model\CustomerRelationship;
 use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Shopware\Core\Checkout\Cart\Cart;
@@ -193,7 +196,7 @@ class QuoteBuilder
             $this->storage->set('sec_token', \uniqid());
         }
         
-        return new \Teambank\RatenkaufByEasyCreditApiV3\Model\RedirectLinks([
+        return new RedirectLinks([
             'urlSuccess' => $this->router->generate('frontend.easycredit.return', [], UrlGeneratorInterface::ABSOLUTE_URL),
             'urlCancellation' => $this->router->generate('frontend.easycredit.cancel', [], UrlGeneratorInterface::ABSOLUTE_URL),
             'urlDenial' => $this->router->generate('frontend.easycredit.reject', [], UrlGeneratorInterface::ABSOLUTE_URL),
@@ -223,7 +226,7 @@ class QuoteBuilder
 
         return new Transaction([
             'financingTerm' => $this->getDuration(),
-            'orderDetails' => new \Teambank\RatenkaufByEasyCreditApiV3\Model\OrderDetails([
+            'orderDetails' => new OrderDetails([
                 'orderValue' => $this->getGrandTotal(),
                 'orderId' => $this->getId(),
                 'numberOfProductsInShoppingCart' => 1,
@@ -233,7 +236,7 @@ class QuoteBuilder
             ]),
             'shopsystem' => $this->getSystem(),
             'customer' => $this->getCustomer(),
-            'customerRelationship' => new \Teambank\RatenkaufByEasyCreditApiV3\Model\CustomerRelationship([
+            'customerRelationship' => new CustomerRelationship([
                 'customerSince' => ($this->customer && $this->customer->getCreatedAt() instanceof \DateTimeImmutable) ? $this->customer->getCreatedAt()->format('Y-m-d') : null,
                 'orderDoneWithLogin' => $this->customer && !$this->customer->getGuest(),
                 'numberOfOrders' => ($this->customer) ? $this->customer->getOrderCount() : 0,

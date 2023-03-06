@@ -28,7 +28,7 @@ class StateHandler
      */
     private $stateMachineRegistry;
 
-    private $settings;
+    private SettingsServiceInterface $settings;
 
     public function __construct(
         StateMachineRegistry $stateMachineRegistry,

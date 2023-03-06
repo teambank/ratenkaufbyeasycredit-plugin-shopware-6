@@ -7,7 +7,7 @@
 
 namespace Netzkollektiv\EasyCredit\Helper;
 
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
@@ -20,8 +20,8 @@ class MetaDataProvider
     private $shopwareVersion;
 
     public function __construct(
-        EntityRepositoryInterface $manufacturerRepository,
-        EntityRepositoryInterface $categoryRepository,
+        EntityRepository $manufacturerRepository,
+        EntityRepository $categoryRepository,
         $shopwareVersion
     ) {
         $this->manufacturerRepository = $manufacturerRepository;

@@ -15,7 +15,7 @@ class Migration1661846378BrandRelaunch extends MigrationStep
 {
     public function getCreationTimestamp(): int
     {
-        return 1661846378;
+        return 1_661_846_378;
     }
 
     protected function _replace($column) {

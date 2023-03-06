@@ -7,8 +7,8 @@
 
 namespace Netzkollektiv\EasyCredit\Util\Lifecycle;
 
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\ContainsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
@@ -28,15 +28,15 @@ use Netzkollektiv\EasyCredit\Setting\SettingStruct;
 
 class InstallUninstall
 {
-    private EntityRepositoryInterface $systemConfigRepository;
+    private EntityRepository $systemConfigRepository;
 
-    private EntityRepositoryInterface $paymentMethodRepository;
+    private EntityRepository $paymentMethodRepository;
 
-    private EntityRepositoryInterface $salesChannelRepository;
+    private EntityRepository $salesChannelRepository;
 
-    private EntityRepositoryInterface $countryRepository;
+    private EntityRepository $countryRepository;
 
-    private EntityRepositoryInterface $currencyRepository;
+    private EntityRepository $currencyRepository;
 
     private PluginIdProvider $pluginIdProvider;
 
@@ -45,11 +45,11 @@ class InstallUninstall
     private SystemConfigService $systemConfig;
 
     public function __construct(
-        EntityRepositoryInterface $systemConfigRepository,
-        EntityRepositoryInterface $paymentMethodRepository,
-        EntityRepositoryInterface $salesChannelRepository,
-        EntityRepositoryInterface $countryRepository,
-        EntityRepositoryInterface $currencyRepository,
+        EntityRepository $systemConfigRepository,
+        EntityRepository $paymentMethodRepository,
+        EntityRepository $salesChannelRepository,
+        EntityRepository $countryRepository,
+        EntityRepository $currencyRepository,
         PluginIdProvider $pluginIdProvider,
         SystemConfigService $systemConfig,
         string $className
@@ -93,9 +93,7 @@ class InstallUninstall
 
             $fullKey = SettingsService::SYSTEM_CONFIG_DOMAIN . $key;
 
-            $sytemConfigCollection = $existingSettings->filter(function ($item) use ($fullKey) {
-                return $item->getConfigurationKey() === $fullKey;
-            })->getEntities();
+            $sytemConfigCollection = $existingSettings->filter(fn($item) => $item->getConfigurationKey() === $fullKey)->getEntities();
 
             if (\count($sytemConfigCollection) === 0) {
                 $this->systemConfig->set($fullKey, $value);
@@ -109,9 +107,7 @@ class InstallUninstall
             ->addFilter(new ContainsFilter('configurationKey', SettingsService::SYSTEM_CONFIG_DOMAIN));
         $idSearchResult = $this->systemConfigRepository->searchIds($criteria, $context);
 
-        $ids = \array_map(static function ($id) {
-            return ['id' => $id];
-        }, $idSearchResult->getIds());
+        $ids = \array_map(static fn($id) => ['id' => $id], $idSearchResult->getIds());
 
         $this->systemConfigRepository->delete($ids, $context);
     }

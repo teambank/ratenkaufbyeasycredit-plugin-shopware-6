@@ -7,6 +7,7 @@
 
 namespace Netzkollektiv\EasyCredit\Controller;
 
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +18,6 @@ use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\Framework\Context;
 use Shopware\Storefront\Controller\StorefrontController;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\System\SalesChannel\SalesChannel\ContextSwitchRoute;
@@ -48,7 +48,7 @@ class PaymentController extends StorefrontController
 
     private StateHandler $stateHandler;
 
-    private EntityRepositoryInterface $orderTransactionRepository;
+    private EntityRepository $orderTransactionRepository;
 
     private Storage $storage;
 
@@ -64,7 +64,7 @@ class PaymentController extends StorefrontController
         CartService $cartService,
         QuoteHelper $quoteHelper,
         StateHandler $stateHandler,
-        EntityRepositoryInterface $orderTransactionRepository,
+        EntityRepository $orderTransactionRepository,
         Storage $storage,
         PaymentHelper $paymentHelper,
         CustomerService $customerService,

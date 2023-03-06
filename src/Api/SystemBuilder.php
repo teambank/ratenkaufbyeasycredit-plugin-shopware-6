@@ -7,11 +7,12 @@
 
 namespace Netzkollektiv\EasyCredit\Api;
 
+use Teambank\RatenkaufByEasyCreditApiV3\Model\Shopsystem;
 use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 
 class SystemBuilder
 {
-    private $metaDataProvider;   
+    private MetaDataProvider $metaDataProvider;   
  
     public function __construct(
         MetaDataProvider $metaDataProvider
@@ -42,7 +43,7 @@ class SystemBuilder
     }
 
     public function build () {
-        return new \Teambank\RatenkaufByEasyCreditApiV3\Model\Shopsystem([
+        return new Shopsystem([
             'shopSystemManufacturer' => \implode(' ',[$this->getSystemVendor(),$this->getSystemVersion()]),
             'shopSystemModuleVersion' => $this->getModuleVersion()
         ]);

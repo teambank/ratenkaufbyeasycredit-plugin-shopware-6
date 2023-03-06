@@ -14,7 +14,7 @@ use Teambank\RatenkaufByEasyCreditApiV3\Integration\ApiCredentialsNotActiveExcep
 
 class ApiCredentialService implements ApiCredentialServiceInterface
 {
-    private $integrationFactory;
+    private IntegrationFactory $integrationFactory;
 
     public function __construct(
         IntegrationFactory $integrationFactory

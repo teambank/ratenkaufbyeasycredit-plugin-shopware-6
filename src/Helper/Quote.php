@@ -19,15 +19,9 @@ use Teambank\RatenkaufByEasyCreditApiV3\Model\Transaction;
 
 class Quote
 {
-    /**
-     * @var \Netzkollektiv\EasyCredit\Api\QuoteBuilder
-     */
-    private $quoteBuilder;
+    private QuoteBuilder $quoteBuilder;
 
-    /**
-     * @var \Netzkollektiv\EasyCredit\Api\OrderBuilder
-     */
-    private $orderBuilder;
+    private OrderBuilder $orderBuilder;
 
     public function __construct(
         QuoteBuilder $quoteBuilder,

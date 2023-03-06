@@ -22,10 +22,7 @@ use Teambank\RatenkaufByEasyCreditApiV3\Model\RefundRequest;
  */
 class TransactionsController extends AbstractController
 {
-    /**
-     * @var IntegrationFactory
-     */
-    private $integrationFactory;
+    private IntegrationFactory $integrationFactory;
 
     public function __construct(IntegrationFactory $integrationFactory)
     {

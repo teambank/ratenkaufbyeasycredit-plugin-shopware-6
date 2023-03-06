@@ -7,8 +7,8 @@
 
 namespace Netzkollektiv\EasyCredit\Service;
 
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Checkout\Customer\SalesChannel\AbstractRegisterRoute;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Routing\Exception\MissingRequestParameterException;
@@ -32,9 +32,9 @@ class CustomerService {
 
     private AbstractRegisterRoute $registerRoute;
 
-    private EntityRepositoryInterface $countryRepository;
+    private EntityRepository $countryRepository;
 
-    private EntityRepositoryInterface $salutationRepository;
+    private EntityRepository $salutationRepository;
 
     private SystemConfigService $systemConfigService;
 
@@ -47,8 +47,8 @@ class CustomerService {
     public function __construct(
         AbstractRegisterRoute $registerRoute,
         AbstractSalesChannelContextFactory $salesChannelContextFactory,
-        EntityRepositoryInterface $countryRepository,
-        EntityRepositoryInterface $salutationRepository,
+        EntityRepository $countryRepository,
+        EntityRepository $salutationRepository,
         SystemConfigService $systemConfigService,
         PaymentHelper $paymentHelper,
         CartService $cartService
