@@ -1,0 +1,15 @@
+{% sw_extends '@Storefront/storefront/component/checkout/offcanvas-cart.html.twig' %}
+
+{% block component_offcanvas_cart_actions_cart %}
+    {{ parent() }}
+
+    {# @var easycredit #}
+    {% set easycredit = page.extensions.easycredit %}
+
+    {% if easycredit.expressCartEnabled %}
+        <div class="form-row mt-3 justify-content-end">
+            {% sw_include '@EasyCreditRatenkauf/storefront/component/express-button.html.twig' with {button_class: 'col-8', fullWidth: true} %}
+        </div>
+    {% endif %}
+
+{% endblock %}
