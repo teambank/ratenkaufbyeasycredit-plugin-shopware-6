@@ -126,12 +126,12 @@ class PaymentController extends StorefrontController
             $transaction = $checkout->loadTransaction();
 
             if ($this->storage->get('express')) {
-                $this->customerService->handleExpress($transaction, $salesChannelContext);
+                $newContext = $this->customerService->handleExpress($transaction, $salesChannelContext);
 
                 $this->storage->set('express', false);
 
-                $cart = $this->cartService->getCart($salesChannelContext->getToken(), $salesChannelContext);
-                $checkout->finalizeExpress($this->quoteHelper->getQuote($cart, $salesChannelContext));
+                $cart = $this->cartService->getCart($newContext->getToken(), $newContext);
+                $checkout->finalizeExpress($this->quoteHelper->getQuote($cart, $newContext));
             }
 
             return $this->redirectToRoute('frontend.checkout.confirm.page');

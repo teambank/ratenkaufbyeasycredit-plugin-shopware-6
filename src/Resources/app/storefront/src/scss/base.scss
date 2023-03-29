@@ -2,4 +2,8 @@ body {
     &.easycredit-box-top {
         margin-top: 50px !important;
     }
+
+    #productDetailPageBuyProductForm easycredit-express-button {
+        display:inline-block;
+    }
 }

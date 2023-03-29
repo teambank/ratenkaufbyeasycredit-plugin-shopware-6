@@ -49,6 +49,7 @@
         <service id="Netzkollektiv\EasyCredit\Service\CustomerService" autowire="true">
             <argument type="service" id="Shopware\Core\Checkout\Customer\SalesChannel\RegisterRoute" />
             <argument type="service" id="Shopware\Core\System\SalesChannel\Context\SalesChannelContextFactory"/>
+            <argument type="service" id="Shopware\Core\System\SalesChannel\Context\SalesChannelContextService" />
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Controller\PaymentController" public="true" autowire="true">
