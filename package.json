@@ -4,9 +4,16 @@
     "pre-release": "docker run --rm -v $(pwd):/storage --entrypoint=\"\" friendsofshopware/plugin-uploader sh -c \"/app/bin/pluginupload ext:zip /storage/ api-v3; mv /*.zip /storage/;\"",
     "validate": "docker run --rm -v $(pwd):/storage --entrypoint=\"\" friendsofshopware/plugin-uploader sh -c \"/app/bin/pluginupload ext:validate /storage/ext.zip\"",
     "fix-cs": "php vendor/bin/ecs check --fix --config=ecs.php",
-    "docs:build:html" : "sudo docker run --rm -v ${PWD}/docs:/docs -v /opt/sphinx_rtd_theme/sphinx_rtd_theme:/docs/source/_themes/sphinx_rtd_theme sphinxdoc/sphinx make html",
-    "docs:build:pdf" : "sudo docker run --rm -v ${PWD}/docs:/docs -v /opt/sphinx_rtd_theme/sphinx_rtd_theme:/docs/source/_themes/sphinx_rtd_theme sphinxdoc/sphinx-latexpdf make latexpdf",
-    "docs:deploy" : "export $(cat .env | xargs) && rsync -avz --delete ${PWD}/docs/build/html/ ${DOCS_DEPLOY_DST}",
-    "docs" : "yarn docs:build:html; yarn docs:deploy"
+    "docs:build:html": "sudo docker run --rm -v ${PWD}/docs:/docs -v /opt/sphinx_rtd_theme/sphinx_rtd_theme:/docs/source/_themes/sphinx_rtd_theme sphinxdoc/sphinx make html",
+    "docs:build:pdf": "sudo docker run --rm -v ${PWD}/docs:/docs -v /opt/sphinx_rtd_theme/sphinx_rtd_theme:/docs/source/_themes/sphinx_rtd_theme sphinxdoc/sphinx-latexpdf make latexpdf",
+    "docs:deploy": "export $(cat .env | xargs) && rsync -avz --delete ${PWD}/docs/build/html/ ${DOCS_DEPLOY_DST}",
+    "docs": "yarn docs:build:html; yarn docs:deploy"
+  },
+  "dependencies": {
+    "typescript": "^5.0.2"
+  },
+  "devDependencies": {
+    "browserslist-to-esbuild": "^1.2.0",
+    "esbuild": "^0.17.14"
   }
 }

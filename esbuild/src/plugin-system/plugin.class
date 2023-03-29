@@ -1,0 +1,10 @@
+export default class Plugin {
+
+    constructor(el, options = {}, pluginName = false) {
+        this.el = el;
+    }
+
+    init () {
+        throw new Error(`The "init" method for the plugin is not defined.`);
+    }
+} 
