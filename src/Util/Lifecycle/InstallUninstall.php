@@ -30,7 +30,7 @@ class InstallUninstall
 {
     private EntityRepository $systemConfigRepository;
 
-    private EntityRepository $paymentMethodRepository;
+    private $paymentMethodRepository;
 
     private EntityRepository $salesChannelRepository;
 
@@ -46,7 +46,7 @@ class InstallUninstall
 
     public function __construct(
         EntityRepository $systemConfigRepository,
-        EntityRepository $paymentMethodRepository,
+        $paymentMethodRepository,
         EntityRepository $salesChannelRepository,
         EntityRepository $countryRepository,
         EntityRepository $currencyRepository,

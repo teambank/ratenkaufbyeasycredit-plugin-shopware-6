@@ -48,8 +48,6 @@ class PaymentController extends StorefrontController
 
     private StateHandler $stateHandler;
 
-    private EntityRepository $orderTransactionRepository;
-
     private Storage $storage;
 
     private CustomerService $customerService;
@@ -58,17 +56,18 @@ class PaymentController extends StorefrontController
 
     private ContextSwitchRoute $contextSwitchRoute;
 
+    private EntityRepository $orderTransactionRepository;
 
     public function __construct(
         IntegrationFactory $integrationFactory,
         CartService $cartService,
         QuoteHelper $quoteHelper,
         StateHandler $stateHandler,
-        EntityRepository $orderTransactionRepository,
         Storage $storage,
         PaymentHelper $paymentHelper,
         CustomerService $customerService,
-        ContextSwitchRoute $contextSwitchRoute
+        ContextSwitchRoute $contextSwitchRoute,
+        EntityRepository $orderTransactionRepository
     ) {
         $this->integrationFactory = $integrationFactory;
         $this->cartService = $cartService;
