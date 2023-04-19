@@ -56,7 +56,7 @@ class CustomerService {
         EntityRepository $salutationRepository,
         SystemConfigService $systemConfigService,
         PaymentHelper $paymentHelper,
-        CartService $cartService,
+        CartService $cartService
     ) {
         $this->registerRoute = $registerRoute;
         $this->salesChannelContextFactory = $salesChannelContextFactory;

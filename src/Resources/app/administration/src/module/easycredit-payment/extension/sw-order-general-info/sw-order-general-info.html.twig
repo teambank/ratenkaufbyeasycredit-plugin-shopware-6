@@ -1,0 +1,7 @@
+{% block sw_order_detail_base_general_info_order_states_order %}
+    {% parent %}
+
+    <div class="sw-order-general-info__order-state">
+        <easycredit-tx-widget v-if="isEasyCreditPayment" :order="order" />
+    </div>
+{% endblock %}

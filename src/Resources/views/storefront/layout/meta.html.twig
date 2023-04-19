@@ -15,6 +15,12 @@
     <meta name="easycredit-amount" content="{{page.extensions.easycredit.amount}}" />
     {% endif %}
 
+{% endblock %}
+
+{# >= SW 6.5 #}
+{% block layout_head_javascript_hmr_mode %}
+    {{ parent() }}
+
     {% if page.extensions.easycredit %}
     <script type="module" src="https://ratenkauf.easycredit.de/api/resource/webcomponents/v3/easycredit-components/easycredit-components.esm.js" defer></script>
     <script src="{{ asset('bundles/easycreditratenkauf/static/js/easycredit.js') }}" defer></script>

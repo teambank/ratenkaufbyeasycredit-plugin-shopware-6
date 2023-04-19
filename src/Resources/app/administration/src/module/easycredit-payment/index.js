@@ -8,6 +8,8 @@ import './component/easycredit-marketing';
 
 import './extension/sw-order-detail';
 import './extension/sw-order-detail-base';
+import './extension/sw-order-detail-details';
+import './extension/sw-order-general-info';
 import './extension/sw-order-user-card';
 
 import './page/easycredit-payment-detail';
@@ -28,7 +30,11 @@ Module.register('easycredit-payment', {
                 component: 'easycredit-payment-detail',
                 name: 'netzkollektiv.easycredit.payment.detail',
                 isChildren: true,
-                path: '/sw/order/easycredit/detail/:id'
+                path: '/sw/order/easycredit/detail/:id',
+                meta: {
+                    parentPath: 'sw.order.index',
+                    privilege: 'order.viewer'
+                }
             });
         }
         next(currentRoute);
