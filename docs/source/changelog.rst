@@ -1,6 +1,12 @@
 Changelog
 =========
 
+v2.1.1
+------
+
+* Kompatibilität mit Shopware 6.5
+* behebt einen Fehler bei Durchführung von Produkt-Exports über die CLI
+
 v2.1.0
 ------
 

@@ -35,6 +35,11 @@ class Collector implements CartDataCollectorInterface
      */
     private $translator;
 
+    /**
+     * @var RequestStack
+     */
+    private $requestStack;
+
     public function __construct(
         Storage $storage,
         TranslatorInterface $translator,

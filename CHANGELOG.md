@@ -1,4 +1,9 @@
-#2.1.0
+# 2.1.1
+
+* Kompatibilität mit Shopware 6.5
+* behebt einen Fehler bei Durchführung von Produkt-Exports über die CLI
+
+# 2.1.0
 
 * Express-Checkout: der Ratenkauf kann direkt von der Produktdetailseite oder aus dem Warenkorb heraus gestartet werden
 
