@@ -7,6 +7,7 @@
 
 namespace Netzkollektiv\EasyCredit\Rule;
 
+use Netzkollektiv\EasyCredit\Cart\Processor;
 use Shopware\Core\Framework\Rule\Exception\UnsupportedOperatorException;
 use Shopware\Core\Framework\Rule\Rule;
 use Shopware\Core\Framework\Rule\RuleScope;
@@ -24,8 +25,6 @@ class CartPositionPriceRule extends Rule
 
     public function __construct(string $operator = self:: OPERATOR_EQ, ?float $amount = null)
     {
-        parent::__construct();
-
         $this->operator = $operator;
         $this->amount = (float) $amount;
     }
@@ -42,7 +41,7 @@ class CartPositionPriceRule extends Rule
         $positionPrice = $scope->getCart()->getPrice()->getPositionPrice();
 
         if ($interest = $scope->getCart()->getLineItems()
-            ->filterType(\Netzkollektiv\EasyCredit\Cart\Processor::LINE_ITEM_TYPE)
+            ->filterType(Processor::LINE_ITEM_TYPE)
             ->first()
         ) {
             $positionPrice -= $interest->getPrice()->getTotalPrice();

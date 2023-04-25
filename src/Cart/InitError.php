@@ -13,16 +13,11 @@ class InitError extends Error
 {
     private const KEY = 'init-error';
 
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
     public function __construct(string $name)
     {
         $this->name = $name;
-
-        parent::__construct($this->name);
     }
 
     public function getId(): string

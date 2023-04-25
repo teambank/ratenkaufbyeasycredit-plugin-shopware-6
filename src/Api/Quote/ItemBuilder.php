@@ -7,6 +7,7 @@
 
 namespace Netzkollektiv\EasyCredit\Api\Quote;
 
+use Teambank\RatenkaufByEasyCreditApiV3\Model\ArticleNumberItem;
 use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
@@ -101,7 +102,7 @@ class ItemBuilder
         foreach (\array_filter([
             'shopware-id' => $this->item->getPayloadValue('productNumber'),
         ]) as $type => $sku) {
-            $skus[] = new \Teambank\RatenkaufByEasyCreditApiV3\Model\ArticleNumberItem([
+            $skus[] = new ArticleNumberItem([
                 'numberType' => $type,
                 'number' => $sku
             ]);           

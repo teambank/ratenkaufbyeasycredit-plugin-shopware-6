@@ -7,6 +7,7 @@
 
 namespace Netzkollektiv\EasyCredit\Subscriber;
 
+use Netzkollektiv\EasyCredit\Cart\Processor;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Shopware\Core\Checkout\Cart\Event\CheckoutOrderPlacedEvent;
@@ -17,11 +18,11 @@ use Psr\Log\LoggerInterface;
 
 class InterestRemover implements EventSubscriberInterface
 {
-    private $settings;
+    private SettingsServiceInterface $settings;
 
     private $connection;
 
-    private $storage;
+    private Storage $storage;
 
     private $logger;
 
@@ -49,7 +50,7 @@ class InterestRemover implements EventSubscriberInterface
         $order = $event->getOrder();
 
         $interestLineItem = $order->getLineItems()
-            ->filterByType(\Netzkollektiv\EasyCredit\Cart\Processor::LINE_ITEM_TYPE)
+            ->filterByType(Processor::LINE_ITEM_TYPE)
             ->first();
 
         $isEnabled = $this->settings

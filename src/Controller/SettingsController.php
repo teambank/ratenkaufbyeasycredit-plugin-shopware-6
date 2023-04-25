@@ -18,10 +18,7 @@ use Netzkollektiv\EasyCredit\Setting\Service\ApiCredentialServiceInterface;
  */
 class SettingsController extends AbstractController
 {
-    /**
-     * @var ApiCredentialServiceInterface
-     */
-    private $apiCredentialTestService;
+    private ApiCredentialServiceInterface $apiCredentialTestService;
 
     public function __construct(ApiCredentialServiceInterface $apiService)
     {

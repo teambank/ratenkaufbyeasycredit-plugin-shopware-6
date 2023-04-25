@@ -7,6 +7,7 @@
 
 namespace Netzkollektiv\EasyCredit\Payment;
 
+use Shopware\Core\Checkout\Payment\PaymentMethodEntity;
 use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
@@ -22,15 +23,15 @@ use Psr\Log\LoggerInterface;
 
 class Checkout implements EventSubscriberInterface
 {
-    private $paymentHelper;
+    private PaymentHelper $paymentHelper;
 
-    private $settings;
+    private SettingsServiceInterface $settings;
 
-    private $integrationFactory;
+    private IntegrationFactory $integrationFactory;
 
-    private $quoteHelper;
+    private QuoteHelper $quoteHelper;
 
-    private $storage;
+    private Storage $storage;
 
     private $cache;
 
@@ -125,9 +126,7 @@ class Checkout implements EventSubscriberInterface
 
         if ($this->storage->get('express-ui')) {
             $event->getPage()->setPaymentMethods(
-                $event->getPage()->getPaymentMethods()->filter(function (\Shopware\Core\Checkout\Payment\PaymentMethodEntity $paymentMethod) use ($paymentMethodId) {
-                    return $paymentMethod->getId() === $paymentMethodId;
-                })
+                $event->getPage()->getPaymentMethods()->filter(fn(PaymentMethodEntity $paymentMethod) => $paymentMethod->getId() === $paymentMethodId)
             );
         }
 
@@ -138,7 +137,8 @@ class Checkout implements EventSubscriberInterface
             'isSelected' => $isSelected,
             'paymentPlan' => $this->buildPaymentPlan($this->storage->get('summary')),
             'error' => $error,
-            'webshopId' => $settings->getWebshopId()
+            'webshopId' => $settings->getWebshopId(),
+            'expressUi' => $this->storage->get('express-ui')
         ]));
     }
 

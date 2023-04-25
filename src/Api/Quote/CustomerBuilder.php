@@ -7,6 +7,8 @@
 
 namespace Netzkollektiv\EasyCredit\Api\Quote;
 
+use Teambank\RatenkaufByEasyCreditApiV3\Model\Customer;
+use Teambank\RatenkaufByEasyCreditApiV3\Model\Contact;
 use Shopware\Core\Checkout\Customer\Aggregate\CustomerAddress\CustomerAddressEntity;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Teambank\RatenkaufByEasyCreditApiV3\Integration\Util\PrefixConverter;
@@ -87,12 +89,12 @@ class CustomerBuilder
     ) {
         $this->customer = $customer;
 
-        return new \Teambank\RatenkaufByEasyCreditApiV3\Model\Customer([
+        return new Customer([
             'gender' => $this->getPrefix(),
             'firstName' => $this->getFirstName(),
             'lastName' => $this->getLastName(),
             'birthDate' => $this->getDob(),
-            'contact' => new \Teambank\RatenkaufByEasyCreditApiV3\Model\Contact([
+            'contact' => new Contact([
                 'email' => $this->customer->getEmail()
             ]),
             'companyName' => $this->customer->getActiveBillingAddress() ? $this->customer->getActiveBillingAddress()->getCompany() : null

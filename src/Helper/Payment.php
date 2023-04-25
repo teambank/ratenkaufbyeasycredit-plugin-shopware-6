@@ -7,9 +7,9 @@
 
 namespace Netzkollektiv\EasyCredit\Helper;
 
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Checkout\Payment\PaymentMethodCollection;
@@ -29,7 +29,7 @@ class Payment
 {
     private $paymentMethodRepository;
 
-    private EntityRepositoryInterface $salesChannelRepository;
+    private EntityRepository $salesChannelRepository;
 
     private IntegrationFactory $integrationFactory;
 
@@ -42,8 +42,8 @@ class Payment
     private LoggerInterface $logger;
 
     public function __construct(
-        EntityRepositoryInterface $paymentMethodRepository,
-        EntityRepositoryInterface $salesChannelRepository,
+        EntityRepository $paymentMethodRepository,
+        EntityRepository $salesChannelRepository,
         IntegrationFactory $integrationFactory,
         CartService $cartService,
         QuoteHelper $quoteHelper,

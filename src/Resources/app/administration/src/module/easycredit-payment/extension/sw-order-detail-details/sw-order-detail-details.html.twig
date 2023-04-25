@@ -1,0 +1,24 @@
+<!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+{% block sw_order_detail_details_shipping_address %}
+    <div class="sw-field" v-if="isEasyCreditPayment">
+        <div class="sw-field__label">
+            <label>{{ $tc('sw-order.createBase.detailsFooter.labelShippingMethod') }}</label>
+        </div>
+        <div class="sw-order-address-selection__information">
+            <p>{{ shippingAddress.firstName }} {{ shippingAddress.lastName }}</p>
+            <p>
+                {{ shippingAddress.street }}
+            </p>
+            <p>
+                {{ shippingAddress.zipcode }} {{ shippingAddress.city }}
+            </p>
+            <br>
+        </div>
+        <div>
+            <p><strong>Die Versandadresse kann bei easyCredit-Ratenkauf nicht nachträglich verändert werden.</strong></p>
+        </div>
+    </div>
+    <template v-else>
+        {% parent %}
+    </template>
+{% endblock %}

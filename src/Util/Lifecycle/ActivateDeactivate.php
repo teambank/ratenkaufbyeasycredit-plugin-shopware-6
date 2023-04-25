@@ -7,9 +7,9 @@
 
 namespace Netzkollektiv\EasyCredit\Util\Lifecycle;
 
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\IdSearchResult;
@@ -18,19 +18,19 @@ use Netzkollektiv\EasyCredit\EasyCreditRatenkauf;
 
 class ActivateDeactivate
 {
-    private EntityRepositoryInterface $paymentRepository;
+    private EntityRepository $paymentRepository;
 
-    private EntityRepositoryInterface $customFieldRepository;
+    private EntityRepository $customFieldRepository;
 
     /**
      * @var PaymentHelper
      */
-    private $paymentHelper;
+    private PaymentHelper $paymentHelper;
 
     public function __construct(
         PaymentHelper $paymentHelper,
-        EntityRepositoryInterface $paymentRepository,
-        EntityRepositoryInterface $customFieldRepository
+        EntityRepository $paymentRepository,
+        EntityRepository $customFieldRepository
     ) {
         $this->paymentHelper = $paymentHelper;
         $this->paymentRepository = $paymentRepository;
@@ -92,9 +92,7 @@ class ActivateDeactivate
             return;
         }
 
-        $ids = \array_map(static function ($id) {
-            return ['id' => $id];
-        }, $customFieldIds->getIds());
+        $ids = \array_map(static fn($id) => ['id' => $id], $customFieldIds->getIds());
         $this->customFieldRepository->delete($ids, $context);
     }
 

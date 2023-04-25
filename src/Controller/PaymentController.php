@@ -7,6 +7,7 @@
 
 namespace Netzkollektiv\EasyCredit\Controller;
 
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +18,6 @@ use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\Framework\Context;
 use Shopware\Storefront\Controller\StorefrontController;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\System\SalesChannel\SalesChannel\ContextSwitchRoute;
@@ -48,8 +48,6 @@ class PaymentController extends StorefrontController
 
     private StateHandler $stateHandler;
 
-    private EntityRepositoryInterface $orderTransactionRepository;
-
     private Storage $storage;
 
     private CustomerService $customerService;
@@ -58,17 +56,18 @@ class PaymentController extends StorefrontController
 
     private ContextSwitchRoute $contextSwitchRoute;
 
+    private EntityRepository $orderTransactionRepository;
 
     public function __construct(
         IntegrationFactory $integrationFactory,
         CartService $cartService,
         QuoteHelper $quoteHelper,
         StateHandler $stateHandler,
-        EntityRepositoryInterface $orderTransactionRepository,
         Storage $storage,
         PaymentHelper $paymentHelper,
         CustomerService $customerService,
-        ContextSwitchRoute $contextSwitchRoute
+        ContextSwitchRoute $contextSwitchRoute,
+        EntityRepository $orderTransactionRepository
     ) {
         $this->integrationFactory = $integrationFactory;
         $this->cartService = $cartService;
@@ -126,12 +125,12 @@ class PaymentController extends StorefrontController
             $transaction = $checkout->loadTransaction();
 
             if ($this->storage->get('express')) {
-                $this->customerService->handleExpress($transaction, $salesChannelContext);
+                $newContext = $this->customerService->handleExpress($transaction, $salesChannelContext);
 
                 $this->storage->set('express', false);
 
-                $cart = $this->cartService->getCart($salesChannelContext->getToken(), $salesChannelContext);
-                $checkout->finalizeExpress($this->quoteHelper->getQuote($cart, $salesChannelContext));
+                $cart = $this->cartService->getCart($newContext->getToken(), $newContext);
+                $checkout->finalizeExpress($this->quoteHelper->getQuote($cart, $newContext));
             }
 
             return $this->redirectToRoute('frontend.checkout.confirm.page');

@@ -14,7 +14,7 @@ class Migration1603803110UpdateSettings extends MigrationStep
 {
     public function getCreationTimestamp(): int
     {
-        return 1603803110;
+        return 1_603_803_110;
     }
 
     public function update(Connection $connection): void

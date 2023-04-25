@@ -7,8 +7,8 @@
 
 namespace Netzkollektiv\EasyCredit\Service;
 
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Checkout\Customer\SalesChannel\AbstractRegisterRoute;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Routing\Exception\MissingRequestParameterException;
@@ -21,6 +21,8 @@ use Shopware\Core\PlatformRequest;
 use Shopware\Core\System\SalesChannel\Context\AbstractSalesChannelContextFactory;
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\Content\Newsletter\Exception\SalesChannelDomainNotFoundException;
+use Shopware\Core\System\SalesChannel\Context\SalesChannelContextServiceInterface;
+use Shopware\Core\System\SalesChannel\Context\SalesChannelContextServiceParameters;
 
 use Teambank\RatenkaufByEasyCreditApiV3\Model\TransactionInformation as EasyCreditTransaction;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
@@ -32,9 +34,9 @@ class CustomerService {
 
     private AbstractRegisterRoute $registerRoute;
 
-    private EntityRepositoryInterface $countryRepository;
+    private EntityRepository $countryRepository;
 
-    private EntityRepositoryInterface $salutationRepository;
+    private EntityRepository $salutationRepository;
 
     private SystemConfigService $systemConfigService;
 
@@ -42,19 +44,23 @@ class CustomerService {
 
     private AbstractSalesChannelContextFactory $salesChannelContextFactory;
 
+    private  SalesChannelContextServiceInterface $contextService;
+
     private CartService $cartService;
 
     public function __construct(
         AbstractRegisterRoute $registerRoute,
         AbstractSalesChannelContextFactory $salesChannelContextFactory,
-        EntityRepositoryInterface $countryRepository,
-        EntityRepositoryInterface $salutationRepository,
+        SalesChannelContextServiceInterface $contextService,
+        EntityRepository $countryRepository,
+        EntityRepository $salutationRepository,
         SystemConfigService $systemConfigService,
         PaymentHelper $paymentHelper,
         CartService $cartService
     ) {
         $this->registerRoute = $registerRoute;
         $this->salesChannelContextFactory = $salesChannelContextFactory;
+        $this->contextService = $contextService;
         $this->countryRepository = $countryRepository;
         $this->salutationRepository = $salutationRepository;
         $this->systemConfigService = $systemConfigService;
@@ -105,24 +111,21 @@ class CustomerService {
         ];
     }
 
-    public function handleExpress(EasyCreditTransaction $transaction, SalesChannelContext $salesChannelContext) {
-        $newContextToken = $this->registerCustomer($transaction, $salesChannelContext);
+    public function handleExpress(EasyCreditTransaction $transaction, SalesChannelContext $context): SalesChannelContext {
+        $newContext = $this->registerCustomer($transaction, $context);
 
-        $newSalesChannelContext = $this->salesChannelContextFactory->create(
-            $newContextToken,
-            $salesChannelContext->getSalesChannel()->getId()
-        );
+        $cart = $this->cartService->getCart($newContext->getToken(), $newContext);
+        $this->cartService->recalculate($cart, $newContext);
 
-        $cart = $this->cartService->getCart($newSalesChannelContext->getToken(), $salesChannelContext);
-        $this->cartService->recalculate($cart, $newSalesChannelContext);
+        return $newContext;
     }
 
-    private function registerCustomer(EasyCreditTransaction $transaction, SalesChannelContext $salesChannelContext): string
+    private function registerCustomer(EasyCreditTransaction $transaction, SalesChannelContext $context): SalesChannelContext
     {
-        $salesChannelContext->getContext()->addExtension(self::EXPRESS_ACTIVE, new ArrayStruct());
-        $customerDataBag = $this->getRegisterCustomerDataBag($transaction, $salesChannelContext);
-        $response = $this->registerRoute->register($customerDataBag, $salesChannelContext, false);
-        $salesChannelContext->getContext()->removeExtension(self::EXPRESS_ACTIVE);
+        $context->getContext()->addExtension(self::EXPRESS_ACTIVE, new ArrayStruct());
+        $customerDataBag = $this->getRegisterCustomerDataBag($transaction, $context);
+        $response = $this->registerRoute->register($customerDataBag, $context, false);
+        $context->getContext()->removeExtension(self::EXPRESS_ACTIVE);
 
         $newToken = $response->headers->get(PlatformRequest::HEADER_CONTEXT_TOKEN);
 
@@ -130,7 +133,21 @@ class CustomerService {
             throw new MissingRequestParameterException(PlatformRequest::HEADER_CONTEXT_TOKEN);
         }
 
-        return $newToken;
+        $newContext = $this->contextService->get(
+            /** @phpstan-ignore-next-line */ 
+            new SalesChannelContextServiceParameters(
+                $context->getSalesChannel()->getId(),
+                $newToken,
+                $context->getLanguageId(),
+                $context->getCurrencyId(),
+                $context->getDomainId(),
+                $context->getContext(),
+                $response->getCustomer()->getId()
+            )
+        );
+        $newContext->addState(...$context->getStates());
+
+        return $newContext;
     }
 
 

@@ -1,0 +1,11 @@
+export default class PluginManager {
+    register(pluginName, pluginClass, selector = document, options = {}) {
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const el = document.querySelector(selector)
+            if (el) {
+                const plugin = new pluginClass(el)
+                plugin.init();
+            }
+        })
+    }
+}

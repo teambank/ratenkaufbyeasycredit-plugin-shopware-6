@@ -22,6 +22,8 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Netzkollektiv\EasyCredit\Compatibility\EntityCompilerPass;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 
 class EasyCreditRatenkauf extends Plugin
 {
@@ -46,6 +48,8 @@ class EasyCreditRatenkauf extends Plugin
         $loader->load('easycredit_payment.xml');
         $loader->load('setting.xml');
         $loader->load('rule.xml');
+
+        $container->addCompilerPass(new EntityCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 500);
     }
 
     public function install(InstallContext $installContext): void

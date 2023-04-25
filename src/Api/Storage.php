@@ -7,10 +7,11 @@
 
 namespace Netzkollektiv\EasyCredit\Api;
 
+use Teambank\RatenkaufByEasyCreditApiV3\Integration\StorageInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Monolog\Logger;
 
-class Storage implements \Teambank\RatenkaufByEasyCreditApiV3\Integration\StorageInterface
+class Storage implements StorageInterface
 {
     protected $requestStack;
 
