@@ -56,6 +56,10 @@ class Validator implements CartValidatorInterface
         ErrorCollection $errors,
         SalesChannelContext $salesChannelContext
     ): void {
+        if (!$this->requestStack->getCurrentRequest()) {
+            return; // do not run in CLI
+        }
+
         if (
             isset($this->requestStack->getCurrentRequest()->attributes) &&
             !$this->requestStack->getCurrentRequest()->attributes->get('_route') // if route is not set no controller was resolved (leading to 404) and the cart is empty

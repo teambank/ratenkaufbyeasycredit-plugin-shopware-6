@@ -24,6 +24,7 @@ use Shopware\Core\Checkout\Cart\Tax\Struct\TaxRuleCollection;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\Checkout\Cart\Delivery\Struct\DeliveryInformation;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class Collector implements CartDataCollectorInterface
 {
@@ -36,10 +37,12 @@ class Collector implements CartDataCollectorInterface
 
     public function __construct(
         Storage $storage,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        RequestStack $requestStack
     ) {
         $this->storage = $storage;
         $this->translator = $translator;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -48,6 +51,10 @@ class Collector implements CartDataCollectorInterface
      */
     public function collect(CartDataCollection $data, Cart $cart, SalesChannelContext $context, CartBehavior $behavior): void
     {
+        if (!$this->requestStack->getCurrentRequest()) {
+            return; // do not run in CLI
+        }
+
         if (!$price = $this->getInterestPrice()) {
             return;
         }

@@ -146,6 +146,7 @@
         <service id="Netzkollektiv\EasyCredit\Cart\Collector">
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
             <argument type="service" id="translator"/>
+            <argument type="service" id="request_stack"/>
 
             <!-- // inject after product collector(5000) -->
             <tag name="shopware.cart.collector" priority="-5000"/>
