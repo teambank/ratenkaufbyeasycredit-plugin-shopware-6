@@ -3,6 +3,7 @@ includes:
     #- vendor/phpstan/phpstan-deprecation-rules/rules.neon
     - vendor/phpstan/phpstan-symfony/extension.neon
     - vendor/phpstan/phpstan-symfony/rules.neon
+    - phpstan-ignore-by-sw-version.php
 
 parameters:
     level: 1
@@ -20,5 +21,4 @@ parameters:
         container_xml_path: '%ShopwareRoot%%ShopwareHashedCacheDir%/%ShopwareKernelClass%DevDebugContainer.xml'
     scanDirectories:
         - %ShopwareRoot%/vendor
-    excludePaths:
-        -  %currentWorkingDirectory%/src/Api/Storage.php
+        - %ShopwareRoot%/src

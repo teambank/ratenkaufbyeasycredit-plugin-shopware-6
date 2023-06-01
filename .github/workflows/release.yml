@@ -13,16 +13,17 @@ jobs:
     - name: Run script file
       id: build-release
       run: |
-        yarn release   
+         yarn release   
 
-         echo "::set-output name=filepath::$(ls *.zip | head -1)"
-         echo "::set-output name=filename::$(basename `ls *.zip | head -1`)"
+         echo "filepath=$(ls *.zip | head -1)" >> $GITHUB_OUTPUT
+         echo "filename=$(basename `ls *.zip | head -1`)" >> $GITHUB_OUTPUT
 
          t=$(cat docs/source/changelog.rst  | php -r 'preg_match_all("#([v\d\.]+)\n[-]+\n(.+?)\n\n#s", file_get_contents("php://stdin"), $matches); echo trim($matches[2][0]);')
          t="${t//'%'/'%25'}"
          t="${t//$'\n'/'%0A'}"
          t="${t//$'\r'/'%0D'}"
-         echo "::set-output name=changelog::$t"
+
+         echo "changelog=$t" >> $GITHUB_OUTPUT
       shell: bash
     - name: Create Release
       id: create-release
