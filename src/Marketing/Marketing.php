@@ -62,6 +62,10 @@ class Marketing implements EventSubscriberInterface
             return;
         }
 
+        if (!$settings->getWidgetEnabled()) {
+            return;
+        }
+
         $this->addVariables($event->getPage(), [
             'widgetSelector' => $settings->getWidgetSelectorProductDetail(),
             'amount' => $product->getCalculatedPrice()->getUnitPrice()
