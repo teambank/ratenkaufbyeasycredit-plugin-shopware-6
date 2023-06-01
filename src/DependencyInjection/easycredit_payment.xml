@@ -27,18 +27,16 @@
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
         </service>
 
-        <service id="Netzkollektiv\EasyCredit\Util\LoggerFactory">
-            <argument type="string">%kernel.logs_dir%/%%s_%kernel.environment%.log</argument>
-            <argument>%shopware.logger.file_rotation_count%</argument>
-
-            <call method="setLogLevel">
-                <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
-            </call>
+        <service id="Netzkollektiv\EasyCredit\Util\Logger" class="Psr\Log\LoggerInterface">
+            <factory service="Shopware\Core\Framework\Log\LoggerFactory" method="createRotating"/>
+            <argument type="string">netzkollektiv_easycredit</argument>
+            <argument>90</argument>
+            <configurator service="Netzkollektiv\EasyCredit\Util\LoggerConfigurator" method="configure" />
         </service>
 
-        <service id="Netzkollektiv\EasyCredit\Util\Logger" class="Monolog\Logger">
-            <factory service="Netzkollektiv\EasyCredit\Util\LoggerFactory" method="createRotating"/>
-            <argument type="string">netzkollektiv_easycredit</argument>
+        <service id="Netzkollektiv\EasyCredit\Util\LoggerConfigurator">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
+            <argument type="service" id="request_stack"/>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Api\Storage">          
