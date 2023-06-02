@@ -1,6 +1,12 @@
 Changelog
 =========
 
+v2.1.2
+------
+
+* Kompatibilität mit Shopware 6.5.1.0
+* das Widget berücksichtigt nun wieder die Einstellung im Backend
+
 v2.1.1
 ------
 
