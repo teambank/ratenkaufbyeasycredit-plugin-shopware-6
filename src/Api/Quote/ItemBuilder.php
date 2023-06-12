@@ -47,9 +47,7 @@ class ItemBuilder
             return 0;
         }
 
-        $taxAmount = $this->item->getPrice()->getCalculatedTaxes()->getAmount();
-
-        return $this->item->getPrice()->getTotalPrice() - $taxAmount;
+        return $this->item->getPrice()->getTotalPrice();
     }
 
     public function getManufacturer(): string

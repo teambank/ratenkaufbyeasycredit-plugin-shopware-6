@@ -19,6 +19,7 @@ use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 use Netzkollektiv\EasyCredit\Api\Quote\AddressBuilder;
 use Netzkollektiv\EasyCredit\Api\Quote\ItemBuilder;
 use Netzkollektiv\EasyCredit\Api\Quote\CustomerBuilder;
+use Netzkollektiv\EasyCredit\Cart\Processor;
 
 use Teambank\RatenkaufByEasyCreditApiV3\Integration;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\Transaction;
@@ -181,6 +182,10 @@ class QuoteBuilder
     {
         $_items = [];
         foreach ($items as $item) {
+            if ($item->getType() === Processor::LINE_ITEM_TYPE) {
+                continue;
+            }
+
             $quoteItem = $this->itemBuilder->build($item, $this->context);
             if ($quoteItem->getPrice() <= 0) {
                 continue;
@@ -229,7 +234,7 @@ class QuoteBuilder
             'orderDetails' => new OrderDetails([
                 'orderValue' => $this->getGrandTotal(),
                 'orderId' => $this->getId(),
-                'numberOfProductsInShoppingCart' => 1,
+                'numberOfProductsInShoppingCart' => count($this->getItems()),
                 'invoiceAddress' => $this->isExpress() ? null : $this->getInvoiceAddress(),
                 'shippingAddress' => $this->isExpress() ? null : $this->getShippingAddress(),
                 'shoppingCartInformation' => $this->getItems()
