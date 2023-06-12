@@ -41,6 +41,8 @@ class Payment
 
     private LoggerInterface $logger;
 
+    private array $paymentMethodIdCache = [];
+
     public function __construct(
         EntityRepository $paymentMethodRepository,
         EntityRepository $salesChannelRepository,
@@ -71,10 +73,14 @@ class Payment
 
     public function getPaymentMethodId(Context $context): ?string
     {
-        $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('handlerIdentifier', PaymentHandler::class));
+        $cacheId = sha1(json_encode($context));
+        if (!isset($this->paymentMethodIdCache[$cacheId])) {
+            $criteria = new Criteria();
+            $criteria->addFilter(new EqualsFilter('handlerIdentifier', PaymentHandler::class));
 
-        return $this->paymentMethodRepository->searchIds($criteria, $context)->firstId();
+            $this->paymentMethodIdCache[$cacheId] = $this->paymentMethodRepository->searchIds($criteria, $context)->firstId();
+        }
+        return $this->paymentMethodIdCache[$cacheId];
     }
 
     public function isPaymentMethodInSalesChannel(SalesChannelContext $salesChannelContext): bool

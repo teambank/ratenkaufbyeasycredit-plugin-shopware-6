@@ -7,9 +7,9 @@
 
 namespace Netzkollektiv\EasyCredit\Payment;
 
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Monolog\Logger;
 
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Exception\SyncPaymentProcessException;
@@ -17,17 +17,22 @@ use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
+use Teambank\RatenkaufByEasyCreditApiV3 as ApiV3;
+
 use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Helper\OrderDataProvider;
 use Netzkollektiv\EasyCredit\Util\Lifecycle\ActivateDeactivate;
 use Netzkollektiv\EasyCredit\EasyCreditRatenkauf;
+use Netzkollektiv\EasyCredit\Payment\StateHandler;
 
 class Handler implements SynchronousPaymentHandlerInterface
 {
     private $orderTransactionRepo;
 
     private OrderDataProvider $orderDataProvider;
+
+    private StateHandler $stateHandler;
 
     private IntegrationFactory $integrationFactory;
 
@@ -38,12 +43,14 @@ class Handler implements SynchronousPaymentHandlerInterface
     public function __construct(
         EntityRepository $orderTransactionRepo,
         OrderDataProvider $orderDataProvider,
+        StateHandler $stateHandler,
         IntegrationFactory $integrationFactory,
         Storage $storage,
         Logger $logger
     ) {
         $this->orderTransactionRepo = $orderTransactionRepo;
         $this->orderDataProvider = $orderDataProvider;
+        $this->stateHandler = $stateHandler;
 
         $this->integrationFactory = $integrationFactory;
         $this->storage = $storage;
@@ -77,6 +84,22 @@ class Handler implements SynchronousPaymentHandlerInterface
                 $transaction,
                 $salesChannelContext->getContext()
             );
+
+            // check transaction status right away
+            try {
+                $tx = $checkout->loadTransaction();
+                if ($tx->getStatus() === ApiV3\Model\TransactionInformation::STATUS_AUTHORIZED) {
+                    $this->stateHandler->handleTransactionState(
+                        $transaction->getOrderTransaction(),
+                        $salesChannelContext
+                    );
+                    $this->stateHandler->handleOrderState(
+                        $order,
+                        $salesChannelContext
+                    );
+                }
+            } catch (\Exception $e) { /* fail silently, will be updated async */ }
+
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
 

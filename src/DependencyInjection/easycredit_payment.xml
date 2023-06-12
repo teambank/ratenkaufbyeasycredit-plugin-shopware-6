@@ -9,6 +9,7 @@
         <service id="Netzkollektiv\EasyCredit\Payment\Handler">
             <argument type="service" id="order_transaction.repository"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\OrderDataProvider"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Payment\StateHandler" />
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>

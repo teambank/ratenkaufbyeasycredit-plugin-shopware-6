@@ -17,6 +17,8 @@ class SettingsService implements SettingsServiceInterface
 
     private $systemConfigService;
 
+    private array $settingsCache;
+
     public function __construct(SystemConfigService $systemConfigService)
     {
         $this->systemConfigService = $systemConfigService;
@@ -24,24 +26,30 @@ class SettingsService implements SettingsServiceInterface
 
     public function getSettings(?string $salesChannelId = null, bool $validate = true): SettingStruct
     {
-        $values = $this->systemConfigService->getDomain(
-            self::SYSTEM_CONFIG_DOMAIN,
-            $salesChannelId,
-            true
-        );
+        if (!isset($this->settingsCache[$salesChannelId])) {
+            $values = $this->systemConfigService->getDomain(
+                self::SYSTEM_CONFIG_DOMAIN,
+                $salesChannelId,
+                true
+            );
 
-        $propertyValuePairs = [];
+            $propertyValuePairs = [];
 
-        foreach ($values as $key => $value) {
-            $property = (string) \mb_substr($key, \mb_strlen(self::SYSTEM_CONFIG_DOMAIN));
-            if ($property === '') {
-                continue;
+            foreach ($values as $key => $value) {
+                $property = (string) \mb_substr($key, \mb_strlen(self::SYSTEM_CONFIG_DOMAIN));
+                if ($property === '') {
+                    continue;
+                }
+                $propertyValuePairs[$property] = $value;
             }
-            $propertyValuePairs[$property] = $value;
+
+            $settingsEntity = new SettingStruct();
+            $settingsEntity->assign($propertyValuePairs);
+
+            $this->settingsCache[$salesChannelId] = $settingsEntity;
         }
 
-        $settingsEntity = new SettingStruct();
-        $settingsEntity->assign($propertyValuePairs);
+        $settingsEntity = $this->settingsCache[$salesChannelId];
 
         if ($validate) {
             SettingStructValidator::validate($settingsEntity);
@@ -52,6 +60,8 @@ class SettingsService implements SettingsServiceInterface
 
     public function updateSettings(array $settings, ?string $salesChannelId = null): void
     {
+        unset($this->settingsCache[$salesChannelId]);
+
         foreach ($settings as $key => $value) {
             $this->systemConfigService->set(
                 self::SYSTEM_CONFIG_DOMAIN . $key,
