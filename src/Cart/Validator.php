@@ -110,9 +110,13 @@ class Validator implements CartValidatorInterface
             return;
         }
         if (!$checkout->isAmountValid($quote)) {
-            $this->logger->debug('InterestError: amount not valid');
-            $errors->add(new InterestError());
-
+            try {
+                $checkout->update($quote);
+            } catch (\Throwable $e) {
+                $this->logger->debug('InterestError: amount not valid'. $e->getMessage());
+                $this->storage->clear();
+                $errors->add(new InterestError());
+            }
             return;
         }
         if (!$checkout->verifyAddress($quote)) {
