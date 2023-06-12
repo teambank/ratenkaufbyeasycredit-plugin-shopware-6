@@ -61,6 +61,7 @@ class ExpressCheckoutCartHandler implements EventSubscriberInterface
             return;
         }
 
+        $this->storage->clear();
         foreach ($cart->getLineItems() as $lineItem) {
             $cart->getLineItems()->removeElement($lineItem);            
         }
