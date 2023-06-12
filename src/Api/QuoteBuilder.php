@@ -234,7 +234,7 @@ class QuoteBuilder
             'orderDetails' => new OrderDetails([
                 'orderValue' => $this->getGrandTotal(),
                 'orderId' => $this->getId(),
-                'numberOfProductsInShoppingCart' => count($this->getItems()),
+                'numberOfProductsInShoppingCart' => \count($this->getItems()),
                 'invoiceAddress' => $this->isExpress() ? null : $this->getInvoiceAddress(),
                 'shippingAddress' => $this->isExpress() ? null : $this->getShippingAddress(),
                 'shoppingCartInformation' => $this->getItems()

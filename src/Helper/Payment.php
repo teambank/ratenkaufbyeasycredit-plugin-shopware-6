@@ -73,7 +73,7 @@ class Payment
 
     public function getPaymentMethodId(Context $context): ?string
     {
-        $cacheId = sha1(json_encode($context));
+        $cacheId = \sha1(\json_encode($context));
         if (!isset($this->paymentMethodIdCache[$cacheId])) {
             $criteria = new Criteria();
             $criteria->addFilter(new EqualsFilter('handlerIdentifier', PaymentHandler::class));
