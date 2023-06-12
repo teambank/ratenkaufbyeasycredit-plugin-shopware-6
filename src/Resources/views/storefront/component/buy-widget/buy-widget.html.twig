@@ -1,0 +1,18 @@
+{% sw_extends "@Storefront/storefront/component/buy-widget/buy-widget.html.twig" %}
+
+{% block buy_widget_tax %}
+    {{ parent() }}
+
+    {% block buy_widget_buy_button_container_easycredit_widget %}
+
+        {# @var easycredit #}
+        {% set easycredit = page.extensions.easycredit %}
+
+        <easycredit-widget 
+            webshop-id="{{ easycredit.apiKey }}" 
+            amount="{{ product.calculatedPrice.unitPrice }}" 
+            extended="true"
+        ></easycredit-widget>
+
+    {% endblock %}
+{% endblock %}

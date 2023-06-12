@@ -1,0 +1,27 @@
+{% sw_extends "@Storefront/storefront/component/buy-widget/buy-widget-form.html.twig" %}
+
+{% set isBootstrap5 = feature('v6.5.0.0') or getAllFeatures()['v6.6.0.0'] is defined %}
+
+{% block buy_widget_buy_container %}
+    {{ parent() }}
+
+    {% block buy_widget_buy_button_container_easycredit %}
+        {% set isProductDetail = cmsPage.type is same as 'product_detail' %}
+
+        {% if buyable and product.calculatedCheapestPrice.totalPrice > 0 %}
+
+            {% block buy_widget_buy_button_container_easycredit_express %}
+                {# @var easycredit #}
+                {% set easycredit = page.extensions.easycredit %}
+
+                {% if easycredit.expressProductEnabled %}
+                    <div class="form-row mt-3 justify-content-end d-flex">
+                        {% sw_include '@EasyCreditRatenkauf/storefront/component/express-button.html.twig' with {amount: product.calculatedPrice.unitPrice} %}
+                    </div>
+                {% endif %}
+            {% endblock %}
+
+        {% endif %}
+        
+    {% endblock %}
+{% endblock %}

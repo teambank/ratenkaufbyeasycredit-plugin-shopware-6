@@ -3,7 +3,7 @@
 {% if easycredit.apiKey %}
     <easycredit-express-button 
         webshop-id="{{ easycredit.apiKey }}"
-        amount="{{ easycredit.amount }}"
+        amount="{% if easycredit.amount %}{{ easycredit.amount }}{% else %}{{ amount }}{% endif%}"
         {% if fullWidth %}full-width="true"{% endif %}
     ></easycredit-express-button>
 {% endif %}
