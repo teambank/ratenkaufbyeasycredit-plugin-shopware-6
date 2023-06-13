@@ -32,6 +32,7 @@ git clone git@github.com:teambank/ratenkaufbyeasycredit-plugin-shopware-6.git Ea
 
 This extension aims to be as compatible as possible with current, future versions of Shopware 6. This version is tested with:
 
+* 6.5.x
 * 6.4.x
 
 Earlier versions of Shopware 6 may work, but are not actively tested anymore.

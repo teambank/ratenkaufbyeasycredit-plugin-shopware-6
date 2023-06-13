@@ -1,6 +1,14 @@
 Changelog
 =========
 
+v2.1.3
+------
+
+* Widget & Express Checkout werden nun auch in der Buybox angezeigt (Content Management)
+* bei Veränderung des Warenkorbs wird die Ratenzahlung im Hintergrund automatisch geprüft & angepasst (PATCH)
+* Peformance-Verbesserungen durch internes Caching
+* behebt einen Fehler, der bei erneutem Initialisieren des Express-Checkouts auftrat
+
 v2.1.2
 ------
 
