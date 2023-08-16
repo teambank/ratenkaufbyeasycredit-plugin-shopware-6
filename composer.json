@@ -22,7 +22,8 @@
         "rector/rector": "^0.15.20"
     },
     "replace": {
-        "psr/http-client": "*"
+        "psr/http-client": "*",
+        "psr/http-message": "*"
     },
     "extra": {
         "shopware-plugin-class": "Netzkollektiv\\EasyCredit\\EasyCreditRatenkauf",

@@ -14,6 +14,10 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
+/*
+ *  Fix for SW < 6.5
+ *  https://github.com/shopware/platform/blob/trunk/UPGRADE-6.5.md#entityrepositoryinterface-removal
+ */
 class EntityCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
@@ -23,19 +27,24 @@ class EntityCompilerPass implements CompilerPassInterface
         } catch (ServiceNotFoundException $e) {
             return;
         }
-        $repositoryId = 'payment_method.repository';
+        $repositories = [
+            'payment_method.repository',
+            'sales_channel.repository'
+        ];
 
-        $decorator = new Definition(
-            EntityRepositoryForwardCompatibilityDecorator::class,
-            [
-                new Reference($repositoryId.'.inner'),
-            ]
-        );
-        $decorator->setDecoratedService(
-            $repositoryId,
-            $repositoryId . '.inner',
-            \PHP_INT_MIN
-        );
-        $container->setDefinition($repositoryId . '.decorator', $decorator);
+        foreach ($repositories as $repositoryId) {
+            $decorator = new Definition(
+                EntityRepositoryForwardCompatibilityDecorator::class,
+                [
+                    new Reference($repositoryId.'.inner'),
+                ]
+            );
+            $decorator->setDecoratedService(
+                $repositoryId,
+                $repositoryId . '.inner',
+                \PHP_INT_MIN
+            );
+            $container->setDefinition($repositoryId . '.decorator', $decorator);
+        }
     }
 }
