@@ -138,7 +138,7 @@ class CustomerService {
             new SalesChannelContextServiceParameters(
                 $context->getSalesChannel()->getId(),
                 $newToken,
-                $context->getLanguageId(),
+                $context->getContext()->getLanguageId(),
                 $context->getCurrencyId(),
                 $context->getDomainId(),
                 $context->getContext(),
