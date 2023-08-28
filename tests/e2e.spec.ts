@@ -158,14 +158,8 @@ const confirmOrder = async (page) => {
 
 const goToProduct = async (page, num = 0) => {
   await test.step(`Go to product (num: ${num}}`, async() => {
-    await page.goto('/');
-    await page.locator('nav a').nth(0).click() // click navigation
-    await page.locator('a.product-name').nth(num).click()
-
-     // try next product, if there is no express button
-    //if ((await page.$('easycredit-express-button')) === null) {
-    //  goToProduct(page, ++num)
-    //}
+    await page.goto('/search?search=123456');
+    //await page.locator('a.product-name').nth(num).click()
   })
 }
 
@@ -201,7 +195,7 @@ test('standardCheckout', async ({ page }) => {
   await page.getByRole('button', { name: 'Continue' }).click()
 
   /* Confirm Page */
-  await page.getByText('easyCredit-Ratenkauf').click()
+  await page.locator('easycredit-checkout-label').click()
   await page.getByRole('button', { name: 'Weiter zum Ratenkauf' }).click()
   await page.getByText('Akzeptieren', { exact: true }).click()
 
