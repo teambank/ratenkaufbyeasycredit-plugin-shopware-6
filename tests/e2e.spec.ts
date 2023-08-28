@@ -103,24 +103,31 @@ test.afterEach(async ({ page }, testInfo) => {
   }
 });
 
+const randomize = (name, num = 3) => {
+  for (let i = 0; i < num; i++) {
+    name += String.fromCharCode(97+Math.floor(Math.random() * 26));
+  }
+  return name 
+}
+
 const goThroughPaymentPage = async (page, express: boolean = false) => {
   await test.step(`easyCredit-Ratenkauf Payment`, async() => {
     await page.getByTestId('uc-deny-all-button').click()
     await page.getByRole('button', { name: 'Weiter zur Dateneingabe' }).click()
 
     if (express) {
-      await page.locator('#vorname').fill('Ralf');
+      await page.locator('#vorname').fill(randomize('Ralf'));
       await page.locator('#nachname').fill('Ratenkauf');
     }
 
-    await page.locator('#geburtsdatum').fill('18.03.1987')
+    await page.locator('#geburtsdatum').fill('05.04.1972')
 
     if (express) {
       await page.locator('#email').fill('ralf.ratenkauf@teambank.de')
 
     }
-    await page.locator('#mobilfunknummer').fill('01703404848')
-    await page.locator('#iban').fill('DE12120300000017576026')
+    await page.locator('#mobilfunknummer').fill('015112345678')
+    await page.locator('#iban').fill('DE12500105170648489890')
 
     if (express) {
       await page.locator('#strasseHausNr').fill('Beuthener Str. 25')
@@ -141,9 +148,7 @@ const goThroughPaymentPage = async (page, express: boolean = false) => {
 const confirmOrder = async (page) => {
   await test.step(`Confirm order`, async() => {
     /* Confirm Page */
-    await delay(500)
-
-    await expect(page.getByText('I have read')).toBeVisible()
+    await expect(page.getByText('I have read')).toBeVisible({ timeout: 10000 })
     await page.evaluate(async() => {
       // workaround: checking checkboxes results in "Target closed" on CI
       document.getElementById('tos').checked = true
@@ -159,7 +164,6 @@ const confirmOrder = async (page) => {
 const goToProduct = async (page, num = 0) => {
   await test.step(`Go to product (num: ${num}}`, async() => {
     await page.goto('/search?search=123456');
-    //await page.locator('a.product-name').nth(num).click()
   })
 }
 
@@ -171,21 +175,21 @@ test('standardCheckout', async ({ page }) => {
   await page.goto('/checkout/confirm')
 
   await page.getByRole('combobox', { name: /Salutation/ }).selectOption({ index: 1 })
-  await page.getByRole('textbox', { name: 'First name*' }).fill('Ralf')
+
+  var randomLetters = '';
+  for (let i = 0; i < 3; i++) {
+    randomLetters += String.fromCharCode(97+Math.floor(Math.random() * 26));
+  }
+  await page.getByRole('textbox', { name: 'First name*' }).fill(randomize('Ralf'))
   await page.getByRole('textbox', { name: 'Last name*' }).fill('Ratenkauf')
 
   // SW 6.4
   // workaround: checking checkboxes results in "Target closed" on CI
-  await page.click("text=Do not create a customer account")
-
-  // SW 6.5
-  //if (await page.locator('input[name="createCustomerAccount"]').isVisible()) {
-  //  await page.locator('input[name="createCustomerAccount"]').uncheck()
-  //}
+  if (process.env.VERSION.match('v6.4')) {
+    await page.click("text=Do not create a customer account")
+  }
 
   await page.getByLabel('Email address*').fill('test@email.com')
-  // await page.getByLabel('Password*').fill('a12345678')
-
   
   await page.getByRole('textbox', { name: 'Street address*' }).fill('Beuthener Str. 25')
   await page.getByRole('textbox', { name: 'Postal code' }).fill('90402')

@@ -6,5 +6,5 @@ export default defineConfig({
     baseURL: process.env.BASE_URL ?? 'http://localhost',
     trace: 'on'
   },
-  timeout: 5 * 60 * 1000, // 5m
+  timeout: 10 * 60 * 1000, // 10m
 });
