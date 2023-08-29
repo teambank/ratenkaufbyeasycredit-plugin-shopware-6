@@ -11,6 +11,8 @@ use Teambank\RatenkaufByEasyCreditApiV3\Model\ArticleNumberItem;
 use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
+use Shopware\Core\Content\Seo\SeoUrlPlaceholderHandlerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Teambank\RatenkaufByEasyCreditApiV3\Integration;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\ShoppingCartInformationItem;
 
@@ -25,29 +27,14 @@ class ItemBuilder
 
     protected $metaDataProvider;
 
+    protected $seoUrlReplacer;
+
     public function __construct(
-        MetaDataProvider $metaDataProvider
+        MetaDataProvider $metaDataProvider,
+        SeoUrlPlaceholderHandlerInterface $seoUrlReplacer
     ) {
         $this->metaDataProvider = $metaDataProvider;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->item->getLabel();
-    }
-
-    public function getQty(): int
-    {
-        return $this->item->getQuantity();
-    }
-
-    public function getPrice(): float
-    {
-        if ($this->item->getPrice() === null) {
-            return 0;
-        }
-
-        return $this->item->getPrice()->getTotalPrice();
+        $this->seoUrlReplacer = $seoUrlReplacer;
     }
 
     public function getManufacturer(): string
@@ -114,8 +101,14 @@ class ItemBuilder
 
         return new ShoppingCartInformationItem([
             'productName' => $item->getLabel(),
+            'productUrl' => $this->seoUrlReplacer->replace(
+                $this->seoUrlReplacer->generate('frontend.detail.page', ['productId' => $item->getReferencedId()]),
+                $context->getSalesChannel()->getDomains()->first()->getUrl(), 
+                $context
+            ),
+            'productImageUrl' => $item->getCover() ? $item->getCover()->getUrl() : null,
             'quantity' => $item->getQuantity(),
-            'price' => $this->getPrice(),
+            'price' => $item->getPrice() === null ? 0 : $item->getPrice()->getTotalPrice(),
             'manufacturer' => $this->getManufacturer(),
             'productCategory' => $this->getCategory(),
             'articleNumber' => $this->getSkus()
