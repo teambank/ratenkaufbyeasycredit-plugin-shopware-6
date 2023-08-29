@@ -15,11 +15,14 @@ export default class EasyCreditRatenkaufWidget extends Plugin {
         }
 
         this.el = document.querySelector(selector);
-
+        if (!this.el) {
+            return;
+        }
+ 
         let amount = this.getMeta('amount');
         if (null === amount || isNaN(amount)) {
             const priceContainer = this.el.parentNode;
-            amount = priceContainer.querySelector('[itemprop=price]') ? 
+            amount = priceContainer && priceContainer.querySelector('[itemprop=price]') ? 
                 priceContainer.querySelector('[itemprop=price]').content 
                 : null;
         }

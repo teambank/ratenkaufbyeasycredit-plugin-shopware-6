@@ -96,7 +96,7 @@
       let amount = this.getMeta("amount");
       if (null === amount || isNaN(amount)) {
         const priceContainer = this.el.parentNode;
-        amount = priceContainer.querySelector("[itemprop=price]") ? priceContainer.querySelector("[itemprop=price]").content : null;
+        amount = priceContainer && priceContainer.querySelector("[itemprop=price]") ? priceContainer.querySelector("[itemprop=price]").content : null;
       }
       if (null === amount || isNaN(amount)) {
         return;
