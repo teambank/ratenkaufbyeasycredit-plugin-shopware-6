@@ -129,6 +129,8 @@ jobs:
           php bin/console dal:refresh:index -qn
           php bin/console user:create --admin --email=john@doe.com --firstName="John" --lastName="Doe" --password=shopware --no-interaction admin
 
+          echo 'APP_ENV="prod"' >> .env
+
           cd public
           php -S localhost:80 &
 

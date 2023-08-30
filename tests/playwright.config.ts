@@ -1,4 +1,4 @@
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   outputDir: '../test-results/'+ process.env.VERSION + '/',
@@ -7,4 +7,26 @@ export default defineConfig({
     trace: 'on'
   },
   timeout: 10 * 60 * 1000, // 10m
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    /*{
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },*/
+    {
+      name: 'Mobile Chrome',
+      use: { ...devices['Pixel 5'] },
+    },
+    /*{
+      name: 'Mobile Safari',
+      use: { ...devices['iPhone 12'] },
+    }*/
+  ]
 });
