@@ -3,7 +3,7 @@ name: Test
 on:
   push:
     branches:
-    - 'playwright'
+    - 'main'
 
 jobs:
   ci-current:

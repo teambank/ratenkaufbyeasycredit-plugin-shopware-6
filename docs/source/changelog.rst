@@ -1,5 +1,14 @@
 Changelog
 =========
+v2.1.4
+------
+
+* bei Ratenkauf-Initialisierung wird die Produkt-URL und die URL des Hauptbildes übertragen
+* der RouteScope wird nun für ältere Shopware-Versionen trotz entfernter Annotation gesetzt (`ContextResolverListenerModifier`)
+* die Installation funktioniert nun auch unter Shopware 6.4 in allen Versionen (`EntityRepositoryInterface`)
+* Webpack Build funktioniert nun auch unter Shopware 6.4 (`window.__sw__.assetPath` hinzugefügt)
+* der Express Checkout kann nun auch unter SW < 6.4.6.0 initialisiert werden
+* des Ratenrechner-Widget verursacht auf leeren Produktübersichtsseiten und im leeren Warenkorb keinen Fehler mehr
 
 v2.1.3
 ------

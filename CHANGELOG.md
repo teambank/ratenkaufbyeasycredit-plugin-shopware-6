@@ -1,3 +1,24 @@
+# 2.1.4
+
+* bei Ratenkauf-Initialisierung wird die Produkt-URL und die URL des Hauptbildes übertragen
+* der RouteScope wird nun für ältere Shopware-Versionen trotz entfernter Annotation gesetzt (`ContextResolverListenerModifier`)
+* die Installation funktioniert nun auch unter Shopware 6.4 in allen Versionen (`EntityRepositoryInterface`)
+* Webpack Build funktioniert nun auch unter Shopware 6.4 (`window.__sw__.assetPath` hinzugefügt)
+* der Express Checkout kann nun auch unter SW < 6.4.6.0 initialisiert werden
+* des Ratenrechner-Widget verursacht auf leeren Produktübersichtsseiten und im leeren Warenkorb keinen Fehler mehr
+
+# 2.1.3
+
+* Widget & Express Checkout werden nun auch in der Buybox angezeigt (Content Management)
+* bei Veränderung des Warenkorbs wird die Ratenzahlung im Hintergrund automatisch geprüft & angepasst (PATCH)
+* Peformance-Verbesserungen durch internes Caching
+* behebt einen Fehler, der bei erneutem Initialisieren des Express-Checkouts auftrat
+
+# 2.1.2
+
+* Kompatibilität mit Shopware 6.5.1.0
+* das Widget berücksichtigt nun wieder die Einstellung im Backend
+
 # 2.1.1
 
 * Kompatibilität mit Shopware 6.5

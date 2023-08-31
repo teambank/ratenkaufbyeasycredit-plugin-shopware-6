@@ -93,6 +93,9 @@
         return;
       }
       this.el = document.querySelector(selector);
+      if (!this.el) {
+        return;
+      }
       let amount = this.getMeta("amount");
       if (null === amount || isNaN(amount)) {
         const priceContainer = this.el.parentNode;
