@@ -1,3 +1,7 @@
+# 2.1.5
+
+* es erfolgt nun eine explizite Versionsprüfung für das Kompatiblitätsmodul `ContextResolverListenerModifier`, da verwaiste Dateien aus vorherigen Updates zu einem Fehler führten
+
 # 2.1.4
 
 * bei Ratenkauf-Initialisierung wird die Produkt-URL und die URL des Hauptbildes übertragen

@@ -1,5 +1,11 @@
 Changelog
 =========
+
+v2.1.5
+-------
+
+* es erfolgt nun eine explizite Versionsprüfung für das Kompatiblitätsmodul `ContextResolverListenerModifier`, da verwaiste Dateien aus vorherigen Updates zu einem Fehler führten
+
 v2.1.4
 ------
 
