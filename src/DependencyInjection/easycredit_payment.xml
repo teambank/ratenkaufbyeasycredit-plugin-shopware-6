@@ -244,6 +244,7 @@
         </service>
         <service id="Netzkollektiv\EasyCredit\Compatibility\ContextResolverListenerModifier">
             <tag name="kernel.event_subscriber"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\MetaDataProvider" />
         </service>
     </services>
 </container>
