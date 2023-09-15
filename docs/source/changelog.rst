@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.1.6
+-----
+
+* das Ratenrechner-Widget wird auf Seiten mit individuellem CMS-Layout nicht mehr doppelt angezeigt
+* es wurde ein Schreibfehler behoben, der eine Ausgabe im Backend-Header verursachte
+
 v2.1.5
 -------
 

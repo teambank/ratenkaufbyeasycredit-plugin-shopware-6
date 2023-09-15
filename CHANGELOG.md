@@ -1,3 +1,8 @@
+# 2.1.6
+
+* das Ratenrechner-Widget wird auf Seiten mit individuellem CMS-Layout nicht mehr doppelt angezeigt
+* es wurde ein Schreibfehler behoben, der eine Ausgabe im Backend-Header verursachte
+
 # 2.1.5
 
 * es erfolgt nun eine explizite Versionsprüfung für das Kompatiblitätsmodul `ContextResolverListenerModifier`, da verwaiste Dateien aus vorherigen Updates zu einem Fehler führten
