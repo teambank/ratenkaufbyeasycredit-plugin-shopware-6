@@ -12,7 +12,7 @@
     <script nonce="{{ cspNonce }}" type="module" src="https://ratenkauf.easycredit.de/api/resource/webcomponents/v3/easycredit-components/easycredit-components.esm.js"></script>
     <script nonce="{{ cspNonce }}" nomodule src="https://ratenkauf.easycredit.de/api/resource/webcomponents/v3/easycredit-components/easycredit-components.js"></script>
 
-    {# The following global variable was introduced in Webpack configuration of sw 6.5 - fixes webpack build for ealier sw versions #}.
+    {# The following global variable was introduced in Webpack configuration of sw 6.5 - fixes webpack build for ealier sw versions #}
     <script nonce="{{ cspNonce }}" type="text/javascript">
         if (typeof window.__sw__ === 'undefined') {
           window.__sw__ = {
