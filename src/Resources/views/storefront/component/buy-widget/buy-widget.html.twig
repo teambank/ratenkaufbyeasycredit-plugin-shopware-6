@@ -8,11 +8,13 @@
         {# @var easycredit #}
         {% set easycredit = page.extensions.easycredit %}
 
+        {% set isProductDetail = cmsPage.type is same as 'product_detail' %}
+        {%if not isProductDetail %}
         <easycredit-widget 
             webshop-id="{{ easycredit.apiKey }}" 
             amount="{{ product.calculatedPrice.unitPrice }}" 
             extended="true"
         ></easycredit-widget>
-
+        {% endif %}
     {% endblock %}
 {% endblock %}
