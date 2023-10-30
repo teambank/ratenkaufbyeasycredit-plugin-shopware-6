@@ -109,8 +109,8 @@ class Redirector implements EventSubscriberInterface
 
     public function onKernelResponse(ResponseEvent $event): void
     {       
-        if (!$this->isRoute('frontend.checkout.confirm.page', $event->getRequest())) {
-            //return;
+        if (!$this->request->hasSession()) {
+            return; // do not run in CLI & API
         }
 
         if ($redirectUrl = $this->storage->get('redirect_url')) {
