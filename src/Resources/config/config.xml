@@ -67,23 +67,6 @@
             <helpText lang="de-DE">Aktiviert das Debug-Logging (var/log/netzkollektiv_easycredit_*-YYYY-MM-DD.log).</helpText>
             <helpText lang="en-GB">Enables debug logging (var/log/netzkollektiv_easycredit_*-YYYY-MM-DD.log).</helpText>
         </input-field>
-
-        <input-field type="bool">
-            <name>markShipped</name>
-            <label lang="de-DE">„Lieferung melden“ automatisch durchführen?</label>
-            <label lang="en-GB">Report delivery automatically?</label>
-            <helpText lang="de-DE">Wenn diese Option gesetzt ist, wird die Lieferung bei Statuswechsel der Lieferung zu "Versandt" automatisch an easyCredit-Ratenkauf gemeldet.</helpText>
-            <helpText lang="en-GB">If this option is set, the delivery is automatically reported to easyCredit-Ratenkauf when the status of the delivery changes to "Shipped".</helpText>
-        </input-field>
-
-        <input-field type="bool">
-            <name>markRefunded</name>
-            <label lang="de-DE">Rückabwicklung automatisch durchführen?</label>
-            <label lang="en-GB">Refund transactions automatically?</label>
-            <helpText lang="de-DE">Wenn diese Option gesetzt ist, wird die Rückabwicklung bei Statuswechsel der Lieferung zu "Retoure" automatisch an easyCredit-Ratenkauf gemeldet.</helpText>
-            <helpText lang="en-GB">If this option is set, the refund is automatically reported to easyCredit-Ratenkauf when the status of the delivery changes to "Returned".</helpText>
-        </input-field>
-
         <component name="easycredit-payment-status-select">
             <name>paymentStatus</name>
             <entity>state_machine_state</entity>
@@ -100,6 +83,15 @@
             <helpText lang="de-DE">Legt den Bestellstatus fest, den eine Bestellung nach Aufgabe durch den Kunden hat. Der Status ist auf die in den Statusübergängen für eine neue Bestellung definierten möglichen Werte beschränkt.</helpText>
             <helpText lang="en-GB">Define the order status of orders paid with easyCredit-Ratenkauf. The status is restricted by the defined Shopware transitions available for a new order.</helpText>
        </component>
+    </card>
+
+    <card>
+        <title lang="de-DE">Transaktionsverarbeitung</title>
+        <title lang="en-GB">Transaction Handling</title>
+        <name>transactionHandling</name>
+        <component name="easycredit-transaction-handling">
+            <name>transactionHandling</name>
+        </component>
     </card>
 
     <card>

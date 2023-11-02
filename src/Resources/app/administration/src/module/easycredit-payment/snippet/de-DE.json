@@ -108,6 +108,18 @@
         "clickAndCollect": {
             "introText": "<p>Sie wollen Click&Collect für den easyCredit-Ratenkauf nutzen? Nichts einfacher als das! Um das Feature nutzen zu können, benötigen Sie eine ergänzende Zusatzvereinbarung zu Ihrem Factoringvertrag. Sprechen Sie dazu einfach Ihren Key-Account-Manager an oder fragen Sie diesen über unser <a href=\"https://www.easycredit-ratenkauf.de/click-und-collect/\" target=\"_blank\">Click&Collect-Formular</a> an.</p><p>Wichtig für Sie ist, dass Sie bei Nutzung von Click&Collect sicherstellen müssen, dass das gekaufte Produkt ausschließlich an den Vertragspartner übergeben wird. Die Verantwortung für die korrekte Übergabe liegt bei Ihnen als Händler.</p><p>Bitte stellen Sie im Folgenden die Versandart mit der Sie Click&Collect anbieten ein:</p>"
         },
+        "transactionHandling": {
+            "capture": {
+                "label": "„Lieferung melden“ automatisch durchführen?",
+                "helpText": "Wenn diese Option gesetzt ist, wird die Lieferung bei Statuswechsel der Lieferung zu \"Versandt\" automatisch an easyCredit-Ratenkauf gemeldet."
+            },
+            "refund": {
+                "label": "Rückabwicklung automatisch durchführen?",
+                "helpText": "Wenn diese Option gesetzt ist, wird die Rückabwicklung bei Statuswechsel der Lieferung zu \"Retoure\" automatisch an easyCredit-Ratenkauf gemeldet."
+            },
+            "note": "Um den Transaktionsstatus festzulegen stehen Ihnen im Flow Builder die Aktionen \"Lieferung melden\" und \"Rückabwicklung melden\" zur Verfügung. Die Aktionen können Sie flexibel konfigurieren und somit optimal an Ihre Bestellverarbeitung anpassen.",
+            "goto": "zum"
+        },
         "marketing": {
             "overview": {
                 "title": "Übersicht",

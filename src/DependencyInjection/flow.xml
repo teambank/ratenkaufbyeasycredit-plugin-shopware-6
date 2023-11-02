@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="Netzkollektiv\EasyCredit\Flow\Action\CaptureAction">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Service\TransactionService"/>
+            <tag name="kernel.event_subscriber"/>
+            <tag name="flow.action" key="action.easycredit.capture" priority="100"/>
+        </service>
+        <service id="Netzkollektiv\EasyCredit\Flow\Action\RefundAction">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Service\TransactionService"/>
+            <tag name="kernel.event_subscriber"/>
+            <tag name="flow.action" key="action.easycredit.refund" priority="100"/>
+        </service>
+    </services>
+</container>

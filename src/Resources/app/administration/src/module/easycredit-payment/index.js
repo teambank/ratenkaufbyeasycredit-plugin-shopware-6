@@ -1,5 +1,6 @@
 import './component/easycredit-tx-widget';
 import './component/easycredit-intro';
+import './component/easycredit-transaction-handling';
 import './component/easycredit-payment-status-select';
 import './component/easycredit-order-status-select';
 import './component/easycredit-test-credentials-button';

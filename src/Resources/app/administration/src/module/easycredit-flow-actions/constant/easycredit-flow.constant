@@ -1,0 +1,18 @@
+
+export const CAPTURE_ACTION = Object.freeze({
+    HANDLE: 'action.easycredit.capture',
+    LABEL: 'Capture transaction',
+    ICON: 'regular-user',
+});
+
+export const REFUND_ACTION = Object.freeze({
+    HANDLE: 'action.easycredit.refund',
+    LABEL: 'Refund transaction',
+    ICON: 'regular-envelope',
+});
+
+export const GROUP = 'order'
+
+export default {
+    CAPTURE_ACTION, REFUND_ACTION, GROUP
+};

@@ -1,0 +1,40 @@
+{% block easycredit_capture_action_modal_modal %}
+<sw-modal
+    class="easycredit-capture-action-modal"
+    :title="$tc('easycredit-capture-action.titleCreateTag')"
+    @modal-close="onClose"
+>
+    {% block easycredit_capture_action_modal_modal_content %}
+    <p>
+        {{ $tc('easycredit-capture-action.description') }}
+    </p>
+    {% endblock %}
+
+    {% block easycredit_capture_action_modal_modal_footer %}
+        <template #modal-footer>
+            {% block easycredit_capture_action_modal_modal_footer_cancel_button %}
+                <sw-button
+                    class="easycredit-capture-action-modal__cancel-button"
+                    size="small"
+                    @click="onClose"
+                >
+                    {{ $tc('global.default.cancel') }}
+                </sw-button>
+            {% endblock %}
+
+            {% block easycredit_capture_action_modal_modal_footer_save_button %}
+                <sw-button
+                    class="easycredit-capture-action-modal__save-button"
+                    variant="primary"
+                    size="small"
+                    @click="onAddAction"
+                >
+                    {{ sequence.id
+                    ? $tc('easycredit-capture-action.buttonSaveAction')
+                    : $tc('easycredit-capture-action.buttonAddAction') }}
+                </sw-button>
+            {% endblock %}
+        </template>
+    {% endblock %}
+</sw-modal>
+{% endblock %}
