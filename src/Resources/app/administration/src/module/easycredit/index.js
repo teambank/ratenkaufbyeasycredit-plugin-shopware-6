@@ -34,5 +34,4 @@ Module.register('netzkollektiv-easycredit', {
         backgroundEnabled: true,
         privilege: 'system.system_config',
     }
-    
 });

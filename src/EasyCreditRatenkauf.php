@@ -23,6 +23,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Netzkollektiv\EasyCredit\Compatibility\EntityCompilerPass;
+use Netzkollektiv\EasyCredit\Compatibility\Capabilities;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 
 class EasyCreditRatenkauf extends Plugin
@@ -46,6 +47,10 @@ class EasyCreditRatenkauf extends Plugin
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/DependencyInjection/'));
         $loader->load('easycredit_payment.xml');
+
+        if ((new Capabilities($container->getParameter('kernel.shopware_version')))->hasFlowBuilder()) {
+            $loader->load('flow.xml');
+        }
         $loader->load('setting.xml');
         $loader->load('rule.xml');
 

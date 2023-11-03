@@ -1,0 +1,24 @@
+{% block netzkollektiv_easycredit_transaction_handling %}
+<div class="easycredit-transaction-handling">
+    <sw-inherit-wrapper v-if="!flowBuilderAvailable" v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.markShipped']" :inheritedvalue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.markShipped']" :custominheritationcheckfunction="checkBoolFieldInheritance">
+        <template #content="props">
+            <sw-switch-field name="EasyCreditRatenkauf.config.markShipped" {#bordered#} :mapinheritance="props" :label="$tc('easycredit-payment.transactionHandling.capture.label')" :disabled="props.isInherited" :value="props.currentValue" @change="props.updateCurrentValue" bordered></sw-switch-field>
+        </template>
+    </sw-inherit-wrapper>
+
+    <sw-inherit-wrapper v-if="!flowBuilderAvailable" v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.markRefunded']" :inheritedvalue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.markRefunded']" :custominheritationcheckfunction="checkBoolFieldInheritance">
+        <template #content="props">
+            <sw-switch-field name="EasyCreditRatenkauf.config.markRefunded" {#bordered#} :mapinheritance="props" :label="$tc('easycredit-payment.transactionHandling.refund.label')" :disabled="props.isInherited" :value="props.currentValue" @change="props.updateCurrentValue" bordered></sw-switch-field>
+        </template>
+    </sw-inherit-wrapper>
+
+    <p v-if="flowBuilderAvailable">
+        {{ $tc('easycredit-payment.transactionHandling.note') }}<br /><br />
+        {{ $tc('easycredit-payment.transactionHandling.goto') }}
+<router-link :to="{ name: 'sw.flow.index', query: { limit: 25, page: 1, term: 'easycredit', sortBy: 'createdAt', sortDirection: 'DESC', naturalSorting: false } }">
+
+            Flow Builder
+        </router-link>
+    </p>
+</div>
+{% endblock %}
