@@ -40,6 +40,9 @@ class Migration1693824921AddDefaultFlowActions extends MigrationStep
         if (!\class_exists(FlowDefinition::class)) {
             return;
         }
+        if (!\class_exists(FlowSequenceDefinition::class)) {
+            return;
+        }
 
         foreach (self::EVENTS as $event) {
             $flow = [
@@ -47,7 +50,7 @@ class Migration1693824921AddDefaultFlowActions extends MigrationStep
                 'name' => $event['name'],
                 'event_name' => $event['event_name'],
                 'priority' => 0,
-                'active' => $this->getLegacySetting($connection, $event['legacy_setting']),
+                'active' => (int) $this->getLegacySetting($connection, $event['legacy_setting']),
                 'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT)
             ];
             $connection->insert(FlowDefinition::ENTITY_NAME, $flow);

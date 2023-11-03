@@ -20,7 +20,9 @@ class OrderStatus implements EventSubscriberInterface
 {
     private SettingsServiceInterface $settings;
 
-    protected Capabilities $caps;
+    private TransactionService $transactionService;
+
+    private Capabilities $caps;
 
     public function __construct(
         SettingsServiceInterface $settingsService,

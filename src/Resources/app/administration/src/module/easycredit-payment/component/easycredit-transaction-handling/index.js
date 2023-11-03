@@ -16,7 +16,7 @@ Component.register('easycredit-transaction-handling', {
     methods: {
         createdComponent() {
             const hasFlowBuilder = (
-                Shopware.Context.app.config.version.localeCompare('6.4.6.0', undefined, { numeric: true, sensitivity: 'base' }) > 0
+                Shopware.Context.app.config.version.localeCompare('6.4.6.0', undefined, { numeric: true, sensitivity: 'base' }) >= 0
             )
             if (!hasFlowBuilder) {
                 this.flowBuilderAvailable = false
