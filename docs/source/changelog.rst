@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.1.7
+------
+
+* für die Konfiguration des Transaktionshandlings ("Lieferung melden" & "Rückabwicklung") kann nun der Flow Builder verwendet werden
+* behebt einen Fehler, der bei Verwendung der REST API auftrat ("There is currently no session available")
+
 2.1.6
 -----
 
