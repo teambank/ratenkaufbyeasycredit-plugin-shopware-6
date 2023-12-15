@@ -100,9 +100,11 @@ class Redirector implements EventSubscriberInterface
         if (!$this->storage->get('init')) {
             return;
         }
-        $this->storage->set('init', false);
 
         $salesChannelContext = $event->getSalesChannelContext();
+
+        $this->storage->set('init', false);
+        $this->storage->set('contextToken',$salesChannelContext->getToken());
 
         $this->paymentHelper->startCheckout($salesChannelContext);
     }

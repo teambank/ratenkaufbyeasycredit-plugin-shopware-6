@@ -94,6 +94,7 @@ class PaymentController extends StorefrontController
     public function express(SalesChannelContext $salesChannelContext): RedirectResponse
     {
         $this->storage
+            ->set('contextToken', $salesChannelContext->getToken())
             ->set('express', true);
 
         $this->contextSwitchRoute->switchContext(new RequestDataBag([
