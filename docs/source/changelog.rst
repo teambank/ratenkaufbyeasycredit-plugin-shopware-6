@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.1.8
+-----
+
+* die Warenkorb-Validierung prüft nun explizit den SalesChannel zur Vermeidung von Seiteneffekten 
+
 2.1.7
 ------
 
