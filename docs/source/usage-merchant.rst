@@ -23,19 +23,26 @@ Bei Rückabwicklung wählen Sie bitte den Grund und geben Sie bei einer Teil-Rü
 Statusmeldung über die Bestellverarbeitung
 ----------------------------------------------------
 
-Neben der expliziten Meldung über den :ref:`Transaktionsmanager` integriert die Extension die Statusmeldung auch in die Bestellverarbeitung von Shopware. Bei der Änderung des Lieferstatus meldet das Plugin den Status implizit.
+Neben der expliziten Meldung über den :ref:`Transaktionsmanager` integriert die Extension die Statusmeldung auch in die Bestellverarbeitung von Shopware. Welcher Statusübergang welche Aktion auslöst, kann über den Shopware **Flow Builder** konfiguriert werden. Der **Flow Builder** ist nach Installation des Plugins wie im folgenden beschrieben konfiguriert. Der Flow Builder ist über die Einstellungen des easyCredit-Ratenkauf Plugins oder über die Shopware-Konfiguration wie folgt erreichbar:
+
+*Einstellungen -> Shop -> Flow Builder*
+
 
 Lieferung melden
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Wird der Lieferstatus einer Bestellung auf "Versandt" geändert, meldet das Plugin die Lieferung an easyCredit-Ratenkauf. Der Transaktionsstatus ändert sich auf "In Abrechnung" und später auf "Abgerechnet".
+Die Änderung des Lieferstatus einer Bestellung auf "Versandt" löst in der Standardkonfiguration die Meldung der Lieferung an easyCredit-Ratenkauf aus. Der Transaktionsstatus ändert sich auf "In Abrechnung" und später auf "Abgerechnet". Die Flow Builder Action kann vom Händler an den eigenen Ablauf der Bestellverarbeitung angepasst werden.
+
+.. image:: ./_static/config-flow-builder-capture.png
 
 .. note:: Die Meldung entspricht dem Status "Lieferung melden" über den Transaktionsmanager.
 
 Rückabwicklung
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Wird der Lieferstatus einer Bestellung auf "Rückerstattet" geändert, wird die Transaktion widerrufen bzw. rückgängig gemacht und an easyCredit-Ratenkauf gemeldet. Die Änderung ist ebenfalls im Transaktionsmanager als "Rückerstattet" ersichtlich.
+Wird der Lieferstatus einer Bestellung auf "Rückerstattet" geändert, wird die Transaktion in der Standardkonfiguration widerrufen bzw. rückgängig gemacht und an easyCredit-Ratenkauf gemeldet. Die Änderung ist ebenfalls im Transaktionsmanager als "Rückerstattet" ersichtlich.
+
+.. image:: ./_static/config-flow-builder-refund.png
 
 .. note:: Die Meldung entspricht dem Status "Widerruf vollständig" über den Transaktionsmanager.
 
