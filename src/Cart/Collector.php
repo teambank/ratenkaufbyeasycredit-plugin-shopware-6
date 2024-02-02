@@ -88,8 +88,8 @@ class Collector implements CartDataCollectorInterface
         $id = 'easycredit-interest';
 
         $interestItem = new LineItem($id, Processor::LINE_ITEM_TYPE);
-        $interestItem->setLabel($this->translator->trans('checkout.interest-line-item'));
-        $interestItem->setDescription($this->translator->trans('checkout.interest-line-item'));
+        $interestItem->setLabel($this->translator->trans('easycredit.interest-line-item'));
+        $interestItem->setDescription($this->translator->trans('easycredit.interest-line-item'));
         $interestItem->setGood(false);
         $interestItem->setRemovable(false);
         $interestItem->setPayloadValue('productNumber', '');

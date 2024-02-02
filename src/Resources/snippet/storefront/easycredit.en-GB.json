@@ -1,16 +1,17 @@
 {
-    "error": {
-        "installments-must-be-recalculated": "easyCredit-Ratenkauf: Your order was changed, please recalculate installments.",
-        "init-error": "easyCredit-Ratenkauf: Please correct your order and click 'Recalculate installments'"
-    },
     "easycredit": {
         "recalculate": "Recalculate installments",
         "slogan": "Easy. Fair. Pay by installments.",
-        "whatis": "What is"
+        "whatis": "What is",
+        "interest-line-item" : "Interest for installments payment"
     },
     "checkout": {
-        "installments-must-be-recalculated": "To pay with easyCredit-Ratenkauf click \"Go to Installments payment\" after selecting the payment method.",
-        "interest-line-item" : "Interest for installments payment",
-        "init-error": "%name%"
+        "EASYCREDIT_INSTALLMENTS_MUST_BE_RECALCULATED": "To pay with easyCredit-Ratenkauf click \"Go to Installments payment\" after selecting the payment method.",
+        "EASYCREDIT_INIT_ERROR": "%name%"
+    },
+    "error": {
+        "EASYCREDIT_INSTALLMENTS_MUST_BE_RECALCULATED": "easyCredit-Ratenkauf: Your order was changed, please recalculate installments.",
+        "EASYCREDIT_INIT_ERROR": "easyCredit-Ratenkauf: Please correct your order and click 'Recalculate installments'",
+        "EASYCREDIT_TRANSATION_NOT_APRROVED": "Pre-authorisation is required to complete the order with easyCredit."
     }
 }

@@ -11,7 +11,7 @@ use Shopware\Core\Checkout\Cart\Error\Error;
 
 class InitError extends Error
 {
-    private const KEY = 'init-error';
+    private const KEY = 'EASYCREDIT_INIT_ERROR';
 
     private string $name;
 

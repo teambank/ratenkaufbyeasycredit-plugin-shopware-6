@@ -11,7 +11,7 @@ use Shopware\Core\Checkout\Cart\Error\Error;
 
 class InterestError extends Error
 {
-    private const KEY = 'installments-must-be-recalculated';
+    private const KEY = 'EASYCREDIT_INSTALLMENTS_MUST_BE_RECALCULATED';
 
     public function __construct()
     {
