@@ -253,5 +253,12 @@
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
         </service>
+        <service id="Netzkollektiv\EasyCredit\Subscriber\CheckoutValidationSubscriber">
+            <tag name="kernel.event_subscriber"/>
+
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="Shopware\Core\Checkout\Payment\Cart\PaymentHandler\PaymentHandlerRegistry"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
+        </service>
     </services>
 </container>
