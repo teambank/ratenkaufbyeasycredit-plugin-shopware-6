@@ -24,6 +24,7 @@ use Shopware\Core\System\SalesChannel\SalesChannel\ContextSwitchRoute;
 use Shopware\Core\System\SalesChannel\Context\SalesChannelContextService;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
+use Shopware\Core\Framework\Validation\Exception\ConstraintViolationException;;
 
 use Teambank\RatenkaufByEasyCreditApiV3\Model\TransactionInformation;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
@@ -97,11 +98,18 @@ class PaymentController extends StorefrontController
             ->set('contextToken', $salesChannelContext->getToken())
             ->set('express', true);
 
-        $this->contextSwitchRoute->switchContext(new RequestDataBag([
-            SalesChannelContextService::PAYMENT_METHOD_ID => $this->paymentHelper->getPaymentMethodId($salesChannelContext->getContext())
-        ]), $salesChannelContext);
-
-        $this->paymentHelper->startCheckout($salesChannelContext);
+        try {
+            $this->contextSwitchRoute->switchContext(new RequestDataBag([
+                SalesChannelContextService::PAYMENT_METHOD_ID => $this->paymentHelper->getPaymentMethodId($salesChannelContext->getContext())
+            ]), $salesChannelContext);
+            $this->paymentHelper->startCheckout($salesChannelContext);
+        } catch (ConstraintViolationException $violations) {
+            $errors = [];
+            foreach ($violations->getViolations() as $violation) {
+                $errors[] = $violation->getMessage();
+            }
+            $this->storage->set('error',\implode(',', $errors));
+        }
 
         if ($this->storage->get('error')) {
             return $this->redirectToRoute('frontend.checkout.cart.page');
