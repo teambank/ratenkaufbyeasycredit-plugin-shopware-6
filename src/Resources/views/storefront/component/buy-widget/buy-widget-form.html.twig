@@ -16,7 +16,7 @@
 
                 {% if easycredit.expressProductEnabled %}
                     <div class="form-row mt-3 justify-content-end d-flex">
-                        {% sw_include '@EasyCreditRatenkauf/storefront/component/express-button.html.twig' with {amount: product.calculatedPrice.unitPrice} %}
+                        {% sw_include '@EasyCreditRatenkauf/storefront/component/express-button.html.twig' with {amount: product.calculatedCheapestPrice.totalPrice} %}
                     </div>
                 {% endif %}
             {% endblock %}

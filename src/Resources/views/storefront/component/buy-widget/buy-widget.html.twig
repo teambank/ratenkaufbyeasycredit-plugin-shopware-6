@@ -12,7 +12,7 @@
         {%if not isProductDetail %}
         <easycredit-widget 
             webshop-id="{{ easycredit.apiKey }}" 
-            amount="{{ product.calculatedPrice.unitPrice }}" 
+            amount="{{ product.calculatedCheapestPrice.totalPrice }}"
             extended="true"
         ></easycredit-widget>
         {% endif %}
