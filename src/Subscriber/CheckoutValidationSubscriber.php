@@ -60,7 +60,11 @@ class CheckoutValidationSubscriber implements EventSubscriberInterface
 
         $salesChannelContext = $this->getSalesChannelContextFromRequest($request);
         $paymentMethodId = $salesChannelContext->getPaymentMethod()->getId();
-        $paymentHandler = $this->paymentHandlerRegistry->getPaymentMethodHandler($paymentMethodId);
+
+        // prefer the newer getPaymentMethodHandler instead of getHandler (removed from v6.5)
+        $paymentHandler = \method_exists($this->paymentHandlerRegistry,'getPaymentMethodHandler') ? 
+            $this->paymentHandlerRegistry->getPaymentMethodHandler($paymentMethodId) :
+            $this->paymentHandlerRegistry->getHandler($paymentMethodId);
 
         $checkout = $this->integrationFactory->createCheckout(
             $salesChannelContext
