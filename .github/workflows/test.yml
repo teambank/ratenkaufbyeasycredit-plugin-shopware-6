@@ -46,7 +46,7 @@ jobs:
     name: Shopware ${{ matrix.shopware-version }}
 
     container:
-      image: ghcr.io/friendsofshopware/platform-plugin-dev:${{ matrix.shopware-version }}-bullseye
+      image: ghcr.io/friendsofshopware/platform-plugin-dev:${{ matrix.shopware-version }}-debian
     env:
       PLUGIN_DIR: /plugins/EasyCreditRatenkauf
       SW_DIR: /opt/shopware
