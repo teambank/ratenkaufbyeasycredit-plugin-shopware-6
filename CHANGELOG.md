@@ -1,3 +1,14 @@
+# 2.1.9
+
+* verbessert die Fehlerbehandlung bei Initialisierung des Express-Checkouts
+* verhindert, dass eine Bestellung ohne gültige Transaktion aufgegeben werden kann
+* die Snippets haben nun eindeutige Prefixes zur Vermeidung von Kollisionen
+* für Widget und Express-Button wird nun durchgängig der calculatedCheapestPrice verwendet, um erweiterte Preise korrekt zu behandeln
+
+# 2.1.8
+
+* die Warenkorb-Validierung prüft nun explizit den SalesChannel zur Vermeidung von Seiteneffekten
+
 # 2.1.7
 
 * für die Konfiguration des Transaktionshandlings ("Lieferung melden" & "Rückabwicklung") kann nun der Flow Builder verwendet werden
