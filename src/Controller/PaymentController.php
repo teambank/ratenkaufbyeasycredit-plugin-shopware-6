@@ -36,9 +36,6 @@ use Netzkollektiv\EasyCredit\Webhook\OrderTransactionNotFoundException;
 use Netzkollektiv\EasyCredit\Service\CustomerService;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 
-/**
- * @Route(defaults={"_routeScope"={"storefront"}})
- */
 class PaymentController extends StorefrontController
 {
     private IntegrationFactory $integrationFactory;
@@ -81,17 +78,11 @@ class PaymentController extends StorefrontController
         $this->contextSwitchRoute = $contextSwitchRoute;
     }
 
-    /**
-     * @Route("/easycredit/cancel", name="frontend.easycredit.cancel", options={"seo"="false"}, methods={"GET"})
-     */
     public function cancel(SalesChannelContext $salesChannelContext): RedirectResponse
     {
         return $this->redirectToRoute('frontend.checkout.confirm.page');
     }
 
-    /**
-     * @Route("/easycredit/express", name="frontend.easycredit.express", options={"seo"="false"}, methods={"GET"})
-     */
     public function express(SalesChannelContext $salesChannelContext): RedirectResponse
     {
         $this->storage
@@ -117,9 +108,6 @@ class PaymentController extends StorefrontController
         return $this->redirectToRoute('frontend.checkout.confirm.page');
     }
 
-    /**
-     * @Route("/easycredit/return", name="frontend.easycredit.return", options={"seo"="false"}, methods={"GET"})
-     */
     public function return(SalesChannelContext $salesChannelContext): RedirectResponse
     {
         try {
@@ -149,17 +137,11 @@ class PaymentController extends StorefrontController
         }
     }
 
-    /**
-     * @Route("/easycredit/reject", name="frontend.easycredit.reject", options={"seo"="false"}, methods={"GET"})
-     */
     public function reject(SalesChannelContext $salesChannelContext): RedirectResponse
     {
         return $this->redirectToRoute('frontend.checkout.confirm.page');
     }
 
-    /**
-     * @Route("/easycredit/authorize/{secToken}/", name="frontend.easycredit.authorize", options={"seo"="false"}, methods={"GET"})
-     */
     public function authorize(Request $request, SalesChannelContext $salesChannelContext): Response
     {
         $secToken = $request->attributes->get('secToken');

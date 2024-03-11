@@ -12,6 +12,7 @@ use Shopware\Core\Checkout\Customer\SalesChannel\AbstractRegisterRoute;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Routing\Exception\MissingRequestParameterException;
+use Shopware\Core\Framework\Routing\RoutingException;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\Framework\Struct\ArrayStruct;
@@ -130,7 +131,12 @@ class CustomerService {
         $newToken = $response->headers->get(PlatformRequest::HEADER_CONTEXT_TOKEN);
 
         if ($newToken === null || $newToken === '') {
-            throw new MissingRequestParameterException(PlatformRequest::HEADER_CONTEXT_TOKEN);
+            if (\class_exists(RoutingException::class)) {
+                throw RoutingException::missingRequestParameter(PlatformRequest::HEADER_CONTEXT_TOKEN);
+            }
+            if (\class_exists(MissingRequestParameterException::class)) {
+                throw new MissingRequestParameterException(PlatformRequest::HEADER_CONTEXT_TOKEN);
+            }
         }
 
         $newContext = $this->contextService->get(

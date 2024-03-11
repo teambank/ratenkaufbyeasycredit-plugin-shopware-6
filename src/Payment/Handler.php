@@ -67,15 +67,15 @@ class Handler implements SynchronousPaymentHandlerInterface
 
         try {
             if (!$checkout->isApproved()) {
-                throw new SyncPaymentProcessException(
-                    $transaction->getOrderTransaction()->getId(),
+                $this->handlePaymentException(
+                    $transaction,
                     'Transaction not valid for capture'
                 );
             }
 
             if (!$checkout->authorize($order->getOrderNumber())) {
-                throw new SyncPaymentProcessException(
-                    $transaction->getOrderTransaction()->getId(),
+                $this->handlePaymentException(
+                    $transaction,
                     'Transaction could not be captured'
                 );
             }
@@ -102,10 +102,26 @@ class Handler implements SynchronousPaymentHandlerInterface
 
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
+            $this->handlePaymentException(
+                $transaction,
+                'Could not complete transaction: ' . $e->getMessage()
+            );
+        }
+    }
 
+    protected function handlePaymentException($transaction, $message) {
+        // SW > 6.6
+        if (\class_exists(PaymentException::class)) {
+            throw PaymentException::syncProcessInterrupted(
+                $transaction->getOrderTransaction()->getId(),
+                $message
+            );
+        }
+        // SW < 6.6
+        if (\class_exists(SyncPaymentProcessException::class)) {
             throw new SyncPaymentProcessException(
                 $transaction->getOrderTransaction()->getId(),
-                'Could not complete transaction: ' . $e->getMessage() . $e->getTraceAsString()
+                $message
             );
         }
     }

@@ -13,9 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Netzkollektiv\EasyCredit\Setting\Service\ApiCredentialServiceInterface;
 
-/**
- * @Route(defaults={"_routeScope"={"api"}})
- */
 class SettingsController extends AbstractController
 {
     private ApiCredentialServiceInterface $apiCredentialTestService;
@@ -25,9 +22,6 @@ class SettingsController extends AbstractController
         $this->apiCredentialTestService = $apiService;
     }
 
-    /**
-     * @Route("/api/_action/easycredit/validate-api-credentials", name="api.action.easycredit.validate.api.credentials", methods={"GET"})
-     */
     public function validateApiCredentials(Request $request): JsonResponse
     {
         $webshopId = $request->query->get('webshopId');
@@ -39,9 +33,6 @@ class SettingsController extends AbstractController
         return new JsonResponse(['credentialsValid' => $credentialsValid]);
     }
 
-    /**
-     * @Route("/api/v{version}/_action/easycredit/validate-api-credentials", name="api.action.easycredit.validate.api.credentials.legacy", methods={"GET"})
-     */
     public function validateApiCredentialsLegacy(Request $request): JsonResponse
     {
         return $this->validateApiCredentials($request);

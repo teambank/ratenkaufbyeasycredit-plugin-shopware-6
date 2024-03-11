@@ -7,11 +7,15 @@
 
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\StaticKernelPluginLoader;
 use Shopware\Core\DevOps\StaticAnalyze\StaticAnalyzeKernel;
+use Shopware\Core\Framework\Adapter\Kernel\KernelFactory;
 use Shopware\Core\Kernel;
 use Netzkollektiv\EasyCreditRatenkauf\EasyCreditRatenkauf;
 use Symfony\Component\Dotenv\Dotenv;
 
 $projectRoot = '/opt/shopware';
+if (!is_dir($projectRoot)) {
+    $projectRoot = __DIR__.'/../../../..';
+}
 $pluginRootPath = $projectRoot.'/custom/plugins/EasyCreditRatenkauf';
 
 echo 'generating config with $projectRoot: '.$projectRoot.' and plugin root '.$pluginRootPath.PHP_EOL;
@@ -32,12 +36,18 @@ $easyCreditRatenkauf = [
 ];
 $pluginLoader = new StaticKernelPluginLoader($classLoader, null, [$easyCreditRatenkauf]);
 
-if (class_exists(Kernel::class)) {
+if (class_exists(KernelFactory::class)) {
+    KernelFactory::$kernelClass = StaticAnalyzeKernel::class;
+
+    /** @var StaticAnalyzeKernel $kernel */
+    $kernel = KernelFactory::create('dev', true, $classLoader, $pluginLoader);
+} else if (class_exists(Kernel::class)) {
     $kernel = new Kernel('dev', true, $pluginLoader, 'phpstan-test-cache-id');
 } else {
     $kernel = new StaticAnalyzeKernel('dev', true, $pluginLoader, 'phpstan-test-cache-id');
 }
 $kernel->boot();
+
 
 $phpStanConfigDist = file_get_contents($pluginRootPath . '/phpstan.neon.dist');
 if ($phpStanConfigDist === false) {

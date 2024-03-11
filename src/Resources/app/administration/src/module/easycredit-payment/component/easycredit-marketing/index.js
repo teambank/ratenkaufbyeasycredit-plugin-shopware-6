@@ -31,6 +31,12 @@ Component.register('easycredit-marketing', {
         };
     },
 
+    computed: {
+        assetFilter() {
+            return Shopware.Filter.getByName('asset')
+        }
+    },
+
     methods: {
         selectTab(index) {
             this.selectedTab = index

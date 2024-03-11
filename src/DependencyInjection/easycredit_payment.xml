@@ -11,7 +11,7 @@
             <argument type="service" id="Netzkollektiv\EasyCredit\Payment\StateHandler" />
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
+            <argument type="service" id="monolog.logger.easycredit"/>
 
             <tag name="shopware.payment.method.sync"/>
         </service>
@@ -23,25 +23,12 @@
 
         <service id="Netzkollektiv\EasyCredit\Api\IntegrationFactory">
             <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>            
-            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
+            <argument type="service" id="monolog.logger.easycredit"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
         </service>
-
-        <service id="Netzkollektiv\EasyCredit\Util\Logger" class="Psr\Log\LoggerInterface">
-            <factory service="Shopware\Core\Framework\Log\LoggerFactory" method="createRotating"/>
-            <argument type="string">netzkollektiv_easycredit</argument>
-            <argument>90</argument>
-            <configurator service="Netzkollektiv\EasyCredit\Util\LoggerConfigurator" method="configure" />
-        </service>
-
-        <service id="Netzkollektiv\EasyCredit\Util\LoggerConfigurator">
-            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
-            <argument type="service" id="request_stack"/>
-        </service>
-
         <service id="Netzkollektiv\EasyCredit\Api\Storage">          
             <argument type="service" id="request_stack"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
+            <argument type="service" id="monolog.logger.easycredit"/>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Service\CustomerService">
@@ -117,7 +104,7 @@
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
+            <argument type="service" id="monolog.logger.easycredit"/>
             <argument type="service" id="cache.object"/>
 
             <tag name="kernel.event_subscriber"/>
@@ -138,7 +125,7 @@
             <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
+            <argument type="service" id="monolog.logger.easycredit"/>
         </service>
 
         <service id="Netzkollektiv\EasyCredit\Cart\Collector">
@@ -159,7 +146,7 @@
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Quote"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Payment"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
+            <argument type="service" id="monolog.logger.easycredit"/>
             <argument type="service" id="request_stack"/>
 
             <tag name="shopware.cart.validator"/>
@@ -187,7 +174,7 @@
             <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
             <argument type="service" id="Doctrine\DBAL\Connection"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
+            <argument type="service" id="monolog.logger.easycredit"/>
 
             <tag name="kernel.event_subscriber"/>
         </service>
@@ -251,7 +238,7 @@
         </service>
         <service id="Netzkollektiv\EasyCredit\Service\TransactionService">
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Util\Logger"/>
+            <argument type="service" id="monolog.logger.easycredit"/>
         </service>
         <service id="Netzkollektiv\EasyCredit\Subscriber\CheckoutValidationSubscriber">
             <tag name="kernel.event_subscriber"/>

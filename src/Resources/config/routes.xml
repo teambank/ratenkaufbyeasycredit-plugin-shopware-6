@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/routing
+        https://symfony.com/schema/routing/routing-1.0.xsd">
+    <route path="/easycredit/cancel" id="frontend.easycredit.cancel" controller="Netzkollektiv\EasyCredit\Controller\PaymentController::cancel" methods="GET">
+        <default key="_routeScope">
+            <list>
+                <string>storefront</string>
+            </list>
+        </default>
+    </route>
+    <route path="/easycredit/express" id="frontend.easycredit.express" controller="Netzkollektiv\EasyCredit\Controller\PaymentController::express" methods="GET">
+        <default key="_routeScope">
+            <list>
+                <string>storefront</string>
+            </list>
+        </default>
+    </route>
+    <route path="/easycredit/return" id="frontend.easycredit.return" controller="Netzkollektiv\EasyCredit\Controller\PaymentController::return" methods="GET">
+        <default key="_routeScope">
+            <list>
+                <string>storefront</string>
+            </list>
+        </default>
+    </route>
+    <route path="/easycredit/reject" id="frontend.easycredit.reject" controller="Netzkollektiv\EasyCredit\Controller\PaymentController::reject" methods="GET">
+        <default key="_routeScope">
+            <list>
+                <string>storefront</string>
+            </list>
+        </default>
+    </route>
+    <route path="/easycredit/authorize/{secToken}/" id="frontend.easycredit.authorize" controller="Netzkollektiv\EasyCredit\Controller\PaymentController::authorize" methods="GET">
+        <default key="_routeScope">
+            <list>
+                <string>storefront</string>
+            </list>
+        </default>
+    </route>
+    <route path="/api/v{version}/easycredit/transaction/{transactionId}" id="api.easycredit.transaction.post" controller="Netzkollektiv\EasyCredit\Controller\TransactionsController::getTransaction" methods="GET">
+        <default key="_routeScope">
+            <list>
+                <string>api</string>
+            </list>
+        </default>
+    </route>
+    <route path="/api/v{version}/easycredit/transaction/{transactionId}/capture" id="api.easycredit.transaction.capture" controller="Netzkollektiv\EasyCredit\Controller\TransactionsController::captureTransaction" methods="POST">
+        <default key="_routeScope">
+            <list>
+                <string>api</string>
+            </list>
+        </default>
+    </route>
+    <route path="/api/v{version}/easycredit/transaction/{transactionId}/refund" id="api.easycredit.transaction.refund" controller="Netzkollektiv\EasyCredit\Controller\TransactionsController::refundTransaction" methods="POST">
+        <default key="_routeScope">
+            <list>
+                <string>api</string>
+            </list>
+        </default>
+    </route>
+    <route path="/api/_action/easycredit/validate-api-credentials" id="api.action.easycredit.validate.api.credentials" controller="Netzkollektiv\EasyCredit\Controller\SettingsController::validateApiCredentials" methods="GET">
+        <default key="_routeScope">
+            <list>
+                <string>api</string>
+            </list>
+        </default>
+    </route>
+</routes>

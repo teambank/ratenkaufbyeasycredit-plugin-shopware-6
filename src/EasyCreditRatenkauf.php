@@ -25,6 +25,12 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Netzkollektiv\EasyCredit\Compatibility\EntityCompilerPass;
 use Netzkollektiv\EasyCredit\Compatibility\Capabilities;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use Symfony\Component\Config\Loader\DelegatingLoader;
+use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\DependencyInjection\Loader\DirectoryLoader;
+use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Contracts\Service\Attribute\Required;
 
 class EasyCreditRatenkauf extends Plugin
 {
@@ -55,6 +61,24 @@ class EasyCreditRatenkauf extends Plugin
         $loader->load('rule.xml');
 
         $container->addCompilerPass(new EntityCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 500);
+
+        $this->loadPackagesConfig($container);
+    }
+
+    protected function loadPackagesConfig ($container) {
+        $locator = new FileLocator('Resources/config');
+
+        $resolver = new LoaderResolver([
+            new YamlFileLoader($container, $locator),
+            new GlobFileLoader($container, $locator),
+            new DirectoryLoader($container, $locator),
+        ]);
+
+        $configLoader = new DelegatingLoader($resolver);
+
+        $confDir = \rtrim($this->getPath(), '/') . '/Resources/config';
+
+        $configLoader->load($confDir . '/{packages}/*.yaml', 'glob');
     }
 
     public function install(InstallContext $installContext): void
@@ -114,6 +138,7 @@ class EasyCreditRatenkauf extends Plugin
     /**
      * @Required
      */
+    #[Required]
     public function setActivateDeactivate(ActivateDeactivate $activateDeactivate): void
     {
         $this->activateDeactivate = $activateDeactivate;

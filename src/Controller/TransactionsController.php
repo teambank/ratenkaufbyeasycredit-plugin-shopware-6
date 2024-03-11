@@ -17,9 +17,6 @@ use Teambank\RatenkaufByEasyCreditApiV3\ApiException;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\CaptureRequest;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\RefundRequest;
 
-/**
- * @Route(defaults={"_routeScope"={"api"}})
- */
 class TransactionsController extends AbstractController
 {
     private IntegrationFactory $integrationFactory;
@@ -35,9 +32,6 @@ class TransactionsController extends AbstractController
         return $response;
     }
 
-    /**
-     * @Route("/api/v{version}/easycredit/transaction/{transactionId}", name="api.easycredit.transaction.post", methods={"GET"})
-     */
     public function getTransaction(Request $request, $transactionId): Response
     {
         try {
@@ -55,9 +49,6 @@ class TransactionsController extends AbstractController
         }
     }
 
-    /**
-     * @Route("/api/v{version}/easycredit/transaction/{transactionId}/capture", name="api.easycredit.transaction.capture", methods={"POST"})
-     */
     public function captureTransaction(Request $request, $transactionId): Response
     {
         try {
@@ -80,10 +71,6 @@ class TransactionsController extends AbstractController
         }
     }
 
-
-    /**
-     * @Route("/api/v{version}/easycredit/transaction/{transactionId}/refund", name="api.easycredit.transaction.refund", methods={"POST"})
-     */
     public function refundTransaction(Request $request, $transactionId): Response
     {
         try {
