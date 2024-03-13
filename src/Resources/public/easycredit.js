@@ -2,7 +2,7 @@
   // esbuild/src/plugin-system/pluginmanager.class
   var PluginManager = class {
     register(pluginName, pluginClass, selector = document, options = {}) {
-      window.addEventListener("DOMContentLoaded", (event) => {
+      window.addEventListener("load", (event) => {
         const el = document.querySelector(selector);
         if (el) {
           const plugin = new pluginClass(el);
