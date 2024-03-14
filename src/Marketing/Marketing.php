@@ -68,7 +68,7 @@ class Marketing implements EventSubscriberInterface
 
         $this->addVariables($event->getPage(), [
             'widgetSelector' => $settings->getWidgetSelectorProductDetail(),
-            'amount' => (count($product->getCalculatedPrices()) > 0 ) ? $product->getCalculatedPrices()->last()->getUnitPrice() : $product->getCalculatedPrice()->getUnitPrice()
+            'amount' => (\count($product->getCalculatedPrices()) > 0 ) ? $product->getCalculatedPrices()->last()->getUnitPrice() : $product->getCalculatedPrice()->getUnitPrice()
         ]);
     }
 
