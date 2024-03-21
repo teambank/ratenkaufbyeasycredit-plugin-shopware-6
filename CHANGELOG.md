@@ -1,3 +1,8 @@
+# 2.1.10
+
+* die Preise für Widget und Express-Button werden nun analog zum product:price:amount Meta-Tag ermittelt
+* zur Initialisierung der JavaScript-basierten Funktionalitäten wird nun das load-Event statt DOMContentLoaded verwendet
+
 # 2.1.9
 
 * verbessert die Fehlerbehandlung bei Initialisierung des Express-Checkouts

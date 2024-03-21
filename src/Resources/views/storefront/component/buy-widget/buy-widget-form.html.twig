@@ -1,7 +1,5 @@
 {% sw_extends "@Storefront/storefront/component/buy-widget/buy-widget-form.html.twig" %}
 
-{% set isBootstrap5 = feature('v6.5.0.0') or getAllFeatures()['v6.6.0.0'] is defined %}
-
 {% block buy_widget_buy_container %}
     {{ parent() }}
 
@@ -15,8 +13,13 @@
                 {% set easycredit = page.extensions.easycredit %}
 
                 {% if easycredit.expressProductEnabled %}
+
+                    {% set price = product.calculatedPrice %}
+                    {% if product.calculatedPrices.count > 0 %}
+                        {% set price = product.calculatedPrices.last %}
+                    {% endif %}
                     <div class="form-row mt-3 justify-content-end d-flex">
-                        {% sw_include '@EasyCreditRatenkauf/storefront/component/express-button.html.twig' with {amount: product.calculatedCheapestPrice.totalPrice} %}
+                        {% sw_include '@EasyCreditRatenkauf/storefront/component/express-button.html.twig' with {amount: price.unitPrice} %}
                     </div>
                 {% endif %}
             {% endblock %}

@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - 'main'
+    - 'sw65'
 
 jobs:
   ci-current:
