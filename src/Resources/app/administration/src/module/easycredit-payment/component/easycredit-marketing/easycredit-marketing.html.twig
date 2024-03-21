@@ -48,32 +48,40 @@
 
                 <h3>{{ $tc('easycredit-payment.marketing.express.fieldsActivate.title') }}</h3>
                 {% block netzkollektiv_easycredit_marketing_express_fields_activation %}
-                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.expressProductEnabled']"
-                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.expressProductEnabled']"
-                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
+                    <sw-inherit-wrapper 
+                        v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.expressProductEnabled']" {# vue2-legacy #}
+                        v-model:value="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.expressProductEnabled']"
+                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.expressProductEnabled']"
+                        :customInheritationCheckFunction="checkBoolFieldInheritance"
+                    >
                         <template #content="props">
                             <sw-switch-field name="EasyCreditRatenkauf.config.expressProductEnabled"
-                                            {#bordered#}
-                                            :mapInheritance="props"
-                                            :label="$tc('easycredit-payment.marketing.express.fieldsActivate.expressProductLabel')"
-                                            :disabled="props.isInherited"
-                                            :value="props.currentValue"
-                                            @change="props.updateCurrentValue">
-                            </sw-switch-field>
+                                {#bordered#}
+                                :mapInheritance="props"
+                                :label="$tc('easycredit-payment.marketing.express.fieldsActivate.expressProductLabel')"
+                                :disabled="props.isInherited"
+                                :value="props.currentValue"
+                                @update:value="props.updateCurrentValue"
+                                @change="props.updateCurrentValue" {# vue2-legacy #}
+                            ></sw-switch-field>
                         </template>
                     </sw-inherit-wrapper>
-                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.expressCartEnabled']"
-                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.expressCartEnabled']"
-                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
+                    <sw-inherit-wrapper 
+                        v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.expressCartEnabled']" {# vue2-legacy #}
+                        v-model:value="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.expressCartEnabled']"
+                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.expressCartEnabled']"
+                        :customInheritationCheckFunction="checkBoolFieldInheritance"
+                    >
                         <template #content="props">
                             <sw-switch-field name="EasyCreditRatenkauf.config.expressCartEnabled"
-                                            {#bordered#}
-                                            :mapInheritance="props"
-                                            :label="$tc('easycredit-payment.marketing.express.fieldsActivate.expressCartLabel')"
-                                            :disabled="props.isInherited"
-                                            :value="props.currentValue"
-                                            @change="props.updateCurrentValue">
-                            </sw-switch-field>
+                                {#bordered#}
+                                :mapInheritance="props"
+                                :label="$tc('easycredit-payment.marketing.express.fieldsActivate.expressCartLabel')"
+                                :disabled="props.isInherited"
+                                :value="props.currentValue"
+                                @update:value="props.updateCurrentValue"
+                                @change="props.updateCurrentValue" {# vue2-legacy #}
+                            ></sw-switch-field>
                         </template>
                     </sw-inherit-wrapper>
                 {% endblock %}
@@ -97,50 +105,62 @@
 
                 <h3>{{ $tc('easycredit-payment.marketing.widget.fieldsActivate.title') }}</h3>
                 {% block netzkollektiv_easycredit_marketing_widget_fields_activation %}
-                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetEnabled']"
-                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.widgetEnabled']"
-                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
+                    <sw-inherit-wrapper
+                        v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetEnabled']" {# vue2-legacy #}
+                        v-model:value="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetEnabled']"
+                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.widgetEnabled']"
+                        :customInheritationCheckFunction="checkBoolFieldInheritance"
+                    >
                         <template #content="props">
                             <sw-switch-field name="EasyCreditRatenkauf.config.widgetEnabled"
-                                            {#bordered#}
-                                            :mapInheritance="props"
-                                            :label="$tc('easycredit-payment.marketing.widget.fieldsActivate.showLabel')"
-                                            :disabled="props.isInherited"
-                                            :value="props.currentValue"
-                                            @change="props.updateCurrentValue">
-                            </sw-switch-field>
+                                {#bordered#}
+                                :mapInheritance="props"
+                                :label="$tc('easycredit-payment.marketing.widget.fieldsActivate.showLabel')"
+                                :disabled="props.isInherited"
+                                :value="props.currentValue"
+                                @update:value="props.updateCurrentValue"
+                                @change="props.updateCurrentValue" {# vue2-legacy #}
+                            ></sw-switch-field>
                         </template>
                     </sw-inherit-wrapper>
                 {% endblock %}
 
                 <h3>{{ $tc('easycredit-payment.marketing.widget.fieldsSettings.title') }}</h3>
                 {% block netzkollektiv_easycredit_marketing_widget_fields_settings %}
-                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetSelectorProductDetail']"
-                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.widgetSelectorProductDetail']"
-                                        :customInheritationCheckFunction="checkTextFieldInheritance">
+                    <sw-inherit-wrapper 
+                        v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetSelectorProductDetail']" {# vue2-legacy #}
+                        v-model:value="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetSelectorProductDetail']"
+                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.widgetSelectorProductDetail']"
+                        :customInheritationCheckFunction="checkTextFieldInheritance"
+                    >
                         <template #content="props">
                             <sw-text-field name="EasyCreditRatenkauf.config.widgetSelectorProductDetail"
-                                            {#bordered#}
-                                            :mapInheritance="props"
-                                            :label="$tc('easycredit-payment.marketing.widget.fieldsSettings.selectorProductLabel')"
-                                            :disabled="props.isInherited"
-                                            :value="props.currentValue"
-                                            @change="props.updateCurrentValue">
-                            </sw-text-field>
+                                {#bordered#}
+                                :mapInheritance="props"
+                                :label="$tc('easycredit-payment.marketing.widget.fieldsSettings.selectorProductLabel')"
+                                :disabled="props.isInherited"
+                                :value="props.currentValue"
+                                @update:value="props.updateCurrentValue"
+                                @change="props.updateCurrentValue" {# vue2-legacy #}
+                            ></sw-text-field>
                         </template>
                     </sw-inherit-wrapper>
-                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetSelectorCart']"
-                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.widgetSelectorCart']"
-                                        :customInheritationCheckFunction="checkTextFieldInheritance">
+                    <sw-inherit-wrapper 
+                        v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetSelectorCart']" {# vue2-legacy #}
+                        v-model:value="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetSelectorCart']"
+                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.widgetSelectorCart']"
+                        :customInheritationCheckFunction="checkTextFieldInheritance"
+                    >
                         <template #content="props">
                             <sw-text-field name="EasyCreditRatenkauf.config.widgetSelectorCart"
-                                            {#bordered#}
-                                            :mapInheritance="props"
-                                            :label="$tc('easycredit-payment.marketing.widget.fieldsSettings.selectorCartLabel')"
-                                            :disabled="props.isInherited"
-                                            :value="props.currentValue"
-                                            @change="props.updateCurrentValue">
-                            </sw-text-field>
+                                {#bordered#}
+                                :mapInheritance="props"
+                                :label="$tc('easycredit-payment.marketing.widget.fieldsSettings.selectorCartLabel')"
+                                :disabled="props.isInherited"
+                                :value="props.currentValue"
+                                @update:value="props.updateCurrentValue"
+                                @change="props.updateCurrentValue" {# vue2-legacy #}
+                            ></sw-text-field>
                         </template>
                     </sw-inherit-wrapper>
                 {% endblock %}
@@ -164,81 +184,100 @@
 
                 <h3>{{ $tc('easycredit-payment.marketing.modal.fieldsActivate.title') }}</h3>
                 {% block netzkollektiv_easycredit_marketing_modal_fields_activation %}
-                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.modalEnabled']"
-                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.modalEnabled']"
-                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
+                    <sw-inherit-wrapper 
+                        v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.modalEnabled']" {# vue2-legacy #}
+                        v-model:value="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.modalEnabled']"
+                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.modalEnabled']"
+                        :customInheritationCheckFunction="checkBoolFieldInheritance"
+                    >
                         <template #content="props">
                             <sw-switch-field name="EasyCreditRatenkauf.config.modalEnabled"
-                                            {#bordered#}
-                                            :mapInheritance="props"
-                                            :label="$tc('easycredit-payment.marketing.modal.fieldsActivate.showLabel')"
-                                            :disabled="props.isInherited"
-                                            :value="props.currentValue"
-                                            @change="props.updateCurrentValue">
-                            </sw-switch-field>
+                                {#bordered#}
+                                :mapInheritance="props"
+                                :label="$tc('easycredit-payment.marketing.modal.fieldsActivate.showLabel')"
+                                :disabled="props.isInherited"
+                                :value="props.currentValue"
+                                @update:value="props.updateCurrentValue"
+                                @change="props.updateCurrentValue" {# vue2-legacy #}
+                            ></sw-switch-field>
                         </template>
                     </sw-inherit-wrapper>
                 {% endblock %}
 
                 <h3>{{ $tc('easycredit-payment.marketing.modal.fieldsSettings.title') }}</h3>
                 {% block netzkollektiv_easycredit_marketing_modal_fields_settings %}
-                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.modalSettingsDelay']"
-                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.modalSettingsDelay']"
-                                        :customInheritationCheckFunction="checkTextFieldInheritance">
+                    <sw-inherit-wrapper 
+                        v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.modalSettingsDelay']" {# vue2-legacy #}
+                        v-model:value="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.modalSettingsDelay']"
+                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.modalSettingsDelay']"
+                        :customInheritationCheckFunction="checkTextFieldInheritance"
+                    >
                         <template #content="props">
                             <sw-text-field name="EasyCreditRatenkauf.config.modalSettingsDelay"
-                                            {#bordered#}
-                                            {#min="0"
-                                            step="1"#}
-                                            placeholder="0"
-                                            @keyup="textToNumber(event)"
-                                            :mapInheritance="props"
-                                            :label="$tc('easycredit-payment.marketing.modal.fieldsSettings.delayLabel')"
-                                            :helpText="$tc('easycredit-payment.marketing.modal.fieldsSettings.delayHelpText')"
-                                            :disabled="props.isInherited"
-                                            :value="props.currentValue"
-                                            @change="props.updateCurrentValue">
-                            </sw-text-field>
+                                {#bordered#}
+                                {#min="0"
+                                step="1"#}
+                                placeholder="0"
+                                @keyup="textToNumber(event)"
+                                :mapInheritance="props"
+                                :label="$tc('easycredit-payment.marketing.modal.fieldsSettings.delayLabel')"
+                                :helpText="$tc('easycredit-payment.marketing.modal.fieldsSettings.delayHelpText')"
+                                :disabled="props.isInherited"
+                                :value="props.currentValue"
+                                @update:value="props.updateCurrentValue"
+                                @change="props.updateCurrentValue" {# vue2-legacy #}
+                            ></sw-text-field>
                         </template>
                     </sw-inherit-wrapper>
-                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.modalSettingsSnoozeFor']"
-                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.modalSettingsSnoozeFor']"
-                                        :customInheritationCheckFunction="checkTextFieldInheritance">
+                    <sw-inherit-wrapper 
+                        v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.modalSettingsSnoozeFor']" {# vue2-legacy #}
+                        v-model:value="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.modalSettingsSnoozeFor']"
+                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.modalSettingsSnoozeFor']"
+                        :customInheritationCheckFunction="checkTextFieldInheritance"
+                    >
                         <template #content="props">
                             <sw-text-field name="EasyCreditRatenkauf.config.modalSettingsSnoozeFor"
-                                            {#bordered#}
-                                            {#min="0"
-                                            step="1"#}
-                                            placeholder="0"
-                                            @keyup="textToNumber(event)"
-                                            :mapInheritance="props"
-                                            :label="$tc('easycredit-payment.marketing.modal.fieldsSettings.reactivationLabel')"
-                                            :helpText="$tc('easycredit-payment.marketing.modal.fieldsSettings.reactivationHelpText')"
-                                            :disabled="props.isInherited"
-                                            :value="props.currentValue"
-                                            @change="props.updateCurrentValue">
+                                {#bordered#}
+                                {#min="0"
+                                step="1"#}
+                                placeholder="0"
+                                @keyup="textToNumber(event)"
+                                :mapInheritance="props"
+                                :label="$tc('easycredit-payment.marketing.modal.fieldsSettings.reactivationLabel')"
+                                :helpText="$tc('easycredit-payment.marketing.modal.fieldsSettings.reactivationHelpText')"
+                                :disabled="props.isInherited"
+                                :value="props.currentValue"
+                                @update:value="props.updateCurrentValue"
+                                @change="props.updateCurrentValue" {# vue2-legacy #}
+                            >
                             </sw-text-field>
                         </template>
                     </sw-inherit-wrapper>
-                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.modalSettingsMedia']"
-                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.modalSettingsMedia']"
-                                        :customInheritationCheckFunction="checkTextFieldInheritance">
+                    <sw-inherit-wrapper 
+                        v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.modalSettingsMedia']" {# vue2-legacy #}
+                        v-model:value="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.modalSettingsMedia']"
+                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.modalSettingsMedia']"
+                        :customInheritationCheckFunction="checkTextFieldInheritance"
+                    >
                         <template #content="props">
                             <sw-help-text
-                                            :text="$tc('easycredit-payment.marketing.modal.fieldsSettings.mediaHelpText')"
-                                            :width="200"
-                                            tooltipPosition="top"
-                                            :showDelay="100"
-                                            :hideDelay="100">
-                            </sw-help-text>
-                            <sw-media-field name="EasyCreditRatenkauf.config.modalSettingsMedia"
-                                            bordered
-                                            :mapInheritance="props"
-                                            :label="$tc('easycredit-payment.marketing.modal.fieldsSettings.mediaLabel')"
-                                            :disabled="props.isInherited"
-                                            v-model="props.currentValue"
-                                            @media-id-change="props.updateCurrentValue">
-                            </sw-media-field>
+                                :text="$tc('easycredit-payment.marketing.modal.fieldsSettings.mediaHelpText')"
+                                :width="200"
+                                tooltipPosition="top"
+                                :showDelay="100"
+                                :hideDelay="100"
+                            ></sw-help-text>
+                            <sw-media-field 
+                                name="EasyCreditRatenkauf.config.modalSettingsMedia"
+                                bordered
+                                :mapInheritance="props"
+                                :label="$tc('easycredit-payment.marketing.modal.fieldsSettings.mediaLabel')"
+                                :disabled="props.isInherited"
+                                :value="props.currentValue"
+                                @update:value="props.updateCurrentValue"
+                                v-model="props.currentValue" {# vue2-legacy #}
+                                @media-id-change="props.updateCurrentValue" {# vue2-legacy #}
+                            ></sw-media-field>
                         </template>
                     </sw-inherit-wrapper>
                 {% endblock %}
@@ -262,31 +301,40 @@
 
                 <h3>{{ $tc('easycredit-payment.marketing.card.fieldsActivate.title') }}</h3>
                 {% block netzkollektiv_easycredit_marketing_card_fields_activation %}
-                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.cardEnabled']"
-                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.cardEnabled']"
-                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
+                    <sw-inherit-wrapper 
+                        v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.cardEnabled']" {# vue2-legacy #}
+                        v-model:value="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.cardEnabled']"
+                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.cardEnabled']"
+                        :customInheritationCheckFunction="checkBoolFieldInheritance"
+                    >
                         <template #content="props">
                             <sw-switch-field name="EasyCreditRatenkauf.config.cardEnabled"
-                                            {#bordered#}
-                                            :mapInheritance="props"
-                                            :label="$tc('easycredit-payment.marketing.card.fieldsActivate.showCategoryLabel')"
-                                            :disabled="props.isInherited"
-                                            :value="props.currentValue"
-                                            @change="props.updateCurrentValue">
-                            </sw-switch-field>
+                                {#bordered#}
+                                :mapInheritance="props"
+                                :label="$tc('easycredit-payment.marketing.card.fieldsActivate.showCategoryLabel')"
+                                :disabled="props.isInherited"
+                                :value="props.currentValue"
+                                @update:value="props.updateCurrentValue"
+                                @change="props.updateCurrentValue" {# vue2-legacy #}
+                            ></sw-switch-field>
                         </template>
                     </sw-inherit-wrapper>
-                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.cardSearchEnabled']"
-                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.cardSearchEnabled']"
-                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
+                    <sw-inherit-wrapper 
+                        v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.cardSearchEnabled']" {# vue2-legacy #}
+                        v-model:value="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.cardSearchEnabled']"
+                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.cardSearchEnabled']"
+                        :customInheritationCheckFunction="checkBoolFieldInheritance"
+                    >
                         <template #content="props">
                             <sw-switch-field name="EasyCreditRatenkauf.config.cardSearchEnabled"
-                                            {#bordered#}
-                                            :mapInheritance="props"
-                                            :label="$tc('easycredit-payment.marketing.card.fieldsActivate.showSearchLabel')"
-                                            :disabled="props.isInherited"
-                                            :value="props.currentValue"
-                                            @change="props.updateCurrentValue">
+                                {#bordered#}
+                                :mapInheritance="props"
+                                :label="$tc('easycredit-payment.marketing.card.fieldsActivate.showSearchLabel')"
+                                :disabled="props.isInherited"
+                                :value="props.currentValue"
+                                @update:value="props.updateCurrentValue"
+                                @change="props.updateCurrentValue" {# vue2-legacy #}
+                            >
                             </sw-switch-field>
                         </template>
                     </sw-inherit-wrapper>
@@ -294,43 +342,52 @@
 
                 <h3>{{ $tc('easycredit-payment.marketing.card.fieldsSettings.title') }}</h3>
                 {% block netzkollektiv_easycredit_marketing_card_fields_settings %}
-                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.cardSettingsPosition']"
-                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.cardSettingsPosition']"
-                                        :customInheritationCheckFunction="checkTextFieldInheritance">
+                    <sw-inherit-wrapper 
+                        v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.cardSettingsPosition']" {# vue2-legacy #}
+                        v-model:value="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.cardSettingsPosition']"
+                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.cardSettingsPosition']"
+                        :customInheritationCheckFunction="checkTextFieldInheritance"
+                    >
                         <template #content="props">
                             <sw-text-field name="EasyCreditRatenkauf.config.cardSettingsPosition"
-                                            {#bordered#}
-                                            {#min="1"
-                                            step="1"#}
-                                            placeholder="1"
-                                            @keyup="textToNumber(event)"
-                                            :mapInheritance="props"
-                                            :label="$tc('easycredit-payment.marketing.card.fieldsSettings.positionLabel')"
-                                            :disabled="props.isInherited"
-                                            :value="props.currentValue"
-                                            @change="props.updateCurrentValue">
-                            </sw-text-field>
+                                {#bordered#}
+                                {#min="1"
+                                step="1"#}
+                                placeholder="1"
+                                @keyup="textToNumber(event)"
+                                :mapInheritance="props"
+                                :label="$tc('easycredit-payment.marketing.card.fieldsSettings.positionLabel')"
+                                :disabled="props.isInherited"
+                                :value="props.currentValue"
+                                @update:value="props.updateCurrentValue"
+                                @change="props.updateCurrentValue" {# vue2-legacy #}
+                            ></sw-text-field>
                         </template>
                     </sw-inherit-wrapper>
-                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.cardSettingsMedia']"
-                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.cardSettingsMedia']"
-                                        :customInheritationCheckFunction="checkTextFieldInheritance">
+                    <sw-inherit-wrapper 
+                        v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.cardSettingsMedia']" {# vue2-legacy #}
+                        v-model:value="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.cardSettingsMedia']"
+                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.cardSettingsMedia']"
+                        :customInheritationCheckFunction="checkTextFieldInheritance"
+                    >
                         <template #content="props">
                             <sw-help-text
-                                            :text="$tc('easycredit-payment.marketing.card.fieldsSettings.mediaHelpText')"
-                                            :width="200"
-                                            tooltipPosition="top"
-                                            :showDelay="100"
-                                            :hideDelay="100">
-                            </sw-help-text>
-                            <sw-media-field name="EasyCreditRatenkauf.config.cardSettingsMedia"
-                                            {#bordered#}
-                                            :mapInheritance="props"
-                                            :label="$tc('easycredit-payment.marketing.card.fieldsSettings.mediaLabel')"
-                                            :disabled="props.isInherited"
-                                            v-model="props.currentValue"
-                                            @media-id-change="props.updateCurrentValue">
-                            </sw-media-field>
+                                :text="$tc('easycredit-payment.marketing.card.fieldsSettings.mediaHelpText')"
+                                :width="200"
+                                tooltipPosition="top"
+                                :showDelay="100"
+                                :hideDelay="100"
+                            ></sw-help-text>
+                            <sw-media-field 
+                                name="EasyCreditRatenkauf.config.cardSettingsMedia"
+                                :mapInheritance="props"
+                                :label="$tc('easycredit-payment.marketing.card.fieldsSettings.mediaLabel')"
+                                :disabled="props.isInherited"
+                                :value="props.currentValue"
+                                @update:value="props.updateCurrentValue"
+                                v-model="props.currentValue" {# vue2-legacy #}
+                                @media-id-change="props.updateCurrentValue" {# vue2-legacy #}
+                            ></sw-media-field>
                         </template>
                     </sw-inherit-wrapper>
                 {% endblock %}
@@ -354,43 +411,52 @@
 
                 <h3>{{ $tc('easycredit-payment.marketing.flashbox.fieldsActivate.title') }}</h3>
                 {% block netzkollektiv_easycredit_marketing_flashbox_fields_activation %}
-                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.flashboxEnabled']"
-                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.flashboxEnabled']"
-                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
+                    <sw-inherit-wrapper 
+                        v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.flashboxEnabled']" {# vue2-legacy #}
+                        v-model:value="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.flashboxEnabled']"
+                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.flashboxEnabled']"
+                        :customInheritationCheckFunction="checkBoolFieldInheritance"
+                    >
                         <template #content="props">
                             <sw-switch-field name="EasyCreditRatenkauf.config.flashboxEnabled"
-                                            {#bordered#}
-                                            :mapInheritance="props"
-                                            :label="$tc('easycredit-payment.marketing.flashbox.fieldsActivate.showLabel')"
-                                            :disabled="props.isInherited"
-                                            :value="props.currentValue"
-                                            @change="props.updateCurrentValue">
-                            </sw-switch-field>
+                                {#bordered#}
+                                :mapInheritance="props"
+                                :label="$tc('easycredit-payment.marketing.flashbox.fieldsActivate.showLabel')"
+                                :disabled="props.isInherited"
+                                :value="props.currentValue"
+                                @update:value="props.updateCurrentValue"
+                                @change="props.updateCurrentValue" {# vue2-legacy #}
+                            ></sw-switch-field>
                         </template>
                     </sw-inherit-wrapper>
                 {% endblock %}
 
                 <h3>{{ $tc('easycredit-payment.marketing.flashbox.fieldsSettings.title') }}</h3>
                 {% block netzkollektiv_easycredit_marketing_flashbox_fields_settings %}
-                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.flashboxSettingsMedia']"
-                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.flashboxSettingsMedia']"
-                                        :customInheritationCheckFunction="checkTextFieldInheritance">
+                    <sw-inherit-wrapper 
+                        v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.flashboxSettingsMedia']" {# vue2-legacy #}
+                        v-model:value="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.flashboxSettingsMedia']"
+                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.flashboxSettingsMedia']"
+                        :customInheritationCheckFunction="checkTextFieldInheritance"
+                    >
                         <template #content="props">
                             <sw-help-text
-                                            :text="$tc('easycredit-payment.marketing.flashbox.fieldsSettings.mediaHelpText')"
-                                            :width="200"
-                                            tooltipPosition="top"
-                                            :showDelay="100"
-                                            :hideDelay="100">
-                            </sw-help-text>
-                            <sw-media-field name="EasyCreditRatenkauf.config.flashboxSettingsMedia"
-                                            {#bordered#}
-                                            :mapInheritance="props"
-                                            :label="$tc('easycredit-payment.marketing.flashbox.fieldsSettings.mediaLabel')"
-                                            :disabled="props.isInherited"
-                                            v-model="props.currentValue"
-                                            @media-id-change="props.updateCurrentValue">
-                            </sw-media-field>
+                                :text="$tc('easycredit-payment.marketing.flashbox.fieldsSettings.mediaHelpText')"
+                                :width="200"
+                                tooltipPosition="top"
+                                :showDelay="100"
+                                :hideDelay="100"
+                            ></sw-help-text>
+                            <sw-media-field 
+                                name="EasyCreditRatenkauf.config.flashboxSettingsMedia"
+                                :mapInheritance="props"
+                                :label="$tc('easycredit-payment.marketing.flashbox.fieldsSettings.mediaLabel')"
+                                :disabled="props.isInherited"
+                                :value="props.currentValue"
+                                @update:value="props.updateCurrentValue"
+                                v-model="props.currentValue" {# vue2-legacy #}
+                                @media-id-change="props.updateCurrentValue" {# vue2-legacy #}
+                            ></sw-media-field>
                         </template>
                     </sw-inherit-wrapper>
                 {% endblock %}
@@ -414,18 +480,22 @@
 
                 <h3>{{ $tc('easycredit-payment.marketing.bar.fieldsActivate.title') }}</h3>
                 {% block netzkollektiv_easycredit_marketing_bar_fields_activation %}
-                    <sw-inherit-wrapper v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.barEnabled']"
-                                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.barEnabled']"
-                                        :customInheritationCheckFunction="checkBoolFieldInheritance">
+                    <sw-inherit-wrapper 
+                        v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.barEnabled']" {# vue2-legacy #}
+                        v-model:value="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.barEnabled']"
+                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.barEnabled']"
+                        :customInheritationCheckFunction="checkBoolFieldInheritance"
+                    >
                         <template #content="props">
                             <sw-switch-field name="EasyCreditRatenkauf.config.barEnabled"
-                                            {#bordered#}
-                                            :mapInheritance="props"
-                                            :label="$tc('easycredit-payment.marketing.bar.fieldsActivate.showLabel')"
-                                            :disabled="props.isInherited"
-                                            :value="props.currentValue"
-                                            @change="props.updateCurrentValue">
-                            </sw-switch-field>
+                                {#bordered#}
+                                :mapInheritance="props"
+                                :label="$tc('easycredit-payment.marketing.bar.fieldsActivate.showLabel')"
+                                :disabled="props.isInherited"
+                                :value="props.currentValue"
+                                @update:value="props.updateCurrentValue"
+                                @change="props.updateCurrentValue" {# vue2-legacy #}
+                            ></sw-switch-field>
                         </template>
                     </sw-inherit-wrapper>
                 {% endblock %}
