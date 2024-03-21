@@ -24,9 +24,9 @@ class SettingsController extends AbstractController
 
     public function validateApiCredentials(Request $request): JsonResponse
     {
-        $webshopId = $request->query->get('webshopId');
-        $apiPassword = $request->query->get('apiPassword');
-        $apiSignature = $request->query->get('apiSignature');
+        $webshopId = $request->query->get('webshopId') ?? '';
+        $apiPassword = $request->query->get('apiPassword') ?? '';
+        $apiSignature = $request->query->get('apiSignature') ?? '';
 
         $credentialsValid = $this->apiCredentialTestService->testApiCredentials($webshopId, $apiPassword, $apiSignature);
 
