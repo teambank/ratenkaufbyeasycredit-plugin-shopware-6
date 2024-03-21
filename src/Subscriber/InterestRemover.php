@@ -64,6 +64,18 @@ class InterestRemover implements EventSubscriberInterface
         $this->connection->beginTransaction();
         try {
             $this->connection->executeStatement("
+                UPDATE order_transaction ot
+                INNER JOIN order_line_item ol ON ol.order_id = ot.order_id AND ol.type = 'easycredit-interest'
+                    Set ot.amount = JSON_REPLACE(ot.amount,
+                        '$.unitPrice', ROUND(json_extract(ot.amount, '$.unitPrice') - ol.total_price, 2),
+                        '$.totalPrice', ROUND(json_extract(ot.amount, '$.totalPrice') - ol.total_price, 2)
+                    )
+                WHERE ot.order_id = ?;
+            ", [
+                Uuid::fromHexToBytes($order->getId())
+            ]);
+
+            $this->connection->executeStatement("
                 UPDATE `order` o
                 INNER JOIN order_line_item ol ON ol.order_id = o.id AND ol.type = 'easycredit-interest'
                 Set 
@@ -74,7 +86,7 @@ class InterestRemover implements EventSubscriberInterface
                     )
                 WHERE o.id = ?;
             ", [
-                Uuid::fromHexToBytes($order->getId()),
+                Uuid::fromHexToBytes($order->getId())
             ]);
 
             $this->connection->executeStatement("
