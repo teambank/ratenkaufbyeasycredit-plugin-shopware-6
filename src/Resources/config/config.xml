@@ -60,13 +60,14 @@
             <helpText lang="de-DE">Entfernt die Zinsen nach Bestellabschluss aus der Bestellung.</helpText>
             <helpText lang="en-GB">Removes the interest from orders after the order has been placed</helpText>
         </input-field>
-        <input-field type="bool">
+        <!-- temporarily commented until we have a working solution for it -->
+        <!-- input-field type="bool">
             <name>debug</name>
             <label lang="de-DE">Debug-Logging aktivieren</label>
             <label lang="en-GB">Debug-Logging aktivieren</label>
             <helpText lang="de-DE">Aktiviert das Debug-Logging (var/log/netzkollektiv_easycredit_*-YYYY-MM-DD.log).</helpText>
             <helpText lang="en-GB">Enables debug logging (var/log/netzkollektiv_easycredit_*-YYYY-MM-DD.log).</helpText>
-        </input-field>
+        </input-field -->
         <component name="easycredit-payment-status-select">
             <name>paymentStatus</name>
             <entity>state_machine_state</entity>
