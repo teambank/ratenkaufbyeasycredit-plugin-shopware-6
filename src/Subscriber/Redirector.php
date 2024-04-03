@@ -91,6 +91,7 @@ class Redirector implements EventSubscriberInterface
         }
 
         $this->storage
+            ->set('express', false)
             ->set('duration', $event->getRequestDataBag()->get('easycredit')->get('number-of-installments'))
             ->set('init', true);
     }
