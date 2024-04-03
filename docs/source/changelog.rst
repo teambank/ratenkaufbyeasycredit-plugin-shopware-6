@@ -1,12 +1,17 @@
 Changelog
 =========
 
-
 2.2.0
 -----
 
 * Kompatibilität mit Shopware 6.6
 * Known Issue: die "Debug Logging"-Einstellung wurde vorrübergehend entfernt (das Log-Level kann via APP_ENV beeinflusst werden)
+
+2.1.11
+------
+
+* die Zinsen werden nun auch aus der `orderTransaction` entfernt
+* das Express-Flag wird vor Weiterleitung aus dem Checkout zurücksetzt
 
 2.1.10
 ------
