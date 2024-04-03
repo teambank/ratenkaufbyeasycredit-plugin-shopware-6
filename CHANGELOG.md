@@ -1,3 +1,8 @@
+# 2.1.11
+
+* die Zinsen werden nun auch aus der `orderTransaction` entfernt
+* das Express-Flag wird vor Weiterleitung aus dem Checkout zurücksetzt 
+
 # 2.1.10
 
 * die Preise für Widget und Express-Button werden nun analog zum product:price:amount Meta-Tag ermittelt

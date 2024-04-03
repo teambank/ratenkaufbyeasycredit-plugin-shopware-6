@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.1.11
+------
+
+* die Zinsen werden nun auch aus der `orderTransaction` entfernt
+* das Express-Flag wird vor Weiterleitung aus dem Checkout zurücksetzt
+
 2.1.10
 ------
 
