@@ -101,8 +101,10 @@
                 "title": "Start with easyCredit-Ratenkauf",
                 "register": "Register as a trader",
                 "documentation": "Documentation",
-                "demoshop": "Demo shop with easyCredit-Ratenkauf",
-                "support": "Support"
+                "demoshop": "Demo shop",
+                "support": "Frequently asked questions (FAQ)",
+                "call-us": "Give us a call: +49 (0)911 5390-2726",
+                "contact-form": "Contact form"
             }
         },
         "clickAndCollect": {

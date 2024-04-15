@@ -3,8 +3,6 @@
         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
 
     <card>
-        <title lang="de-DE">Intro</title>
-        <title lang="en-GB">Intro</title>
         <name>intro</name>
 
         <component name="easycredit-intro">

@@ -25,8 +25,8 @@ class Migration1661846378BrandRelaunch extends MigrationStep
     public function update(Connection $connection): void
     {
 	    $fields = [];
-        foreach (['name', 'description', 'distinguishable_name'] as $column) { 
-            if (!$this->_columnExists($connection, 'payment_method_translation', $column)) {   
+        foreach (['name', 'description', 'distinguishable_name'] as $column) {
+            if (!$this->_columnExists($connection, 'payment_method_translation', $column)) {
                 continue;
             }
             $fields[] = $this->_replace('pmt.'.$column);

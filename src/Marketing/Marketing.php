@@ -187,7 +187,7 @@ class Marketing implements EventSubscriberInterface
 
     protected function getSettings(SalesChannelContext $context)
     {
-        if (!$this->paymentHelper->isPaymentMethodInSalesChannel($context)) {
+        if (!$this->paymentHelper->isEasyCreditInSalesChannel($context)) {
             return false;
         }
 

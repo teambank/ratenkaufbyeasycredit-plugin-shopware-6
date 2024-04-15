@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace Netzkollektiv\EasyCredit\Subscriber;
 
-use Netzkollektiv\EasyCredit\Payment\Handler as EasyCreditPaymentHandler;
+use Netzkollektiv\EasyCredit\Payment\Handler\AbstractHandler as EasyCreditPaymentHandler;
 use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
+use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\PaymentHandlerRegistry;
 use Shopware\Core\Framework\Validation\BuildValidationEvent;
-use Shopware\Core\Framework\Validation\DataValidationDefinition;
 use Shopware\Core\PlatformRequest;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -25,22 +25,21 @@ use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Shopware\Core\Framework\Validation\Exception\ConstraintViolationException;
 
-
 class CheckoutValidationSubscriber implements EventSubscriberInterface
 {
     private RequestStack $requestStack;
 
-    private PaymentHandlerRegistry $paymentHandlerRegistry;
+    private PaymentHelper $paymentHelper;
 
     private IntegrationFactory $integrationFactory;
 
     public function __construct(
         RequestStack $requestStack,
-        PaymentHandlerRegistry $paymentHandlerRegistry,
+        PaymentHelper $paymentHelper,
         IntegrationFactory $integrationFactory
     ) {
         $this->requestStack = $requestStack;
-        $this->paymentHandlerRegistry = $paymentHandlerRegistry;
+        $this->paymentHelper = $paymentHelper;
         $this->integrationFactory = $integrationFactory;
     }
 
@@ -62,9 +61,7 @@ class CheckoutValidationSubscriber implements EventSubscriberInterface
         $paymentMethodId = $salesChannelContext->getPaymentMethod()->getId();
 
         // prefer the newer getPaymentMethodHandler instead of getHandler (removed from v6.5)
-        $paymentHandler = \method_exists($this->paymentHandlerRegistry,'getPaymentMethodHandler') ? 
-            $this->paymentHandlerRegistry->getPaymentMethodHandler($paymentMethodId) :
-            $this->paymentHandlerRegistry->getHandler($paymentMethodId);
+        $paymentHandler = $this->paymentHelper->getHandlerByPaymentMethodId($paymentMethodId);
 
         $checkout = $this->integrationFactory->createCheckout(
             $salesChannelContext
