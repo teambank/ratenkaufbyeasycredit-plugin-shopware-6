@@ -25,6 +25,7 @@ use Shopware\Core\System\SalesChannel\Context\SalesChannelContextService;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Framework\Validation\Exception\ConstraintViolationException;;
+use Shopware\Core\Framework\Validation\DataBag\DataBag;
 
 use Teambank\RatenkaufByEasyCreditApiV3\Model\TransactionInformation;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
@@ -35,6 +36,8 @@ use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\Webhook\OrderTransactionNotFoundException;
 use Netzkollektiv\EasyCredit\Service\CustomerService;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
+use Netzkollektiv\EasyCredit\Payment\Handler\InstallmentPaymentHandler as HandlerInstallmentPaymentHandler;
+use Netzkollektiv\EasyCredit\Service\CheckoutService;
 
 class PaymentController extends StorefrontController
 {
@@ -52,6 +55,8 @@ class PaymentController extends StorefrontController
 
     private PaymentHelper $paymentHelper;
 
+    private CheckoutService $checkoutService;
+
     private ContextSwitchRoute $contextSwitchRoute;
 
     private EntityRepository $orderTransactionRepository;
@@ -64,6 +69,7 @@ class PaymentController extends StorefrontController
         Storage $storage,
         PaymentHelper $paymentHelper,
         CustomerService $customerService,
+        CheckoutService $checkoutService,
         ContextSwitchRoute $contextSwitchRoute,
         EntityRepository $orderTransactionRepository
     ) {
@@ -74,6 +80,7 @@ class PaymentController extends StorefrontController
         $this->orderTransactionRepository = $orderTransactionRepository;
         $this->storage = $storage;
         $this->paymentHelper = $paymentHelper;
+        $this->checkoutService = $checkoutService;
         $this->customerService = $customerService;
         $this->contextSwitchRoute = $contextSwitchRoute;
     }
@@ -90,10 +97,15 @@ class PaymentController extends StorefrontController
             ->set('express', true);
 
         try {
-            $this->contextSwitchRoute->switchContext(new RequestDataBag([
-                SalesChannelContextService::PAYMENT_METHOD_ID => $this->paymentHelper->getPaymentMethodId($salesChannelContext->getContext())
-            ]), $salesChannelContext);
-            $this->paymentHelper->startCheckout($salesChannelContext);
+            $this->updatePaymentMethod(
+                $this->paymentHelper->getPaymentMethodByHandler(
+                    HandlerInstallmentPaymentHandler::class,
+                    $salesChannelContext->getContext()
+                ),
+                $salesChannelContext
+            );
+
+            $this->checkoutService->startCheckout($salesChannelContext);
         } catch (ConstraintViolationException $violations) {
             $errors = [];
             foreach ($violations->getViolations() as $violation) {
@@ -108,7 +120,7 @@ class PaymentController extends StorefrontController
         return $this->redirectToRoute('frontend.checkout.confirm.page');
     }
 
-    public function return(SalesChannelContext $salesChannelContext): RedirectResponse
+    public function returnAction(SalesChannelContext $salesChannelContext): RedirectResponse
     {
         try {
             $checkout = $this->integrationFactory->createCheckout($salesChannelContext);
@@ -130,11 +142,23 @@ class PaymentController extends StorefrontController
                 $checkout->finalizeExpress($this->quoteHelper->getQuote($cart, $newContext));
             }
 
+            $paymentMethod = $this->paymentHelper->getPaymentMethodByPaymentType(
+                $transaction->getTransaction()->getPaymentType(),
+                $salesChannelContext->getContext()
+            );
+            $this->updatePaymentMethod($paymentMethod, $salesChannelContext);
+
             return $this->redirectToRoute('frontend.checkout.confirm.page');
         } catch (\Throwable $e) {
             $this->storage->set('error', $e->getMessage());
             return $this->redirectToRoute('frontend.checkout.cart.page');
         }
+    }
+
+    protected function updatePaymentMethod($paymentMethod, $salesChannelContext) {
+        $this->contextSwitchRoute->switchContext(new RequestDataBag([
+            SalesChannelContextService::PAYMENT_METHOD_ID => $paymentMethod->get('id')
+        ]), $salesChannelContext);
     }
 
     public function reject(SalesChannelContext $salesChannelContext): RedirectResponse

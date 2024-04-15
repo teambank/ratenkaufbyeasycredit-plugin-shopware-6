@@ -8,22 +8,17 @@
 namespace Netzkollektiv\EasyCredit\Helper;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
-use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Shopware\Core\Checkout\Payment\PaymentMethodCollection;
-use Shopware\Core\Checkout\Payment\PaymentMethodEntity;
-use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\System\SalesChannel\SalesChannelEntity;
-
-use Teambank\RatenkaufByEasyCreditApiV3\Integration\ValidationException;
-use Teambank\RatenkaufByEasyCreditApiV3\ApiException;
-use Netzkollektiv\EasyCredit\Payment\Handler as PaymentHandler;
-use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
-use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
-use Netzkollektiv\EasyCredit\Api\Storage;
+use Netzkollektiv\EasyCredit\Payment\Handler\InstallmentPaymentHandler;
+use Netzkollektiv\EasyCredit\Payment\Handler\BillPaymentHandler;
+use Shopware\Core\Checkout\Payment\PaymentMethodEntity;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;
+use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\PaymentHandlerRegistry;
 
 class Payment
 {
@@ -31,35 +26,18 @@ class Payment
 
     private EntityRepository $salesChannelRepository;
 
-    private IntegrationFactory $integrationFactory;
-
-    private CartService $cartService;
-
-    private QuoteHelper $quoteHelper;
-
-    private Storage $storage;
-
-    private LoggerInterface $logger;
+    private PaymentHandlerRegistry $paymentHandlerRegistry;
 
     private array $paymentMethodIdCache = [];
 
     public function __construct(
         EntityRepository $paymentMethodRepository,
         EntityRepository $salesChannelRepository,
-        IntegrationFactory $integrationFactory,
-        CartService $cartService,
-        QuoteHelper $quoteHelper,
-        Storage $storage,
-        LoggerInterface $logger
+        PaymentHandlerRegistry $paymentHandlerRegistry
     ) {
         $this->paymentMethodRepository = $paymentMethodRepository;
         $this->salesChannelRepository = $salesChannelRepository;
-
-        $this->integrationFactory = $integrationFactory;
-        $this->cartService = $cartService;
-        $this->quoteHelper = $quoteHelper;
-        $this->storage = $storage;
-        $this->logger = $logger;
+        $this->paymentHandlerRegistry = $paymentHandlerRegistry;
     }
 
     public function isSelected(SalesChannelContext $salesChannelContext, $paymentMethodId = null): bool
@@ -68,85 +46,80 @@ class Payment
             $paymentMethodId = $salesChannelContext->getPaymentMethod()->getId();
         }
 
-        return $this->getPaymentMethodId($salesChannelContext->getContext()) === $paymentMethodId;
+        return $this->getPaymentMethods($salesChannelContext->getContext())
+            ->filterByProperty('id', $paymentMethodId)
+            ->count() > 0;
+    }
+    
+    public function getPaymentMethodByHandler ($handlerClass, Context $context) {
+        return $this->getPaymentMethods($context)
+            ->filterByProperty('handlerIdentifier', $handlerClass)->first();
     }
 
-    public function getPaymentMethodId(Context $context): ?string
+    public function getPaymentMethodById($paymentId, Context $context)
+    {
+        return $this->getPaymentMethods($context)
+            ->filterByProperty('id', $paymentId)->first();
+    }
+
+    public function getPaymentMethodByPaymentType($paymentType, Context $context)
+    {
+        return $this->getPaymentMethods($context)
+            ->filter(function (PaymentMethodEntity $struct) use ($paymentType) {
+                return $this->getHandlerByPaymentMethodId($struct->get('id'))->getPaymentType() === $paymentType;
+            })->first();
+    }
+
+    public function getHandlerByPaymentMethodId($paymentMethodId) {
+        // prefer the newer getPaymentMethodHandler instead of getHandler (removed from v6.5)
+        return \method_exists($this->paymentHandlerRegistry, 'getPaymentMethodHandler') ?
+            $this->paymentHandlerRegistry->getPaymentMethodHandler($paymentMethodId) :
+            $this->paymentHandlerRegistry->getHandler($paymentMethodId);
+    }
+
+    public function getPaymentMethods(Context $context): EntityCollection
     {
         $cacheId = \sha1(\json_encode($context));
         if (!isset($this->paymentMethodIdCache[$cacheId])) {
             $criteria = new Criteria();
-            $criteria->addFilter(new EqualsFilter('handlerIdentifier', PaymentHandler::class));
+            $criteria->addFilter(new EqualsAnyFilter('handlerIdentifier', [
+                InstallmentPaymentHandler::class,
+                BillPaymentHandler::class
+            ]));
 
-            $this->paymentMethodIdCache[$cacheId] = $this->paymentMethodRepository->searchIds($criteria, $context)->firstId();
+            $this->paymentMethodIdCache[$cacheId] = $this->paymentMethodRepository->search($criteria, $context)->getEntities();
         }
         return $this->paymentMethodIdCache[$cacheId];
     }
 
-    public function isPaymentMethodInSalesChannel(SalesChannelContext $salesChannelContext): bool
+    public function isEasyCreditInSalesChannel(SalesChannelContext $salesChannelContext): bool
     {
         $context = $salesChannelContext->getContext();
-        $paymentMethodId = $this->getPaymentMethodId($context);
-        if (!$paymentMethodId) {
+        $paymentMethods = $this->getPaymentMethods($context);
+        if ($paymentMethods->count() === 0) {
             return false;
         }
 
-        $paymentMethods = $this->getSalesChannelPaymentMethods($salesChannelContext->getSalesChannel(), $context);
-        if (!$paymentMethods) {
-            return false;
-        }
-
-        if ($paymentMethods->get($paymentMethodId) instanceof PaymentMethodEntity) {
-            return true;
-        }
-
-        return false;
+        return $this->getSalesChannelPaymentMethods($salesChannelContext->getSalesChannel(), $context)
+            ->filter(static function (PaymentMethodEntity $struct) use ($paymentMethods) {
+                return \in_array($struct->get('id'), $paymentMethods->getIds());
+            })->count() > 0;
     }
 
     private function getSalesChannelPaymentMethods(
         SalesChannelEntity $salesChannelEntity,
         Context $context
     ): ?PaymentMethodCollection {
-        $salesChannelId = $salesChannelEntity->getId();
-        $criteria = new Criteria([$salesChannelId]);
+        $criteria = new Criteria([$salesChannelEntity->getId()]);
         $criteria->addAssociation('paymentMethods');
+        
         /** @var SalesChannelEntity|null $result */
-        $result = $this->salesChannelRepository->search($criteria, $context)->get($salesChannelId);
+        $result = $this->salesChannelRepository->search($criteria, $context)->get($salesChannelEntity->getId());
 
         if (!$result) {
             return null;
         }
 
         return $result->getPaymentMethods();
-    }
-
-    public function startCheckout ($salesChannelContext) {
-        $checkout = $this->integrationFactory->createCheckout($salesChannelContext);
-        $cart = $this->cartService->getCart($salesChannelContext->getToken(), $salesChannelContext);
-        $quote = $this->quoteHelper->getQuote($cart, $salesChannelContext);
-        try {
-            try {
-                if (!$this->storage->get('express')) {
-                    $checkout->isAvailable($quote);
-                }
-                $checkout->start($quote);
-            } catch (ValidationException $e) {
-                $this->storage->set('error',$e->getMessage());
-            } catch (ApiException $e) {
-                $response = \json_decode($e->getResponseBody());
-                if ($response === null || !isset($response->violations)) {
-                    throw new \Exception('violations could not be parsed');
-                }
-                $messages = [];
-                foreach ($response->violations as $violation) {
-                    $messages[] = $violation->message;
-                }
-                $this->logger->warning($e);
-                $this->storage->set('error', \implode(' ',$messages));
-            }
-        } catch (\Throwable $e) {
-            $this->logger->error($e);
-            $this->storage->set('error', 'Es ist ein Fehler aufgetreten. Leider steht Ihnen easyCredit-Ratenkauf derzeit nicht zur Verfügung.');
-        }        
     }
 }

@@ -10,7 +10,6 @@ namespace Netzkollektiv\EasyCredit\Api;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\RedirectLinks;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\OrderDetails;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\CustomerRelationship;
-use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
@@ -20,8 +19,9 @@ use Netzkollektiv\EasyCredit\Api\Quote\AddressBuilder;
 use Netzkollektiv\EasyCredit\Api\Quote\ItemBuilder;
 use Netzkollektiv\EasyCredit\Api\Quote\CustomerBuilder;
 use Netzkollektiv\EasyCredit\Cart\Processor;
-
-use Teambank\RatenkaufByEasyCreditApiV3\Integration;
+use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
+use Netzkollektiv\EasyCredit\Payment\Handler\BillPaymentHandler;
+use Netzkollektiv\EasyCredit\Payment\Handler\InstallmentPaymentHandler;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\Transaction;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\ShippingAddress;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\InvoiceAddress;
@@ -30,54 +30,44 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class QuoteBuilder
 {
-    /**
-     * @var Cart
-     */
-    protected $cart;
+    private Cart $cart;
 
-    /**
-     * @var SalesChannelContext
-     */
-    protected $context;
+    private SalesChannelContext $salesChannelContext;
 
-    /**
-     * @var CustomerEntity
-     */
-    protected $customer;
+    private CustomerEntity $customer;
 
-    protected $settings;
+    private UrlGeneratorInterface $router;
 
-    /**
-     * @var Storage
-     */
-    protected $storage;
+    private SettingsServiceInterface $settings;
 
-    protected $metaDataProvider;
+    private Storage $storage;
 
-    protected $router; 
+    private PaymentHelper $paymentHelper;
 
-    protected $addressBuilder;
+    private AddressBuilder $addressBuilder;
 
-    protected $itemBuilder;
+    private ItemBuilder $itemBuilder;
 
-    protected $customerBuilder;
+    private CustomerBuilder $customerBuilder;
 
-    protected $systemBuilder; 
+    private SystemBuilder $systemBuilder;
 
     public function __construct(
-        MetaDataProvider $metaDataProvider,
+        UrlGeneratorInterface $router,
         SettingsServiceInterface $settingsService,
         Storage $storage,
-        UrlGeneratorInterface $router,
+        PaymentHelper $paymentHelper,
         AddressBuilder $addressBuilder,
         ItemBuilder $itemBuilder,
         CustomerBuilder $customerBuilder,
         SystemBuilder $systemBuilder
     ) {
-        $this->metaDataProvider = $metaDataProvider;
+        $this->router = $router;
+
         $this->settings = $settingsService;
         $this->storage = $storage;
-        $this->router = $router;
+        $this->paymentHelper = $paymentHelper;
+
         $this->addressBuilder = $addressBuilder;
         $this->itemBuilder = $itemBuilder;
         $this->customerBuilder = $customerBuilder;
@@ -88,8 +78,8 @@ class QuoteBuilder
     {
         if ($this->cart instanceof Cart) {
             return $this->cart->getToken();
-	}
-	return null;
+	    }
+	    return null;
     }
 
     public function getShippingMethod(): ?string
@@ -112,12 +102,28 @@ class QuoteBuilder
             return false;
         }
         
-        return $delivery->getShippingMethod()->getId() 
-            === $this->settings->getSettings($this->context->getSalesChannel()->getId())->getClickAndCollectShippingMethod();
+        return $delivery->getShippingMethod()->getId()
+            === $this->settings->getSettings($this->salesChannelContext->getSalesChannel()->getId())->getClickAndCollectShippingMethod();
     }
 
     public function getDuration(): ?string {
         return $this->storage->get('duration');
+    }
+
+    public function getPaymentType()
+    {
+        $transaction = $this->cart->getTransactions()->first();
+        if (!$transaction) {
+            return null;
+        }
+
+        $paymentHandler = $this->paymentHelper->getHandlerByPaymentMethodId(
+            $this->cart->getTransactions()->first()->getPaymentMethodId()
+        );
+        if ($paymentHandler instanceof InstallmentPaymentHandler
+            || $paymentHandler instanceof BillPaymentHandler) {
+            return $paymentHandler->getPaymentType();
+        }
     }
 
     public function getGrandTotal(): float
@@ -186,7 +192,7 @@ class QuoteBuilder
                 continue;
             }
 
-            $quoteItem = $this->itemBuilder->build($item, $this->context);
+            $quoteItem = $this->itemBuilder->build($item, $this->salesChannelContext);
             if ($quoteItem->getPrice() <= 0) {
                 continue;
             }
@@ -208,10 +214,10 @@ class QuoteBuilder
         return $this->storage->get('express');
     }
 
-    public function build($cart, SalesChannelContext $context): Transaction {
+    public function build($cart, SalesChannelContext $salesChannelContext): Transaction {
         $this->cart = $cart;
-        $this->context = $context;
-        $this->customer = $context->getCustomer();
+        $this->salesChannelContext = $salesChannelContext;
+        $this->customer = $salesChannelContext->getCustomer();
 
         if (!$this->isExpress()) {
             if ($cart instanceof Cart && $cart->getDeliveries()->getAddresses()->first() === null) {
@@ -224,6 +230,7 @@ class QuoteBuilder
 
         return new Transaction([
             'financingTerm' => $this->getDuration(),
+            'paymentType' => $this->getPaymentType(),
             'orderDetails' => new OrderDetails([
                 'orderValue' => $this->getGrandTotal(),
                 'orderId' => $this->getId(),
@@ -238,7 +245,7 @@ class QuoteBuilder
                 'customerSince' => ($this->customer && $this->customer->getCreatedAt() instanceof \DateTimeImmutable) ? $this->customer->getCreatedAt()->format('Y-m-d') : null,
                 'orderDoneWithLogin' => $this->customer && !$this->customer->getGuest(),
                 'numberOfOrders' => ($this->customer) ? $this->customer->getOrderCount() : 0,
-                'logisticsServiceProvider' => $this->getShippingMethod()      
+                'logisticsServiceProvider' => $this->getShippingMethod()
             ]),
             'redirectLinks' => $this->getRedirectLinks()
         ]);
