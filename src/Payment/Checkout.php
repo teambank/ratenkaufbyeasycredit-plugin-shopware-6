@@ -15,6 +15,8 @@ use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Netzkollektiv\EasyCredit\Setting\Exception\SettingsInvalidException;
 use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 use Netzkollektiv\EasyCredit\Cart\InterestError;
+use Netzkollektiv\EasyCredit\Payment\Handler\BillPaymentHandler;
+use Netzkollektiv\EasyCredit\Payment\Handler\InstallmentPaymentHandler;
 use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
@@ -67,7 +69,7 @@ class Checkout implements EventSubscriberInterface
      */
     public function onCheckoutConfirmLoaded(CheckoutConfirmPageLoadedEvent $event): void
     {
-        if ($this->storage->get('redirect_url') 
+        if ($this->storage->get('redirect_url')
             || $this->storage->get('init')
         ) {
             return;
@@ -77,7 +79,7 @@ class Checkout implements EventSubscriberInterface
         $context = $event->getContext();
         $cart = $event->getPage()->getCart();
 
-        if (!$this->paymentHelper->isPaymentMethodInSalesChannel($salesChannelContext)) {
+        if (!$this->paymentHelper->isEasyCreditInSalesChannel($salesChannelContext)) {
             return;
         }
 
@@ -93,8 +95,7 @@ class Checkout implements EventSubscriberInterface
             }
         }
 
-        $paymentMethodId = $this->paymentHelper->getPaymentMethodId($salesChannelContext->getContext());
-        $isSelected = $paymentMethodId === $salesChannelContext->getPaymentMethod()->getId();
+        $isSelected = $this->paymentHelper->isSelected($salesChannelContext);
 
         try {
             $settings = $this->settings->getSettings($salesChannelContext->getSalesChannel()->getId());
@@ -124,17 +125,23 @@ class Checkout implements EventSubscriberInterface
             }
         }
 
-        if ($this->storage->get('express-ui')) {
+        /*if ($this->storage->get('express-ui')) {
             $event->getPage()->setPaymentMethods(
-                $event->getPage()->getPaymentMethods()->filter(fn(PaymentMethodEntity $paymentMethod) => $paymentMethod->getId() === $paymentMethodId)
+                $event->getPage()->getPaymentMethods()->filter(fn(PaymentMethodEntity $paymentMethod) => 
+                    $paymentMethod->getId() === $salesChannelContext->getSalesChannel()->getId()
+                )
             );
-        }
+        }*/
+        $paymentMethods = $this->paymentHelper->getPaymentMethods($context);
 
         $event->getPage()->addExtension('easycredit', (new CheckoutData())->assign([
-            'isPrefixValid' => isset($quote) ? $checkout->isPrefixValid($quote->getCustomer()->getGender()) : false,
             'grandTotal' => isset($quote) ? $quote->getOrderDetails()->getOrderValue() : null,
-            'paymentMethodId' => $paymentMethodId,
-            'isSelected' => $isSelected,
+            'selectedPaymentMethod' => $salesChannelContext->getPaymentMethod()->getId(),
+            'paymentMethodIds' => [
+                'installmentPaymentId' => $paymentMethods->filterByProperty('handlerIdentifier', InstallmentPaymentHandler::class)->first()->get('id'),
+                'billPaymentId' => $paymentMethods->filterByProperty('handlerIdentifier', BillPaymentHandler::class)->first()->get('id')
+            ],
+            'approved' => $checkout->isApproved(),
             'paymentPlan' => $this->buildPaymentPlan($this->storage->get('summary')),
             'error' => $error,
             'webshopId' => $settings->getWebshopId()
@@ -159,12 +166,14 @@ class Checkout implements EventSubscriberInterface
             $cacheItem->set($agreement);
             $this->cache->save($cacheItem);
         }
-        return $agreement;    
+        return $agreement;
     }
 
     private function removePaymentMethodFromConfirmPage(CheckoutConfirmPageLoadedEvent $event): void
     {
         $paymentMethodCollection = $event->getPage()->getPaymentMethods();
-        $paymentMethodCollection->remove($this->paymentHelper->getPaymentMethodId($event->getContext()));
+        foreach ($this->paymentHelper->getPaymentMethods($event->getContext()) as $method) {
+            $paymentMethodCollection->remove($method->get('id'));
+        }
     }
 }

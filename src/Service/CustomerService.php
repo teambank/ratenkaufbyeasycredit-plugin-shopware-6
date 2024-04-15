@@ -140,7 +140,7 @@ class CustomerService {
         }
 
         $newContext = $this->contextService->get(
-            /** @phpstan-ignore-next-line */ 
+            /** @phpstan-ignore-next-line */
             new SalesChannelContextServiceParameters(
                 $context->getSalesChannel()->getId(),
                 $newToken,

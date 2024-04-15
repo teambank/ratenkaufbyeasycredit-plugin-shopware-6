@@ -108,7 +108,7 @@ class Validator implements CartValidatorInterface
         }
 
         if ($this->storage->get('interest_amount') === null) {
-            $this->logger->debug('InterestError: interest amount not set'); 
+            $this->logger->debug('InterestError: interest amount not set');
             $errors->add(new InterestError());
 
             return;

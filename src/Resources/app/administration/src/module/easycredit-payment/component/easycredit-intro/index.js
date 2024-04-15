@@ -11,6 +11,12 @@ Component.register('easycredit-intro', {
         };
     },
 
+    computed: {
+        assetFilter() {
+            return Shopware.Filter.getByName('asset')
+        }
+    },
+
     methods: {
     },
 });

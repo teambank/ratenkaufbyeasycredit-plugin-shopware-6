@@ -90,7 +90,7 @@ class ItemBuilder
             $skus[] = new ArticleNumberItem([
                 'numberType' => $type,
                 'number' => $sku
-            ]);           
+            ]);
         }
         return $skus;
     }
@@ -103,7 +103,7 @@ class ItemBuilder
             'productName' => $item->getLabel(),
             'productUrl' => $this->seoUrlReplacer->replace(
                 $this->seoUrlReplacer->generate('frontend.detail.page', ['productId' => $item->getReferencedId()]),
-                $context->getSalesChannel()->getDomains()->first()->getUrl(), 
+                $context->getSalesChannel()->getDomains()->first()->getUrl(),
                 $context
             ),
             'productImageUrl' => $item->getCover() ? $item->getCover()->getUrl() : null,
@@ -112,6 +112,6 @@ class ItemBuilder
             'manufacturer' => $this->getManufacturer(),
             'productCategory' => $this->getCategory(),
             'articleNumber' => $this->getSkus()
-        ]);      
+        ]);
     }
 }

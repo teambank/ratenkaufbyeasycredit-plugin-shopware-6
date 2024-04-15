@@ -12,14 +12,14 @@ use Shopware\Core\Framework\Struct\Struct;
 class CheckoutData extends Struct
 {
     /**
-     * @var string
+     * @var array
      */
-    protected $paymentMethodId;
+    protected $paymentMethodIds;
 
     /**
-     * @var bool
+     * @var string
      */
-    protected $isSelected;
+    protected $selectedPaymentMethod;
 
     /**
      * @var string
@@ -41,19 +41,14 @@ class CheckoutData extends Struct
      */
     protected $grandTotal;
 
-    /**
-     * @var bool
-     */
-    protected $isPrefixValid;
-
-    public function getPaymentMethodId(): string
+    public function getPaymentMethodIds(): array
     {
-        return $this->paymentMethodId;
+        return $this->paymentMethodIds;
     }
 
-    public function getIsSelected(): bool
+    public function getSelectedPaymentMethod(): string
     {
-        return $this->isSelected;
+        return $this->selectedPaymentMethod;
     }
 
     public function getPaymentPlan(): ?string
@@ -74,10 +69,5 @@ class CheckoutData extends Struct
     public function getGrandTotal(): ?float
     {
         return $this->grandTotal;
-    }
-
-    public function isPrefixValid(): bool
-    {
-        return $this->isPrefixValid;
     }
 }

@@ -12,7 +12,7 @@ use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 
 class SystemBuilder
 {
-    private MetaDataProvider $metaDataProvider;   
+    private MetaDataProvider $metaDataProvider;
  
     public function __construct(
         MetaDataProvider $metaDataProvider

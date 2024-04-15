@@ -1,4 +1,4 @@
-# easyCredit-Ratenkauf Plugin for Shopware 6 - Installment Payment Plugin
+# easyCredit-Rechnung & Ratenkauf Plugin for Shopware 6 - Installment & Bill Payment Plugin
 
 easyCredit-Ratenkauf is the easiest and fastest installment payment solution of Germany. Join today to get the simplest way of partial payment for your POS and E-Commerce. easyCredit-Ratenkauf gives you the opportunity to offer installments as an additional payment method in your German WooCommerce store.
 
