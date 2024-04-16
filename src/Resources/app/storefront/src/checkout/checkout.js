@@ -1,21 +1,18 @@
 import Plugin from 'src/plugin-system/plugin.class'
+import { getCsrfToken, createHiddenField } from '../util.js'
 
 export default class EasyCreditRatenkaufCheckout extends Plugin {
     init() {
-
-        function createHiddenField(name, value) {
-            var el = document.createElement('input')
-            el.setAttribute('type','hidden')
-            el.setAttribute('name',`easycredit[${name}]`)
-            el.setAttribute('value',value)
-            return el
-        }
-
-        document.querySelector('easycredit-checkout')?.addEventListener('submit', (e) => {
+        document.querySelector('easycredit-checkout')?.addEventListener('submit', async (e) => {
             var form = document.getElementById('changePaymentForm')
-            form.append(createHiddenField('submit','1'))
-            form.append(createHiddenField('number-of-installments', e.detail.numberOfInstallments))
-            form.append(createHiddenField('agreement-checked', e.detail.privacyCheckboxChecked))
+
+            let token = await getCsrfToken()
+            if (token) {
+              form.append(createHiddenField('_csrf_token', token))
+            }
+
+            form.append(createHiddenField('easycredit[submit]','1'))
+            form.append(createHiddenField('easycredit[number-of-installments]', e.detail.numberOfInstallments))
             form.submit()
 
             return false

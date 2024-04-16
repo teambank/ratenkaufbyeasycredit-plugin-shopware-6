@@ -9,12 +9,7 @@
     "docs:deploy": "export $(cat .env | xargs) && rsync -avz --delete ${PWD}/docs/build/html/ ${DOCS_DEPLOY_DST}",
     "docs": "yarn docs:build:html; yarn docs:deploy"
   },
-  "dependencies": {
-    "typescript": "^5.0.2"
-  },
   "devDependencies": {
-    "browserslist-to-esbuild": "^1.2.0",
-    "esbuild": "^0.17.14",
     "@playwright/test": "^1.32.3"
   }
 }

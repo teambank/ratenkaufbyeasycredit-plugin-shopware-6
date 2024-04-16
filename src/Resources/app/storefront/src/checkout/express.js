@@ -1,11 +1,12 @@
 import Plugin from 'src/plugin-system/plugin.class'
+import { getCsrfToken, createHiddenField } from '../util.js'
 
 export default class EasyCreditRatenkaufExpressCheckout extends Plugin {
     init() {
-        this.el.addEventListener('submit', () => {
+        this.el.addEventListener('submit', async () => {
 
             var form
-            if (form = this.replicateBuyForm()) {
+            if (form = await this.replicateBuyForm()) {
                 form.submit()
                 return
             }
@@ -19,7 +20,7 @@ export default class EasyCreditRatenkaufExpressCheckout extends Plugin {
         })
     }
 
-    replicateBuyForm () {
+    async replicateBuyForm () {
         let buyForm = document.getElementById('productDetailPageBuyProductForm')
         if (!buyForm) {
             return false
@@ -38,6 +39,11 @@ export default class EasyCreditRatenkaufExpressCheckout extends Plugin {
             field.setAttribute('name', key)
             field.setAttribute('value', formData.get(key))
             form.append(field)
+        }
+
+        let token = await getCsrfToken()
+        if (token) {
+          form.append(createHiddenField('_csrf_token', token))
         }
 
         document.querySelector('body').append(form)
