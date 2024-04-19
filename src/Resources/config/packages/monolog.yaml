@@ -4,5 +4,5 @@ monolog:
         easycredit:
             type: rotating_file
             path: "%kernel.logs_dir%/netzkollektiv_easycredit.log"
-            level: debug
+            level: error
             channels: [ 'easycredit' ]

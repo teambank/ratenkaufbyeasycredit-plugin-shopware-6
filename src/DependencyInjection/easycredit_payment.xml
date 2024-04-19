@@ -230,8 +230,14 @@
             <!-- no params -->
         </service>
         <service id="Netzkollektiv\EasyCredit\Compatibility\ContextResolverListenerModifier">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\MetaDataProvider"/>
             <tag name="kernel.event_subscriber"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\MetaDataProvider" />
+        </service>
+        <service id="Netzkollektiv\EasyCredit\Logger\LoggerConfigurator">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="monolog.handler.easycredit"/>
+            <tag name="kernel.event_subscriber"/>
         </service>
         <service id="Netzkollektiv\EasyCredit\Compatibility\Capabilities">
             <argument>%kernel.shopware_version%</argument>
