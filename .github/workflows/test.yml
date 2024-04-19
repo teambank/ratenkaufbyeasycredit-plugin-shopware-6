@@ -5,6 +5,7 @@ on:
     branches:
     - 'main'
     - 'sw65'
+    - 'sw66'
 
 jobs:
   ci-current:
