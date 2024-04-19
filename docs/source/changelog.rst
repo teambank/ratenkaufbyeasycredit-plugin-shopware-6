@@ -1,6 +1,13 @@
 Changelog
 =========
 
+2.2.1
+-----
+
+* die Einstellung für das Debug-Logging wurde wieder integriert
+* es wird wieder das Webpack-Build für die Storefront-Funktionalität in allen Versionen verwendet
+* im CSRF-Mode Ajax wird ein CSRF-Token vor dem Request abgerufen (SW 6.4)
+
 2.2.0
 -----
 

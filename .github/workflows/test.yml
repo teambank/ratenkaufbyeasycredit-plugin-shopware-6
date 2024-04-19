@@ -45,6 +45,7 @@ jobs:
           - 'v6.5.7'
           - 'v6.5.8'
           - 'v6.6.0'
+          - 'v6.6.1'
 
     name: Shopware ${{ matrix.shopware-version }}
 
