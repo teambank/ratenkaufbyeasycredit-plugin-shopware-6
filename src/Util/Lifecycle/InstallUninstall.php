@@ -118,6 +118,7 @@ class InstallUninstall
 
         $data = [
             'handlerIdentifier' => Handler::class,
+            'technicalName' => 'easycredit_ratenkauf',
             'name' => 'easyCredit-Ratenkauf',
             'position' => -100,
             'pluginId' => $pluginId,
