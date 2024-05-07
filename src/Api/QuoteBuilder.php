@@ -197,17 +197,10 @@ class QuoteBuilder
     }
 
     protected function getRedirectLinks() {
-        if (!$this->storage->get('sec_token')) {
-            $this->storage->set('sec_token', \uniqid());
-        }
-        
         return new RedirectLinks([
             'urlSuccess' => $this->router->generate('frontend.easycredit.return', [], UrlGeneratorInterface::ABSOLUTE_URL),
             'urlCancellation' => $this->router->generate('frontend.easycredit.cancel', [], UrlGeneratorInterface::ABSOLUTE_URL),
-            'urlDenial' => $this->router->generate('frontend.easycredit.reject', [], UrlGeneratorInterface::ABSOLUTE_URL),
-            'urlAuthorizationCallback' =>  $this->router->generate('frontend.easycredit.authorize', [
-                'secToken' => $this->storage->get('sec_token')
-            ], UrlGeneratorInterface::ABSOLUTE_URL)
+            'urlDenial' => $this->router->generate('frontend.easycredit.reject', [], UrlGeneratorInterface::ABSOLUTE_URL)
         ]);
     }
 

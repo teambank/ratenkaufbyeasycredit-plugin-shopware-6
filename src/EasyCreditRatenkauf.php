@@ -37,7 +37,6 @@ class EasyCreditRatenkauf extends Plugin
 
     public const ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_ID = 'easycredit_transaction_id';
     public const ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TECHNICAL_TRANSACTION_ID = 'easycredit_technical_transaction_id';
-    public const ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_SEC_TOKEN = 'easycredit_transaction_sec_token';
 
     /**
      * @var ActivateDeactivate

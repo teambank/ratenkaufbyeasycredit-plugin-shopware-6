@@ -85,20 +85,17 @@ class Handler implements SynchronousPaymentHandlerInterface
                 $salesChannelContext->getContext()
             );
 
-            // check transaction status right away
-            try {
-                $tx = $checkout->loadTransaction();
-                if ($tx->getStatus() === ApiV3\Model\TransactionInformation::STATUS_AUTHORIZED) {
-                    $this->stateHandler->handleTransactionState(
-                        $transaction->getOrderTransaction(),
-                        $salesChannelContext
-                    );
-                    $this->stateHandler->handleOrderState(
-                        $order,
-                        $salesChannelContext
-                    );
-                }
-            } catch (\Exception $e) { /* fail silently, will be updated async */ }
+            $tx = $checkout->loadTransaction();
+            if ($tx->getStatus() === ApiV3\Model\TransactionInformation::STATUS_AUTHORIZED) {
+                $this->stateHandler->handleTransactionState(
+                    $transaction->getOrderTransaction(),
+                    $salesChannelContext
+                );
+                $this->stateHandler->handleOrderState(
+                    $order,
+                    $salesChannelContext
+                );
+            }
 
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
@@ -134,8 +131,7 @@ class Handler implements SynchronousPaymentHandlerInterface
             'id' => $transaction->getOrderTransaction()->getId(),
             'customFields' => [
                 EasyCreditRatenkauf::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_ID => $this->storage->get('transaction_id'),
-                EasyCreditRatenkauf::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TECHNICAL_TRANSACTION_ID => $this->storage->get('token'),
-                EasyCreditRatenkauf::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TRANSACTION_SEC_TOKEN => $this->storage->get('sec_token'),
+                EasyCreditRatenkauf::ORDER_TRANSACTION_CUSTOM_FIELDS_EASYCREDIT_TECHNICAL_TRANSACTION_ID => $this->storage->get('token')
             ],
         ];
         $this->orderTransactionRepo->update([$data], $context);
