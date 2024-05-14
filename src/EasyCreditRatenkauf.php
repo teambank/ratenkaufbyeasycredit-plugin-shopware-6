@@ -91,7 +91,7 @@ class EasyCreditRatenkauf extends Plugin
             $this->container->get(PluginIdProvider::class),
             $this->container->get(SystemConfigService::class),
             static::class
-        ))->install($installContext->getContext());
+        ))->install($installContext);
 
         parent::install($installContext);
     }
@@ -113,7 +113,7 @@ class EasyCreditRatenkauf extends Plugin
             $this->container->get(PluginIdProvider::class),
             $this->container->get(SystemConfigService::class),
             static::class
-        ))->uninstall($uninstallContext->getContext());
+        ))->uninstall($uninstallContext);
 
         parent::uninstall($uninstallContext);
     }
@@ -129,7 +129,7 @@ class EasyCreditRatenkauf extends Plugin
             $this->container->get(PluginIdProvider::class),
             $this->container->get(SystemConfigService::class),
             static::class
-        ))->update($updateContext->getContext());
+        ))->update($updateContext);
 
         parent::update($updateContext);
     }

@@ -11,7 +11,10 @@ export default class EasyCreditRatenkaufExpressCheckout extends Plugin {
                 return
             }
 
-            if (document.querySelector('.is-ctl-checkout.is-act-cartpage')) {
+            if (
+                document.querySelector('.is-ctl-checkout.is-act-cartpage') ||
+                this.el.closest('.cart-offcanvas')
+            ) {
                 window.location.href = '/easycredit/express'
                 return
             }

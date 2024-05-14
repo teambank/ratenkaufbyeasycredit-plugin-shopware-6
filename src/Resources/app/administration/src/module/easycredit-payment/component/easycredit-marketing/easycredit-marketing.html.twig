@@ -137,7 +137,27 @@
                             <sw-text-field name="EasyCreditRatenkauf.config.widgetSelectorProductDetail"
                                 {#bordered#}
                                 :mapInheritance="props"
-                                :label="$tc('easycredit-payment.marketing.widget.fieldsSettings.selectorProductLabel')"
+                                :label="$tc('easycredit-payment.marketing.widget.fieldsSettings.selectorProduct.label')"
+                                :helpText="$tc('easycredit-payment.marketing.widget.fieldsSettings.helpTextSelector') + '.product-detail-buy .product-detail-tax-container'"
+                                :disabled="props.isInherited"
+                                :value="props.currentValue"
+                                @update:value="props.updateCurrentValue"
+                                @change="props.updateCurrentValue" {# vue2-legacy #}
+                            ></sw-text-field>
+                        </template>
+                    </sw-inherit-wrapper>
+                    <sw-inherit-wrapper
+                        v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetSelectorProductListing']" {# vue2-legacy #}
+                        v-model:value="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetSelectorProductListing']"
+                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.widgetSelectorProductListing']"
+                        :customInheritationCheckFunction="checkTextFieldInheritance"
+                    >
+                        <template #content="props">
+                            <sw-text-field name="EasyCreditRatenkauf.config.widgetSelectorProductListing"
+                                {#bordered#}
+                                :mapInheritance="props"
+                                :label="$tc('easycredit-payment.marketing.widget.fieldsSettings.selectorProductListing.label')"
+                                :helpText="$tc('easycredit-payment.marketing.widget.fieldsSettings.helpTextSelector') + '.cms-element-product-listing .product-box .product-price-wrapper easycredit-widget[display-type=minimal]'"
                                 :disabled="props.isInherited"
                                 :value="props.currentValue"
                                 @update:value="props.updateCurrentValue"
@@ -155,7 +175,27 @@
                             <sw-text-field name="EasyCreditRatenkauf.config.widgetSelectorCart"
                                 {#bordered#}
                                 :mapInheritance="props"
-                                :label="$tc('easycredit-payment.marketing.widget.fieldsSettings.selectorCartLabel')"
+                                :label="$tc('easycredit-payment.marketing.widget.fieldsSettings.selectorCart.label')"
+                                :helpText="$tc('easycredit-payment.marketing.widget.fieldsSettings.helpTextSelector') + '.checkout-aside-action:not(.d-grid)'"
+                                :disabled="props.isInherited"
+                                :value="props.currentValue"
+                                @update:value="props.updateCurrentValue"
+                                @change="props.updateCurrentValue" {# vue2-legacy #}
+                            ></sw-text-field>
+                        </template>
+                    </sw-inherit-wrapper>
+                    <sw-inherit-wrapper
+                        v-model="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetSelectorOffCanvasCart']" {# vue2-legacy #}
+                        v-model:value="getConfig(getCurrentSalesChannelId())['EasyCreditRatenkauf.config.widgetSelectorOffCanvasCart']"
+                        :inheritedValue="getCurrentSalesChannelId() == null ? null : getConfig(null)['EasyCreditRatenkauf.config.widgetSelectorOffCanvasCart']"
+                        :customInheritationCheckFunction="checkTextFieldInheritance"
+                    >
+                        <template #content="props">
+                            <sw-text-field name="EasyCreditRatenkauf.config.widgetSelectorOffCanvasCart"
+                                {#bordered#}
+                                :mapInheritance="props"
+                                :label="$tc('easycredit-payment.marketing.widget.fieldsSettings.selectorOffCanvasCart.label')"
+                                :helpText="$tc('easycredit-payment.marketing.widget.fieldsSettings.helpTextSelector') + '.offcanvas-summary easycredit-widget[display-type=minimal]'"
                                 :disabled="props.isInherited"
                                 :value="props.currentValue"
                                 @update:value="props.updateCurrentValue"

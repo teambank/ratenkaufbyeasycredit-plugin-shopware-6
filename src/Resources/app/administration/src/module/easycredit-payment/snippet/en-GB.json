@@ -149,8 +149,19 @@
                 },
                 "fieldsSettings": {
                     "title": "Settings",
-                    "selectorProductLabel": "CSS selector for product detail page",
-                    "selectorCartLabel": "CSS selector for cart"
+                    "helpTextSelector": "Default selector: ",
+                    "selectorProduct": {
+                        "label": "CSS selector for product detail page"
+                    },
+                    "selectorProductListing": {
+                        "label": "CSS selector for product listing page"
+                    },
+                    "selectorCart": {
+                        "label": "CSS selector for cart"
+                    },
+                    "selectorOffCanvasCart": {
+                        "label": "CSS selector for off canvas cart"
+                    }
                 }
             },
             "modal": {

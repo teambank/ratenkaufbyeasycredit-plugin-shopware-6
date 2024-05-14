@@ -14,6 +14,9 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\ContainsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
+use Shopware\Core\Framework\Plugin\Context\UpdateContext;
+use Shopware\Core\Framework\Plugin\Context\InstallContext;
+use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Shopware\Core\Checkout\Customer\Rule\BillingCountryRule;
 use Shopware\Core\Framework\Rule\Container\AndRule;
@@ -64,31 +67,34 @@ class InstallUninstall
         $this->systemConfig = $systemConfig;
     }
 
-    public function install(Context $context): void
+    public function install(InstallContext $lifecycleContext): void
     {
-        $this->addDefaultConfiguration($context);
-        $this->addPaymentMethods($context);
+        $this->addDefaultConfiguration($lifecycleContext);
+        $this->addPaymentMethods($lifecycleContext->getContext());
     }
 
-    public function uninstall(Context $context): void
+    public function uninstall(UninstallContext $lifecycleContext): void
     {
-        $this->removeConfiguration($context);
+        $this->removeConfiguration($lifecycleContext->getContext());
     }
 
-    public function update(Context $context): void
+    public function update(UpdateContext $lifecycleContext): void
     {
-        $this->addDefaultConfiguration($context);
+        $this->addDefaultConfiguration($lifecycleContext);
     }
 
-    private function addDefaultConfiguration(Context $context): void
+    private function addDefaultConfiguration($lifecycleContext): void
     {
         $criteria = (new Criteria())
             ->addFilter(new ContainsFilter('configurationKey', SettingsService::SYSTEM_CONFIG_DOMAIN));
-        $existingSettings = $this->systemConfigRepository->search($criteria, $context);
+        $existingSettings = $this->systemConfigRepository->search($criteria, $lifecycleContext->getContext());
 
         foreach ((new SettingStruct())->jsonSerialize() as $key => $value) {
             if ($value === null || $value === []) {
                 continue;
+            }
+            if ($key === 'widgetSelectorProductListing' && $lifecycleContext instanceof UpdateContext) {
+                $value = ''; // do not activate listing widget in existing installations
             }
 
             $fullKey = SettingsService::SYSTEM_CONFIG_DOMAIN . $key;

@@ -1,0 +1,17 @@
+{% sw_extends '@Storefront/storefront/component/product/card/box-standard.html.twig' %}
+
+{% block component_product_box_content %}
+
+    {{ parent() }}
+
+    {% set easycredit = page.extensions.easycredit %}
+    {% if easycredit.widgetEnabled && easycredit.apiKey %}
+
+        {% set price = product.calculatedPrice %}
+        {% if product.calculatedPrices.count > 0 %}
+            {% set price = product.calculatedPrices.last %}
+        {% endif %}
+
+        <meta name="easycredit-amount" itemprop="amount" content="{{ price.unitPrice }}">
+    {% endif %}
+{% endblock %}

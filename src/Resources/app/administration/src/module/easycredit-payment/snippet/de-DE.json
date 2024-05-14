@@ -149,8 +149,19 @@
                 },
                 "fieldsSettings": {
                     "title": "Einstellungen",
-                    "selectorProductLabel": "CSS-Selektor für die Produkt-Detailseite",
-                    "selectorCartLabel": "CSS-Selektor für den Warenkorb"
+                    "helpTextSelector": "Standard-Selektor: ",
+                    "selectorProduct": {
+                        "label": "CSS-Selektor für die Produkt-Detailseite"
+                    },
+                    "selectorProductListing": {
+                        "label": "CSS-Selektor für die Produkt-Übersichtsseite"
+                    },
+                    "selectorCart": {
+                        "label": "CSS-Selektor für den Warenkorb"
+                    },
+                    "selectorOffCanvasCart": {
+                        "label": "CSS-Selektor für den OffCanvas-Warenkorb"
+                    }
                 }
             },
             "modal": {

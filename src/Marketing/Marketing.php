@@ -15,8 +15,8 @@ use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Page\Checkout\Cart\CheckoutCartPageLoadedEvent;
 use Shopware\Storefront\Page\Checkout\Offcanvas\OffcanvasCartPageLoadedEvent;
 use Shopware\Storefront\Page\Product\ProductPageLoadedEvent;
-use Shopware\Storefront\Page\GenericPageLoadedEvent;
 use Shopware\Storefront\Page\Navigation\NavigationPageLoadedEvent;
+use Shopware\Storefront\Page\GenericPageLoadedEvent;
 use Shopware\Storefront\Page\Search\SearchPageLoadedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -45,7 +45,7 @@ class Marketing implements EventSubscriberInterface
         return [
             ProductPageLoadedEvent::class => 'onProductPageLoaded',
             CheckoutCartPageLoadedEvent::class => 'onCartPageLoaded',
-            //OffcanvasCartPageLoadedEvent::class => 'onOffcanvasCartPageLoaded',
+            OffcanvasCartPageLoadedEvent::class => 'onOffcanvasCartPageLoaded',
             GenericPageLoadedEvent::class => 'onPageLoaded',
             NavigationPageLoadedEvent::class => 'onNavigationPageLoaded',
             SearchPageLoadedEvent::class => 'onSearchPageLoaded',
@@ -109,7 +109,7 @@ class Marketing implements EventSubscriberInterface
         $cart = $this->cartService->getCart($context->getToken(), $context);
 
         $this->addVariables($event->getPage(), [
-            'widgetSelector' => $settings->getWidgetSelectorCart(),
+            'widgetSelector' => $settings->getWidgetSelectorOffCanvasCart(),
             'amount' => $cart->getPrice()->getTotalPrice(),
         ]);
     }
@@ -154,6 +154,9 @@ class Marketing implements EventSubscriberInterface
         }
 
         $this->addVariables($event->getPage(), [
+            'apiKey' => $settings->getWebshopId(),
+            'widgetEnabled' => $settings->getWidgetEnabled(),
+            'widgetSelector' => $settings->getWidgetSelectorProductListing(),
             'card' => $settings->getCardEnabled(),
             'cardSettingsPosition' => $settings->getCardSettingsPosition(),
             'cardSettingsMedia' => $settings->getCardSettingsMedia(),

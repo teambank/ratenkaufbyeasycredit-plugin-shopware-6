@@ -1,47 +1,113 @@
-import Plugin from 'src/plugin-system/plugin.class';
+import Plugin from 'src/plugin-system/plugin.class'
 
 export default class EasyCreditRatenkaufWidget extends Plugin {
     init() {
-        this.initWidget();
+        this.initWidget(document)
+        this.registerOffCanvas();
     }
 
-    initWidget() {
+    registerOffCanvas () {
+        let element = document.querySelector('[data-off-canvas-cart]')
+        if (!element) {
+           return
+        }
+        window.PluginManager
+            .getPluginInstanceFromElement(element, 'OffCanvasCart')
+            .$emitter
+            .subscribe('offCanvasOpened', this.onOffCanvasOpened.bind(this));
+    }
 
-        const selector = this.getMeta('widget-selector');
-        if (selector === null
-            || this.getMeta('api-key') === null
-        ) {
-            return;
+    onOffCanvasOpened () {
+        this.initWidget(
+            document.querySelector('div.cart-offcanvas')
+        )
+    }
+
+    initWidget(container) {
+
+        const selector = this.getMeta('widget-selector', container)
+        if (selector === null) {
+            return
+        }
+        if (this.getMeta('api-key') === null) {
+            return
         }
 
-        this.el = document.querySelector(selector);
-        if (!this.el) {
-            return;
-        }
- 
-        let amount = this.getMeta('amount');
+        let processedSelector = this.processSelector(selector)
+
+        let elements = container.querySelectorAll(processedSelector.selector)
+        elements.forEach((element) => {
+            this.applyWidget(container, element, processedSelector.attributes)
+        })
+    }
+
+    applyWidget(container, element, attributes) {
+        let amount = this.getMeta('amount', container, element)
+
         if (null === amount || isNaN(amount)) {
-            const priceContainer = this.el.parentNode;
+            const priceContainer = element.parentNode
             amount = priceContainer && priceContainer.querySelector('[itemprop=price]') ? 
                 priceContainer.querySelector('[itemprop=price]').content 
-                : null;
+                : null
         }
         
         if (null === amount || isNaN(amount)) {
-            return;
+            return
         }
+
         let widget = document.createElement('easycredit-widget')
         widget.setAttribute('webshop-id', this.getMeta('api-key'))
-        widget.setAttribute('amount', this.getMeta('amount'))
+        widget.setAttribute('amount', amount)
 
-        this.el.appendChild(widget)
+        if (attributes) {
+            for (const [name, value] of Object.entries(attributes)) {
+                widget.setAttribute(name, value);
+            }
+        }
+        element.appendChild(widget)
     }
 
-    getMeta(key) {
-        const meta = document.querySelector('meta[name=easycredit-'+key+']');
-        if (meta === null) {
-            return null;
+    getMeta(key, container = null, element = null) {
+        let meta
+
+        if (container === null) {
+            container = document
         }
-        return meta.content;
+
+        const selector = 'meta[name=easycredit-' + key + ']'
+
+        if (element) {
+            let box
+            if (box = element.closest('.cms-listing-col')) {
+                if (meta = box.querySelector(selector)) {
+                    return meta.content
+                }
+            }
+        }
+        if (meta = container.querySelector(selector)) {
+            return meta.content
+        }
+        return null
+    }
+
+    processSelector (selector) {
+        const regExp = /(.+) easycredit-widget(\[.+?\])$/
+
+        let match
+        if (match = selector.match(regExp)) {
+
+            const attributes = match[2].split(']')
+                .map(item => item.slice(1).split('='))
+                .filter(([k, v]) => k)
+                .reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {})
+
+                return {
+                selector: match[1],
+                attributes: attributes
+            }
+        }
+        return {
+            selector: selector
+        }
     }
 }

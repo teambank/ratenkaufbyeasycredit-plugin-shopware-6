@@ -1,0 +1,26 @@
+{% sw_extends '@Storefront/storefront/component/checkout/offcanvas-cart.html.twig' %}
+
+
+{% block component_offcanvas_cart %}
+    {{ parent() }}
+
+    {% set easycredit = page.extensions.easycredit %}
+    {% if easycredit.widgetEnabled && easycredit.apiKey %}
+    <meta name="easycredit-widget-selector" itemprop="selector" content="{{ easycredit.widgetSelector }}">
+    <meta name="easycredit-amount" itemprop="amount" content="{{ easycredit.amount }}">
+    {% endif %}
+
+{% endblock %}
+
+{% block component_offcanvas_cart_actions_checkout %}
+    {{ parent() }}
+
+    {# @var easycredit #}
+    {% set easycredit = page.extensions.easycredit %}
+
+    {% if easycredit.expressCartEnabled %}
+        <div class="d-grid" style="margin: 10px 0;">
+            {% sw_include '@EasyCreditRatenkauf/storefront/component/express-button.html.twig' with {fullWidth: true} %}
+        </div>
+    {% endif %}
+{% endblock %}

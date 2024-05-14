@@ -129,7 +129,17 @@ class SettingStruct extends Struct
     /**
      * @var string|null
      */
-    protected $widgetSelectorCart = '.checkout-aside-action';
+    protected $widgetSelectorProductListing = '.cms-element-product-listing .product-box .product-price-wrapper easycredit-widget[display-type=minimal]';
+
+    /**
+     * @var string|null
+     */
+    protected $widgetSelectorCart = '.checkout-aside-action:not(.d-grid)';
+
+    /**
+     * @var string|null
+     */
+    protected $widgetSelectorOffCanvasCart = '.offcanvas-summary easycredit-widget[display-type=minimal]';
 
     /**
      * @var bool
@@ -371,6 +381,16 @@ class SettingStruct extends Struct
         return $this->widgetSelectorProductDetail;
     }
 
+    public function setWidgetSelectorProductListing(string $widgetSelectorProductListing): void
+    {
+        $this->widgetSelectorProductListing = $widgetSelectorProductListing;
+    }
+
+    public function getWidgetSelectorProductListing(): ?string
+    {
+        return $this->widgetSelectorProductListing;
+    }
+
     public function getWidgetSelectorCart(): ?string
     {
         return $this->widgetSelectorCart;
@@ -379,6 +399,16 @@ class SettingStruct extends Struct
     public function setWidgetSelectorCart(string $widgetSelectorCart): void
     {
         $this->widgetSelectorCart = $widgetSelectorCart;
+    }
+
+    public function getWidgetSelectorOffCanvasCart(): ?string
+    {
+        return $this->widgetSelectorOffCanvasCart;
+    }
+
+    public function setWidgetSelectorOffCanvasCart(string $widgetSelectorOffCanvasCart): void
+    {
+        $this->widgetSelectorOffCanvasCart = $widgetSelectorOffCanvasCart;
     }
 
     public function getExpressProductEnabled(): bool
