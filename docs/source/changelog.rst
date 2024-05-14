@@ -1,6 +1,14 @@
 Changelog
 =========
 
+2.2.2
+-----
+
+* die asynchrone Authorisierung wurde entfernt, da die Transaktionen synchron autorisiert und geprüft werden
+* das Widget und der Express-Button können nun auch im Off-Canvas Warenkorb angezeigt werden
+* das Widget kann nun auch in der Produktübersicht angezeigt werden
+* die Steuerung des Widgets über CSS-Selektoren wurde erweitert
+
 2.2.1
 -----
 
