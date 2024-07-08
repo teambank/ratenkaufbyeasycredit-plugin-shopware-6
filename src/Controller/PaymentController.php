@@ -124,7 +124,9 @@ class PaymentController extends StorefrontController
             if ($this->storage->get('express')) {
                 $newContext = $this->customerService->handleExpress($transaction, $salesChannelContext);
 
-                $this->storage->set('express', false);
+                $this->storage
+                    ->set('contextToken', $salesChannelContext->getToken())
+                    ->set('express', false);
 
                 $cart = $this->cartService->getCart($newContext->getToken(), $newContext);
                 $checkout->finalizeExpress($this->quoteHelper->getQuote($cart, $newContext));
