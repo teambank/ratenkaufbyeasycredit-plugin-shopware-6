@@ -1,3 +1,8 @@
+# 2.2.3
+
+* das JavaScript-Build wird nun bei Aufruf von `./bin/build-storefront.sh` nicht mehr doppelt erstellt
+* behebt ein Problem mit dem Express-Checkout, durch das die Adresse nicht verifiziert werden konnte
+
 # 2.2.2
 
 * die asynchrone Authorisierung wurde entfernt, da die Transaktionen synchron autorisiert und geprüft werden
