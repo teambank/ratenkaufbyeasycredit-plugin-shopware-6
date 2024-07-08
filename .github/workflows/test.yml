@@ -47,6 +47,8 @@ jobs:
           - 'v6.6.0'
           - 'v6.6.1'
           - 'v6.6.2'
+          - 'v6.6.3'
+          - 'v6.6.4'
 
     name: Shopware ${{ matrix.shopware-version }}
 
@@ -74,57 +76,9 @@ jobs:
           cd $PLUGIN_DIR
           composer remove shopware/core frosh/shopware-rector
           composer install -n
-      - name: Static Analyze
-        #if: false
-        run: |
-          cd $PLUGIN_DIR
-          php $PLUGIN_DIR/bin/phpstan-config-generator.php
-          php $PLUGIN_DIR/vendor/bin/phpstan dump-parameters
-          php $PLUGIN_DIR/vendor/bin/phpstan analyze $PLUGIN_DIR/src
-      - name: Coding Style
-        #if: false
-        run: |
-          cd $PLUGIN_DIR
-          php vendor/bin/ecs check --config=ecs.php
-      - name: Install & activate Plugin
-        run: |
-          cd $SW_DIR
-          php bin/console plugin:refresh
-          php bin/console plugin:install EasyCreditRatenkauf
-          php bin/console plugin:activate EasyCreditRatenkauf
-          php bin/console system:config:set EasyCreditRatenkauf.config.webshopId ${{ secrets.EASYCREDITAPIKEY }}
-          php bin/console system:config:set EasyCreditRatenkauf.config.apiPassword ${{ secrets.EASYCREDITAPIPASSWORD }}
-          php bin/console system:config:set EasyCreditRatenkauf.config.apiSignature ${{ secrets.EASYCREDITAPISIGNATURE }}
-          php bin/console system:config:set EasyCreditRatenkauf.config.debug 1
 
-          mysql -u root -proot shopware -e 'INSERT IGNORE INTO sales_channel_payment_method SELECT s.id, p.id FROM payment_method p INNER JOIN sales_channel s WHERE handler_identifier = "Netzkollektiv\\EasyCredit\\Payment\\Handler";'
-
-          php bin/console cache:clear
-      - name: Cache Node Modules
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: node-modules-${{ hashFiles('yarn.lock') }}
-      - name: Install Dependencies
-        run: |
-          npm install --global yarn
-          yarn install --frozen-lockfile
-      - name: Store Playwright's Version
-        run: |
-          PLAYWRIGHT_VERSION=$(npm ls @playwright/test | grep @playwright | sed 's/.*@//')
-          echo "Playwright's Version: $PLAYWRIGHT_VERSION"
-          echo "PLAYWRIGHT_VERSION=$PLAYWRIGHT_VERSION" >> $GITHUB_ENV
-      - name: Cache Playwright Browsers for Playwright's Version
-        id: cache-playwright-browsers
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-browsers-${{ env.PLAYWRIGHT_VERSION }}
-      - name: Setup Playwright
-        if: steps.cache-playwright-browsers.outputs.cache-hit != 'true'
-        run: yarn playwright install --with-deps
-      - name: Playwright E2E Tests
-        run: |
+      - name: Prepare Shopware & run webserver
+        run:  |
           cd $SW_DIR
           ./bin/console sales-channel:create:storefront --url http://localhost
           
@@ -142,20 +96,58 @@ jobs:
 
           cd public
           php -S localhost:80 &
+      - name: Static Analyze
+        run: |
+          cd $PLUGIN_DIR
+          php $PLUGIN_DIR/bin/phpstan-config-generator.php
+          php $PLUGIN_DIR/vendor/bin/phpstan dump-parameters
+          php $PLUGIN_DIR/vendor/bin/phpstan analyze $PLUGIN_DIR/src
+      - name: Coding Style
+        run: |
+          cd $PLUGIN_DIR
+          php vendor/bin/ecs check --config=ecs.php
+      - name: Install & activate Plugin
+        run: |
+          cd $SW_DIR
+          php bin/console plugin:refresh
+          php bin/console plugin:install EasyCreditRatenkauf
+          php bin/console plugin:activate EasyCreditRatenkauf
+          php bin/console system:config:set EasyCreditRatenkauf.config.webshopId ${{ secrets.EASYCREDITAPIKEY }}
+          php bin/console system:config:set EasyCreditRatenkauf.config.apiPassword ${{ secrets.EASYCREDITAPIPASSWORD }}
+          php bin/console system:config:set EasyCreditRatenkauf.config.apiSignature ${{ secrets.EASYCREDITAPISIGNATURE }}
+          php bin/console system:config:set EasyCreditRatenkauf.config.debug 1
 
+          mysql -u root -proot shopware -e 'INSERT IGNORE INTO sales_channel_payment_method SELECT s.id, p.id FROM payment_method p INNER JOIN sales_channel s WHERE handler_identifier = "Netzkollektiv\\EasyCredit\\Payment\\Handler";'
+
+          php bin/console cache:clear
+      - name: Install Dependencies
+        run: |
+          npm install --global yarn
+          yarn install --frozen-lockfile
+      - name: Setup Playwright
+        run: yarn playwright install --with-deps chromium
+      - name: Playwright E2E Tests
+        run: |
           cd $PLUGIN_DIR
           VERSION=${{ matrix.shopware-version }} yarn playwright test -c tests/
       - name: Save Shopware Logs for Debugging
         if: always()
         run: |
-          cp -r $SW_DIR/var/log test-results/${{ matrix.shopware-version }}/ 
-      - uses: actions/upload-artifact@v3
-        if: failure()
+          LOG_DIR=playwright-report/logs
+          mkdir $LOG_DIR
+          cp -r $SW_DIR/var/log/* $LOG_DIR/
+          for i in $LOG_DIR/*; do
+            echo "<a href=\"$i\">$i</a><br />" >> $LOG_DIR/index.html
+          done;
+      - name: Deploy
+        if: always()
+        uses: cloudflare/wrangler-action@v3
         with:
-          name: playwright-report
-          path: test-results/
-          retention-days: 7
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy playwright-report/ --project-name=easycredit-playwright-reports
       - name: Deactivate & uninstall Plugin
+        if: always()
         run: |
           cd $SW_DIR
           php bin/console plugin:deactivate EasyCreditRatenkauf

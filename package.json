@@ -9,7 +9,7 @@
     "docs:deploy": "export $(cat .env | xargs) && rsync -avz --delete ${PWD}/docs/build/html/ ${DOCS_DEPLOY_DST}",
     "docs": "yarn docs:build:html; yarn docs:deploy"
   },
-  "devDependencies": {
-    "@playwright/test": "^1.32.3"
+  "dependencies": {
+    "@playwright/test": "1.44.1"
   }
 }
