@@ -3,8 +3,9 @@ Changelog
 
 2.2.3
 ------
-* das JavaScript-Build wird nun bei Aufruf von `./bin/build-storefront.sh` nicht mehr doppelt erstellt
+
 * behebt ein Problem mit dem Express-Checkout, durch das die Adresse nicht verifiziert werden konnte
+* Anpassung einer twig-condition, so dass Template auch in frühen Versionen von SW 6.4 gerendert werden kann
 
 2.2.2
 -----

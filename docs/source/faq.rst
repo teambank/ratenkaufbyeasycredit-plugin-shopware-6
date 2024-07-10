@@ -61,3 +61,20 @@ In den E-Mail Templates lässt sich diese Position über eine Anpassung des Temp
     {% endfor %}
 
 Da es sich an dieser Stelle im Template nicht zweifelsfrei feststellen lässt, ob das easyCredit-Plugin für die Position ursächlich ist, haben wir diese Template-Überschreibung nicht ins Plugin aufgenommen.
+
+in älteren Shopware-Versionen (< v6.6) kommt es zu dem JavaScript-Fehler `Uncaught Error: Plugin "EasyCreditRatenkaufCheckout" is already registered`
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Das easyCredit-Plugin wird in einer einzelnen Versionslinie angeboten, mit dem Anspruch, mit allen Shopware-Versionen kompatibel zu sein (siehe Voraussetzungen). Der genannte Fehler `Uncaught Error: Plugin "EasyCreditRatenkaufCheckout" is already registered` tritt auf, wenn in einer Version < 6.6 die Storefront mit dem Skript `./bin/build-storefront.sh` neu gebaut wird. Der Grund hierfür ist, dass das JavaScript-Bundle seit Shopware 6.6 unter einem neuen Pfad erstellt wird:
+
+SW 6.4 / 6.5
+.. code-block:: bash
+
+    src/Resources/app/storefront/dist/storefront/js/easy-credit-ratenkauf.js
+
+SW 6.6
+.. code-block:: bash
+
+    src/Resources/app/storefront/dist/storefront/js/easy-credit-ratenkauf/easy-credit-ratenkauf.js
+
+Das zweite Bundle wird zusätzlich zum bestehenden angelegt und dann beide Bundles in die Storefront deployt. Die Lösung ist, das SW 6.6 Bundle vorab zu löschen, so dass am Ende nur noch ein Bundle im Plugin vorhanden ist und mittels `./bin/console assets:install` kopiert wird.
