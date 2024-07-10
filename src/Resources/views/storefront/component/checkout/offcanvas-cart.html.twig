@@ -5,7 +5,7 @@
     {{ parent() }}
 
     {% set easycredit = page.extensions.easycredit %}
-    {% if easycredit.widgetEnabled && easycredit.apiKey %}
+    {% if easycredit.widgetEnabled and easycredit.apiKey %}
     <meta name="easycredit-widget-selector" itemprop="selector" content="{{ easycredit.widgetSelector }}">
     <meta name="easycredit-amount" itemprop="amount" content="{{ easycredit.amount }}">
     {% endif %}
