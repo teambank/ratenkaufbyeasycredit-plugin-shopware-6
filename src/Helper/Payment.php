@@ -92,18 +92,22 @@ class Payment
         return $this->paymentMethodIdCache[$cacheId];
     }
 
-    public function isEasyCreditInSalesChannel(SalesChannelContext $salesChannelContext): bool
-    {
+    public function getActivePaymentMethods(SalesChannelContext $salesChannelContext) {
         $context = $salesChannelContext->getContext();
-        $paymentMethods = $this->getPaymentMethods($context);
-        if ($paymentMethods->count() === 0) {
-            return false;
-        }
+
+        $paymentMethods = $this->getPaymentMethods($context)->filter(static function ($paymentMethod) {
+            return $paymentMethod->get('active');
+        });
 
         return $this->getSalesChannelPaymentMethods($salesChannelContext->getSalesChannel(), $context)
             ->filter(static function (PaymentMethodEntity $struct) use ($paymentMethods) {
                 return \in_array($struct->get('id'), $paymentMethods->getIds());
-            })->count() > 0;
+            });
+    }
+
+    public function isEasyCreditInSalesChannel(SalesChannelContext $salesChannelContext): bool
+    {
+        return $this->getActivePaymentMethods($salesChannelContext)->count() > 0;
     }
 
     private function getSalesChannelPaymentMethods(

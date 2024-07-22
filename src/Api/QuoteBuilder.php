@@ -235,6 +235,7 @@ class QuoteBuilder
 
         return new Transaction([
             'paymentType' => $this->getPaymentType(),
+            'paymentSwitchPossible' => count($this->paymentHelper->getActivePaymentMethods($salesChannelContext)) > 1, // Switch between installment & bill payment should be possible if both methods are enabled
             'financingTerm' => (int) $this->getDuration(),
             'orderDetails' => new OrderDetails([
                 'orderValue' => $this->getGrandTotal(),
