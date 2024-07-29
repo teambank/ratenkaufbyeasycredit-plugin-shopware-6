@@ -1,6 +1,7 @@
 <sw-alert
     variant="info"
     :showIcon="false"
+    v-if="billPaymentActive"
 >
     <span class="badge">Neu</span>
     <strong>Ab sofort können Sie easyCredit-Rechnung aktivieren.</strong> <a href="/admin#/sw/settings/payment/overview">Jetzt aktivieren</a>
@@ -68,8 +69,16 @@
                     <sw-button
                         variant="primary"
                         link="/admin#/sw/settings/payment/overview"
+                        v-if="billPaymentActive"
                     >
                         Jetzt aktivieren
+                    </sw-button>
+                    <sw-button
+                        variant="primary"
+                        link="https://partner.easycredit-ratenkauf.de/portal"
+                        v-if="!billPaymentActive"
+                    >
+                        Jetzt freischalten lassen
                     </sw-button>
                     <sw-button
                         variant="context"
