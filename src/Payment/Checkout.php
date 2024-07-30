@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
  * For the full copyright and license information, please view the LICENSE
@@ -74,7 +76,8 @@ class Checkout implements EventSubscriberInterface
      */
     public function onCheckoutConfirmLoaded(CheckoutConfirmPageLoadedEvent $event): void
     {
-        if ($this->storage->get('redirect_url')
+        if (
+            $this->storage->get('redirect_url')
             || $this->storage->get('init')
         ) {
             return;
@@ -130,13 +133,6 @@ class Checkout implements EventSubscriberInterface
             }
         }
 
-        /*if ($this->storage->get('express-ui')) {
-            $event->getPage()->setPaymentMethods(
-                $event->getPage()->getPaymentMethods()->filter(fn(PaymentMethodEntity $paymentMethod) => 
-                    $paymentMethod->getId() === $salesChannelContext->getSalesChannel()->getId()
-                )
-            );
-        }*/
         $paymentMethods = $this->paymentHelper->getPaymentMethods($context);
 
         $event->getPage()->addExtension('easycredit', (new CheckoutData())->assign([
@@ -154,7 +150,8 @@ class Checkout implements EventSubscriberInterface
         ]));
     }
 
-    protected function buildPaymentPlan($summary) {
+    protected function buildPaymentPlan($summary)
+    {
         $summary = \json_decode((string)$summary);
         if ($summary === false || $summary === null) {
             return null;
@@ -162,7 +159,8 @@ class Checkout implements EventSubscriberInterface
         return \json_encode($summary);
     }
 
-    public function getWebshopDetails($checkout) {
+    public function getWebshopDetails($checkout)
+    {
         $agreement = [];
         $cacheItem = $this->cache->getItem('easycredit-webshop-details');
         if ($cacheItem->isHit() && $cacheItem->get()) {

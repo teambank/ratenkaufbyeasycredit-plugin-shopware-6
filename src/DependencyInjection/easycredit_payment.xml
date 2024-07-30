@@ -212,6 +212,7 @@
         <!-- EasyCredit Request Builder -->
         <service id="Netzkollektiv\EasyCredit\Api\QuoteBuilder">
             <argument type="service" id="router"/>
+            <argument type="service" id="request_stack"/>
 
             <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>            
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>

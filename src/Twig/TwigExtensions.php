@@ -1,4 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+/*
+ * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Netzkollektiv\EasyCredit\Twig;
 
@@ -25,10 +32,10 @@ class TwigExtensions extends AbstractExtension
         ];
     }
 
-    public function getPaymentType(PaymentMethodEntity $payment, SalesChannelContext $salesChannelContext)
+    public function getPaymentType(PaymentMethodEntity $payment)
     {
-        return str_replace('_PAYMENT','', $this->paymentHelper
+        return $this->paymentHelper
             ->getHandlerByPaymentMethodId($payment->getId())
-            ->getPaymentType());
+            ->getPaymentType();
     }
 }
