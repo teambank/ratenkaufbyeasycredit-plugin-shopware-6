@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
  * For the full copyright and license information, please view the LICENSE
@@ -37,6 +39,11 @@ class CheckoutData extends Struct
     protected $webshopId;
 
     /**
+     * @var boolean
+     */
+    protected $approved;
+
+    /**
      * @var float
      */
     protected $grandTotal;
@@ -69,5 +76,10 @@ class CheckoutData extends Struct
     public function getGrandTotal(): ?float
     {
         return $this->grandTotal;
+    }
+
+    public function getApproved(): bool
+    {
+        return $this->approved;
     }
 }

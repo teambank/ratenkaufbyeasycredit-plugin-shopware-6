@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
  * For the full copyright and license information, please view the LICENSE
@@ -50,8 +52,9 @@ class Payment
             ->filterByProperty('id', $paymentMethodId)
             ->count() > 0;
     }
-    
-    public function getPaymentMethodByHandler ($handlerClass, Context $context) {
+
+    public function getPaymentMethodByHandler($handlerClass, Context $context)
+    {
         return $this->getPaymentMethods($context)
             ->filterByProperty('handlerIdentifier', $handlerClass)->first();
     }
@@ -64,13 +67,15 @@ class Payment
 
     public function getPaymentMethodByPaymentType($paymentType, Context $context)
     {
+        $paymentType = \str_replace('_PAYMENT', '', $paymentType);
         return $this->getPaymentMethods($context)
             ->filter(function (PaymentMethodEntity $struct) use ($paymentType) {
                 return $this->getHandlerByPaymentMethodId($struct->get('id'))->getPaymentType() === $paymentType;
             })->first();
     }
 
-    public function getHandlerByPaymentMethodId($paymentMethodId) {
+    public function getHandlerByPaymentMethodId($paymentMethodId)
+    {
         // prefer the newer getPaymentMethodHandler instead of getHandler (removed from v6.5)
         return \method_exists($this->paymentHandlerRegistry, 'getPaymentMethodHandler') ?
             $this->paymentHandlerRegistry->getPaymentMethodHandler($paymentMethodId) :
@@ -92,7 +97,8 @@ class Payment
         return $this->paymentMethodIdCache[$cacheId];
     }
 
-    public function getActivePaymentMethods(SalesChannelContext $salesChannelContext) {
+    public function getActivePaymentMethods(SalesChannelContext $salesChannelContext)
+    {
         $context = $salesChannelContext->getContext();
 
         $paymentMethods = $this->getPaymentMethods($context)->filter(static function ($paymentMethod) {
@@ -116,7 +122,7 @@ class Payment
     ): ?PaymentMethodCollection {
         $criteria = new Criteria([$salesChannelEntity->getId()]);
         $criteria->addAssociation('paymentMethods');
-        
+
         /** @var SalesChannelEntity|null $result */
         $result = $this->salesChannelRepository->search($criteria, $context)->get($salesChannelEntity->getId());
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
  * For the full copyright and license information, please view the LICENSE
@@ -20,8 +22,8 @@ use Netzkollektiv\EasyCredit\Api\Quote\ItemBuilder;
 use Netzkollektiv\EasyCredit\Api\Quote\CustomerBuilder;
 use Netzkollektiv\EasyCredit\Cart\Processor;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
-use Netzkollektiv\EasyCredit\Payment\Handler\BillPaymentHandler;
-use Netzkollektiv\EasyCredit\Payment\Handler\InstallmentPaymentHandler;
+use Netzkollektiv\EasyCredit\Payment\Handler\AbstractHandler;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\Transaction;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\ShippingAddress;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\InvoiceAddress;
@@ -30,13 +32,15 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class QuoteBuilder
 {
-    private Cart $cart;
+    protected Cart $cart;
 
     private SalesChannelContext $salesChannelContext;
 
-    private CustomerEntity $customer;
+    private ?CustomerEntity $customer;
 
     private UrlGeneratorInterface $router;
+
+    private RequestStack $requestStack;
 
     private SettingsServiceInterface $settings;
 
@@ -44,7 +48,7 @@ class QuoteBuilder
 
     private PaymentHelper $paymentHelper;
 
-    private AddressBuilder $addressBuilder;
+    protected AddressBuilder $addressBuilder;
 
     private ItemBuilder $itemBuilder;
 
@@ -54,6 +58,7 @@ class QuoteBuilder
 
     public function __construct(
         UrlGeneratorInterface $router,
+        RequestStack $requestStack,
         SettingsServiceInterface $settingsService,
         Storage $storage,
         PaymentHelper $paymentHelper,
@@ -63,7 +68,7 @@ class QuoteBuilder
         SystemBuilder $systemBuilder
     ) {
         $this->router = $router;
-
+        $this->requestStack = $requestStack;
         $this->settings = $settingsService;
         $this->storage = $storage;
         $this->paymentHelper = $paymentHelper;
@@ -78,8 +83,8 @@ class QuoteBuilder
     {
         if ($this->cart instanceof Cart) {
             return $this->cart->getToken();
-	    }
-	    return null;
+        }
+        return null;
     }
 
     public function getShippingMethod(): ?string
@@ -91,38 +96,42 @@ class QuoteBuilder
         $shippingMethod = $delivery->getShippingMethod()->getName();
 
         if ($this->getIsClickAndCollect()) {
-            $shippingMethod = '[Selbstabholung] '.$shippingMethod;
+            $shippingMethod = '[Selbstabholung] ' . $shippingMethod;
         }
         return $shippingMethod;
     }
 
-    public function getIsClickAndCollect(): Bool {
+    public function getIsClickAndCollect(): Bool
+    {
         $delivery = $this->cart->getDeliveries()->first();
         if ($delivery === null) {
             return false;
         }
-        
+
         return $delivery->getShippingMethod()->getId()
             === $this->settings->getSettings($this->salesChannelContext->getSalesChannel()->getId())->getClickAndCollectShippingMethod();
     }
 
-    public function getDuration(): ?string {
+    public function getDuration(): ?string
+    {
         return $this->storage->get('duration');
     }
 
     public function getPaymentType()
     {
-        $transaction = $this->cart->getTransactions()->first();
-        if (!$transaction) {
-            return null;
+        $methodId = $this->salesChannelContext->getPaymentMethod()->get('id');
+
+        $request = $this->requestStack->getCurrentRequest();
+        if ($request->get('easycredit') && isset($request->get('easycredit')['paymentType'])) {
+            $methodId = $this->paymentHelper->getPaymentMethodByPaymentType(
+                $request->get('easycredit')['paymentType'],
+                $this->salesChannelContext->getContext()
+            )->get('id');
         }
 
-        $paymentHandler = $this->paymentHelper->getHandlerByPaymentMethodId(
-            $this->cart->getTransactions()->first()->getPaymentMethodId()
-        );
-        if ($paymentHandler instanceof InstallmentPaymentHandler
-            || $paymentHandler instanceof BillPaymentHandler) {
-            return $paymentHandler->getPaymentType();
+        $paymentHandler = $this->paymentHelper->getHandlerByPaymentMethodId($methodId);
+        if ($paymentHandler instanceof AbstractHandler) {
+            return $paymentHandler->getPaymentType() . '_PAYMENT';
         }
     }
 
@@ -156,10 +165,6 @@ class QuoteBuilder
 
     public function getCustomer()
     {
-        /*if ($this->customer->getActiveBillingAddress() === null) {
-            throw new QuoteInvalidException();
-        }*/
-
         if (!$this->customer) {
             return null;
         }
@@ -170,7 +175,8 @@ class QuoteBuilder
         );
     }
 
-    public function getSystem() {
+    public function getSystem()
+    {
         return $this->systemBuilder->build();
     }
 
@@ -202,7 +208,8 @@ class QuoteBuilder
         return $_items;
     }
 
-    protected function getRedirectLinks() {
+    protected function getRedirectLinks()
+    {
         return new RedirectLinks([
             'urlSuccess' => $this->router->generate('frontend.easycredit.return', [], UrlGeneratorInterface::ABSOLUTE_URL),
             'urlCancellation' => $this->router->generate('frontend.easycredit.cancel', [], UrlGeneratorInterface::ABSOLUTE_URL),
@@ -210,11 +217,13 @@ class QuoteBuilder
         ]);
     }
 
-    protected function isExpress() {
+    protected function isExpress()
+    {
         return $this->storage->get('express');
     }
 
-    public function build($cart, SalesChannelContext $salesChannelContext): Transaction {
+    public function build($cart, SalesChannelContext $salesChannelContext): Transaction
+    {
         $this->cart = $cart;
         $this->salesChannelContext = $salesChannelContext;
         $this->customer = $salesChannelContext->getCustomer();
@@ -230,7 +239,7 @@ class QuoteBuilder
 
         return new Transaction([
             'paymentType' => $this->getPaymentType(),
-            'paymentSwitchPossible' => count($this->paymentHelper->getActivePaymentMethods($salesChannelContext)) > 1, // Switch between installment & bill payment should be possible if both methods are enabled
+            'paymentSwitchPossible' => \count($this->paymentHelper->getActivePaymentMethods($salesChannelContext)) > 1, // Switch between installment & bill payment should be possible if both methods are enabled
             'financingTerm' => (int) $this->getDuration(),
             'orderDetails' => new OrderDetails([
                 'orderValue' => $this->getGrandTotal(),

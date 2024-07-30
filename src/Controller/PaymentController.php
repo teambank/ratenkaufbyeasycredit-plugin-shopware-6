@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * (c) NETZKOLLEKTIV GmbH <kontakt@netzkollektiv.com>
  * For the full copyright and license information, please view the LICENSE
@@ -25,6 +27,7 @@ use Shopware\Core\System\SalesChannel\Context\SalesChannelContextService;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Framework\Validation\Exception\ConstraintViolationException;;
+
 use Shopware\Core\Framework\Validation\DataBag\DataBag;
 
 use Teambank\RatenkaufByEasyCreditApiV3\Model\TransactionInformation;
@@ -90,28 +93,27 @@ class PaymentController extends StorefrontController
         return $this->redirectToRoute('frontend.checkout.confirm.page');
     }
 
-    public function express(SalesChannelContext $salesChannelContext): RedirectResponse
+    public function express(Request $request, SalesChannelContext $salesChannelContext): RedirectResponse
     {
+        $params = $request->get('easycredit');
+
         $this->storage
             ->set('contextToken', $salesChannelContext->getToken())
             ->set('express', true);
 
         try {
+            $paymentMethod = $this->paymentHelper->getPaymentMethodByPaymentType($params['paymentType'], $salesChannelContext->getContext());
             $this->updatePaymentMethod(
-                $this->paymentHelper->getPaymentMethodByHandler(
-                    HandlerInstallmentPaymentHandler::class,
-                    $salesChannelContext->getContext()
-                ),
+                $paymentMethod,
                 $salesChannelContext
             );
-
             $this->checkoutService->startCheckout($salesChannelContext);
         } catch (ConstraintViolationException $violations) {
             $errors = [];
             foreach ($violations->getViolations() as $violation) {
                 $errors[] = $violation->getMessage();
             }
-            $this->storage->set('error',\implode(',', $errors));
+            $this->storage->set('error', \implode(',', $errors));
         }
 
         if ($this->storage->get('error')) {
@@ -148,16 +150,19 @@ class PaymentController extends StorefrontController
                 $transaction->getTransaction()->getPaymentType(),
                 $salesChannelContext->getContext()
             );
+
             $this->updatePaymentMethod($paymentMethod, $salesChannelContext);
 
             return $this->redirectToRoute('frontend.checkout.confirm.page');
         } catch (\Throwable $e) {
-            $this->storage->set('error', $e->getMessage());
+            $this->storage->set('error', $e->getMessage() . $e->getTraceAsString());
             return $this->redirectToRoute('frontend.checkout.cart.page');
         }
     }
 
-    protected function updatePaymentMethod($paymentMethod, $salesChannelContext) {
+    protected function updatePaymentMethod($paymentMethod, $salesChannelContext)
+    {
+        // will be effective after redirect (or reload of context specifically)
         $this->contextSwitchRoute->switchContext(new RequestDataBag([
             SalesChannelContextService::PAYMENT_METHOD_ID => $paymentMethod->get('id')
         ]), $salesChannelContext);
