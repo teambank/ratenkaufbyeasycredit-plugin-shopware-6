@@ -18,7 +18,9 @@ test.describe("Widget should be visible @product", () => {
 
 test.describe("Widget should be visible outside amount constraint @product", () => {
   test("widgetProductOutsideAmount", async ({ page }) => {
-    await goToProduct(page, "below50");
+    await test.step(`Go to product (sku: below50)`, async () => {
+      await page.goto('/Below-50/below50');
+    });
     await expect(
       await page
         .locator('[itemprop="offers"]')

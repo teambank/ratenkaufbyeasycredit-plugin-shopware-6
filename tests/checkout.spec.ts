@@ -249,7 +249,9 @@ test.describe("amount change should invalidate payment @express", () => {
 
 test.describe("product below amount constraint should not be buyable @bill @installment", () => {
   test("productBelowAmountConstraints", async ({ page }) => {
-    await goToProduct(page, "below50");
+    await test.step(`Go to product (sku: below50)`, async () => {
+      await page.goto('/Below-50/below50');
+    });
     await addCurrentProductToCart(page);
 
     await page.goto("checkout/confirm");

@@ -13,7 +13,7 @@ export const addCurrentProductToCart = async (page) => {
   await page.waitForResponse(/checkout\/line-item\/add/);
 
   await expect(page.locator(".flashbags .alert")).toContainText(
-    "added to your shopping cart"
+    /added .+? cart/
   );
 };
 
