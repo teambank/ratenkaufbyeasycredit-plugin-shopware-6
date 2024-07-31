@@ -69,17 +69,17 @@ class Payment
     {
         $paymentType = \str_replace('_PAYMENT', '', $paymentType);
         return $this->getPaymentMethods($context)
-            ->filter(function (PaymentMethodEntity $struct) use ($paymentType) {
-                return $this->getHandlerByPaymentMethodId($struct->get('id'))->getPaymentType() === $paymentType;
+            ->filter(function (PaymentMethodEntity $paymentMethod) use ($paymentType) {
+                return $this->getHandlerByPaymentMethod($paymentMethod)->getPaymentType() === $paymentType;
             })->first();
     }
 
-    public function getHandlerByPaymentMethodId($paymentMethodId)
+    public function getHandlerByPaymentMethod($paymentMethod)
     {
         // prefer the newer getPaymentMethodHandler instead of getHandler (removed from v6.5)
         return \method_exists($this->paymentHandlerRegistry, 'getPaymentMethodHandler') ?
-            $this->paymentHandlerRegistry->getPaymentMethodHandler($paymentMethodId) :
-            $this->paymentHandlerRegistry->getHandler($paymentMethodId);
+            $this->paymentHandlerRegistry->getPaymentMethodHandler($paymentMethod->get('id')) :
+            $this->paymentHandlerRegistry->getHandler($paymentMethod->getHandlerIdentifier());
     }
 
     public function getPaymentMethods(Context $context): EntityCollection

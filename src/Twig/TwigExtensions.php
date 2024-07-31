@@ -35,7 +35,7 @@ class TwigExtensions extends AbstractExtension
     public function getPaymentType(PaymentMethodEntity $payment)
     {
         return $this->paymentHelper
-            ->getHandlerByPaymentMethodId($payment->getId())
+            ->getHandlerByPaymentMethod($payment)
             ->getPaymentType();
     }
 }

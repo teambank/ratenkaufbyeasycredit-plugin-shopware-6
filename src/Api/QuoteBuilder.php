@@ -126,17 +126,17 @@ class QuoteBuilder
 
     public function getPaymentType()
     {
-        $methodId = $this->salesChannelContext->getPaymentMethod()->get('id');
+        $method = $this->salesChannelContext->getPaymentMethod();
 
         $request = $this->requestStack->getCurrentRequest();
         if ($request->get('easycredit') && isset($request->get('easycredit')['paymentType'])) {
-            $methodId = $this->paymentHelper->getPaymentMethodByPaymentType(
+            $method = $this->paymentHelper->getPaymentMethodByPaymentType(
                 $request->get('easycredit')['paymentType'],
                 $this->salesChannelContext->getContext()
-            )->get('id');
+            );
         }
 
-        $paymentHandler = $this->paymentHelper->getHandlerByPaymentMethodId($methodId);
+        $paymentHandler = $this->paymentHelper->getHandlerByPaymentMethod($method);
         if ($paymentHandler instanceof AbstractHandler) {
             return $paymentHandler->getPaymentType() . '_PAYMENT';
         }
