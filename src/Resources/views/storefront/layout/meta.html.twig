@@ -15,6 +15,10 @@
     <meta name="easycredit-amount" content="{{page.extensions.easycredit.amount}}" />
     {% endif %}
 
+    {% if page.extensions.easycredit.disableFlexprice %}
+    <meta name="easycredit-disable-flexprice" content="{{page.extensions.easycredit.disableFlexprice}}" />
+    {% endif %}
+
 {% endblock %}
 
 {# >= SW 6.5 #}

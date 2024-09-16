@@ -7,7 +7,7 @@
         },
         "settingForm": {
             "save": "Speichern",
-            "test": "API Zugangsdaten testen",
+            "test": "API Zugangsdaten testen & Kennung synchronisieren",
             "titleSaveSuccess": "easyCredit-Ratenkauf Einstellungen",
             "titleTestSuccess": "API Zugangsdaten",
             "titleTestError": "API Zugangsdaten Fehler",
@@ -18,7 +18,8 @@
         },
         "rule": {
             "cartAmountRule": "Gesamtsumme, exkl. Zinsen (kompatibel mit easyCredit-Ratenkauf)",
-            "cartPositionPrice": "Summe, exkl. Zinsen (kompatibel mit easyCredit-Ratenkauf)"
+            "cartPositionPrice": "Summe, exkl. Zinsen (kompatibel mit easyCredit-Ratenkauf)",
+            "flexPriceType": "easyCredit: Zinsflex-Ausnahme"
         }
     }
 }

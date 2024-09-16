@@ -21,6 +21,8 @@
           askForPrefix="{{ easycredit.isPrefixValid ? 'false' : 'true' }}"
           {% if easycredit.error %}alert="{{easycredit.error}}"{% endif %}
           {% if easycredit.paymentPlan %}payment-plan="{{ easycredit.paymentPlan | e }}"{% endif %}
+          {% if easycredit.disableFlexprice %}disable-flexprice="true"{% endif %}
+
         ></easycredit-checkout>
 
     {% else %}
