@@ -73,7 +73,7 @@ class Marketing implements EventSubscriberInterface
 
         $this->addVariables($event->getPage(), [
             'widgetSelector' => $settings->getWidgetSelectorProductDetail(),
-            'disableFlexprice' => $this->flexpriceService->shouldDisableFlexprice($context, $this->flexpriceService->getCartForProduct($context, $product)),
+            'disableFlexprice' => $this->flexpriceService->shouldDisableFlexpriceForProduct($context, $product),
             'amount' => (\count($product->getCalculatedPrices()) > 0 ) ? $product->getCalculatedPrices()->last()->getUnitPrice() : $product->getCalculatedPrice()->getUnitPrice()
         ]);
     }

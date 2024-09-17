@@ -20,19 +20,32 @@ use Shopware\Core\Checkout\Cart\CartService;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Framework\Uuid\Uuid;
+use Shopware\Core\Content\Product\SalesChannel\SalesChannelProductEntity;
+use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 
 class FlexpriceService {
 
     private EntityRepository $ruleRepository;
 
+    private SettingsServiceInterface $settingsService;
+
     private $cartService;
 
     public function __construct(
         EntityRepository $ruleRepository,
+        SettingsServiceInterface $settingsService,
         $cartService
     ) {
         $this->ruleRepository = $ruleRepository;
+        $this->settingsService = $settingsService;
         $this->cartService = $cartService;
+    }
+
+    public function isEnabled(SalesChannelContext $salesChannelContext) {
+        $webshopInfo = $this->settingsService
+            ->getSettings($salesChannelContext->getSalesChannel()->getId())
+            ->getWebshopInfo();
+        return is_array($webshopInfo) && isset($webshopInfo['flexprice']) && $webshopInfo['flexprice'] === true;
     }
 
     protected function getFlexpriceRule(Context $context)
@@ -48,8 +61,11 @@ class FlexpriceService {
         return $rule->getPayload()->match(new CartRuleScope($cart, $salesChannelContext));
     }
 
-    public function getCartForProduct (SalesChannelContext $salesChannelContext, $product, $quantity = 1) {
-        $cart = new Cart($salesChannelContext->getToken());
+    protected function getCartForProduct (SalesChannelContext $salesChannelContext, $product, $quantity = 1) {
+        $reflection = new \ReflectionClass(Cart::class);
+        $cart = $reflection->getConstructor()->getNumberOfParameters() == 2 ?
+           new Cart('temporaryCart', $salesChannelContext->getToken()):
+           new Cart($salesChannelContext->getToken());
 
         $lineItem = (new LineItem(Uuid::randomHex(), LineItem::PRODUCT_LINE_ITEM_TYPE, $product->getId(), $quantity))
             ->setGood(true)
@@ -60,11 +76,24 @@ class FlexpriceService {
     }
 
     public function shouldDisableFlexprice (SalesChannelContext $salesChannelContext, Cart $cart) {
+        if (!$this->isEnabled($salesChannelContext)) {
+            return false;
+        }
+
         $evaluated = $this->evaluateRule(
             $this->getFlexpriceRule($salesChannelContext->getContext()),
             $cart,
             $salesChannelContext
         );
         return $evaluated;
+    }
+
+    public function shouldDisableFlexpriceForProduct(SalesChannelContext $salesChannelContext, SalesChannelProductEntity $product, $quantity = 1) {
+        if (!$this->isEnabled($salesChannelContext)) {
+            return false;
+        }
+
+        $cart = $this->getCartForProduct($salesChannelContext, $product, $quantity);
+        return $this->shouldDisableFlexprice($salesChannelContext, $cart);
     }
 }

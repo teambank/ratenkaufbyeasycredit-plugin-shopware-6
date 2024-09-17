@@ -152,7 +152,7 @@ class SettingStruct extends Struct
     protected $expressCartEnabled = true;
 
     /**
-     * @var string|null
+     * @var array|null
      */
     protected $webshopInfo = null;
 
@@ -436,12 +436,12 @@ class SettingStruct extends Struct
         $this->expressCartEnabled = $expressCartEnabled;
     }
 
-    public function getWebshopInfo(): bool
+    public function getWebshopInfo(): ?array
     {
-        return (bool) $this->webshopInfo;
+        return $this->webshopInfo;
     }
 
-    public function setWebshopInfo(bool $webshopInfo): void
+    public function setWebshopInfo(array $webshopInfo): void
     {
         $this->webshopInfo = $webshopInfo;
     }

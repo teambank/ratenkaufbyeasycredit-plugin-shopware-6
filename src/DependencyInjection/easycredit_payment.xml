@@ -252,6 +252,7 @@
         </service>
         <service id="Netzkollektiv\EasyCredit\Service\FlexpriceService">
             <argument type="service" id="rule.repository"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>
             <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService" />
         </service>
         <service id="Netzkollektiv\EasyCredit\Subscriber\CheckoutValidationSubscriber">
