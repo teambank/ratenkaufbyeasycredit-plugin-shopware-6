@@ -15,6 +15,7 @@ use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Netzkollektiv\EasyCredit\Setting\Exception\SettingsInvalidException;
 use Netzkollektiv\EasyCredit\Setting\Service\SettingsServiceInterface;
 use Netzkollektiv\EasyCredit\Cart\InterestError;
+use Netzkollektiv\EasyCredit\Service\FlexpriceService;
 use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
@@ -33,6 +34,8 @@ class Checkout implements EventSubscriberInterface
 
     private Storage $storage;
 
+    private FlexpriceService $flexpriceService;
+
     private $cache;
 
     private $logger;
@@ -43,6 +46,7 @@ class Checkout implements EventSubscriberInterface
         IntegrationFactory $integrationFactory,
         QuoteHelper $quoteHelper,
         Storage $storage,
+        FlexpriceService $flexpriceService,
         LoggerInterface $logger,
         TagAwareAdapterInterface $cache
     ) {
@@ -51,6 +55,7 @@ class Checkout implements EventSubscriberInterface
         $this->integrationFactory = $integrationFactory;
         $this->quoteHelper = $quoteHelper;
         $this->storage = $storage;
+        $this->flexpriceService = $flexpriceService;
         $this->logger = $logger;
         $this->cache = $cache;
     }
@@ -136,6 +141,7 @@ class Checkout implements EventSubscriberInterface
             'paymentMethodId' => $paymentMethodId,
             'isSelected' => $isSelected,
             'paymentPlan' => $this->buildPaymentPlan($this->storage->get('summary')),
+            'disableFlexprice' => $this->flexpriceService->shouldDisableFlexprice($salesChannelContext, $cart),
             'error' => $error,
             'webshopId' => $settings->getWebshopId()
         ]));

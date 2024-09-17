@@ -19,6 +19,7 @@ use Shopware\Storefront\Page\Navigation\NavigationPageLoadedEvent;
 use Shopware\Storefront\Page\GenericPageLoadedEvent;
 use Shopware\Storefront\Page\Search\SearchPageLoadedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Netzkollektiv\EasyCredit\Service\FlexpriceService;
 
 use Shopware\Core\Framework\Struct\ArrayEntity;
 
@@ -30,14 +31,18 @@ class Marketing implements EventSubscriberInterface
 
     private PaymentHelper $paymentHelper;
 
+    private FlexpriceService $flexpriceService;
+
     public function __construct(
         SettingsServiceInterface $settingsService,
         CartService $cartService,
-        PaymentHelper $paymentHelper
+        PaymentHelper $paymentHelper,
+        FlexpriceService $flexpriceService
     ) {
         $this->settings = $settingsService;
         $this->cartService = $cartService;
         $this->paymentHelper = $paymentHelper;
+        $this->flexpriceService = $flexpriceService;
     }
 
     public static function getSubscribedEvents(): array
@@ -68,6 +73,7 @@ class Marketing implements EventSubscriberInterface
 
         $this->addVariables($event->getPage(), [
             'widgetSelector' => $settings->getWidgetSelectorProductDetail(),
+            'disableFlexprice' => $this->flexpriceService->shouldDisableFlexpriceForProduct($context, $product),
             'amount' => (\count($product->getCalculatedPrices()) > 0 ) ? $product->getCalculatedPrices()->last()->getUnitPrice() : $product->getCalculatedPrice()->getUnitPrice()
         ]);
     }

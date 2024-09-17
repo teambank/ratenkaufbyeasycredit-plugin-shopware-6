@@ -7,7 +7,7 @@
         },
         "settingForm": {
             "save": "Save",
-            "test": "Test API credentials",
+            "test": "Test API access data & synchronise ID",
             "titleSaveSuccess": "easyCredit-Ratenkauf settings",
             "titleTestSuccess": "API credentials",
             "titleTestError": "API credentials error",
@@ -18,7 +18,8 @@
         },
         "rule": {
             "cartAmountRule": "Grand total, excl. interest (compatible with easyCredit-Ratenkauf)",
-            "cartPositionPrice": "Total, excl. interest (compatible with easyCredit-Ratenkauf)"
+            "cartPositionPrice": "Total, excl. interest (compatible with easyCredit-Ratenkauf)",
+            "flexPriceType": "easyCredit: Flexprice-Exception"
         }
     }
 }

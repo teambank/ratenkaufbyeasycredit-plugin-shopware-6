@@ -20,12 +20,12 @@ use Netzkollektiv\EasyCredit\Api\Quote\AddressBuilder;
 use Netzkollektiv\EasyCredit\Api\Quote\ItemBuilder;
 use Netzkollektiv\EasyCredit\Api\Quote\CustomerBuilder;
 use Netzkollektiv\EasyCredit\Cart\Processor;
+use Netzkollektiv\EasyCredit\Service\FlexpriceService;
 
 use Teambank\RatenkaufByEasyCreditApiV3\Integration;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\Transaction;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\ShippingAddress;
 use Teambank\RatenkaufByEasyCreditApiV3\Model\InvoiceAddress;
-
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class QuoteBuilder
@@ -38,7 +38,7 @@ class QuoteBuilder
     /**
      * @var SalesChannelContext
      */
-    protected $context;
+    protected $salesChannelContext;
 
     /**
      * @var CustomerEntity
@@ -56,6 +56,8 @@ class QuoteBuilder
 
     protected $router; 
 
+    protected $flexpriceService;
+
     protected $addressBuilder;
 
     protected $itemBuilder;
@@ -69,6 +71,7 @@ class QuoteBuilder
         SettingsServiceInterface $settingsService,
         Storage $storage,
         UrlGeneratorInterface $router,
+        FlexpriceService $flexpriceService,
         AddressBuilder $addressBuilder,
         ItemBuilder $itemBuilder,
         CustomerBuilder $customerBuilder,
@@ -78,6 +81,7 @@ class QuoteBuilder
         $this->settings = $settingsService;
         $this->storage = $storage;
         $this->router = $router;
+        $this->flexpriceService = $flexpriceService;
         $this->addressBuilder = $addressBuilder;
         $this->itemBuilder = $itemBuilder;
         $this->customerBuilder = $customerBuilder;
@@ -113,7 +117,7 @@ class QuoteBuilder
         }
         
         return $delivery->getShippingMethod()->getId() 
-            === $this->settings->getSettings($this->context->getSalesChannel()->getId())->getClickAndCollectShippingMethod();
+            === $this->settings->getSettings($this->salesChannelContext->getSalesChannel()->getId())->getClickAndCollectShippingMethod();
     }
 
     public function getDuration(): ?string {
@@ -186,7 +190,7 @@ class QuoteBuilder
                 continue;
             }
 
-            $quoteItem = $this->itemBuilder->build($item, $this->context);
+            $quoteItem = $this->itemBuilder->build($item, $this->salesChannelContext);
             if ($quoteItem->getPrice() <= 0) {
                 continue;
             }
@@ -208,10 +212,10 @@ class QuoteBuilder
         return $this->storage->get('express');
     }
 
-    public function build($cart, SalesChannelContext $context): Transaction {
+    public function build($cart, SalesChannelContext $salesChannelContext): Transaction {
         $this->cart = $cart;
-        $this->context = $context;
-        $this->customer = $context->getCustomer();
+        $this->salesChannelContext = $salesChannelContext;
+        $this->customer = $salesChannelContext->getCustomer();
 
         if (!$this->isExpress()) {
             if ($cart instanceof Cart && $cart->getDeliveries()->getAddresses()->first() === null) {
@@ -230,7 +234,8 @@ class QuoteBuilder
                 'numberOfProductsInShoppingCart' => \count($this->getItems()),
                 'invoiceAddress' => $this->isExpress() ? null : $this->getInvoiceAddress(),
                 'shippingAddress' => $this->isExpress() ? null : $this->getShippingAddress(),
-                'shoppingCartInformation' => $this->getItems()
+                'shoppingCartInformation' => $this->getItems(),
+                'withoutFlexprice' => $this->flexpriceService->shouldDisableFlexprice($this->salesChannelContext, $this->cart)
             ]),
             'shopsystem' => $this->getSystem(),
             'customer' => $this->getCustomer(),
