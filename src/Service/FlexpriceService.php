@@ -49,7 +49,7 @@ class FlexpriceService {
     }
 
     public function getCartForProduct (SalesChannelContext $salesChannelContext, $product, $quantity = 1) {
-        $cart = new Cart(Uuid::randomHex(), $salesChannelContext->getToken());
+        $cart = new Cart($salesChannelContext->getToken());
 
         $lineItem = (new LineItem(Uuid::randomHex(), LineItem::PRODUCT_LINE_ITEM_TYPE, $product->getId(), $quantity))
             ->setGood(true)
