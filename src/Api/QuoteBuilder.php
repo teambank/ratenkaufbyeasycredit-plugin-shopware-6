@@ -53,7 +53,7 @@ class QuoteBuilder
 
     private FlexpriceService $flexpriceService;
 
-    private AddressBuilder $addressBuilder;
+    protected AddressBuilder $addressBuilder;
 
     private ItemBuilder $itemBuilder;
 

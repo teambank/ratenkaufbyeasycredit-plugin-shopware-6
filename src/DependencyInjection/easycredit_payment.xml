@@ -216,18 +216,6 @@
 
             <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>            
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
-            <argument type="service" id="router"/>
-            <argument type="service" id="Netzkollektiv\EasyCredit\Service\FlexpriceService" />
-            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Quote\AddressBuilder" />
-            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Quote\ItemBuilder" />
-            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Quote\CustomerBuilder" />
-            <argument type="service" id="Netzkollektiv\EasyCredit\Api\SystemBuilder" />
-        </service>
-        <service id="Netzkollektiv\EasyCredit\Api\OrderBuilder">
-            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\MetaDataProvider" />
-            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>            
-            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
-            <argument type="service" id="router"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Service\FlexpriceService" />
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Payment"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Quote\AddressBuilder" />
@@ -235,6 +223,17 @@
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Quote\CustomerBuilder" />
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\SystemBuilder" />
         </service>
+        <!-- service id="Netzkollektiv\EasyCredit\Api\OrderBuilder">
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\MetaDataProvider" />
+            <argument type="service" id="Netzkollektiv\EasyCredit\Setting\Service\SettingsService"/>            
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Service\FlexpriceService" />
+            <argument type="service" id="Netzkollektiv\EasyCredit\Helper\Payment"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Quote\AddressBuilder" />
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Quote\ItemBuilder" />
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\Quote\CustomerBuilder" />
+            <argument type="service" id="Netzkollektiv\EasyCredit\Api\SystemBuilder" />
+        </service -->
         <service id="Netzkollektiv\EasyCredit\Api\OrderBuilder" parent="Netzkollektiv\EasyCredit\Api\QuoteBuilder" />
 
         <service id="Netzkollektiv\EasyCredit\Api\Quote\ItemBuilder">
