@@ -1,3 +1,7 @@
+# 3.0.0
+
+* Integration von easyCredit-Rechnung
+
 # 2.2.4
 
 * Integration von Ausnahmemöglichkeiten von Zins-Flex via RuleBuilder
