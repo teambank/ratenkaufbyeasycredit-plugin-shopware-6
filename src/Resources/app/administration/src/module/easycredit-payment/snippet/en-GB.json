@@ -98,7 +98,7 @@
         },
         "intro": {
             "introLinks": {
-                "title": "Start with easyCredit-Ratenkauf",
+                "title": "Start with easyCredit",
                 "register": "Register as a trader",
                 "documentation": "Documentation",
                 "demoshop": "Demo shop",
@@ -108,16 +108,16 @@
             }
         },
         "clickAndCollect": {
-            "introText": "<p>You want to use Click&Collect for easyCredit-Ratenkauf? Nothing could be simpler! To be able to use the feature, you need an additional supplementary agreement to your factoring contract. To do so, simply contact your key account manager or ask him via our <a href=\"https://www.easycredit-ratenkauf.de/click-und-collect/\" target=\"_blank\">Click&Collect form</a>.</p><p>It is important for you that when using Click&Collect you must ensure that the purchased product is handed over exclusively to the contractual partner. The responsibility for the correct handover lies with you as the merchant.</p><p>Please set the shipping method with which you offer Click&Collect in the following:</p>"
+            "introText": "<p>You want to use Click&Collect for easyCredit? Nothing could be simpler! To be able to use the feature, you need an additional supplementary agreement to your factoring contract. To do so, simply contact your key account manager or ask him via our <a href=\"https://www.easycredit-ratenkauf.de/click-und-collect/\" target=\"_blank\">Click&Collect form</a>.</p><p>It is important for you that when using Click&Collect you must ensure that the purchased product is handed over exclusively to the contractual partner. The responsibility for the correct handover lies with you as the merchant.</p><p>Please set the shipping method with which you offer Click&Collect in the following:</p>"
         },
         "transactionHandling": {
             "capture": {
                 "label": "Report delivery automatically?",
-                "helpText": "If this option is set, the delivery is automatically reported to easyCredit-Ratenkauf when the status of the delivery changes to \"Shipped\"."
+                "helpText": "If this option is set, the delivery is automatically reported to easyCredit when the status of the delivery changes to \"Shipped\"."
             },
             "refund": {
                 "label": "Refund transactions automatically?",
-                "helpText": "If this option is set, the refund is automatically reported to easyCredit-Ratenkauf when the status of the delivery changes to \"Returned\"."
+                "helpText": "If this option is set, the refund is automatically reported to easyCredit when the status of the delivery changes to \"Returned\"."
             },
             "note": "To define the transaction status, the actions \"Report delivery\" and \"Refund\" are available in Flow Builder. You can configure the actions flexibly and thus adapt them optimally to your order processing.",
             "goto": "Go to"
@@ -125,7 +125,7 @@
         "marketing": {
             "overview": {
                 "title": "Overview",
-                "introText": "We provide you with a range of marketing components that you can easily activate in your online shop. In this way, you achieve an optimal presentation of financing via easyCredit-Ratenkauf, for higher sales and satisfied customers.",
+                "introText": "We provide you with a range of marketing components that you can easily activate in your online shop. In this way, you achieve an optimal presentation of payment via easyCredit, for higher sales and satisfied customers.",
                 "introLinks": {
                     "title": "Useful links",
                     "documentation": "Documentation",
