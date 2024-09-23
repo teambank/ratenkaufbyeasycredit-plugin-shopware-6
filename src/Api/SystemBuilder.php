@@ -7,7 +7,7 @@
 
 namespace Netzkollektiv\EasyCredit\Api;
 
-use Teambank\RatenkaufByEasyCreditApiV3\Model\Shopsystem;
+use Teambank\EasyCreditApiV3\Model\Shopsystem;
 use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 
 class SystemBuilder

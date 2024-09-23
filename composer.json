@@ -11,7 +11,7 @@
     ],
     "require": {
         "shopware/core": ">= 6.4",
-        "netzkollektiv/ratenkaufbyeasycredit-api-v3-php": "dev-invoice"
+        "netzkollektiv/easycredit-api-v3-php": "^2.0"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.10",

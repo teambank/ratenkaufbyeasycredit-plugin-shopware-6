@@ -7,14 +7,14 @@
 
 namespace Netzkollektiv\EasyCredit\Api\Quote;
 
-use Teambank\RatenkaufByEasyCreditApiV3\Model\ArticleNumberItem;
+use Teambank\EasyCreditApiV3\Model\ArticleNumberItem;
 use Netzkollektiv\EasyCredit\Helper\MetaDataProvider;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Content\Seo\SeoUrlPlaceholderHandlerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Teambank\RatenkaufByEasyCreditApiV3\Integration;
-use Teambank\RatenkaufByEasyCreditApiV3\Model\ShoppingCartInformationItem;
+use Teambank\EasyCreditApiV3\Integration;
+use Teambank\EasyCreditApiV3\Model\ShoppingCartInformationItem;
 
 class ItemBuilder
 {

@@ -19,8 +19,8 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Psr\Log\LoggerInterface;
-use Teambank\RatenkaufByEasyCreditApiV3\Integration\ValidationException;
-use Teambank\RatenkaufByEasyCreditApiV3\ApiException;
+use Teambank\EasyCreditApiV3\Integration\ValidationException;
+use Teambank\EasyCreditApiV3\ApiException;
 use Netzkollektiv\EasyCredit\Service\CheckoutService;
 
 class Redirector implements EventSubscriberInterface

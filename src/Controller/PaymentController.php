@@ -30,7 +30,7 @@ use Shopware\Core\Framework\Validation\Exception\ConstraintViolationException;;
 
 use Shopware\Core\Framework\Validation\DataBag\DataBag;
 
-use Teambank\RatenkaufByEasyCreditApiV3\Model\TransactionInformation;
+use Teambank\EasyCreditApiV3\Model\TransactionInformation;
 use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Netzkollektiv\EasyCredit\EasyCreditRatenkauf;
 use Netzkollektiv\EasyCredit\Payment\StateHandler;

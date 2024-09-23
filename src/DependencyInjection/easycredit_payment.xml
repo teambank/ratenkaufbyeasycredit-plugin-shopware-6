@@ -241,9 +241,9 @@
             <argument type="service" id="Shopware\Core\Content\Seo\SeoUrlPlaceholderHandlerInterface" />
         </service>
         <service id="Netzkollektiv\EasyCredit\Api\Quote\CustomerBuilder">
-            <argument type="service" id="Teambank\RatenkaufByEasyCreditApiV3\Integration\Util\PrefixConverter" />
+            <argument type="service" id="Teambank\EasyCreditApiV3\Integration\Util\PrefixConverter" />
         </service>
-        <service id="Teambank\RatenkaufByEasyCreditApiV3\Integration\Util\PrefixConverter" />
+        <service id="Teambank\EasyCreditApiV3\Integration\Util\PrefixConverter" />
         <service id="Netzkollektiv\EasyCredit\Api\SystemBuilder">
             <argument type="service" id="Netzkollektiv\EasyCredit\Helper\MetaDataProvider" />
         </service>

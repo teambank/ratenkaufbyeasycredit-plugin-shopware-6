@@ -11,8 +11,8 @@ namespace Netzkollektiv\EasyCredit\Service;
 
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
-use Teambank\RatenkaufByEasyCreditApiV3\Integration\ValidationException;
-use Teambank\RatenkaufByEasyCreditApiV3\ApiException;
+use Teambank\EasyCreditApiV3\Integration\ValidationException;
+use Teambank\EasyCreditApiV3\ApiException;
 use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Netzkollektiv\EasyCredit\Helper\Quote as QuoteHelper;
 use Netzkollektiv\EasyCredit\Api\Storage;

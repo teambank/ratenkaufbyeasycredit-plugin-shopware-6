@@ -17,7 +17,7 @@ use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
-use Teambank\RatenkaufByEasyCreditApiV3 as ApiV3;
+use Teambank\EasyCreditApiV3 as ApiV3;
 
 use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Netzkollektiv\EasyCredit\Api\Storage;

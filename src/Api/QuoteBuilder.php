@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Netzkollektiv\EasyCredit\Api;
 
-use Teambank\RatenkaufByEasyCreditApiV3\Model\RedirectLinks;
-use Teambank\RatenkaufByEasyCreditApiV3\Model\OrderDetails;
-use Teambank\RatenkaufByEasyCreditApiV3\Model\CustomerRelationship;
+use Teambank\EasyCreditApiV3\Model\RedirectLinks;
+use Teambank\EasyCreditApiV3\Model\OrderDetails;
+use Teambank\EasyCreditApiV3\Model\CustomerRelationship;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
@@ -26,10 +26,10 @@ use Netzkollektiv\EasyCredit\Helper\Payment as PaymentHelper;
 use Netzkollektiv\EasyCredit\Payment\Handler\BillPaymentHandler;
 use Netzkollektiv\EasyCredit\Payment\Handler\InstallmentPaymentHandler;
 use Netzkollektiv\EasyCredit\Payment\Handler\AbstractHandler;
-use Teambank\RatenkaufByEasyCreditApiV3\Integration;
-use Teambank\RatenkaufByEasyCreditApiV3\Model\Transaction;
-use Teambank\RatenkaufByEasyCreditApiV3\Model\ShippingAddress;
-use Teambank\RatenkaufByEasyCreditApiV3\Model\InvoiceAddress;
+use Teambank\EasyCreditApiV3\Integration;
+use Teambank\EasyCreditApiV3\Model\Transaction;
+use Teambank\EasyCreditApiV3\Model\ShippingAddress;
+use Teambank\EasyCreditApiV3\Model\InvoiceAddress;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
