@@ -69,8 +69,7 @@ export const selectAndProceed = async ({
       await page
         .locator("easycredit-checkout-label[payment-type=INSTALLMENT]")
         .click();
-      await page.getByRole("button", { name: "Weiter zum Ratenkauf" }).click();
-      await page.getByText("Akzeptieren", { exact: true }).click();
+      await page.getByRole("button", { name: "Weiter zu easyCredit-Ratenkauf" }).click();
       return;
     }
     if (paymentType === PaymentTypes.BILL) {
@@ -78,7 +77,7 @@ export const selectAndProceed = async ({
         .locator("easycredit-checkout-label[payment-type=BILL]")
         .click();
       await page
-        .getByRole("button", { name: "Weiter zum Rechnungskauf" })
+        .getByRole("button", { name: "Weiter zu easyCredit-Rechnung" })
         .click();
       return;
     }
@@ -238,7 +237,7 @@ export const checkAddressInvalidation = async (page) => {
     await expect(
       page
         .locator(".confirm-payment")
-        .getByRole("button", { text: "Weiter zum Ratenkauf" })
+        .getByRole("button", { text: "Weiter zu easyCredit-Ratenkauf" })
     ).toBeVisible();
   });
 };
@@ -259,7 +258,7 @@ export const checkAmountInvalidation = async (page) => {
     await expect(
       page
         .locator(".confirm-payment")
-        .getByRole("button", { text: "Weiter zum Ratenkauf" })
+        .getByRole("button", { text: "Weiter zu easyCredit-Ratenkauf" })
     ).toBeVisible();
   });
 };

@@ -146,7 +146,7 @@ jobs:
             f=$(basename $i)
             echo "<a href=\"$(basename $f)\">$f</a><br />" >> $LOG_DIR/index.html
           done;
-      - name: Deploy
+      - name: Deploy Report
         if: always()
         uses: cloudflare/wrangler-action@v3
         with:
