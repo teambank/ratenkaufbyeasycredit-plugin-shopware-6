@@ -9,9 +9,12 @@ namespace Netzkollektiv\EasyCredit\Migration;
 
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Framework\Migration\MigrationStep;
+use Netzkollektiv\EasyCredit\Payment\Handler\InstallmentPaymentHandler;
 
 class Migration171257360AddBillPaymentHandler extends MigrationStep
 {
+    const LEGACY_HANDLER_IDENTIFIER = 'Netzkollektiv\\EasyCredit\\Payment\\Handler';
+
     public function getCreationTimestamp(): int
     {
         return 1_712_573_360;
@@ -19,8 +22,8 @@ class Migration171257360AddBillPaymentHandler extends MigrationStep
 
     public function update(Connection $connection): void
     {
-        $sql = "UPDATE payment_method Set handler_identifier = 'Netzkollektiv\\EasyCredit\\Payment\\Handler'
-            WHERE handler_identifier = 'Netzkollektiv\\EasyCredit\\Payment\\Handler\\InstallmentPaymentHandler'";
+        $sql = "UPDATE payment_method Set handler_identifier = '" . InstallmentPaymentHandler::class . "'
+            WHERE handler_identifier = '" . self::LEGACY_HANDLER_IDENTIFIER . "'";
         $connection->executeStatement($sql);
     }
 

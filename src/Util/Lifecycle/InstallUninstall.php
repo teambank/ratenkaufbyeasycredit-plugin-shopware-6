@@ -29,6 +29,7 @@ use Netzkollektiv\EasyCredit\Payment\Handler\BillPaymentHandler;
 use Netzkollektiv\EasyCredit\Payment\Handler\InstallmentPaymentHandler;
 use Netzkollektiv\EasyCredit\Setting\Service\SettingsService;
 use Netzkollektiv\EasyCredit\Setting\SettingStruct;
+use Netzkollektiv\EasyCredit\Migration\Migration171257360AddBillPaymentHandler;
 
 class InstallUninstall
 {
@@ -82,6 +83,7 @@ class InstallUninstall
     public function update(UpdateContext $lifecycleContext): void
     {
         $this->addDefaultConfiguration($lifecycleContext);
+        $this->addPaymentMethods($lifecycleContext->getContext());
     }
 
     private function addDefaultConfiguration($lifecycleContext): void
@@ -191,8 +193,18 @@ class InstallUninstall
         foreach ($data as &$method) {
             $method = \array_merge($method, $this->getAvailabilityRule($method['name'], $context));
 
+            $handlerIdentifiers = [
+                $method['handlerIdentifier']
+            ];
+            if ($method['handlerIdentifier'] === InstallmentPaymentHandler::class) {
+                $handlerIdentifiers[] = Migration171257360AddBillPaymentHandler::LEGACY_HANDLER_IDENTIFIER;
+            }
             $criteria = (new Criteria())
-                ->addFilter(new EqualsFilter('handlerIdentifier', $method['handlerIdentifier']));
+                ->addFilter(new EqualsAnyFilter('handlerIdentifier', $handlerIdentifiers));
+
+            if (isset($data[0]['id'])) { // if installment exists, but billPayment does not, this must be an update => leave billPayment inactive
+                $method['active'] = false;
+            }
 
             $paymentMethodId = $this->paymentMethodRepository->searchIds($criteria, $context)->firstId();
             if ($paymentMethodId !== null) {
