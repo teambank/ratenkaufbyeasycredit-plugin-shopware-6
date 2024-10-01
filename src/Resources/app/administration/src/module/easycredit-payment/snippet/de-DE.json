@@ -97,14 +97,31 @@
             }
         },
         "intro": {
-            "introLinks": {
-                "title": "Mit easyCredit starten",
-                "register": "Als Händler registrieren",
+            "introAlert": {
+                "new": "Neu",
+                "text": "Ab sofort können Sie easyCredit-Rechnung aktivieren.",
+                "activate": "Jetzt aktivieren"
+            },
+            "introText": {
+                "title": "Der einfachste Rechnungs- und Ratenkauf Deutschlands.",
+                "text": "Wir freuen uns, dass Sie sich für easyCredit entschieden haben, die perfekte Zahlungsmethode für den Handel in Onlineshops.",
                 "documentation": "Dokumentation",
                 "demoshop": "Demoshop",
+                "register": "Als Händler registrieren"
+            },
+            "introLinks": {
+                "title": "Sie haben Fragen? Wir helfen gerne.",
+                "text": "Wir sind von Montag bis Freitag von 8:00 bis 18:00 Uhr für Sie erreichbar.",
                 "support": "Fragen & Antworten",
                 "call-us": "Rufen Sie uns an: 0911 5390-2726",
                 "contact-form": "Kontaktformular"
+            },
+            "introBill": {
+                "title": "easyCredit-Rechnung - die ideale Ergänzung zum Ratenkauf",
+                "text": "Sie können Ihren Kunden mit easyCredit neben dem klassischen Ratenkauf nun auch den Kauf auf Rechnung anbieten. Das Zahlungsziel liegt dabei 30 Tage in der Zukunft.",
+                "activate": "Jetzt aktivieren",
+                "unlock": "Jetzt freischalten lassen",
+                "learnMore": "Mehr erfahren"
             }
         },
         "clickAndCollect": {

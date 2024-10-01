@@ -6,10 +6,11 @@ const { Component } = Shopware;
 Component.register('easycredit-intro', {
     template,
 
-    inject: ['EasyCreditRatenkaufApiCredentialsService'],
+    inject: ['EasyCreditRatenkaufApiCredentialsService','repositoryFactory'],
     data() {
         return {
-            billPaymentActive: false
+            billPaymentActive: false,
+            paymentMethodStatuses: {}
         };
     },
 
@@ -22,8 +23,10 @@ Component.register('easycredit-intro', {
     beforeMount () {
         this.fetchWebshopInfo().then((data) => {
             this.billPaymentActive = data.billPaymentActive;
-            console.log('billPaymentActive:', data.billPaymentActive);
         });
+
+        this.checkPaymentMethodActivation('easycredit_ratenkauf');
+        this.checkPaymentMethodActivation('easycredit_rechnung');
     },
     methods: {
         getConfigComponent () {
@@ -53,10 +56,28 @@ Component.register('easycredit-intro', {
                 }
                 return response.json();
             }).then((data) => {
-                // console.log('Fetched data:', data);
                 return data;
             }).catch((error) => {
                 console.error('Error fetching webshop info:', error);
+            });
+        },
+        checkPaymentMethodActivation(paymentMethodTechnicalName) {
+            const paymentMethodRepository = this.repositoryFactory.create('payment_method');
+
+            const criteria = new Shopware.Data.Criteria();
+            criteria.addFilter(
+                Shopware.Data.Criteria.equals('technicalName', paymentMethodTechnicalName)
+            );
+
+            paymentMethodRepository.search(criteria, Shopware.Context.api).then((result) => {
+                if (result.total > 0) {
+                    const paymentMethod = result.first();
+                    this.paymentMethodStatuses[paymentMethodTechnicalName] = paymentMethod.active;
+                } else {
+                    console.error('Payment method not found');
+                }
+            }).catch((error) => {
+                console.error('Error fetching payment method:', error);
             });
         }
     }
