@@ -136,6 +136,11 @@ class Marketing implements EventSubscriberInterface
 
         $this->addVariables($event->getPage(), [
             'apiKey' => $settings->getWebshopId(),
+            'paymentTypes' =>$this->paymentHelper->getActivePaymentMethods($context)->map(function ($payment) {
+                return $this->paymentHelper
+                    ->getHandlerByPaymentMethod($payment)
+                    ->getPaymentType();
+            }),
             'modal' => $settings->getModalEnabled(),
             'modalIsOpen' => $modalIsOpen,
             'modalSettingsDelay' => $settings->getModalSettingsDelay(),
