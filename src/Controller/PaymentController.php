@@ -99,6 +99,7 @@ class PaymentController extends StorefrontController
 
         $this->storage
             ->set('contextToken', $salesChannelContext->getToken())
+            ->set('duration', $params['numberOfInstallments'] ?? null)
             ->set('express', true);
 
         try {
@@ -155,7 +156,7 @@ class PaymentController extends StorefrontController
 
             return $this->redirectToRoute('frontend.checkout.confirm.page');
         } catch (\Throwable $e) {
-            $this->storage->set('error', $e->getMessage() . $e->getTraceAsString());
+            $this->storage->set('error', $e->getMessage());
             return $this->redirectToRoute('frontend.checkout.cart.page');
         }
     }
