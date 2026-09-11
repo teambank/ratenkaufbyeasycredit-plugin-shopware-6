@@ -1,3 +1,7 @@
+# 3.1.13
+
+* vor der finalen Autorisierung wird der Shopware-Bestellbetrag mit dem EasyCredit-Transaktionsbetrag abgeglichen (verhindert Abweichungen bei paralleler Warenkorbänderung auf der Bestellübersicht)
+
 # 3.1.12
 
 * Integration der Web Components in Shopware Cookie-Manager

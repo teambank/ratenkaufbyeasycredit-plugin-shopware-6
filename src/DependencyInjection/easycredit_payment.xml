@@ -9,12 +9,15 @@
             <argument type="service" id="Netzkollektiv\EasyCredit\Content\Category\CategoryRouteDecorator.inner" />
             <argument type="service" id="event_dispatcher" />
         </service>
+        <service id="Netzkollektiv\EasyCredit\Payment\AuthorizeAmountValidator"/>
+
         <service id="Netzkollektiv\EasyCredit\Payment\Handler\InstallmentPaymentHandler">
             <argument type="service" id="order_transaction.repository"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Payment\StateHandler"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
             <argument type="service" id="monolog.logger.easycredit"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Payment\AuthorizeAmountValidator"/>
 
             <tag name="shopware.payment.method.sync"/><!-- < SW 6.7 -->
             <tag name="shopware.payment.method"/><!-- >= SW 6.7 -->
@@ -25,6 +28,7 @@
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\IntegrationFactory"/>
             <argument type="service" id="Netzkollektiv\EasyCredit\Api\Storage"/>
             <argument type="service" id="monolog.logger.easycredit"/>
+            <argument type="service" id="Netzkollektiv\EasyCredit\Payment\AuthorizeAmountValidator"/>
 
             <tag name="shopware.payment.method.sync"/><!-- < SW 6.7 -->
             <tag name="shopware.payment.method"/><!-- >= SW 6.7 -->

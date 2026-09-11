@@ -31,6 +31,7 @@ use Teambank\EasyCreditApiV3 as ApiV3;
 use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\EasyCreditRatenkauf;
+use Netzkollektiv\EasyCredit\Payment\AuthorizeAmountValidator;
 use Netzkollektiv\EasyCredit\Payment\StateHandler;
 
 abstract class AbstractHandler extends AbstractPaymentHandler
@@ -41,6 +42,8 @@ abstract class AbstractHandler extends AbstractPaymentHandler
 
     private IntegrationFactory $integrationFactory;
 
+    private AuthorizeAmountValidator $authorizeAmountValidator;
+
     private Logger $logger;
 
     protected Storage $storage;
@@ -50,7 +53,8 @@ abstract class AbstractHandler extends AbstractPaymentHandler
         StateHandler $stateHandler,
         IntegrationFactory $integrationFactory,
         Storage $storage,
-        Logger $logger
+        Logger $logger,
+        AuthorizeAmountValidator $authorizeAmountValidator
     ) {
         $this->orderTransactionRepository = $orderTransactionRepository;
         $this->stateHandler = $stateHandler;
@@ -58,6 +62,7 @@ abstract class AbstractHandler extends AbstractPaymentHandler
         $this->integrationFactory = $integrationFactory;
         $this->storage = $storage;
         $this->logger = $logger;
+        $this->authorizeAmountValidator = $authorizeAmountValidator;
     }
 
     public function supports(
@@ -102,6 +107,8 @@ abstract class AbstractHandler extends AbstractPaymentHandler
                     'Transaction not valid for capture'
                 );
             }
+
+            $this->authorizeAmountValidator->validate($order, $tx);
 
             if (!$checkout->authorize($order->getOrderNumber())) {
                 $this->handlePaymentException(

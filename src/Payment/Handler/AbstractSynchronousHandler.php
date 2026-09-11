@@ -13,6 +13,7 @@ use Monolog\Logger;
 use Netzkollektiv\EasyCredit\Api\IntegrationFactory;
 use Netzkollektiv\EasyCredit\Api\Storage;
 use Netzkollektiv\EasyCredit\EasyCreditRatenkauf;
+use Netzkollektiv\EasyCredit\Payment\AuthorizeAmountValidator;
 use Netzkollektiv\EasyCredit\Payment\StateHandler;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
@@ -33,6 +34,8 @@ abstract class AbstractSynchronousHandler implements SynchronousPaymentHandlerIn
 
     private IntegrationFactory $integrationFactory;
 
+    private AuthorizeAmountValidator $authorizeAmountValidator;
+
     private Logger $logger;
 
     public function __construct(
@@ -40,7 +43,8 @@ abstract class AbstractSynchronousHandler implements SynchronousPaymentHandlerIn
         StateHandler $stateHandler,
         IntegrationFactory $integrationFactory,
         Storage $storage,
-        Logger $logger
+        Logger $logger,
+        AuthorizeAmountValidator $authorizeAmountValidator
     ) {
         $this->orderTransactionRepository = $orderTransactionRepository;
         $this->stateHandler = $stateHandler;
@@ -48,6 +52,7 @@ abstract class AbstractSynchronousHandler implements SynchronousPaymentHandlerIn
         $this->integrationFactory = $integrationFactory;
         $this->storage = $storage;
         $this->logger = $logger;
+        $this->authorizeAmountValidator = $authorizeAmountValidator;
     }
 
     public function pay(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag, SalesChannelContext $salesChannelContext): void
@@ -81,6 +86,8 @@ abstract class AbstractSynchronousHandler implements SynchronousPaymentHandlerIn
                     'Transaction not valid for capture'
                 );
             }
+
+            $this->authorizeAmountValidator->validate($order, $tx);
 
             if (!$checkout->authorize($order->getOrderNumber())) {
                 $this->handlePaymentException(
