@@ -3,6 +3,11 @@ import { ShopwareAdminApi } from "../api/shopware-api";
 import { getTestProducts } from "../api/test-products";
 
 async function globalSetup(config: FullConfig) {
+  if (process.env.SKIP_GLOBAL_SETUP === "1") {
+    console.log("[prepareData] skipped");
+    return;
+  }
+
   console.log("[prepareData] preparing test data in store");
 
   const baseURL = config.projects[0].use.baseURL ?? "http://localhost";
@@ -12,7 +17,9 @@ async function globalSetup(config: FullConfig) {
   await api.assignAllPaymentMethods(salesChannel.id);
   console.log("[prepareData] added payment methods to sales channel", salesChannel);
 
-  const homeCategoryId = await api.ensureHomeCategory(salesChannel.id);
+  const homeCategoryId =
+    (salesChannel as { navigationCategoryId?: string }).navigationCategoryId ??
+    (await api.ensureHomeCategory(salesChannel.id));
   console.log("[prepareData] using home category", homeCategoryId);
 
   const taxId = await api.getTaxIdByRate(19);

@@ -195,31 +195,22 @@ export const goThroughPaymentPage = async ({
   }
 
   return test.step(`easyCredit Payment (${paymentType})`, async () => {
-    await page.getByTestId("uc-deny-all-button").click();
-
-    /*
-    const switcher = page.locator('app-ratenkauf-payment-switch-smart');
-    if (paymentType === PaymentTypes.INSTALLMENT) {
-      await expect(switcher.getByLabel('Ratenkauf')).toBeChecked();
-    } else {
-      await expect(switcher.getByLabel('Rechnung')).toBeChecked();
-    }
-
-    if (switchPaymentType) {
-      const switchButton = await page
-        .locator(".paymentoptions")
-        .getByText(
-          paymentType === PaymentTypes.INSTALLMENT ? "Rechnung" : "Ratenkauf"
-        );
-      await expect(switchButton).toBeVisible();
-      await switchButton.click({ force: true });
-    }
-    */
-
+    await page.waitForURL(/ratenkauf\.easycredit\.de/i, { timeout: 90000 });
     await page
-      .getByRole("button", { name: /Weiter|Dateneingabe/ })
-      .first()
-      .click();
+      .locator("#usercentrics-root")
+      .waitFor({ state: "attached", timeout: 15000 })
+      .catch(() => {});
+    await page.evaluate(() => {
+      document.getElementById("usercentrics-root")?.remove();
+    }).catch(() => {});
+
+    await page.locator("#next-btn").waitFor({ timeout: 20000 });
+    await delay(500);
+    await page.locator("#next-btn").click({ force: true });
+    await page.waitForFunction(
+      () => /mobileident|smstan/.test(window.location.href),
+      { timeout: 30000 }
+    );
 
     await page
       .locator("#mobilfunknummer")
@@ -263,15 +254,23 @@ export const goThroughPaymentPage = async ({
       await page.locator("#city").fill("Nürnberg");
     }
 
-    await page.locator("#agreeSepa").check();
+    const sepa = page
+      .locator("#agreeSepa")
+      .or(page.locator("[data-bb='agreeSepa']"))
+      .or(page.getByRole("checkbox", { name: /SEPA|Lastschrift|Mandat/i }))
+      .or(page.locator("[formcontrolname='sepamandat']"));
+    await sepa.first().click({ force: true });
 
     await delay(1000);
 
-    await page.locator("#next-btn").click();
+    await page
+      .locator("tbk-button")
+      .filter({ hasText: "Zahlungswunsch prüfen" })
+      .click({ force: true });
 
     await delay(500);
     await doWithRetry(async () => {
-      await page.getByRole("button", { name: "Zahlung übernehmen" }).click();
+      await page.locator("tbk-button").filter({ hasText: "Zahlung übernehmen" }).click({ force: true });
     });
   });
 };

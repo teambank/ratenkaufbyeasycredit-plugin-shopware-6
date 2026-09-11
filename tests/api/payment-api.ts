@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { expect } from "@playwright/test";
-import { randomize } from "../helpers/utils";
+import { delay, randomize } from "../helpers/utils";
 import { PaymentTypes } from "../helpers/types";
 
 export const PAYMENT_API_HOST = "https://ratenkauf.easycredit.de";
@@ -20,11 +20,6 @@ export const PAYMENT_SANDBOX = {
   employment: "ANGESTELLTER",
   netIncome: "1750",
 } as const;
-
-const API_HEADERS = {
-  accept: "application/hal+json",
-  "content-type": "application/json",
-};
 
 export type PaymentPageMode = "api" | "ui";
 
@@ -47,10 +42,136 @@ export function extractTechnicalTransactionId(url: string): string | null {
   return match ? match[1] : null;
 }
 
-async function assertOk(response: { ok(): boolean; status(): number; text(): Promise<string> }, label: string) {
-  if (!response.ok()) {
-    throw new Error(`${label} failed (${response.status()}): ${await response.text()}`);
+function isMtanReady(vorgang: Record<string, any>): boolean {
+  return vorgang.mtanPruefungPositiv === "true" || vorgang.mtanPruefungPositiv === "GATEWAY_DOWN";
+}
+
+function logVorgang(label: string, vorgang: Record<string, any>, extra = "") {
+  console.log(
+    `[payment-api] ${label} status=${vorgang.status ?? "n/a"} mtan=${vorgang.mtanPruefungPositiv ?? "n/a"} device=${vorgang.deviceIdentToken ? "yes" : "no"}${extra}`
+  );
+}
+
+function parseBody(text: string): Record<string, any> {
+  if (!text) {
+    return {};
   }
+  try {
+    return JSON.parse(text);
+  } catch {
+    return {};
+  }
+}
+
+type PageApiResult = {
+  status: number;
+  ok: boolean;
+  text: string;
+  href: string;
+  json: Record<string, any>;
+};
+
+async function pageApiPost(
+  page: any,
+  path: string,
+  data: Record<string, any>,
+  method = "POST"
+): Promise<PageApiResult> {
+  const response = await page.evaluate(
+    async ({ path, data, method }) => {
+      return new Promise<{
+        status: number;
+        ok: boolean;
+        text: string;
+        href: string;
+      }>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open(method, path, true);
+        xhr.withCredentials = true;
+        xhr.setRequestHeader("Accept", "application/hal+json");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onload = () =>
+          resolve({
+            status: xhr.status,
+            ok: xhr.status >= 200 && xhr.status < 300,
+            text: xhr.responseText,
+            href: window.location.href,
+          });
+        xhr.onerror = () => reject(new Error(`XHR failed for ${path}`));
+        xhr.send(JSON.stringify(data));
+      });
+    },
+    { path, data, method }
+  );
+  const json = parseBody(response.text);
+  console.log(`[payment-api] ${method} ${path} => ${response.status}`);
+  return { ...response, json };
+}
+
+async function pageApiGet(page: any, path: string): Promise<PageApiResult> {
+  const response = await page.evaluate(async (path: string) => {
+    return new Promise<{
+      status: number;
+      ok: boolean;
+      text: string;
+      href: string;
+    }>((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", path, true);
+      xhr.withCredentials = true;
+      xhr.setRequestHeader("Accept", "application/hal+json");
+      xhr.onload = () =>
+        resolve({
+          status: xhr.status,
+          ok: xhr.status >= 200 && xhr.status < 300,
+          text: xhr.responseText,
+          href: window.location.href,
+        });
+      xhr.onerror = () => reject(new Error(`XHR GET failed for ${path}`));
+      xhr.send();
+    });
+  }, path);
+  const json = parseBody(response.text);
+  console.log(`[payment-api] GET ${path} => ${response.status}`);
+  return { ...response, json };
+}
+
+async function assertPageApiOk(response: PageApiResult, label: string) {
+  if (!response.ok) {
+    throw new Error(`${label} failed (${response.status}): ${response.text}`);
+  }
+}
+
+async function getVorgangFromPage(page: any, vorgangId: string): Promise<Record<string, any>> {
+  const response = await pageApiGet(page, `/api/payment/vorgang/${vorgangId}`);
+  await assertPageApiOk(response, `GET vorgang ${vorgangId}`);
+  return response.json;
+}
+
+async function waitUntilMtanReady(page: any, vorgangId: string): Promise<Record<string, any>> {
+  let latest = await getVorgangFromPage(page, vorgangId);
+  for (let attempt = 1; attempt <= 8; attempt++) {
+    logVorgang(`mtan-poll#${attempt}`, latest);
+    if (isMtanReady(latest)) {
+      return latest;
+    }
+    await delay(750);
+    latest = await getVorgangFromPage(page, vorgangId);
+  }
+  return latest;
+}
+
+async function setPaymentPath(page: any, technicalTransactionId: string, step: string) {
+  await page.evaluate(
+    ({ technicalTransactionId, step }) => {
+      window.history.replaceState(
+        window.history.state,
+        "",
+        `/app/payment/${technicalTransactionId}/${step}`
+      );
+    },
+    { technicalTransactionId, step }
+  );
 }
 
 function buildEntscheidungBody({
@@ -88,6 +209,7 @@ function buildEntscheidungBody({
     },
     zustimmung: {
       sepamandat: true,
+      angebotsbestaetigung: true,
       angebote: false,
     },
   };
@@ -102,136 +224,224 @@ export async function goThroughPaymentPageViaApi({
   paymentType: PaymentTypes;
   express?: boolean;
 }) {
-  await page.waitForURL(/ratenkauf\.easycredit\.de/i, { timeout: 90000 });
+  const angularVorgangResponse = page.waitForResponse(
+    (response) =>
+      /\/api\/payment\/vorgang\/[^/?]+$/.test(response.url()) &&
+      response.request().method() === "GET" &&
+      response.ok(),
+    { timeout: 30000 }
+  );
+  const angularBetrugResponse = page.waitForResponse(
+    (response) =>
+      response.url().includes("/betrugserkennung") &&
+      response.request().method() === "POST",
+    { timeout: 30000 }
+  );
+  const angularWebshopResponse = page.waitForResponse(
+    (response) =>
+      response.url().includes("/api/payment/webshop/") &&
+      response.request().method() === "GET",
+    { timeout: 30000 }
+  );
+
+  await page.waitForURL(/ratenkauf\.easycredit\.de\/app\/payment\//i, {
+    timeout: 90000,
+  });
+  await page
+    .locator("#usercentrics-root")
+    .waitFor({ state: "attached", timeout: 15000 })
+    .catch(() => {});
+  await page.evaluate(() => {
+    document.getElementById("usercentrics-root")?.remove();
+  }).catch(() => {});
+
+  if (
+    !/\/(mobileident|smstan|datenerfassen)/i.test(page.url()) &&
+    !/finanzierungsvorgaben/i.test(page.url())
+  ) {
+    await page
+      .waitForURL(/finanzierungsvorgaben/i, { timeout: 10000 })
+      .catch(() => {});
+  }
 
   const technicalTransactionId = extractTechnicalTransactionId(page.url());
   if (!technicalTransactionId) {
     throw new Error(`Could not extract technicalTransactionId from ${page.url()}`);
   }
 
-  const api = page.request;
   const phonePayload = {
     telefonnummer: PAYMENT_SANDBOX.phoneE164,
     land: PAYMENT_SANDBOX.country,
   };
 
-  const vorgangResponse = await api.get(
-    `${PAYMENT_API_HOST}/api/payment/vorgang/${technicalTransactionId}`,
-    { headers: API_HEADERS }
-  );
-  await assertOk(vorgangResponse, "GET vorgang");
-  const vorgang = await vorgangResponse.json();
+  const landingVorgangResponse = await angularVorgangResponse.catch(() => null);
+  const vorgang = landingVorgangResponse
+    ? await landingVorgangResponse.json()
+    : await getVorgangFromPage(page, technicalTransactionId);
   const fachlicheVorgangskennung = vorgang.fachlicheVorgangskennung as string;
+  logVorgang("landing", vorgang, ` url=${page.url()} technical=${technicalTransactionId}`);
 
-  await assertOk(
-    await api.post(
-      `${PAYMENT_API_HOST}/api/payment/vorgang/${technicalTransactionId}/betrugserkennung`,
-      {
-        headers: API_HEADERS,
-        data: { bioCatchSessionId: randomUUID() },
-      }
-    ),
-    "POST betrugserkennung"
-  );
+  const webshop = await angularWebshopResponse.catch(() => null);
+  if (!webshop && vorgang.shopKennung) {
+    await assertPageApiOk(
+      await pageApiGet(page, `/api/payment/webshop/${vorgang.shopKennung}`),
+      "GET webshop"
+    );
+  }
+
+  const betrug = await angularBetrugResponse.catch(() => null);
+  if (!betrug) {
+    await assertPageApiOk(
+      await pageApiPost(page, `/api/payment/vorgang/${technicalTransactionId}/betrugserkennung`, {
+        bioCatchSessionId: randomUUID(),
+      }),
+      "POST betrugserkennung"
+    );
+  }
 
   if (paymentType === PaymentTypes.INSTALLMENT) {
-    const laufzeit = vorgang.finanzierung?.laufzeit ?? 27;
-    await assertOk(
-      await api.post(
-        `${PAYMENT_API_HOST}/api/payment/vorgang/${technicalTransactionId}/laufzeit`,
-        {
-          headers: API_HEADERS,
-          data: { laufzeit },
-        }
-      ),
+    await assertPageApiOk(
+      await pageApiPost(page, `/api/payment/vorgang/${technicalTransactionId}/laufzeit`, {
+        laufzeit: 10,
+      }),
       "POST laufzeit"
     );
   }
 
-  await assertOk(
-    await api.post(`${PAYMENT_API_HOST}/api/payment/telefonnummer`, {
-      headers: API_HEADERS,
-      data: phonePayload,
-    }),
+  await setPaymentPath(page, technicalTransactionId, "mobileident");
+
+  await assertPageApiOk(
+    await pageApiPost(page, "/api/payment/telefonnummer", phonePayload),
     "POST telefonnummer"
   );
 
-  await assertOk(
-    await api.post(
-      `${PAYMENT_API_HOST}/api/payment/vorgang/${technicalTransactionId}/mtan`,
-      {
-        headers: API_HEADERS,
-        data: phonePayload,
-      }
-    ),
+  await assertPageApiOk(
+    await pageApiPost(page, `/api/payment/vorgang/${technicalTransactionId}/mtan`, phonePayload),
     "POST mtan"
   );
 
-  await assertOk(
-    await api.post(
-      `${PAYMENT_API_HOST}/api/payment/vorgang/${technicalTransactionId}/mtan/confirmation`,
-      {
-        headers: API_HEADERS,
-        data: { mtan: PAYMENT_SANDBOX.tan },
-      }
-    ),
-    "POST mtan/confirmation"
-  );
+  await setPaymentPath(page, technicalTransactionId, "smstan");
 
-  await api.put(`${PAYMENT_API_HOST}/api/payment/abtest`, {
-    headers: API_HEADERS,
-    data: {
+  const mtanConfirmation = await pageApiPost(
+    page,
+    `/api/payment/vorgang/${technicalTransactionId}/mtan/confirmation`,
+    { mtan: PAYMENT_SANDBOX.tan }
+  );
+  await assertPageApiOk(mtanConfirmation, "POST mtan/confirmation");
+
+  let vorgangAfterMtan = isMtanReady(mtanConfirmation.json)
+    ? mtanConfirmation.json
+    : await waitUntilMtanReady(page, technicalTransactionId);
+  if (!isMtanReady(vorgangAfterMtan)) {
+    throw new Error(
+      `mTAN was not confirmed (mtanPruefungPositiv=${vorgangAfterMtan.mtanPruefungPositiv})`
+    );
+  }
+
+  const abtestResponse = await pageApiPost(
+    page,
+    "/api/payment/abtest",
+    {
       type: "TEST_CONFIRMATION_PAGE",
-      term: "C",
+      term: "D",
       vorgangskennung: technicalTransactionId,
     },
-  });
+    "PUT"
+  );
+  if (!abtestResponse.ok) {
+    console.log(`[payment-api] PUT abtest ignored (${abtestResponse.status})`);
+  }
 
-  await assertOk(
-    await api.post(
-      `${PAYMENT_API_HOST}/api/payment/adresse?vorgangskennung=${fachlicheVorgangskennung}`,
+  await setPaymentPath(page, technicalTransactionId, "datenerfassen");
+
+  const vorname =
+    (express ? randomize("Ralf") : vorgangAfterMtan.person?.vorname) ?? "Ralf";
+  const nachname = vorgangAfterMtan.person?.nachname ?? "Ratenkauf";
+  const anrede = vorgangAfterMtan.person?.anrede ?? "FRAU";
+
+  await pageApiPost(
+    page,
+    `/api/payment/name?vorgangskennung=${fachlicheVorgangskennung}`,
+    { vorname, nachname, anrede }
+  ).catch(() => {});
+
+  await assertPageApiOk(
+    await pageApiPost(
+      page,
+      `/api/payment/adresse?vorgangskennung=${fachlicheVorgangskennung}`,
       {
-        headers: API_HEADERS,
-        data: {
-          strasseHausNr: PAYMENT_SANDBOX.street,
-          plz: PAYMENT_SANDBOX.postalCode,
-          ort: PAYMENT_SANDBOX.city,
-          land: PAYMENT_SANDBOX.country,
-        },
+        strasseHausNr:
+          vorgangAfterMtan.adresse?.strasseHausNr ?? PAYMENT_SANDBOX.street,
+        plz: vorgangAfterMtan.adresse?.plz ?? PAYMENT_SANDBOX.postalCode,
+        ort: vorgangAfterMtan.adresse?.ort ?? PAYMENT_SANDBOX.city,
+        land: PAYMENT_SANDBOX.country,
       }
     ),
     "POST adresse"
   );
 
-  await assertOk(
-    await api.post(
-      `${PAYMENT_API_HOST}/api/payment/bankdaten?vorgangskennung=${fachlicheVorgangskennung}`,
+  await assertPageApiOk(
+    await pageApiPost(
+      page,
+      `/api/payment/bankdaten?vorgangskennung=${fachlicheVorgangskennung}`,
       {
-        headers: API_HEADERS,
-        data: { iban: PAYMENT_SANDBOX.iban },
+        iban: PAYMENT_SANDBOX.iban,
+        land: PAYMENT_SANDBOX.country,
+        kontoinhaber: {
+          vorname,
+          nachname,
+        },
       }
     ),
     "POST bankdaten"
   );
 
-  await assertOk(
-    await api.post(
-      `${PAYMENT_API_HOST}/api/payment/vorgang/${technicalTransactionId}/entscheidung`,
-      {
-        headers: API_HEADERS,
-        data: buildEntscheidungBody({ vorgang, express }),
-      }
-    ),
-    "POST entscheidung"
-  );
+  const vorgangAfter = await getVorgangFromPage(page, technicalTransactionId);
+  logVorgang("after-bankdaten", vorgangAfter, ` url=${page.url()}`);
 
-  await assertOk(
-    await api.post(
-      `${PAYMENT_API_HOST}/api/payment/vorgang/${technicalTransactionId}/annahme`,
-      {
-        headers: API_HEADERS,
-        data: {},
-      }
+  const vorgangIdForEntscheidung =
+    vorgangAfter.tbVorgangskennung ?? technicalTransactionId;
+  const entscheidungBody = buildEntscheidungBody({
+    vorgang: { ...vorgangAfter, person: { ...vorgangAfter.person, vorname, nachname, anrede } },
+    express,
+  });
+  const entscheidungErrors: string[] = [];
+  let entscheidungOk = false;
+
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    await delay(attempt === 1 ? 500 : 1500);
+    const entscheidungResponse = await pageApiPost(
+      page,
+      `/api/payment/vorgang/${vorgangIdForEntscheidung}/entscheidung`,
+      entscheidungBody
+    );
+    console.log(
+      `[payment-api] POST entscheidung attempt=${attempt} status=${entscheidungResponse.status} href=${entscheidungResponse.href}${entscheidungResponse.ok ? "" : ` body=${entscheidungResponse.text}`}`
+    );
+
+    if (entscheidungResponse.ok) {
+      entscheidungOk = true;
+      break;
+    }
+
+    entscheidungErrors.push(
+      `#${attempt} => ${entscheidungResponse.status} ${entscheidungResponse.text}`
+    );
+
+    if (entscheidungResponse.status !== 404) {
+      break;
+    }
+  }
+
+  if (!entscheidungOk) {
+    throw new Error(`POST entscheidung failed: ${entscheidungErrors.join(" | ")}`);
+  }
+
+  await assertPageApiOk(
+    await pageApiPost(
+      page,
+      `/api/payment/vorgang/${vorgangIdForEntscheidung}/annahme`,
+      {}
     ),
     "POST annahme"
   );
