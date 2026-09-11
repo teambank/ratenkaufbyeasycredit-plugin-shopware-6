@@ -17,3 +17,10 @@ node_modules
 .env
 playwright-report/
 test-results/
+
+# AI/LLM local config (same approach as shopware/shopware)
+.cursor/
+.cursorrules
+.cursorignore
+.claude/
+.codex/
